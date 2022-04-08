@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CSCE361_voting_system;
 
-namespace CSCE361_voting_system
+namespace CSCE361_voting_system.Model
 {
     class Voter : IUser
     {
@@ -45,25 +45,25 @@ namespace CSCE361_voting_system
         public string middleName = null;
         public string licenseNumber = null;
 
-        public VoterBuilder withLastName(string lastName)
+        public VoterBuilder WithLastName(string lastName)
         {
             this.lastName = lastName;
             return this;
         }
 
-        public VoterBuilder withFirstName(string firstName)
+        public VoterBuilder WithFirstName(string firstName)
         {
             this.firstName = firstName;
             return this;
         }
 
-        public VoterBuilder withMiddleName(string middleName)
+        public VoterBuilder WithMiddleName(string middleName)
         {
             this.middleName = middleName;
             return this;
         }
 
-        public VoterBuilder withLicenseNumber(string licenseNumber)
+        public VoterBuilder WithLicenseNumber(string licenseNumber)
         {
             this.licenseNumber = licenseNumber;
             return this;
