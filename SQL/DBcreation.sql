@@ -39,7 +39,7 @@ CREATE TABLE CandidateElection (
 	FOREIGN KEY (ElectionId) REFERENCES Election(ElectionId),
 )
 
-CREATE TABLE ElectionVote (
+CREATE TABLE Ballot (
 	ElectionVoteId int,
 	VoterId int,
 	ElectionId int,
