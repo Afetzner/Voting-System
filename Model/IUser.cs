@@ -8,5 +8,6 @@ namespace CSCE361_voting_system.Model
 {
     interface IUser
     {
+
     }
 }

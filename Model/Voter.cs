@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSCE361_voting_system;
+using CSCE361_voting_system.Controller;
 
 namespace CSCE361_voting_system.Model
 {
@@ -70,14 +71,14 @@ namespace CSCE361_voting_system.Model
 
         public Voter Build()
         {
-            if (LastName == null)
-                throw new InvalidBuilderParameterException("Last name cannot be null");
-            if (FirstName == null)
-                throw new InvalidBuilderParameterException("First name cannot be null");
-            if (MiddleName == null)
-                throw new InvalidBuilderParameterException("Middle name cannot be null");
-            if (LicenseNumber == null)
-                throw new InvalidBuilderParameterException("License number cannot be null");
+            if (!ValidationUtils.IsValidName(LastName))
+                throw new InvalidBuilderParameterException("Invalid last name '" + LastName + "'");
+            if (!ValidationUtils.IsValidName(FirstName))
+                throw new InvalidBuilderParameterException("Invalid first name '" + FirstName + "'");
+            if (String.IsNullOrWhiteSpace(MiddleName))
+                throw new InvalidBuilderParameterException("Middle name cannot be null or white space");
+            if (!ValidationUtils.IsValidLicense(LicenseNumber))
+                throw new InvalidBuilderParameterException("Invalid license number '" + LicenseNumber + "'");
 
             Voter voter = new Voter(LastName, FirstName, MiddleName, LicenseNumber);
             return voter;
