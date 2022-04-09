@@ -7,20 +7,19 @@ using CSCE361_voting_system;
 
 namespace CSCE361_voting_system.Model
 {
-    class Voter : IUser
+    public class Voter : IUser
     {
-        private int _voterId { get; }
-        private string _lastName { get; }
-        private string _firstName { get; }
-        private string _middleName { get; }
-        private string _licenseNumber { get; }
+        public string LastName { get; }
+        public string FirstName { get; }
+        public string MiddleName { get; }
+        public string LicenseNumber { get; }
 
         public Voter(string lastName, string firstName, string middleName, string licenseNumber)
         {
-            _lastName = lastName;
-            _firstName = firstName;
-            _middleName = middleName;
-            _licenseNumber = licenseNumber;
+            LastName = lastName;
+            FirstName = firstName;
+            MiddleName = middleName;
+            LicenseNumber = licenseNumber;
         }
     }
 
@@ -38,49 +37,49 @@ namespace CSCE361_voting_system.Model
             System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
     
-    class VoterBuilder
+    public class VoterBuilder
     {
-        public string lastName = null;
-        public string firstName = null;
-        public string middleName = null;
-        public string licenseNumber = null;
+        public string LastName = null;
+        public string FirstName = null;
+        public string MiddleName = null;
+        public string LicenseNumber = null;
 
         public VoterBuilder WithLastName(string lastName)
         {
-            this.lastName = lastName;
+            LastName = lastName;
             return this;
         }
 
         public VoterBuilder WithFirstName(string firstName)
         {
-            this.firstName = firstName;
+            FirstName = firstName;
             return this;
         }
 
         public VoterBuilder WithMiddleName(string middleName)
         {
-            this.middleName = middleName;
+            MiddleName = middleName;
             return this;
         }
 
         public VoterBuilder WithLicenseNumber(string licenseNumber)
         {
-            this.licenseNumber = licenseNumber;
+            LicenseNumber = licenseNumber;
             return this;
         }
 
         public Voter Build()
         {
-            if (lastName == null)
+            if (LastName == null)
                 throw new InvalidBuilderParameterException("Last name cannot be null");
-            if (firstName == null)
+            if (FirstName == null)
                 throw new InvalidBuilderParameterException("First name cannot be null");
-            if (middleName == null)
+            if (MiddleName == null)
                 throw new InvalidBuilderParameterException("Middle name cannot be null");
-            if (licenseNumber == null)
+            if (LicenseNumber == null)
                 throw new InvalidBuilderParameterException("License number cannot be null");
 
-            Voter voter = new Voter(lastName, firstName, middleName,licenseNumber);
+            Voter voter = new Voter(LastName, FirstName, MiddleName, LicenseNumber);
             return voter;
         }
     }
