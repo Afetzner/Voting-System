@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CSCE361_voting_system.Model
+namespace VotingSystem.Model
 {
     interface IUser
     {
