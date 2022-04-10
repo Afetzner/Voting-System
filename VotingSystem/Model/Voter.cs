@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CSCE361_voting_system;
-using CSCE361_voting_system.Controller;
+using VotingSystem;
+using VotingSystem.Controller;
 
-namespace CSCE361_voting_system.Model
+namespace VotingSystem.Model
 {
     public class Voter : IUser
     {
