@@ -1,3 +1,5 @@
+-- Ignore errors, they're not errors. 
+
 DROP TABLE IF EXISTS Ballot;
 DROP TABLE IF EXISTS CandidateElection;
 DROP TABLE IF EXISTS Candidate;
