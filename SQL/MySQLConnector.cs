@@ -11,7 +11,7 @@ namespace CSCE361_voting_system.SQL
     class MySqlConnector
     {
 
-        static readonly MySqlConnectionStringBuilder Connstr = new ()
+        private static readonly MySqlConnectionStringBuilder ConnstrBuilder = new ()
         {
             Server = "cse.unl.edu",
             UserID = "afetzner",
@@ -19,23 +19,26 @@ namespace CSCE361_voting_system.SQL
             Port = 3306
         };
 
-        public static void TestConnection()
+        private static readonly string ConnectionString = ConnstrBuilder.ConnectionString;
+
+        public static bool TestConnection(bool logToConsole)
         {
-            MySqlConnection conn = new MySqlConnection(Connstr.ConnectionString);
-            try
+            using (var conn = new MySqlConnection(ConnectionString))
             {
-                conn.Open();
-                Console.WriteLine("Connected!");
-            }
-            catch (MySqlException)
-            {
-                Console.WriteLine("Failure to connect");
-                throw;
-            }
-            finally
-            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException)
+                {
+                    if (logToConsole)
+                        Console.WriteLine("Failure to connect");
+                    return false;
+                }
+                if (logToConsole)
+                    Console.WriteLine("Connection success");
                 conn.Close();
-                Console.WriteLine("Closed");
+                return true;
             }
         }
     }
