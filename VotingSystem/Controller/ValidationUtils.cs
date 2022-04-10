@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
-namespace CSCE361_voting_system.Controller
+namespace VotingSystem.Controller
 {
     public class ValidationUtils
     {
