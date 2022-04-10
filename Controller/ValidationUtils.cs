@@ -27,27 +27,32 @@ namespace CSCE361_voting_system.Controller
             return rx.IsMatch(license);
         }
 
-        //TODO
-        ///<summary>NOT WORKING!!! Is 6-32 characters, alphanumeric </summary>
+        ///<summary>Is 6-32 characters, alphanumeric </summary>
         public static bool IsValidUsername(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
                 return false;
-            //Regex rx = new Regex("^((?=[0-9])(?=[A-Z])(?=[a-z]).{6,32})$");
-            //return rx.IsMatch(username);
-            return username.Length > 5 & username.Length < 33;
-            return true;
+            Regex rx = new Regex("^([a-zA-Z0-9]){6,32}$");
+            return rx.IsMatch(username);
         }
 
-        //TODO
         ///<summary>Is 6-32 characters, at least one lower case, upper case, number & special character</summary>
         public static bool IsValidPassword(string password)
         {
             if (string.IsNullOrWhiteSpace(password))
                 return false;
-            //Regex rx = new Regex("^((?=[a-z])(?=[A-Z])(?=[0-9])(?=[!@#$%&?])){6,32}$");
-            //return rx.IsMatch(password);
-            return password.Length > 5 & password.Length < 33;
+
+            Regex acceptedChars = new Regex("^([a-zA-Z0-9!@#$%&?_]){6,32}$");
+            Regex hasUpper = new Regex("[A-Z]+");
+            Regex hasLower = new Regex("[a-z]+");
+            Regex hasNumber = new Regex("[0-9]+");
+            Regex hasSpecial = new Regex("[!@#$%&?_]+");
+
+            return acceptedChars.IsMatch(password) & 
+                   hasUpper.IsMatch(password) &
+                   hasLower.IsMatch(password) & 
+                   hasNumber.IsMatch(password) &
+                   hasSpecial.IsMatch(password);
         }
     }
 }
