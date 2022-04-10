@@ -21,7 +21,7 @@ namespace CSCE361_voting_system.SQL
 
         private static readonly string ConnectionString = ConnstrBuilder.ConnectionString;
 
-        public static bool TestConnection(bool logToConsole)
+        public static bool TestConnection(bool logToConsole = false)
         {
             using (var conn = new MySqlConnection(ConnectionString))
             {

@@ -1,3 +1,5 @@
+-- Ignore errors, they're not errors. 
+
 DROP PROCEDURE IF EXISTS afetzner.add_voter;
 DROP PROCEDURE IF EXISTS afetzner.remove_voter;
 DROP PROCEDURE IF EXISTS afetzner.select_voter_from_id;
