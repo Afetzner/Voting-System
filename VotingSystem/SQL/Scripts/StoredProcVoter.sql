@@ -1,4 +1,13 @@
 -- Ignore errors, they're not errors. 
+/* 
+Voter table:
+ 	VoterId int AUTO_INCREMENT,
+	LastName varchar(64) NOT NULL,
+	FirstName varchar(32) NOT NULL,
+	MiddleName varchar(32),
+	LicenseNumber varchar(9) NOT NULL,
+	PRIMARY KEY (VoterId)
+*/
 
 DROP PROCEDURE IF EXISTS afetzner.add_voter;
 DROP PROCEDURE IF EXISTS afetzner.remove_voter;
@@ -31,3 +40,4 @@ CREATE PROCEDURE afetzner.select_voter_from_info(
         Voter.FirstName = varFirstName AND
         Voter.MiddleName = varMiddleName AND
         Voter.LicenseNumber = varLicenseNumber;
+        
