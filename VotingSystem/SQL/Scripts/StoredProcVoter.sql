@@ -11,8 +11,8 @@ Voter table:
 
 DROP PROCEDURE IF EXISTS afetzner.add_voter;
 DROP PROCEDURE IF EXISTS afetzner.remove_voter;
-DROP PROCEDURE IF EXISTS afetzner.select_voter_from_id;
-DROP PROCEDURE IF EXISTS afetzner.select_voter_from_info;
+DROP PROCEDURE IF EXISTS afetzner.get_voter_info_from_id;
+DROP PROCEDURE IF EXISTS afetzner.get_voter_id_from_info;
 
 CREATE PROCEDURE afetzner.add_voter (
 		IN varLastName varchar(32), 
@@ -26,16 +26,18 @@ CREATE PROCEDURE afetzner.remove_voter (
 		IN varVoterId int)
 	DELETE FROM VOTER WHERE VOTER.VoterId = varVoterId;
     
-CREATE PROCEDURE afetzner.select_voter_from_id(
+CREATE PROCEDURE afetzner.get_voter_info_from_id(
 		IN varVoterId int)
-    SELECT * FROM Voter WHERE Voter.VoterId = varVoterId;
+    SELECT lastName, firstName, middleName, licenseNumber FROM Voter 
+    WHERE VoterId = varVoterId;
     
-CREATE PROCEDURE afetzner.select_voter_from_info(
+CREATE PROCEDURE afetzner.get_voter_id_from_info(
 		IN varLastName varchar(64),
 		IN varFirstName varchar(32),
 		IN varMiddleName varchar(32),
-		IN varLicenseNumber varchar(9))
-    SELECT VoterId FROM Voter WHERE 
+		IN varLicenseNumber varchar(9),
+        OUT varVoterId int)
+    SELECT VoterId INTO varVoterId FROM Voter WHERE 
 		Voter.LastName = varLastName AND
         Voter.FirstName = varFirstName AND
         Voter.MiddleName = varMiddleName AND
