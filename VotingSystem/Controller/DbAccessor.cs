@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace VotingSystem.Controller
 {
-    public interface DbAccessor
+    public interface IDbAccessor
     {
         private static readonly string ConnectionString = DbConnecter.ConnectionString;
 
         /// <summary>
         /// Adds an entry to the DB
         /// </summary>
-        /// <param name="args">dictionary entries being added 'field':'parameter'</param>
+        /// <param name="entry">object being added</param>
         /// <returns>id of new entry</returns>
-        public int AddEntry(Dictionary<string, object> args);
+        public int AddEntry(object entry);
 
         /// <summary>
         /// Removes an entry from the DB
@@ -22,15 +23,15 @@ namespace VotingSystem.Controller
         /// <summary>
         /// Gets the id of an entry matching input args
         /// </summary>
-        /// <param name="args">dictionary of fields to match. 'field':'parameter'</param>
+        /// <param name="match">object to match</param>
         /// <returns>id of matching entry, or -1 if none</returns>
-        public int GetEntryId(Dictionary<string, object> args);
+        public int GetEntryId(Object match);
 
         /// <summary>
         /// Gets all the fields of an entry with a matching id
         /// </summary>
         /// <param name="id">id of entry to match</param>
-        /// <returns>Dictionary of returned entry 'field':'parameter'</returns>
-        public Dictionary<string, object> GetEntryInfo(int id);
+        /// <returns>object created out of returned entry</returns>
+        public Object GetEntryInfo(int id);
     }
 }
