@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
-namespace VotingSystem.SQL
+namespace VotingSystem.Controller
 {
-    class MySqlConnector
+    class DbConnecter
     {
 
         private static readonly MySqlConnectionStringBuilder ConnstrBuilder = new ()
@@ -19,7 +19,7 @@ namespace VotingSystem.SQL
             Port = 3306
         };
 
-        private static readonly string ConnectionString = ConnstrBuilder.ConnectionString;
+        public static readonly string ConnectionString = ConnstrBuilder.ConnectionString;
 
         public static bool TestConnection(bool logToConsole = false)
         {
@@ -41,5 +41,6 @@ namespace VotingSystem.SQL
                 return true;
             }
         }
+
     }
 }
