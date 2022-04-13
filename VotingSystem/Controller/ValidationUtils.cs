@@ -54,5 +54,16 @@ namespace VotingSystem.Controller
                    hasNumber.IsMatch(password) &
                    hasSpecial.IsMatch(password);
         }
+
+        ///<summary> Is 2 Capital characters, must be American State.
+        /// copied from: https://stackoverflow.com/questions/176106/validate-string-against-usps-state-abbreviations
+        private static String states = "|AL|AK|AS|AZ|AR|CA|CO|CT|DE|DC|FM|FL|GA|GU|HI|ID|IL|IN|IA|KS|KY|LA|ME|MH|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|MP|OH|OK|OR|PW|PA|PR|RI|SC|SD|TN|TX|UT|VT|VI|VA|WA|WV|WI|WY|";
+
+        public static bool IsValidState (String state)
+        {
+            if (string.IsNullOrWhiteSpace(state))
+                return false;
+            return state.Length == 2 && states.IndexOf( state ) > 0;
+        }
     }
 }
