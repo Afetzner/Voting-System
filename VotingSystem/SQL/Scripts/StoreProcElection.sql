@@ -15,21 +15,21 @@ DROP PROCEDURE IF EXISTS afetzner.get_election_id_from_info //
 DROP PROCEDURE IF EXISTS afetzner.get_election_info_from_id //
 
 CREATE PROCEDURE afetzner.add_election(
-		IN StateAbbrev varchar(2),
-		IN DistrictNum int,
-        IN StartDate DATE,
-        IN EndDate DATE,
-		OUT ElectionId int)
+		IN varStateAbbrev varchar(2),
+		IN varDistrictNum int,
+        IN varStartDate DATE,
+        IN varEndDate DATE,
+		OUT varElectionId int)
 BEGIN
 	INSERT INTO Election(State, District, StartDate, EndDate) 
-    VALUES (StateAbbrev, DistrictNum, StartDate, EndDate);
-	SET ElectionId = LAST_INSERT_ID();
+    VALUES (varStateAbbrev, varDistrictNum, varStartDate, varEndDate);
+	SET varElectionId = LAST_INSERT_ID();
 END //
 
 CREATE PROCEDURE afetzner.delete_election(
-		IN ElectionId int)
+		IN varElectionId int)
 BEGIN
-	DELETE FROM Election WHERE ElectionId = ElectionId;
+	DELETE FROM Election WHERE Election.ElectionId = varElectionId;
 END //
 
 CREATE PROCEDURE afetzner.get_election_id_from_info(
@@ -48,14 +48,14 @@ BEGIN
 END //
 
 CREATE PROCEDURE afetzner.get_election_info_from_id(
-		IN ElectionId int,
-		OUT District int,
-		OUT StartDate DATE,
-		OUT EndDate DATE)
+		IN varElectionId int,
+		OUT varDistrict int,
+		OUT varStartDate DATE,
+		OUT varEndDate DATE)
 BEGIN
 	SELECT State, District, StartDate, EndDate 
-	INTO District, StartDate, EndDate FROM Election 
-    WHERE electionId = varElectionId
+	INTO varDistrict, varStartDate, varEndDate FROM Election 
+    WHERE Election.electionId = varElectionId
 	LIMIT 1;
 END //
 
