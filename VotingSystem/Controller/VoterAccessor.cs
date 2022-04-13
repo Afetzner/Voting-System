@@ -48,10 +48,10 @@ namespace VotingSystem.Controller
                     catch (MySqlException e)
                     {
                         Console.WriteLine(e + "\nCould not execute SQL procedure 'add_voter' with parameters"
-                                            + "\nLastName " + entry.LastName
-                                            + "\nFirstName " + entry.FirstName
-                                            + "\nMiddleName " + entry.MiddleName
-                                            + "\nLicenseNumber " + entry.LicenseNumber);
+                                            + "\nLastName: " + entry.LastName
+                                            + "\nFirstName: " + entry.FirstName
+                                            + "\nMiddleName: " + entry.MiddleName
+                                            + "\nLicenseNumber: " + entry.LicenseNumber);
                         throw;
                     }
 
@@ -60,9 +60,39 @@ namespace VotingSystem.Controller
             }
         }
 
-        public void RemoveEntry(int id)
+        public void RemoveVoter(int voterId)
         {
-            throw new NotImplementedException();
+            using (MySqlConnection conn = new MySqlConnection(DbConnecter.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine(e + "Could not connect to database");
+                    throw;
+                }
+
+                using (MySqlCommand cmd = new MySqlCommand("remove_voter", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("VoterId", voterId);
+                    cmd.Parameters["@VoterId"].Direction = ParameterDirection.Input;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (MySqlException e)
+                    {
+                        Console.WriteLine(e + "\nCould not execute SQL procedure 'remove_voter' with parameters"
+                                            + "\nVoterId: " + voterId);
+                        throw;
+                    }
+
+                }
+            }
         }
         
         public int GetEntryId(Object args)
