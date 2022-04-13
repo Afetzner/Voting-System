@@ -8,36 +8,55 @@ Voter table:
 	LicenseNumber varchar(9) NOT NULL,
 	PRIMARY KEY (VoterId)
 */
-
+DELIMITER //
 DROP PROCEDURE IF EXISTS afetzner.add_voter;
-DROP PROCEDURE IF EXISTS afetzner.remove_voter;
-DROP PROCEDURE IF EXISTS afetzner.select_voter_from_id;
-DROP PROCEDURE IF EXISTS afetzner.select_voter_from_info;
+DROP PROCEDURE IF EXISTS afetzner.delete_voter;
+DROP PROCEDURE IF EXISTS afetzner.get_voter_info_from_id;
+DROP PROCEDURE IF EXISTS afetzner.get_voter_id_from_info;
+//
 
 CREATE PROCEDURE afetzner.add_voter (
-		IN varLastName varchar(32), 
-		IN varFirstName varchar(16),
-		IN varMiddleName varchar(16), 
-		IN varLicenseNumber varchar(9))
+	IN LastName varchar(32), 
+	IN FirstName varchar(16),
+	IN MiddleName varchar(16), 
+	IN LicenseNumber varchar(9),
+	OUT VoterId int)
+BEGIN
 	INSERT INTO Voter(LastName, FirstName, MiddleName, LicenseNumber) 
-    VALUES (varLastName, varFirstName, varMiddleName, varLicenseNumber);
-
-CREATE PROCEDURE afetzner.remove_voter (
-		IN varVoterId int)
-	DELETE FROM VOTER WHERE VOTER.VoterId = varVoterId;
+	VALUES (LastName, FirstName, MiddleName, LicenseNumber);
+	SET VoterId = LAST_INSERT_ID();
+END 
+//
+	
+CREATE PROCEDURE afetzner.delete_voter (
+		IN VoterId int)
+	DELETE FROM VOTER WHERE VOTER.VoterId = VoterId;
+//
     
-CREATE PROCEDURE afetzner.select_voter_from_id(
-		IN varVoterId int)
-    SELECT * FROM Voter WHERE Voter.VoterId = varVoterId;
+CREATE PROCEDURE afetzner.get_voter_info_from_id(
+		IN VoterId int,
+        OUT LastName varchar(64),
+        OUT FirstName varchar(32),
+        OUT MiddleName varchar(32),
+        OUT LicenseNumber varchar(9))
+    SELECT lastName, firstName, middleName, licenseNumber 
+    INTO LastName, FirstName, MiddleName, LicenseNumber FROM Voter 
+    WHERE VoterId = VoterId
+    LIMIT 1;
+//
     
-CREATE PROCEDURE afetzner.select_voter_from_info(
-		IN varLastName varchar(64),
-		IN varFirstName varchar(32),
-		IN varMiddleName varchar(32),
-		IN varLicenseNumber varchar(9))
-    SELECT VoterId FROM Voter WHERE 
-		Voter.LastName = varLastName AND
-        Voter.FirstName = varFirstName AND
-        Voter.MiddleName = varMiddleName AND
-        Voter.LicenseNumber = varLicenseNumber;
+CREATE PROCEDURE afetzner.get_voter_id_from_info(
+		IN LastName varchar(64),
+		IN FirstName varchar(32),
+		IN MiddleName varchar(32),
+		IN LicenseNumber varchar(9),
+        OUT VoterId int)
+BEGIN
+    SELECT VoterId INTO VoterId FROM Voter WHERE 
+		Voter.LastName = LastName AND
+        Voter.FirstName = FirstName AND
+        Voter.MiddleName = MiddleName AND
+        Voter.LicenseNumber = LicenseNumber
+	LIMIT 1; 
+END //
         
