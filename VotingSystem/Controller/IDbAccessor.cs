@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace VotingSystem.Controller
 {
-    public interface IDbAccessor
+    public interface IDbAccessor 
     {
         private static readonly string ConnectionString = DbConnecter.ConnectionString;
 

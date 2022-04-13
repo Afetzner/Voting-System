@@ -74,7 +74,7 @@ namespace VotingSystem.Controller
                     throw;
                 }
 
-                using (MySqlCommand cmd = new MySqlCommand("remove_voter", conn))
+                using (MySqlCommand cmd = new MySqlCommand("delete_voter", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("VoterId", voterId);
@@ -86,11 +86,10 @@ namespace VotingSystem.Controller
                     }
                     catch (MySqlException e)
                     {
-                        Console.WriteLine(e + "\nCould not execute SQL procedure 'remove_voter' with parameters"
+                        Console.WriteLine(e + "\nCould not execute SQL procedure 'delete_voter' with parameters"
                                             + "\nVoterId: " + voterId);
                         throw;
                     }
-
                 }
             }
         }
