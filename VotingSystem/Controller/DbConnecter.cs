@@ -6,20 +6,21 @@ using System.Threading.Tasks;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
-namespace VotingSystem.SQL
+namespace VotingSystem.Controller
 {
-    class MySqlConnector
+    class DbConnecter
     {
 
         private static readonly MySqlConnectionStringBuilder ConnstrBuilder = new ()
         {
             Server = "cse.unl.edu",
+            Database = "afetzner",
             UserID = "afetzner",
             Password = "A4WX9RSt", //I don't use this for anything else, btw...
             Port = 3306
         };
 
-        private static readonly string ConnectionString = ConnstrBuilder.ConnectionString;
+        public static readonly string ConnectionString = ConnstrBuilder.ConnectionString;
 
         public static bool TestConnection(bool logToConsole = false)
         {
@@ -41,5 +42,6 @@ namespace VotingSystem.SQL
                 return true;
             }
         }
+
     }
 }

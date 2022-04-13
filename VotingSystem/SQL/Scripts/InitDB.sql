@@ -1,4 +1,5 @@
 -- Ignore errors, they're not errors. 
+use afetzner;
 
 DROP TABLE IF EXISTS Ballot;
 DROP TABLE IF EXISTS CandidateElection;

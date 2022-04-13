@@ -1,5 +1,4 @@
 -- Ignore errors, they're not errors. 
-
 /* Election table
 	ElectionId int AUTO_INCREMENT,
 	State varchar(2) NOT NULL,
@@ -9,27 +8,55 @@
 	PRIMARY KEY (ElectionId)
 */
 
-DROP PROCEDURE IF EXISTS afetzner.add_election;
+DELIMITER //
+DROP PROCEDURE IF EXISTS afetzner.add_election //
+DROP PROCEDURE IF EXISTS afetzner.delete_election //
+DROP PROCEDURE IF EXISTS afetzner.get_election_id_from_info //
+DROP PROCEDURE IF EXISTS afetzner.get_election_info_from_id //
 
 CREATE PROCEDURE afetzner.add_election(
 		IN varStateAbbrev varchar(2),
 		IN varDistrictNum int,
         IN varStartDate DATE,
-        IN varEndDate DATE)
+        IN varEndDate DATE,
+		OUT varElectionId int)
+BEGIN
 	INSERT INTO Election(State, District, StartDate, EndDate) 
     VALUES (varStateAbbrev, varDistrictNum, varStartDate, varEndDate);
-    
-CREATE PROCEDURE afetzner.get_election_info_from_id(
+	SET varElectionId = LAST_INSERT_ID();
+END //
+
+CREATE PROCEDURE afetzner.delete_election(
 		IN varElectionId int)
-	SELECT * FROM Election WHERE Election.electionId = varElectionId;
-    
+BEGIN
+	DELETE FROM Election WHERE Election.ElectionId = varElectionId;
+END //
+
 CREATE PROCEDURE afetzner.get_election_id_from_info(
 		IN varStateAbbrev varchar(2),
         IN varDistrictNum int,
-        IN varActiveDate DATE)
-	SELECT Election.electionId FROM Election WHERE 
-		Election.State = varStateAbbrev AND
+        IN varActiveDate DATE,
+        OUT varElectionId int)
+BEGIN
+	SELECT Election.electionId 
+	INTO varElectionId FROM Election 
+	WHERE Election.State = varStateAbbrev AND
         Election.DistrictNum = varDistrictNum AND
         Election.StartDate <= varActiveDate AND
-        Election.EndDate >= varActiveDate;
-	
+        Election.EndDate >= varActiveDate
+	LIMIT 1;
+END //
+
+CREATE PROCEDURE afetzner.get_election_info_from_id(
+		IN varElectionId int,
+		OUT varDistrict int,
+		OUT varStartDate DATE,
+		OUT varEndDate DATE)
+BEGIN
+	SELECT State, District, StartDate, EndDate 
+	INTO varDistrict, varStartDate, varEndDate FROM Election 
+    WHERE Election.electionId = varElectionId
+	LIMIT 1;
+END //
+
+DELIMITER ;
