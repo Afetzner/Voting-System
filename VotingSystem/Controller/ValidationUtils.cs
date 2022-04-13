@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace VotingSystem.Controller
 {
@@ -59,11 +60,54 @@ namespace VotingSystem.Controller
         /// copied from: https://stackoverflow.com/questions/176106/validate-string-against-usps-state-abbreviations
         private static String states = "|AL|AK|AS|AZ|AR|CA|CO|CT|DE|DC|FM|FL|GA|GU|HI|ID|IL|IN|IA|KS|KY|LA|ME|MH|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|MP|OH|OK|OR|PW|PA|PR|RI|SC|SD|TN|TX|UT|VT|VI|VA|WA|WV|WI|WY|";
 
-        public static bool IsValidState (String state)
+        public static bool IsValidState (string state)
         {
             if (string.IsNullOrWhiteSpace(state))
                 return false;
             return state.Length == 2 && states.IndexOf( state ) > 0;
+        }
+
+        public static bool IsValidDate(string date)
+        {
+            if (String.IsNullOrWhiteSpace(date))
+                return false;
+            
+            Regex rx = new Regex("^2[0-9]{3}-(0[0-9])|(1[012])-[0123][0-9]$");
+            if (!rx.IsMatch(date))
+            {
+                return false;
+            }
+
+            Dictionary<string, int> daysInMonth = new Dictionary<string, int>
+            {
+                ["00"] = -1, //I don't know why it was matching xxxx-00-xx, but this fixed it
+                ["01"] = 31,
+                ["02"] = 28,
+                ["03"] = 31,
+                ["04"] = 30,
+                ["05"] = 31,
+                ["06"] = 30,
+                ["07"] = 31,
+                ["08"] = 31,
+                ["09"] = 30,
+                ["10"] = 31,
+                ["11"] = 30,
+                ["12"] = 31
+            };
+
+            string year = date.Substring(0, 4);
+            string month = date.Substring(5, 2);
+            string day = date.Substring(8, 2);
+
+            //Feb 29 leap years
+            if (int.Parse(year) % 4 == 0 &
+                month == "02" &
+                day == "29")
+                return true;
+
+            return (daysInMonth.ContainsKey(month) &
+                int.Parse(day) != 0 &
+                int.Parse(day) <= daysInMonth[month]);
         }
     }
 }

@@ -61,5 +61,5 @@ namespace UnitTests.ControllerTests.ValidatorUtilsTests
             string state = "ne";
             Assert.IsFalse(ValidationUtils.IsValidState(state));
         }
-}
+    }
 }
