@@ -14,6 +14,7 @@ namespace VotingSystem.Controller
         private static readonly MySqlConnectionStringBuilder ConnstrBuilder = new ()
         {
             Server = "cse.unl.edu",
+            Database = "afetzner",
             UserID = "afetzner",
             Password = "A4WX9RSt", //I don't use this for anything else, btw...
             Port = 3306
