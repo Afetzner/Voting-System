@@ -67,6 +67,13 @@ namespace VotingSystem.Controller
             return state.Length == 2 && states.IndexOf( state ) > 0;
         }
 
+        public static bool IsValidDistrict(int district)
+        {
+            if (district < 0 || district > 100)
+                return false;
+            return true;
+        }
+
         public static bool IsValidDate(string date)
         {
             if (String.IsNullOrWhiteSpace(date))
