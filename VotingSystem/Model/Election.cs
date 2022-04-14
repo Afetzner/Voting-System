@@ -11,11 +11,11 @@ namespace VotingSystem.Model
     public class Election
     {
         public string State { get; }
-        public string District { get; }
+        public int District { get; }
         public string StartDate { get; }
         public string EndDate { get; }
 
-        public Election(string state, string district, string startDate, string endDate)
+        public Election(string state, int district, string startDate, string endDate)
         {
             State = state;
             District = district;
@@ -41,7 +41,7 @@ namespace VotingSystem.Model
     public class ElectionBuilder
     {
         public string State = null;
-        public string District = null;
+        public int District = -1;
         public string StartDate = null;
         public string EndDate = null;
 
@@ -51,7 +51,7 @@ namespace VotingSystem.Model
             return this;
         }
 
-        public ElectionBuilder WithDistrict(string district)
+        public ElectionBuilder WithDistrict(int district)
         {
             District = district;
             return this;
@@ -73,12 +73,12 @@ namespace VotingSystem.Model
         {
             if (!ValidationUtils.IsValidState(State))
                 throw new InvalidElectionParameterException("Invalid state '" + State + "'");
-            //if (!ValidationUtils.IsValidDistrict(District))
-            //    throw new InvalidBuilderParameterException("Invalid district '" + District + "'");
-            //if (String.IsValidDate(StartDate))
-            //   throw new InvalidBuilderParameterException("Invalid date '" + StartDate + "'");
-            //if (!ValidationUtils.IsValidDate(EndDate))
-           //     throw new InvalidBuilderParameterException("Invalid date '" + EndDate + "'");
+            if (!ValidationUtils.IsValidDistrict(District))
+                throw new InvalidBuilderParameterException("Invalid district '" + District + "'");
+            if (!ValidationUtils.IsValidDate(StartDate))
+               throw new InvalidBuilderParameterException("Invalid date '" + StartDate + "'");
+            if (!ValidationUtils.IsValidDate(EndDate))
+                throw new InvalidBuilderParameterException("Invalid date '" + EndDate + "'");
 
             Election election = new Election(State, District, StartDate, EndDate);
             return election;
