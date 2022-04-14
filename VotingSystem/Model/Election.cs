@@ -74,11 +74,11 @@ namespace VotingSystem.Model
             if (!ValidationUtils.IsValidState(State))
                 throw new InvalidElectionParameterException("Invalid state '" + State + "'");
             if (!ValidationUtils.IsValidDistrict(District))
-                throw new InvalidBuilderParameterException("Invalid district '" + District + "'");
+                throw new InvalidElectionParameterException("Invalid district '" + District + "'");
             if (!ValidationUtils.IsValidDate(StartDate))
-               throw new InvalidBuilderParameterException("Invalid date '" + StartDate + "'");
+               throw new InvalidElectionParameterException("Invalid date '" + StartDate + "'");
             if (!ValidationUtils.IsValidDate(EndDate))
-                throw new InvalidBuilderParameterException("Invalid date '" + EndDate + "'");
+                throw new InvalidElectionParameterException("Invalid date '" + EndDate + "'");
 
             Election election = new Election(State, District, StartDate, EndDate);
             return election;
