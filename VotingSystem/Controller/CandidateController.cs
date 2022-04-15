@@ -169,7 +169,7 @@ namespace VotingSystem.Controller
                         throw;
                     }
 
-                    Cnadidate candidate = new CandidateBuilder()
+                    Candidate candidate = new CandidateBuilder()
                         .WithLastName(Convert.ToString(cmd.Parameters["varLastName"].Value))
                         .WithFirstName(Convert.ToString(cmd.Parameters["varFirstName"].Value))
                         .Build();
