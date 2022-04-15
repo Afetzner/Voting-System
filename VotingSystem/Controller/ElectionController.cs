@@ -170,7 +170,7 @@ namespace VotingSystem.Controller
                     cmd.Parameters.Add("varState", MySqlDbType.VarChar);
                     cmd.Parameters["@varState"].Direction = ParameterDirection.Output;
 
-                    cmd.Parameters.Add("varDistrict", MySqlDbType.Int);
+                    cmd.Parameters.Add("varDistrict", MySqlDbType.Int32);
                     cmd.Parameters["@varDistrict"].Direction = ParameterDirection.Output;
 
                     cmd.Parameters.Add("varStartDate", MySqlDbType.Date);
@@ -192,7 +192,7 @@ namespace VotingSystem.Controller
 
                     Election election = new ElectionBuilder()
                         .WithState(Convert.ToString(cmd.Parameters["varState"].Value))
-                        .WithDistrict(Convert.ToInt(cmd.Parameters["varDistrict"].Value))
+                        .WithDistrict(Convert.ToInt32(cmd.Parameters["varDistrict"].Value))
                         .WithStartDate(Convert.ToString(cmd.Parameters["varStartDate"].Value))
                         .WithEndDate(Convert.ToString(cmd.Parameters["varEndDate"].Value))
                         .Build();
