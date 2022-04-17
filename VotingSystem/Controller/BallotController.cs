@@ -45,7 +45,7 @@ namespace VotingSystem.Controller
                     {
                         Console.WriteLine(e + "\nCould not execute SQL procedure 'add_ballot' with parameters"
                                             + "\nLicenseNumber: " + entry.Voter.LicenseNumber
-                                            + "\nElectionId: " + entry.Election.GetId(entry.Election);
+                                            + "\nElectionId: " + entry.Election.GetId(entry.Election));
                         throw;
                     }
 
@@ -99,7 +99,7 @@ namespace VotingSystem.Controller
                     /* sql query needs to be modified to retrieve ballot along with
                      list of Election Issues, or create new object to hold this query -
                     this is not a Ballot*/
-                    return new Ballot(int voterId, int electionId);
+                    //return new Ballot(int voterId, int electionId);
                 }
             }
         }
