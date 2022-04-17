@@ -50,5 +50,4 @@ namespace VotingSystem.Model
         {
             BallotIssueVotes.Add(ballotIssue);
         }
-    }
-}
+  }
