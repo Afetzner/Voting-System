@@ -14,6 +14,7 @@ namespace VotingSystem.Model
         public int District { get; }
         public string StartDate { get; }
         public string EndDate { get; }
+        public List<Candidate> Candidates { get; }
 
         public Election(string state, int district, string startDate, string endDate)
         {
@@ -21,6 +22,15 @@ namespace VotingSystem.Model
             District = district;
             StartDate = startDate;
             EndDate = endDate;
+        }
+
+        public Election(string state, int district, string startDate, string endDate, List<Candidate> candidates)
+        {
+            State = state;
+            District = district;
+            StartDate = startDate;
+            EndDate = endDate;
+            Candidates = candidates;
         }
     }
 
@@ -44,6 +54,7 @@ namespace VotingSystem.Model
         public int District = -1;
         public string StartDate = null;
         public string EndDate = null;
+        public List<Candidate> Candidates = new List<Candidate>();
 
         public ElectionBuilder WithState(string state)
         {
@@ -69,6 +80,12 @@ namespace VotingSystem.Model
             return this;
         }
 
+        public ElectionBuilder WithCandidates(List<Candidate> candidates)
+        {
+            Candidates = candidates;
+            return this;
+        }
+
         public Election Build()
         {
             if (!ValidationUtils.IsValidState(State))
@@ -80,7 +97,7 @@ namespace VotingSystem.Model
             if (!ValidationUtils.IsValidDate(EndDate))
                 throw new InvalidElectionParameterException("Invalid date '" + EndDate + "'");
 
-            Election election = new Election(State, District, StartDate, EndDate);
+            Election election = new Election(State, District, StartDate, EndDate, Candidates);
             return election;
         }
     }
