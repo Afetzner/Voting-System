@@ -7,30 +7,15 @@ using System.Threading.Tasks;
 using VotingSystem;
 using VotingSystem.Controller;
 
-/*
-This table represents a Ballot that has multiple votes (CandidateElections)
-CREATE TABLE Ballot (
-	BallotId int AUTO_INCREMENT,
-    VoterId int,
-    ElectionId int,
-    PRIMARY KEY (BallotId),
-	FOREIGN KEY(VoterId) REFERENCES Voter(VoterId),
-	FOREIGN KEY(ElectionId) REFERENCES Election(ElectionId)
-);
-*/
 
 namespace VotingSystem.Model
 {
     public class Ballot
     {
-        public Voter Voter { get; }
-        public Election Election { get; }
-        private List<CandidateElection> BallotIssueVotes = null;
+        public int VoterId { get; }
+        public int ElectionId { get; }
+        public List<CandidateElection> ListBallotVotes { get; }
 
-        public List<CandidateElection> BallotIssueVotes
-        {
-            get { return BallotIssueVotes; }
-        }
         /*when ballot is submitted, how is data processed?
         Each individual vote on each issue must be recorded in the database
         but only after the voter has reviewed and hit the final "submit" 
@@ -38,16 +23,53 @@ namespace VotingSystem.Model
 
         */
 
-        public Ballot(int voterId, int electionId)
+        public Ballot(int voterId, int electionId, List<CandidateElection> listBallotVotes)
         {
-            Voter = VoterController.GetInfo(voterId);
-            Election = ElectionController.GetInfo(electionId);
-            BallotIssueVotes = null;
+            VoterId = VoterController.GetInfo(voterId);
+            ElectionId = ElectionController.GetInfo(electionId);
+            ListBallotVotes = listBallotVotes;
+        }
+
+        /*access database to retrieve all votes associated witha ballot and return a
+         * List of votes from a particular ballot
+        public List<CandidateElection> getBallotVotes(int ballotId, List<CandidateElection> listBallotVotes)
+        {
+            for ( )
+            {
+                ListBallotVotes.Add()
+            }
+        }
+        */
+
+        public class BallotBuilder
+        {
+            public int VoterId = -1;
+            public int ElectionId = -1;
+            public List<CandidateElection> ListBallotVotes = null;
+
+            public BallotBuilder WithVoter(int voterId)
+            {
+                VoterId = voterId;
+                return this;
+            }
+
+            public BallotBuilder WithElection(int electionId)
+            {
+                ElectionId = electionId;
+                return this;
+            }
+
+            public BallotBuilder WithListBallotVotes(List<CandidateElection> listBallotVotes)
+            {
+                ListBallotVotes = listBallotVotes;
+                return this;
+            }
+
+            public Ballot Build()
+            {
+                Ballot ballot = new Ballot(VoterId, ElectionId);
+                return ballot;
+            }
         }
     }
-
-        public static void addBallotIssueVote(CandidateElection ballotIssue)
-        {
-            BallotIssueVotes.Add(ballotIssue);
-        }
-  }
+}
