@@ -9,7 +9,9 @@
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS afetzner.add_ballot //
-DROP PROCEDURE IF EXISTS afetzner.get_ballot_info_from_voter_license //
+DROP PROCEDURE IF EXISTS afetzner.delete_ballot //
+DROP PROCEDURE IF EXISTS afetzner.get_ballot_id_from_info //
+DROP PROCEDURE IF EXISTS afetzner.get_ballot_info_from_id //
 //
 
 CREATE PROCEDURE afetzner.add_ballot(
@@ -52,6 +54,6 @@ CREATE PROCEDURE afetzner.get_ballot_info_from_id(
 		INTO varVoterId, varElectionId
 		FROM Ballot
 		WHERE Ballot.BallotId = varBallotId;
-	END //
+END //
 	
-	DELIMITER ;
+DELIMITER ;
