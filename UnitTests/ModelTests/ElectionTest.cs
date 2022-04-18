@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VotingSystem.Model;
 
 namespace UnitTesting.TestModel
@@ -58,6 +59,39 @@ namespace UnitTesting.TestModel
                 .Build();
 
         }
+
+        // TO DO: add unit tests to include candidate list
+        [TestMethod]
+        public void ElectionBuilderSuccessWithCandidates()
+        {
+            Candidate candidate1 = new CandidateBuilder()
+                .WithFirstName("Jane")
+                .WithLastName("Doe")
+                .Build();
+            Candidate candidate2 = new CandidateBuilder()
+                .WithFirstName("John")
+                .WithLastName("Doe")
+                .Build();
+
+            List<Candidate> candidates = new List<Candidate>();
+            candidates.Add(candidate1);
+            candidates.Add(candidate2);
+
+            Election election = new ElectionBuilder()
+                .WithState("LA")
+                .WithDistrict(3)
+                .WithStartDate("2000-01-01")
+                .WithEndDate("2000-01-31")
+                .WithCandidates(candidates)
+                .Build();
+
+            Assert.AreEqual("LA", election.State);
+            Assert.AreEqual(3, election.District);
+            Assert.AreEqual("2000-01-01", election.StartDate);
+            Assert.AreEqual("2000-01-31", election.EndDate);
+            Assert.AreEqual(candidates, election.Candidates);
+        }
+
     }
 }
 
