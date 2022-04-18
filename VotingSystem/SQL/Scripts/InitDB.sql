@@ -40,22 +40,25 @@ CREATE TABLE Candidate (
 	PRIMARY KEY (CandidateId)
 );
 
+/* This table represents a vote on a Ballot by a Voter on an Issue (Candidate) in an Election*/
 CREATE TABLE CandidateElection (
 	CandidateElectionId int AUTO_INCREMENT,
 	CandidateId int,
 	ElectionId int,
+	BallotId int,
+	Vote int, /* make each vote a boolean value 0/1 or leave it open to multiple choice*/
 	PRIMARY KEY (CandidateElectionId),
 	FOREIGN KEY (CandidateId) REFERENCES Candidate(CandidateId),
-	FOREIGN KEY (ElectionId) REFERENCES Election(ElectionId)
+	FOREIGN KEY (ElectionId) REFERENCES Election(ElectionId),
+	FOREIGN KEY (BallotId) REFERENCES Ballot(BallotId)
 );
-
+/* This table represents a Ballot that can have multiple votes (CandidateElections) 
+	on various issues (Candidates)*/
 CREATE TABLE Ballot (
-	ElectionVoteId int AUTO_INCREMENT,
+	BallotId int AUTO_INCREMENT,
 	VoterId int,
 	ElectionId int,
-	CandidateId int,
-	PRIMARY KEY (ElectionVoteId),
+	PRIMARY KEY (BallotId),
 	FOREIGN KEY (VoterId) REFERENCES Voter(VoterId),
-	FOREIGN KEY (ElectionId) REFERENCES Election(ElectionId),
-	FOREIGN KEY (CandidateId) REFERENCES Candidate(CandidateId)
+	FOREIGN KEY (ElectionId) REFERENCES Election(ElectionId)
 );
