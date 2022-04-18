@@ -23,12 +23,13 @@ namespace VotingSystem.Model
 
         */
 
-        public Ballot(int voterId, int electionId, List<CandidateElection> listBallotVotes)
+        public Ballot(int voterId, int electionId)
         {
-            VoterId = VoterController.GetInfo(voterId);
-            ElectionId = ElectionController.GetInfo(electionId);
-            ListBallotVotes = listBallotVotes;
+            VoterId = voterId;
+            ElectionId = electionId;
+            ListBallotVotes = null;
         }
+    }
 
         /*access database to retrieve all votes associated witha ballot and return a
          * List of votes from a particular ballot
@@ -71,5 +72,4 @@ namespace VotingSystem.Model
                 return ballot;
             }
         }
-    }
 }
