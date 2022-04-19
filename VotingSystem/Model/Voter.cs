@@ -10,7 +10,7 @@ using VotingSystem.Utils;
 
 namespace VotingSystem.Model
 {
-    public class Voter
+    public class Voter : IUser
     {
         public string SerialNumber { get; }
         public string Username { get; }

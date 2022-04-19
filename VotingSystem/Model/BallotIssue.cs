@@ -124,10 +124,6 @@ namespace VotingSystem.Model
 
             public BallotIssue Build()
             {
-                if (IsNullOrEmpty(Title))
-                    throw new InvalidBuilderParameterException($@"Invalid title '{Title}'");
-                if (IsNullOrEmpty(Description))
-                    throw new InvalidBuilderParameterException($@"Invalid description '{Description }'");
                 if (!Validation.IsValidSerialNumber(SerialNumber))
                     throw new InvalidBuilderParameterException($@"Invalid serial number '{SerialNumber}'");
                 if (!_selectedStartTime)
@@ -138,6 +134,10 @@ namespace VotingSystem.Model
                     throw new InvalidBuilderParameterException($@"Invalid start/end date (end before start) s:'{StartDate}' e:'{EndDate}'");
                 if (EndDate < DateTime.Now)
                     throw new InvalidBuilderParameterException($@"Invalid end date (before now) '{EndDate}'");
+                if (IsNullOrEmpty(Title))
+                    throw new InvalidBuilderParameterException($@"Invalid title '{Title}'");
+                if (IsNullOrEmpty(Description))
+                    throw new InvalidBuilderParameterException($@"Invalid description '{Description }'");
                 if (Options.Count == 0)
                     throw new InvalidBuilderParameterException(@"Invalid options list (empty)");
                 
