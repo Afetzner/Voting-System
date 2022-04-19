@@ -68,10 +68,23 @@ export default function Poll(i, poll) {
               <ButtonGroup vertical>
                 {poll.choices.map((item, index) => {
                   const value = i + "" + index;
-                  return (<ToggleButton key={index} type="radio" variant="outline-primary" value={value} checked={(radioValue === value)} onClick={() => {setRadioValue(value)}} disabled={!inProgress}>{item}</ToggleButton>);
+                  return (<ToggleButton
+                    key={index}
+                    type="radio"
+                    variant="outline-primary"
+                    value={value}
+                    checked={(radioValue === value)}
+                    onClick={() => {setRadioValue(value)}}
+                    disabled={!inProgress}
+                  >{item}</ToggleButton>);
                 })}
               </ButtonGroup>
-              <Button variant="success" style={{width: "200px"}} onClick={Confirmation} disabled={!inProgress}>Confirm Selection</Button>
+              <Button
+                variant="success"
+                style={{width: "200px"}}
+                onClick={Confirmation}
+                disabled={!inProgress}
+              >Confirm Selection</Button>
             </div>
           </Form.Group>
           <Form.Text>{"End Date: " + poll.endDate}</Form.Text>
