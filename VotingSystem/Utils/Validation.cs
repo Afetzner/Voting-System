@@ -24,22 +24,22 @@ namespace VotingSystem.Utils
             return rx.IsMatch(serialNum);
         }
 
-        ///<summary>Is 6-32 characters, alphanumeric </summary>
+        ///<summary>Is 6-31 characters, alphanumeric </summary>
         public static bool IsValidUsername(string username)
         {
             if (IsNullOrWhiteSpace(username))
                 return false;
-            var rx = new Regex("^([a-zA-Z0-9]){6,32}$");
+            var rx = new Regex("^([a-zA-Z0-9]){6,31}$");
             return rx.IsMatch(username);
         }
 
-        ///<summary>Is 6-32 characters, at least one lower case, upper case, number & special character</summary>
+        ///<summary>Is 6-31 characters, at least one lower case, upper case, number & special character</summary>
         public static bool IsValidPassword(string password)
         {
             if (IsNullOrWhiteSpace(password))
                 return false;
 
-            var acceptedChars = new Regex("^([a-zA-Z0-9!@#$%&?_]){6,32}$");
+            var acceptedChars = new Regex("^([a-zA-Z0-9!@#$%&?_]){6,31}$");
             var hasUpper = new Regex("[A-Z]+");
             var hasLower = new Regex("[a-z]+");
             var hasNumber = new Regex("[0-9]+");

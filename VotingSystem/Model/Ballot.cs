@@ -71,7 +71,7 @@ namespace VotingSystem.Model
                     throw new InvalidBuilderParameterException("Invalid (null) BallotIssue");
                 if (!_inputtedChoice)
                     throw new InvalidBuilderParameterException(
-                        "Invalid choice (Null allowed, but must be inputted: WithChoice(Null))");
+                        "Invalid BallotIssue choice (Null allowed, but must be inputted: WithChoice(null))");
                 Ballot ballot = new (Voter, Issue, Choice);
                 return ballot;
             }

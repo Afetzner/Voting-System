@@ -2,11 +2,13 @@
 {
     public class Admin
     {
+        public string SerialNumber { get; }
         public string Username { get; }
         public string Password { get; }
 
-        public Admin(string username, string password)
+        public Admin(string serialNum, string username, string password)
         {
+            SerialNumber = serialNum;
             Username = username;
             Password = password;
         }

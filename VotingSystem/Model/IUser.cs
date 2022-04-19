@@ -8,7 +8,8 @@ namespace VotingSystem.Model
 {
     interface IUser
     {
-        string Username { get; }
-        string Password { get; }
+        public string SerialNumber { get; }
+        public string Username { get; }
+        public string Password { get; }
     }
 }
