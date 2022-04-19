@@ -6,11 +6,10 @@ namespace VotingSystem.Model
 {
     public class BallotIssueOption
     {
+        public int Number { get; }
+        public string Title { get; }
 
-        private int Number { get; set; }
-        private string Title { get; }
-
-        BallotIssueOption(int number, string title)
+        public BallotIssueOption(int number, string title)
         {
             Number = number;
             Title = title;
@@ -18,16 +17,16 @@ namespace VotingSystem.Model
 
         public class BallotIssueOptionBuilder
         {
-            public int Number = 0;
+            public int Number = -1;
             public string Title;
-
+            
             public BallotIssueOptionBuilder WithOptionNumber(int number)
             {
                 Number = number;
                 return this;
             }
 
-            public BallotIssueOptionBuilder WithOption(string title)
+            public BallotIssueOptionBuilder WithTitle(string title)
             {
                 Title = title;
                 return this;
