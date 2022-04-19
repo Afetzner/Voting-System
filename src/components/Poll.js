@@ -1,27 +1,60 @@
 import "./Poll.css";
 import React, { useState } from "react";
-import { Accordion, Badge, Container, ToggleButton, Form } from "react-bootstrap";
-
-
+import { Accordion, Badge, Button, ButtonGroup, Container, Form, ProgressBar, ToggleButton } from "react-bootstrap";
+import { Modal } from "bootstrap";
+import Confirmation from "../components/Confirmation";
 
 export default function Poll(i, poll) {
   const [inProgress, setInProgress] = useState(poll.endDate < new Date());
+  const [radioValue, setRadioValue] = useState("");
+  // const [selection, setSelection] = useState("");
 
-  function Body() {
+  // function Result() {
+  //   if (!inProgress) {
+  //     return (
+  //       <Form.Group>
+  //         {/* Election Results:
+  //         <div style={{paddingBottom: "8px"}}>
+  //           <ProgressBar style={{height: "40px", fontSize: "20px", fontWeight: "bold"}} variant="primary" now={40} label={`Trump @ ${40}%`} />
+  //           <ProgressBar style={{height: "40px"}} variant="danger" now={20} label={`${20}%`} />
+  //         </div>
+  //         Winner: Trump */}
+  //         Winner: test1
+  //         <ProgressBar style={{height: "40px", fontSize: "20px", fontWeight: "bold"}}>
+  //           <ProgressBar variant="primary" now={40} label={"40%"}></ProgressBar>
+  //           <ProgressBar variant="danger" now={20} label={"20%"}></ProgressBar>
+  //           <ProgressBar variant="success" now={20} label={"20%"}></ProgressBar>
+  //           <ProgressBar variant="warning" now={5} label={"5%"}></ProgressBar>
+  //         </ProgressBar>
+  //       </Form.Group>
+  //     )
+  //   }
+  // }
+
+  function Confirmation() {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     return (
       <>
-        <Form.Group>
-          <div className="d-grid gap-2">
-            {poll.choices.map((item) => {return (<ToggleButton>{item}</ToggleButton>)})}  
-         </div>
-        </Form.Group>
-        <Form.Text>{"End Date: " + poll.endDate}</Form.Text>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header>
+            <Modal.Title>Test</Modal.Title>  
+          </Modal.Header>
+          <Modal.Body>Are you sure?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>Cancel</Button>
+            <Button variant="primary" onClick={handleClose}>Confirm</Button>
+          </Modal.Footer>
+        </Modal>
       </>
     );
   }
 
   return (
-    <Accordion.Item eventKey={i}>
+    <Accordion.Item key={i} eventKey={i}>
       <Accordion.Header>
         <Container>
           <strong>{poll.title}</strong>
@@ -30,39 +63,20 @@ export default function Poll(i, poll) {
       </Accordion.Header>
       <Accordion.Body>
         <Form>
-          <Body />
+          <Form.Group>
+            <div className="d-grid gap-2">
+              <ButtonGroup vertical>
+                {poll.choices.map((item, index) => {
+                  const value = i + "" + index;
+                  return (<ToggleButton key={index} type="radio" variant="outline-primary" value={value} checked={(radioValue === value)} onClick={() => {setRadioValue(value)}} disabled={!inProgress}>{item}</ToggleButton>);
+                })}
+              </ButtonGroup>
+              <Button variant="success" style={{width: "200px"}} onClick={Confirmation} disabled={!inProgress}>Confirm Selection</Button>
+            </div>
+          </Form.Group>
+          <Form.Text>{"End Date: " + poll.endDate}</Form.Text>
         </Form>
       </Accordion.Body>
     </Accordion.Item>
   );
-  
-/*
-  return (
-    <>
-      <Accordion.Item eventKey={i}>
-        <Accordion.Header>
-          <Container>
-            <strong>{poll.title}</strong>
-          </Container>
-          <div className="header-badge">
-            <Container>
-              <Status endDate={poll.endDate}/>
-            </Container>
-          </div>
-        </Accordion.Header>
-        <Accordion.Body>
-          <Form>
-            <Form.Group>
-              <div className="d-grid gap-2">
-                <ToggleButton type="checkbox" varient="primary" checked="false" size="lg">{poll.choice1}</ToggleButton>
-                <ToggleButton type="checkbox" variant="danger" checked="true" size="lg">{poll.choice2}</ToggleButton>
-              </div>
-            </Form.Group>
-            <Form.Text>{"End Date: " + poll.endDate}</Form.Text>
-          </Form>
-        </Accordion.Body>
-      </Accordion.Item>
-    </>
-  );
-  */
 }
