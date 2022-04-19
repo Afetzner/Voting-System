@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlTypes;
 using MySql.Data.MySqlClient;
 using VotingSystem.Model;
-using VotingSystem.Controller;
 
 namespace VotingSystem.Controller
 {
@@ -12,7 +10,7 @@ namespace VotingSystem.Controller
         public int AddEntry(Voter entry)
         {
 
-            using (MySqlConnection conn = new MySqlConnection(DbConnecter.ConnectionString))
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
                 try
                 {
@@ -24,7 +22,7 @@ namespace VotingSystem.Controller
                     throw;
                 }
 
-                using (MySqlCommand cmd = new MySqlCommand("add_voter", conn))
+                using (var cmd = new MySqlCommand("add_voter", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("varLastName", entry.LastName);
@@ -59,7 +57,7 @@ namespace VotingSystem.Controller
 
         public void DeleteEntry(int voterId)
         {
-            using (MySqlConnection conn = new MySqlConnection(DbConnecter.ConnectionString))
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
                 try
                 {
@@ -71,7 +69,7 @@ namespace VotingSystem.Controller
                     throw;
                 }
 
-                using (MySqlCommand cmd = new MySqlCommand("delete_voter", conn))
+                using (var cmd = new MySqlCommand("delete_voter", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("varVoterId", voterId);
@@ -93,7 +91,7 @@ namespace VotingSystem.Controller
         
         public int GetId(Voter voter)
         {
-            using (MySqlConnection conn = new MySqlConnection(DbConnecter.ConnectionString))
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
                 try
                 {
@@ -105,7 +103,7 @@ namespace VotingSystem.Controller
                     throw;
                 }
 
-                using (MySqlCommand cmd = new MySqlCommand("get_voter_id_from_info", conn))
+                using (var cmd = new MySqlCommand("get_voter_id_from_info", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -140,7 +138,7 @@ namespace VotingSystem.Controller
 
         public Voter GetInfo(int voterId)
         {
-            using (MySqlConnection conn = new MySqlConnection(DbConnecter.ConnectionString))
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
                 try
                 {
@@ -152,7 +150,7 @@ namespace VotingSystem.Controller
                     throw;
                 }
 
-                using (MySqlCommand cmd = new MySqlCommand("get_voter_info_from_id", conn))
+                using (var cmd = new MySqlCommand("get_voter_info_from_id", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -179,7 +177,7 @@ namespace VotingSystem.Controller
                         throw;
                     }
 
-                    Voter voter = new VoterBuilder()
+                    var voter = new VoterBuilder()
                         .WithLastName(Convert.ToString(cmd.Parameters["varLastName"].Value))
                         .WithFirstName(Convert.ToString(cmd.Parameters["varFirstName"].Value))
                         .WithSerialNumber(Convert.ToString(cmd.Parameters["varLicenseNumber"].Value))

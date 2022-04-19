@@ -1,11 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VotingSystem;
-using VotingSystem.Controller;
 using VotingSystem.Utils;
 
 
@@ -47,10 +39,10 @@ namespace VotingSystem.Model
 
         public class BallotBuilder
         {
-            public Voter Voter = null;
-            public BallotIssue Issue = null;
-            public BallotIssueOption Choice = null;
-            private bool _inputtedChoice = false;
+            public Voter Voter;
+            public BallotIssue Issue;
+            public BallotIssueOption Choice;
+            private bool _inputtedChoice;
 
             public BallotBuilder WithVoter(Voter voter)
             {

@@ -1,6 +1,5 @@
-﻿using System;
-using System.Threading;
-using VotingSystem.Utils;
+﻿using VotingSystem.Utils;
+using static System.String;
 
 namespace VotingSystem.Model
 {
@@ -36,7 +35,7 @@ namespace VotingSystem.Model
             {
                 if (Number < 0)
                     throw new InvalidBuilderParameterException("Invalid option number '" + Number + "'");
-                if (String.IsNullOrWhiteSpace(Title))
+                if (IsNullOrWhiteSpace(Title))
                     throw new InvalidBuilderParameterException("Invalid option title '" + Title + "'");
                 BallotIssueOption option = new(Number, Title);
                 return option;

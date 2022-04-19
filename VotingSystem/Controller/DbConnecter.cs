@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySql.Data;
 using MySql.Data.MySqlClient;
 
 namespace VotingSystem.Controller
 {
-    class DbConnecter
+    internal class DbConnecter
     {
 
         private static readonly MySqlConnectionStringBuilder ConnstrBuilder = new ()
