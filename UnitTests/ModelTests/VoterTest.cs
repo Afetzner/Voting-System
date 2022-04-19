@@ -12,14 +12,14 @@ namespace UnitTests.ModelTests
         {
             Voter voter = new VoterBuilder()
                 .WithUsername("jdoe16")
-                .WithPassword("abc/900")
+                .WithPassword("Abc$900")
                 .WithFirstName("Jane")
                 .WithLastName("Doe")
                 .WithSerialNumber("A12345678")
                 .Build();
 
             Assert.AreEqual("jdoe16", voter.Username);
-            Assert.AreEqual("abc/900", voter.Password);
+            Assert.AreEqual("Abc$900", voter.Password);
             Assert.AreEqual("Jane", voter.FirstName);
             Assert.AreEqual("Doe", voter.LastName);
             Assert.AreEqual("A12345678", voter.SerialNumber);
@@ -55,7 +55,7 @@ namespace UnitTests.ModelTests
         {
             Voter voter = new VoterBuilder()
                 .WithUsername("afet001")
-                .WithPassword("000ztef!")
+                .WithPassword("000zTef!")
                 .WithLastName("F")
                 .WithSerialNumber("Z98765432")
                 .Build();
@@ -67,7 +67,7 @@ namespace UnitTests.ModelTests
         {
             Voter voter = new VoterBuilder()
                 .WithUsername("alex1")
-                .WithPassword("xyz6&r")
+                .WithPassword("xyZ6&r")
                 .WithFirstName("Alex")
                 .WithSerialNumber("T90000123")
                 .Build();
@@ -78,7 +78,7 @@ namespace UnitTests.ModelTests
         {
             Voter voter = new VoterBuilder()
                 .WithUsername("afet001")
-                .WithPassword("000ztef!")
+                .WithPassword("000zteF!")
                 .WithFirstName("Alex")
                 .WithLastName("F")
                 .Build();
@@ -90,7 +90,7 @@ namespace UnitTests.ModelTests
         {
             Voter voter = new VoterBuilder()
                 .WithUsername("jdoe88")
-                .WithPassword("&defg12")
+                .WithPassword("&defG12")
                 .WithFirstName("Jane1")
                 .WithLastName("Doe")
                 .WithSerialNumber("A12345678")
@@ -104,7 +104,7 @@ namespace UnitTests.ModelTests
         {
             Voter voter = new VoterBuilder()
                 .WithUsername("aDeerNoADoeOhDear")
-                .WithPassword("123#asdfg")
+                .WithPassword("123#Asdfg")
                 .WithFirstName("Jane")
                 .WithLastName("Doe?")
                 .WithSerialNumber("A12345678")
@@ -118,7 +118,7 @@ namespace UnitTests.ModelTests
         {
             Voter voter = new VoterBuilder()
                 .WithUsername("NoThoughts")
-                .WithPassword("head3mpty@")
+                .WithPassword("Head3mpty@")
                 .WithFirstName("Jane")
                 .WithLastName("Doe")
                 .WithSerialNumber("T-1000")
