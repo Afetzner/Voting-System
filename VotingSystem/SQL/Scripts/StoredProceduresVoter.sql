@@ -3,6 +3,7 @@ DROP PROCEDURE IF EXISTS afetzner.add_voter $$
 DROP PROCEDURE IF EXISTS afetzner.delete_voter $$
 DROP PROCEDURE IF EXISTS afetzner.get_voter_serial $$
 DROP PROCEDURE IF EXISTS afetzner.check_voter_serial $$
+DROP PROCEDURE IF EXISTS afetzner.check_user_username $$
 
 -- Adds a voter, also adds them as a user
 CREATE PROCEDURE afetzner.add_voter (
@@ -10,11 +11,15 @@ CREATE PROCEDURE afetzner.add_voter (
     IN `password` varchar(31),
 	IN `firstName` varchar(31),
 	IN `lastName` varchar(31), 
-    IN `serialNumber` varchar(9))
+    IN `serialNumber` varchar(9),
+    OUT `collision` bool)
 BEGIN
+	SET `collision` = EXISTS (SELECT 1 FROM user WHERE username = `username`);
+    
 	INSERT INTO User(username, password) VALUES (`username`, `password`);
     INSERT INTO Voter(first_name, last_name, serial_number, user_id) 
-	VALUES (`firstName`, `lastName`, `serialNumber`, LAST_INSERT_ID());
+	SELECT (`firstName`, `lastName`, `serialNumber`, LAST_INSERT_ID())
+    WHERE NOT `collision`;
 END 
 $$
 
@@ -49,8 +54,15 @@ CREATE PROCEDURE afetzner.check_voter_serial (
 	IN `serialNumber` varchar(9),
     OUT `occupied` bool)
 BEGIN
-	SELECT count(serialNumber) > 0 INTO `occupied`
-    WHERE voter.serial_number = `serialNumber`;
+	SET `occupied` = EXISTS (SELECT 1 FROM voter WHERE voter.serial_number = `serialNumber`);
+END
+$$
+
+CREATE PROCEDURE afetzner.check_user_username (
+	IN `username` varchar(31),
+    OUT `occupied` bool)
+BEGIN
+	SET `occupied` = EXISTS (SELECT 1 FROM user WHERE username = `username`);
 END
 $$
 DELIMITER ;
