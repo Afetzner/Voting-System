@@ -23,3 +23,35 @@ from issue
 	right join issue_option on issue.issue_id = issue_option.issue_id
 	left join ballot on ballot.choice_id = issue_option.option_id
 group by issue_option.option_id;
+
+SELECT (IF(EXISTS (SELECT 1 FROM afetzner.user WHERE username = 'jdoe16'), true, false)) INTO @collision;
+SELECT @collision;
+
+select * from afetzner.ballot;
+
+	SELECT EXISTS (SELECT 1 FROM afetzner.ballot WHERE voter_serial_number = 'tvs' AND issue_serial_number = 'tis' LIMIT 1) INTO @collision;
+    SELECT @collision;
+    
+    INSERT INTO afetzner.ballot 
+		(ballot_serial_number, 
+		voter_serial_number,
+		issue_serial_number,
+		choice_number,
+		voter_id,
+		issue_id,
+		choice_id)
+	SELECT
+		'B11240001',
+        'V12399874',
+        'I78955500',
+        1,
+		(SELECT voter_id FROM afetzner.voter WHERE voter.serial_number = 'V12399874' LIMIT 1),
+        (SELECT issue_id FROM afetzner.issue WHERE issue.serial_number = 'I78955500' LIMIT 1),
+        (SELECT option_id FROM afetzner.issue_option WHERE issue_option.option_number = 1 LIMIT 1)
+	-- Protects against multiple ballots from one voter being entered on any issue? Needs testing
+    WHERE NOT @collision;
+    
+select * from afetzner.ballot;
+
+insert into afetzner.ballot (ballot_id, ballot_serial_number, voter_serial_number, issue_serial_number, choice_number, voter_id, issue_id, choice_id)
+values (null, 'bsn', 'vsn', 'isn', 1, 101, 102, 103);

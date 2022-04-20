@@ -4,14 +4,15 @@ DROP PROCEDURE IF EXISTS afetzner.delete_ballot $$
 DROP PROCEDURE IF EXISTS afetzner.get_voters_ballot $$
 DROP PROCEDURE IF EXISTS afetzner.get_did_voter_participate $$
 DROP PROCEDURE IF EXISTS afetzner.get_election_results $$
-$$
 
 CREATE PROCEDURE afetzner.add_ballot (
 	IN `ballotSerial` varchar(9),  
     IN `voterSerial` varchar(9),
     IN `issueSerial` varchar(9),
-    IN `choiceNumber` int)
+    IN `choiceNumber` int,
+    OUT `collision` bool)
 BEGIN
+	SELECT EXISTS (SELECT 1 FROM ballot WHERE voter_serial = `voterSerial` AND issue_serial = `issueSerial` LIMIT 1) INTO `collision`;
     INSERT INTO ballot 
 		(ballot_serial_number, 
 		voter_serial_number,
@@ -20,14 +21,16 @@ BEGIN
 		voter_id,
 		issue_id,
 		choice_id)
-	VALUES 
+	SELECT
 		(`ballotSerial`,
         `voterSerial`,
         `issueSerial`,
         `choiceNumber`,
 		(SELECT voter_id FROM voter WHERE voter.serial_number = `voterSerial` LIMIT 1),
-        (SELECT issue_id FROM issue WHERE issue.issue_serial = `issueSerial` LIMIT 1),
-        (SELECT choice_id FROM issue_choice WHERE issue_choice.issue_serial = `issueSerial` LIMIT 1));
+        (SELECT issue_id FROM issue WHERE issue.serial_number = `issueSerial` LIMIT 1),
+        (SELECT option_id FROM issue_option WHERE issue_option.option_number = `choice_number` LIMIT 1))
+	-- Protects against multiple ballots from one voter being entered on any issue? Needs testing
+    WHERE NOT `collision`;
 END
 $$
 

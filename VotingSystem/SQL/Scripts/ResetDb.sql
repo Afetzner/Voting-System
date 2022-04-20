@@ -17,7 +17,7 @@ CREATE TABLE user (
 
 CREATE TABLE admin (
 	admin_id int auto_increment,
-    user_id int,
+    user_id int NOT NULL,
     serial_number varchar(9) NOT NULL UNIQUE,
     
     PRIMARY KEY (admin_id),
@@ -26,7 +26,7 @@ CREATE TABLE admin (
 
 CREATE TABLE voter (
 	voter_id int auto_increment,
-    user_id int,
+    user_id int NOT NULL,
     serial_number varchar(9) NOT NULL UNIQUE,
     first_name varchar(31) NOT NULL,
     last_name varchar(31) NOT NULL,
@@ -50,8 +50,8 @@ CREATE TABLE issue_option (
 	option_id int auto_increment,
     option_number int NOT NULL,
     title varchar(127) NOT NULL UNIQUE,
-    issue_id int,
-    issue_serial varchar(9),
+    issue_id int NOT NULL,
+    issue_serial varchar(9) NOT NULL,
     
     PRIMARY KEY (option_id),
     FOREIGN KEY (issue_id) REFERENCES issue(issue_id)
@@ -63,9 +63,9 @@ CREATE TABLE ballot (
     voter_serial_number varchar(9) NOT NULL,
     issue_serial_number varchar(9) NOT NULL,
     choice_number int NOT NULL,
-    voter_id int,
-    issue_id int,
-    choice_id int,
+    voter_id int NOT NULL,
+    issue_id int NOT NULL,
+    choice_id int NOT NULL,
     
     PRIMARY KEY (ballot_id),
     FOREIGN KEY (voter_id) REFERENCES voter(voter_id),

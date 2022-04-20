@@ -1,22 +1,3 @@
-/* issue table:
- * 	   issue_id int auto_increment,
- * 	   serial_number varchar(9) NOT NULL UNIQUE,
- *     start_date DATE NOT NULL,
- *     end_date DATE NOT NULL,
- *     title varchar(127) NOT NULL UNIQUE,
- *     description varchar(255) NOT NULL,
- *     PRIMARY KEY(issue_id)
- *
- * issue_option table:
- *	   option_id int auto_increment,
- *     option_number int NOT NULL,
- *     title varchar(127) NOT NULL UNIQUE,
- *     issue_id int,
- *     issue_serial varchar(9),
- *     PRIMARY KEY (option_id)
- *     FOREIGN KEY (issue_id) REFERENCES issue(issue_id)
-*/
-
 DELIMITER $$
 DROP PROCEDURE IF EXISTS afetzner.add_issue $$
 DROP PROCEDURE IF EXISTS afetzner.add_issue_option $$
@@ -34,7 +15,9 @@ CREATE PROCEDURE afetzner.add_issue(
     IN `description` varchar(255))
 BEGIN
 	INSERT INTO issue (serial_number, start_date, end_date, title, description)
-    VALUES (`serialNumber`, `start`, `end`, `title`, `description`);
+    SELECT (`serialNumber`, `start`, `end`, `title`, `description`)
+    -- Protects against issues with the same title
+    WHERE NOT EXISTS (SELECT 1 INTO @collision FROM issue WHERE issue.title = `title`);
 END 
 $$
 
