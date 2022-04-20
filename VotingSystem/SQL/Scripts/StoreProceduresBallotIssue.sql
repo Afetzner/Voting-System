@@ -9,7 +9,7 @@ DROP PROCEDURE IF EXISTS afetzner.check_issue_serial $$
 
 -- Add an issue 
 CREATE PROCEDURE afetzner.add_issue(
-	IN `issueSerialNumber` varchar(9),
+	IN `serialNumber` varchar(9),
     IN `start` DATE,
     IN `end` DATE,
     IN `title` varchar(127),
