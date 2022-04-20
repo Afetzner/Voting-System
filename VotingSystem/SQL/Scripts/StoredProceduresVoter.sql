@@ -23,15 +23,19 @@ BEGIN
 END 
 $$
 
+-- removes a voter (and user) and their votes
 CREATE PROCEDURE afetzner.delete_voter (
 	IN `serialNumber` varchar(9))
 BEGIN
-	DELETE voter, ballot
-    FROM voter JOIN ballot ON voter.voter_id = ballot.voter
+	DELETE voter, user, ballot
+    FROM voter 
+    JOIN user ON voter.user_id = user.user_id
+    JOIN ballot ON voter.voter_id = ballot.voter
     WHERE voter.serial_number = `serialNumber`;
 END
 $$
 
+-- Gets a user's serial number from their login
 CREATE PROCEDURE afetzner.get_voter_serial (
 	IN `username` varchar(31),
     IN `password` varchar(31),
@@ -54,7 +58,7 @@ CREATE PROCEDURE afetzner.check_voter_serial (
 	IN `serialNumber` varchar(9),
     OUT `occupied` bool)
 BEGIN
-	SET `occupied` = EXISTS (SELECT 1 FROM voter WHERE voter.serial_number = `serialNumber`);
+	SET `occupied` = EXISTS (SELECT 1 FROM voter WHERE serial_number = `serialNumber`);
 END
 $$
 
