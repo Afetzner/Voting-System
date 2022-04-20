@@ -1,19 +1,3 @@
-/* Voter table:
- *	 voter_id int auto_increment,
- *   user_id int,
- *   serial_number varchar(9) NOT NULL UNIQUE,
- *   first_name varchar(31) NOT NULL,
- *   last_name varchar(31) NOT NULL,
- *   PRIMARY KEY (voter_id),
- *   FOREIGN KEY (user_id) REFERENCES tab_user(user_id)
- *
- * User table:
- *   user_id int auto_increment,
- *   username varchar(31) NOT NULL,
- *   password varchar(31) NOT NULL,
- *   PRIMARY KEY (user_id)
-*/
-
 DELIMITER $$
 DROP PROCEDURE IF EXISTS afetzner.add_voter $$
 DROP PROCEDURE IF EXISTS afetzner.delete_voter $$

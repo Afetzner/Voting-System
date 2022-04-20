@@ -1,8 +1,8 @@
 use afetzner;
 
 DROP TABLE IF EXISTS ballot;
-DROP TABLE IF EXISTS ballot_issue_option;
-DROP TABLE IF EXISTS ballot_issue;
+DROP TABLE IF EXISTS issue_option;
+DROP TABLE IF EXISTS issue;
 DROP TABLE IF EXISTS voter;
 DROP TABLE IF EXISTS admin;
 DROP TABLE IF EXISTS user;
@@ -11,6 +11,7 @@ CREATE TABLE user (
 	user_id int auto_increment,
     username varchar(31) NOT NULL UNIQUE,
     password varchar(31) NOT NULL,
+    
     PRIMARY KEY (user_id)
 );
 
@@ -18,6 +19,7 @@ CREATE TABLE admin (
 	admin_id int auto_increment,
     user_id int,
     serial_number varchar(9) NOT NULL UNIQUE,
+    
     PRIMARY KEY (admin_id),
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
@@ -28,6 +30,7 @@ CREATE TABLE voter (
     serial_number varchar(9) NOT NULL UNIQUE,
     first_name varchar(31) NOT NULL,
     last_name varchar(31) NOT NULL,
+    
     PRIMARY KEY (voter_id),
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
@@ -39,6 +42,7 @@ CREATE TABLE issue (
     end_date DATE NOT NULL,
     title varchar(127) NOT NULL UNIQUE,
     description varchar(255) NOT NULL,
+    
     PRIMARY KEY(issue_id)
 );
 
@@ -48,6 +52,7 @@ CREATE TABLE issue_option (
     title varchar(127) NOT NULL UNIQUE,
     issue_id int,
     issue_serial varchar(9),
+    
     PRIMARY KEY (option_id),
     FOREIGN KEY (issue_id) REFERENCES issue(issue_id)
 );
@@ -57,10 +62,11 @@ CREATE TABLE ballot (
     ballot_serial_number varchar(9) NOT NULL UNIQUE,
     voter_serial_number varchar(9) NOT NULL,
     issue_serial_number varchar(9) NOT NULL,
-    choice_number int,
+    choice_number int NOT NULL,
     voter_id int,
     issue_id int,
     choice_id int,
+    
     PRIMARY KEY (ballot_id),
     FOREIGN KEY (voter_id) REFERENCES voter(voter_id),
     FOREIGN KEY (issue_id) REFERENCES issue(issue_id),
