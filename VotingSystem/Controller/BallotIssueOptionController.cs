@@ -5,6 +5,10 @@ using VotingSystem.Model;
 
 namespace VotingSystem.Controller
 {
+    //Janice tried writing the ballot-issue-option controller, the problem was that the options 
+    // are contained in a list in the issue, so they don't have access to the issue serial num
+    // I suggest we move the add_issue_options into the issue controller (so issues and their options get added together)
+    // We could have a separate func that adds options to existing issue too, but that's low priority.
     public class BallotIssueOptionController
     {
         public int AddEntry(BallotIssueOption entry)
