@@ -9,3 +9,9 @@
   width: 1200px;
   min-width: 10px;
 }
+
+.card {
+  display: flex;
+  max-width: max-content;
+  min-width: fit-content;
+}

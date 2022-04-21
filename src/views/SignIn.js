@@ -51,8 +51,8 @@ export default function SignIn() {
                 For more information on voter registration, visit <a href="https://vote.gov/">vote.gov</a>
               </Form.Text>
             </Form>
-            </Card.Body>
-          </Card>
+          </Card.Body>
+        </Card>
       </div>
     </>
   );
