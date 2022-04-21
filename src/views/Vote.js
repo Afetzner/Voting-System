@@ -32,7 +32,7 @@ const polls = [
 ];
 
 export default function Vote() {
-  var [show, setShow] = useState(false);
+  const [show, setShow] = useState(false);
 
   return (
     <>
