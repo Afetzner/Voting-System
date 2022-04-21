@@ -1,10 +1,10 @@
 use afetzner;
 
 -- Create admins
-INSERT INTO user (username, password) VALUES ('afetz00', 'drowsap1!');
+INSERT INTO user (username, password) VALUES ('afetz00', 'Drowsap1!');
 INSERT INTO admin (user_id, serial_number) VALUES (last_insert_id(), 'A99900012');
 SET @adminAlexId = last_insert_id();
-INSERT INTO user (username, password) VALUES ('3akycka', 'pa55W0rd@');
+INSERT INTO user (username, password) VALUES ('3akycka', 'pa55W0RD@');
 INSERT INTO admin (user_id, serial_number) VALUES (last_insert_id(), 'A99900013');
 SET @adminAnastasyiaId = last_insert_id();
 
@@ -12,7 +12,7 @@ SET @adminAnastasyiaId = last_insert_id();
 INSERT INTO user (username, password) VALUES ('jdoe16', '2bOr!2b');
 INSERT INTO voter (user_id, first_name, last_name, serial_number) VALUES (last_insert_id(), 'Jane', 'Doe', 'V12399874');
 SET @voterJaneId = last_insert_id();
-INSERT INTO user (username, password) VALUES ('johndoe99', 'cook!33ater');
+INSERT INTO user (username, password) VALUES ('johndoe99', 'Cook!33ater');
 INSERT INTO voter (user_id, first_name, last_name, serial_number) VALUES (last_insert_id(), 'John', 'Doe', 'V78955412');
 SET @voterJohnId = last_insert_id();
 INSERT INTO user (username, password) VALUES ('ultimateRick', '123asd99A$');
