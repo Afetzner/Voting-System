@@ -39,23 +39,24 @@ $$
 
 -- Gets an admins's serial number from their login
 CREATE PROCEDURE afetzner.get_admin (
-	IN `v_username` varchar(31),
-    IN `v_password` varchar(31),
-    OUT `v_serialNumber` varchar(9))
+	IN `username` varchar(31),
+    IN `password` varchar(31),
+    OUT `serialNumber` varchar(9))
 BEGIN
-	SELECT serial_number INTO `v_serialNumber` 
+	SELECT serial_number INTO `serialNumber` 
     FROM admin
-    WHERE username = `v_username` AND password = `v_password`
+    WHERE username = `username` AND password = `password`
 	LIMIT 1;
 END
 $$
 
 -- returns true if a serial number is assocaited with an admin
 CREATE PROCEDURE afetzner.check_admin_serial (
-	IN `v_serialNumber` varchar(9),
-    OUT `v_occupied` bool)
+	IN `serialNumber` varchar(9),
+    OUT `occupied` bool)
 BEGIN
-	SET `v_occupied` = EXISTS (SELECT 1 FROM admin WHERE serial_number = `v_serialNumber`);
+	SET `occupied` = EXISTS (SELECT 1 FROM admin WHERE serial_number = `serialNumber`);
 END
+$$
 
 DELIMITER ;

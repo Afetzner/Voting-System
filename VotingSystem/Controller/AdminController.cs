@@ -25,17 +25,17 @@ namespace VotingSystem.Controller
                 using (var cmd = new MySqlCommand("add_admin", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("v_username", admin.Username);
-                    cmd.Parameters["@v_username"].Direction = ParameterDirection.Input;
+                    cmd.Parameters.AddWithValue("username", admin.Username);
+                    cmd.Parameters["@username"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("v_password", admin.Password);
-                    cmd.Parameters["@v_password"].Direction = ParameterDirection.Input;
+                    cmd.Parameters.AddWithValue("password", admin.Password);
+                    cmd.Parameters["@password"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("v_serialNumber", admin.SerialNumber);
-                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+                    cmd.Parameters.AddWithValue("serialNumber", admin.SerialNumber);
+                    cmd.Parameters["@serialNumber"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.Add("v_collision", MySqlDbType.Byte);
-                    cmd.Parameters["@v_collision"].Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("collision", MySqlDbType.Byte);
+                    cmd.Parameters["@collision"].Direction = ParameterDirection.Output;
 
                     try
                     {
@@ -52,7 +52,7 @@ serialNumber: '{admin.SerialNumber}'
                         throw;
                     }
 
-                    return Convert.ToBoolean(cmd.Parameters["v_collision"].Value);
+                    return Convert.ToBoolean(cmd.Parameters["collision"].Value);
                 }
             }
         }
@@ -74,8 +74,8 @@ serialNumber: '{admin.SerialNumber}'
                 using (var cmd = new MySqlCommand("delete_admin", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("v_serialNumber", serial);
-                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+                    cmd.Parameters.AddWithValue("serialNumber", serial);
+                    cmd.Parameters["@serialNumber"].Direction = ParameterDirection.Input;
 
                     try
                     {
@@ -109,14 +109,14 @@ serialNumber: '{serial}'");
                 using (var cmd = new MySqlCommand("get_admin", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("v_username", username);
-                    cmd.Parameters["@v_username"].Direction = ParameterDirection.Input;
+                    cmd.Parameters.AddWithValue("username", username);
+                    cmd.Parameters["@username"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("v_password", password);
-                    cmd.Parameters["@v_password"].Direction = ParameterDirection.Input;
+                    cmd.Parameters.AddWithValue("password", password);
+                    cmd.Parameters["@password"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.Add("v_serialNumber", MySqlDbType.VarChar);
-                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("serialNumber", MySqlDbType.VarChar);
+                    cmd.Parameters["@serialNumber"].Direction = ParameterDirection.Output;
 
                     try
                     {
@@ -134,7 +134,7 @@ password: '{password}'");
                     var admin = new AdminBuilder()
                         .WithUsername(username)
                         .WithPassword(password)
-                        .WithSerialNumber(Convert.ToString(cmd.Parameters["v_SerialNumber"].Value))
+                        .WithSerialNumber(Convert.ToString(cmd.Parameters["SerialNumber"].Value))
                         .Build();
 
                     return admin;
@@ -159,11 +159,11 @@ password: '{password}'");
                 using (var cmd = new MySqlCommand("check_admin_serial", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("v_serialNumber", serial);
-                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+                    cmd.Parameters.AddWithValue("serialNumber", serial);
+                    cmd.Parameters["@serialNumber"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.Add("v_occupied", MySqlDbType.Byte);
-                    cmd.Parameters["@v_occupied"].Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("occupied", MySqlDbType.Byte);
+                    cmd.Parameters["@occupied"].Direction = ParameterDirection.Output;
 
                     try
                     {
@@ -177,7 +177,7 @@ serialNumber: '{serial}'");
                         throw;
                     }
 
-                    return Convert.ToBoolean(cmd.Parameters["v_occupied"].Value);
+                    return Convert.ToBoolean(cmd.Parameters["occupied"].Value);
                 }
             }
         }
