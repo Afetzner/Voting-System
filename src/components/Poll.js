@@ -79,7 +79,7 @@ import { Modal } from "bootstrap";
 import Confirmation from "../components/Confirmation";
 >>>>>>> 10e0c32 (Continued work on Vote view)
 
-export default function Poll(poll, i, props) {
+export default function Poll(poll, i, setShow) {
   const [inProgress, setInProgress] = useState(poll.endDate < new Date());
   const [counted, setCounted] = useState(false);
   const [radioValue, setRadioValue] = useState("");
@@ -230,7 +230,7 @@ export default function Poll(poll, i, props) {
               <Button
                 className="confirm-button"
                 variant="success"
-                onClick={() => props.setShow(true)}
+                onClick={() => setShow(true)}
                 disabled={!inProgress || counted}
               >Confirm Selection</Button>
 >>>>>>> 237e15b (added files)
