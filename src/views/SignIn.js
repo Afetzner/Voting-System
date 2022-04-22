@@ -11,15 +11,18 @@ function FailedSignIn(props) {
 =======
 import Header from "../components/Header";
 
-function FailedSignIn() {
-  const [show, setShow] = useState(true);
-  if (show) {
+function FailedSignIn(props) {
+  if (props.show) {
     return (
+<<<<<<< HEAD
       <Alert variant="danger" onClose={() => setShow(false)} dismissible>
 <<<<<<< HEAD
       Incorrect username, email, or password.
 >>>>>>> ae1b665 (Initial commit)
 =======
+=======
+      <Alert variant="danger" onClose={() => props.setShow(false)} dismissible>
+>>>>>>> 872a854 (Converted Confirm.js to a more general PopUp.js, syntax clean up)
         Incorrect username, email, or password.
 >>>>>>> 10e0c32 (Continued work on Vote view)
       </Alert>
@@ -29,9 +32,13 @@ function FailedSignIn() {
 
 export default function SignIn() {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const [show, setShow] = useState(true);
 =======
 >>>>>>> ae1b665 (Initial commit)
+=======
+  const [show, setShow] = useState(true);
+>>>>>>> 872a854 (Converted Confirm.js to a more general PopUp.js, syntax clean up)
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -83,7 +90,7 @@ export default function SignIn() {
           <Card.Header>Registered Voter Sign In</Card.Header>
           <Card.Body className="card-body__sign-in">
             <Form>
-              <FailedSignIn />
+              <FailedSignIn show={show} setShow={setShow} />
               <Form.Group className="form-group__username">
                 <Form.Label>Username/email:</Form.Label>
                 <Form.Control type="username" placeholder="Enter your username or email address" onChange={(e) => {setUsername(e.target.value)}} />
@@ -108,5 +115,9 @@ export default function SignIn() {
       </div>
     </>
   );
+<<<<<<< HEAD
 }
 >>>>>>> ae1b665 (Initial commit)
+=======
+}
+>>>>>>> 872a854 (Converted Confirm.js to a more general PopUp.js, syntax clean up)

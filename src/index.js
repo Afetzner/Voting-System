@@ -30,5 +30,9 @@ root.render(
 =======
     <Vote />
   </React.StrictMode>
+<<<<<<< HEAD
 );
 >>>>>>> ae1b665 (Initial commit)
+=======
+);
+>>>>>>> 872a854 (Converted Confirm.js to a more general PopUp.js, syntax clean up)

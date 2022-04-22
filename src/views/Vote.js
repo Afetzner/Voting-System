@@ -41,7 +41,7 @@ export default function Vote() {
 =======
 import Header from "../components/Header";
 import Poll from "../components/Poll";
-import Confirmation from "../components/Confirmation";
+import PopUp from "../components/PopUp";
 import { Accordion, Card } from "react-bootstrap";
 import { useState } from "react";
 
@@ -77,7 +77,7 @@ export default function Vote() {
   return (
     <>
       <Header />
-      <Confirmation show={show} setShow={setShow} />
+      <PopUp title={"Are you sure?"} show={show} setShow={setShow}>test</PopUp>
       <div className="div__vote-selection">
         <Card>
           <Card.Body className="card-body__vote-selection">

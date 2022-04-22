@@ -75,16 +75,19 @@ import { Accordion, Badge, Container, ToggleButton, Form } from "react-bootstrap
 
 =======
 import { Accordion, Badge, Button, ButtonGroup, Container, Form, ProgressBar, ToggleButton } from "react-bootstrap";
+<<<<<<< HEAD
 import { Modal } from "bootstrap";
 import Confirmation from "../components/Confirmation";
 >>>>>>> 10e0c32 (Continued work on Vote view)
+=======
+>>>>>>> 872a854 (Converted Confirm.js to a more general PopUp.js, syntax clean up)
 
 export default function Poll(poll, i, setShow) {
   const [inProgress, setInProgress] = useState(poll.endDate < new Date());
   const [counted, setCounted] = useState(false);
   const [radioValue, setRadioValue] = useState("");
   const [selection, setSelection] = useState("");
-  
+
   // const [state, setState] = useState({
   //   inProgress: (poll.endDate < new Date()),
   //   counted: true,
@@ -231,7 +234,7 @@ export default function Poll(poll, i, setShow) {
                 className="confirm-button"
                 variant="success"
                 onClick={() => setShow(true)}
-                disabled={!inProgress || counted}
+                disabled={!inProgress || counted || selection === ""}
               >Confirm Selection</Button>
 >>>>>>> 237e15b (added files)
             </div>
