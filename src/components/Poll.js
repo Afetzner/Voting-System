@@ -1,15 +1,13 @@
 import "./Poll.css";
 import React, { useState } from "react";
 import { Accordion, Badge, Button, ButtonGroup, Container, Form, ProgressBar, ToggleButton } from "react-bootstrap";
-import { Modal } from "bootstrap";
-import Confirmation from "../components/Confirmation";
 
 export default function Poll(poll, i, setShow) {
   const [inProgress, setInProgress] = useState(poll.endDate < new Date());
   const [counted, setCounted] = useState(false);
   const [radioValue, setRadioValue] = useState("");
   const [selection, setSelection] = useState("");
-  
+
   // const [state, setState] = useState({
   //   inProgress: (poll.endDate < new Date()),
   //   counted: true,
@@ -101,7 +99,7 @@ export default function Poll(poll, i, setShow) {
                 className="confirm-button"
                 variant="success"
                 onClick={() => setShow(true)}
-                disabled={!inProgress || counted}
+                disabled={!inProgress || counted || selection === ""}
               >Confirm Selection</Button>
             </div>
           </Form.Group>

@@ -3,11 +3,10 @@ import { useState } from "react";
 import { Alert, Button, Form, Card } from "react-bootstrap";
 import Header from "../components/Header";
 
-function FailedSignIn() {
-  const [show, setShow] = useState(true);
-  if (show) {
+function FailedSignIn(props) {
+  if (props.show) {
     return (
-      <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+      <Alert variant="danger" onClose={() => props.setShow(false)} dismissible>
         Incorrect username, email, or password.
       </Alert>
     );
@@ -15,6 +14,7 @@ function FailedSignIn() {
 }
 
 export default function SignIn() {
+  const [show, setShow] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -31,7 +31,7 @@ export default function SignIn() {
           <Card.Header>Registered Voter Sign In</Card.Header>
           <Card.Body className="card-body__sign-in">
             <Form>
-              <FailedSignIn />
+              <FailedSignIn show={show} setShow={setShow} />
               <Form.Group className="form-group__username">
                 <Form.Label>Username/email:</Form.Label>
                 <Form.Control type="username" placeholder="Enter your username or email address" onChange={(e) => {setUsername(e.target.value)}} />
