@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using MySql.Data.MySqlClient;
+using System.Data;
 using VotingSystem.Model;
 
 namespace VotingSystem.Controller
@@ -27,11 +29,41 @@ namespace VotingSystem.Controller
             throw new NotImplementedException();
         }
 
-        //TODO
         public void RemoveIssue(string serial)
         {
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine(e + "\nCould not connect to database");
+                    throw;
+                }
+
+                using (var cmd = new MySqlCommand("delete_issue", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("v_serialNumber", serial);
+                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (MySqlException e)
+                    {
+                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'delete_issue' with parameters: 
+serialNumber: '{serial}'");
+
+                        throw;
+                    }
+                }
+            }
             //Look at the VoterController removeUser method for reference, very similar
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         //TODO
