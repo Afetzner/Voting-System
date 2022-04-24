@@ -178,25 +178,25 @@ namespace VotingSystem.Controller
                         using(var cmd2 = new MySqlCommand("get_options", conn))
                         {
                             cmd2.CommandType = CommandType.StoredProcedure;
-                            MySqlDataReader reader2 = cmd.ExecuteReader();
+                            MySqlDataReader reader2 = cmd2.ExecuteReader();
 
                             while (reader2.Read())
                             {
-                                cmd.Parameters.AddWithValue("v_serialNumber", ballotIssueSerialNumber);
-                                cmd.Parameters["v_serialNumber"].Direction = ParameterDirection.Input;
+                                cmd2.Parameters.AddWithValue("v_serialNumber", ballotIssueSerialNumber);
+                                cmd2.Parameters["v_serialNumber"].Direction = ParameterDirection.Input;
 
-                                cmd.Parameters.Add("v_number", MySqlDbType.Int32);
-                                cmd.Parameters["v_number"].Direction = ParameterDirection.Output;
+                                cmd2.Parameters.Add("v_number", MySqlDbType.Int32);
+                                cmd2.Parameters["v_number"].Direction = ParameterDirection.Output;
 
-                                cmd.Parameters.Add("v_title", MySqlDbType.VarChar);
-                                cmd.Parameters["v_title"].Direction = ParameterDirection.Output;
+                                cmd2.Parameters.Add("v_title", MySqlDbType.VarChar);
+                                cmd2.Parameters["v_title"].Direction = ParameterDirection.Output;
 
-                                cmd.Parameters.AddWithValue("v_count", MySqlDbType.Int32);
-                                cmd.Parameters["v_count"].Direction = ParameterDirection.Output;
+                                cmd2.Parameters.AddWithValue("v_count", MySqlDbType.Int32);
+                                cmd2.Parameters["v_count"].Direction = ParameterDirection.Output;
 
                                 var newOption = new BallotIssueOption.BallotIssueOptionBuilder()
-                                    .WithOptionNumber(Convert.ToInt32(cmd.Parameters["v_number"].Value))
-                                    .WithTitle(Convert.ToString(cmd.Parameters["v_title"].Value))
+                                    .WithOptionNumber(Convert.ToInt32(cmd2.Parameters["v_number"].Value))
+                                    .WithTitle(Convert.ToString(cmd2.Parameters["v_title"].Value))
                                     .Build();
 
                                 optionsList.Add(newOption);
