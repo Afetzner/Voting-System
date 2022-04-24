@@ -1,0 +1,20 @@
+.div__sign-in {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 600px;
+ }
+
+.form-group__username, .form-group__password, .form-group__check, form-group__first, 
+form-group__last {
+  padding-bottom: 16px;
+}
+
+.form-group__check {
+  padding-top: 2px;
+}
+
+.form-group__submit {
+  padding-bottom: 8px;
+}
