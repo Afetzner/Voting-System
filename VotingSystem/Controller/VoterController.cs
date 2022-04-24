@@ -118,6 +118,7 @@ serialNumber: '{serial}'");
                 using (var cmd = new MySqlCommand("get_voter", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+
                     cmd.Parameters.AddWithValue("v_username", username);
                     cmd.Parameters["@v_username"].Direction = ParameterDirection.Input;
 

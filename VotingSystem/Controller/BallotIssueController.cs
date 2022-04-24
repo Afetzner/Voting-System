@@ -133,9 +133,87 @@ namespace VotingSystem.Controller
             }
         }
 
-        //TODO
         public List<BallotIssue> GetBallotIssues()
         {
+            List<BallotIssue> ballotIssueList = new List<BallotIssue>();
+
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine(e + "\nCould not connect to database");
+                    throw;
+                }
+
+                using (var cmd = new MySqlCommand("get_issues", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        List<BallotIssueOption> optionsList = new List<BallotIssueOption>();
+
+                        cmd.Parameters.Add("v_serialNumber", MySqlDbType.VarChar);
+                        cmd.Parameters["v_serialNumber"].Direction = ParameterDirection.Output;
+
+                        cmd.Parameters.Add("v_start", MySqlDbType.DateTime);
+                        cmd.Parameters["v_start"].Direction = ParameterDirection.Output;
+
+                        cmd.Parameters.Add("v_end", MySqlDbType.DateTime);
+                        cmd.Parameters["v_end"].Direction = ParameterDirection.Output;
+
+                        cmd.Parameters.Add("v_title", MySqlDbType.VarChar);
+                        cmd.Parameters["v_title"].Direction = ParameterDirection.Output;
+
+                        cmd.Parameters.Add("v_description", MySqlDbType.VarChar);
+                        cmd.Parameters["v_description"].Direction = ParameterDirection.Output;
+
+                        String ballotIssueSerialNumber = Convert.ToString(cmd.Parameters["v_serialNumber"].Value);
+
+                        using(var cmd2 = new MySqlCommand("get_options", conn))
+                        {
+                            cmd2.CommandType = CommandType.StoredProcedure;
+                            MySqlDataReader reader2 = cmd.ExecuteReader();
+
+                            while (reader2.Read())
+                            {
+                                cmd.Parameters.AddWithValue("v_serialNumber", ballotIssueSerialNumber);
+                                cmd.Parameters["v_serialNumber"].Direction = ParameterDirection.Input;
+
+                                cmd.Parameters.Add("v_number", MySqlDbType.Int32);
+                                cmd.Parameters["v_number"].Direction = ParameterDirection.Output;
+
+                                cmd.Parameters.Add("v_title", MySqlDbType.VarChar);
+                                cmd.Parameters["v_title"].Direction = ParameterDirection.Output;
+
+                                cmd.Parameters.AddWithValue("v_count", MySqlDbType.Int32);
+                                cmd.Parameters["v_count"].Direction = ParameterDirection.Output;
+
+                                var newOption = new BallotIssueOptionBuilder()
+                                    .WithOptionNumber(Convert.ToInt32(cmd.Parameters["v_number"].Value))
+                                    .WithTitle(Convert.ToString(cmd.Parameters["v_title"].Value))
+                                    .Build();
+
+                                optionsList.Add(newOption);
+                            }
+                        }
+                        var ballotIssue = new BallotIssueBuilder()
+                            .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
+                            .WithStartDate(Convert.ToDateTime(cmd.Parameters["v_start"].Value))
+                            .WithEndDate(Convert.ToDateTime(cmd.Parameters["v_end"].Value))
+                            .WithTitle(Convert.ToString(cmd.Parameters["v_title"].Value))
+                            .WithDescription(Convert.ToString(cmd.Parameters["v_description"].Value))
+                            .WithOptions(optionsList)
+                            .Build();
+                        ballotIssueList.Add(ballotIssue);
+                    }
+                }
+            }
             //Using conn = ...
             //  Using cmd = "get_ballot_issue"
             //  cmd.type = stored procedure
@@ -156,7 +234,7 @@ namespace VotingSystem.Controller
             //      add option to issue
             //   build issue
             //return issues
-            throw new NotImplementedException();
+            return ballotIssueList;
         }
     }
 }
