@@ -25,6 +25,7 @@ namespace VotingSystem.Controller
                 using (var cmd = new MySqlCommand("add_voter", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+
                     cmd.Parameters.AddWithValue("v_username", voter.Username);
                     cmd.Parameters["@v_username"].Direction = ParameterDirection.Input;
 
