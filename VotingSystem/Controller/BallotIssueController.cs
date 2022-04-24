@@ -131,8 +131,6 @@ namespace VotingSystem.Controller
                     }
                 }
             }
-            //Look at the VoterController removeUser method for reference, very similar
-            //throw new NotImplementedException();
         }
 
         //TODO
