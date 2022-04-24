@@ -194,7 +194,7 @@ namespace VotingSystem.Controller
                                 cmd.Parameters.AddWithValue("v_count", MySqlDbType.Int32);
                                 cmd.Parameters["v_count"].Direction = ParameterDirection.Output;
 
-                                var newOption = new BallotIssueOptionBuilder()
+                                var newOption = new BallotIssueOption.BallotIssueOptionBuilder()
                                     .WithOptionNumber(Convert.ToInt32(cmd.Parameters["v_number"].Value))
                                     .WithTitle(Convert.ToString(cmd.Parameters["v_title"].Value))
                                     .Build();
@@ -202,7 +202,7 @@ namespace VotingSystem.Controller
                                 optionsList.Add(newOption);
                             }
                         }
-                        var ballotIssue = new BallotIssueBuilder()
+                        var ballotIssue = new BallotIssue.BallotIssueBuilder()
                             .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
                             .WithStartDate(Convert.ToDateTime(cmd.Parameters["v_start"].Value))
                             .WithEndDate(Convert.ToDateTime(cmd.Parameters["v_end"].Value))
