@@ -81,7 +81,7 @@ export default function Poll(poll, i, setShow) {
           <Form.Group>
             <div className="d-grid gap-2">
               <ButtonGroup vertical>
-                {poll.choices.map((choice, index) => {
+                {poll.options.map((option, index) => {
                   const value = `radio-${i}${index}`;
                   return (<ToggleButton
                     key={index}
@@ -90,9 +90,9 @@ export default function Poll(poll, i, setShow) {
                     variant="outline-primary"
                     value={value}
                     checked={(radioValue === value)}
-                    onChange={(e) => handleChange(e, choice)}
+                    onChange={(e) => handleChange(e, option)}
                     disabled={!inProgress || counted}
-                  >{choice}</ToggleButton>);
+                  >{option}</ToggleButton>);
                 })}
               </ButtonGroup>
               <Button
