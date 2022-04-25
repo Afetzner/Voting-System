@@ -4,7 +4,7 @@ export default function PopUp(props) {
   if (props.show) {
     return (
       <>
-        <Modal show={props.show} onHide={() => props.setShow(false)}>
+        <Modal centered show={props.show} onHide={() => props.setShow(false)}>
           <Modal.Header>
             <Modal.Title>{props.title}</Modal.Title>  
           </Modal.Header>

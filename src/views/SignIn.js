@@ -2,6 +2,10 @@ import "./SignIn.css";
 import { useState } from "react";
 import { Alert, Button, Form, Card } from "react-bootstrap";
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import { Link } from "react-router-dom";
+>>>>>>> a86a343 (Implemented router dom and user drop down menu)
 
 function FailedSignIn(props) {
   if (props.show) {
@@ -84,7 +88,6 @@ export default function SignIn() {
 
   return (
     <>
-      <Header />
       <div className="div__sign-in">
         <Card>
           <Card.Header>Registered Voter Sign In</Card.Header>

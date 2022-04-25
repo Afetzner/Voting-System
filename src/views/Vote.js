@@ -1,5 +1,6 @@
 import "./Vote.css";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Poll from "../components/Poll";
 import PopUp from "../components/PopUp";
 import { Accordion, Card } from "react-bootstrap";
@@ -40,34 +41,33 @@ export default function Vote() {
             <Accordion>{polls.map((item, index) => Poll(item, index, setShow))}</Accordion>
 =======
 import Header from "../components/Header";
+=======
+>>>>>>> a86a343 (Implemented router dom and user drop down menu)
 import Poll from "../components/Poll";
 import PopUp from "../components/PopUp";
-import { Accordion, Card } from "react-bootstrap";
+import { Accordion, Card, Container } from "react-bootstrap";
 import { useState } from "react";
 
 const polls = [
   {
     title: "Trump vs. Biden",
     endDate: new Date("2021-02-04"),
-    choices: ["Trump", "Biden"],
-    result: null
+    options: ["Trump", "Biden"]
   },
-  { 
+  {
     title: "Brown vs. Cortez Masto",
     endDate: new Date("2023-01-08"),
-    choices: [ "test1", "test2"],
-    result: null },
-  { 
+    options: ["test1", "test2"],
+  },
+  {
     title: "Georgia Senate - Democratic Primary",
     endDate: new Date("2020-08-24"),
-    choices: ["Warnock", "Johnson-Shealey"],
-    result: null
+    options: ["Warnock", "Johnson-Shealey"]
   },
   {
     title: "Georgia Senate - Republican Primary",
     endDate: new Date("2022-05-25"),
-    choices: ["Walker", "Black", "King", "Saddler", "Clark", "McColumn"],
-    result: null
+    options: ["Walker", "Black", "King", "Saddler", "Clark", "McColumn"]
   }
 ];
 
@@ -76,9 +76,9 @@ export default function Vote() {
 
   return (
     <>
-      <Header />
-      <PopUp title={"Are you sure?"} show={show} setShow={setShow}>test</PopUp>
+      <PopUp title={"Alert"} show={show} setShow={setShow}>Are you sure?  This cannot be undone.</PopUp>
       <div className="div__vote-selection">
+<<<<<<< HEAD
         <Card>
           <Card.Body className="card-body__vote-selection">
 <<<<<<< HEAD
@@ -89,6 +89,15 @@ export default function Vote() {
 >>>>>>> 880c5f2 (Reafactoring)
           </Card.Body>
         </Card>
+=======
+        <Container>
+          <Card>
+            <Card.Body className="card-body__vote-selection">
+              <Accordion>{polls.map((item, index) => Poll(item, index, setShow))}</Accordion>
+            </Card.Body>
+          </Card>
+        </Container>
+>>>>>>> a86a343 (Implemented router dom and user drop down menu)
       </div>
     </>
   );

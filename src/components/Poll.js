@@ -172,6 +172,7 @@ export default function Poll(poll, i, setShow) {
             <div className="d-grid gap-2">
               <ButtonGroup vertical>
                 {poll.options.map((option, index) => {
+<<<<<<< HEAD
                   const value = `radio-${i}${index}`;
                   return (<ToggleButton
                     key={index}
@@ -217,6 +218,8 @@ export default function Poll(poll, i, setShow) {
               <Button variant="success" style={{width: "200px"}} onClick={Confirmation} disabled={!inProgress}>Confirm Selection</Button>
 =======
                 {poll.choices.map((choice, index) => {
+=======
+>>>>>>> a86a343 (Implemented router dom and user drop down menu)
                   const value = `radio-${i}${index}`;
                   return (<ToggleButton
                     key={index}
@@ -225,9 +228,9 @@ export default function Poll(poll, i, setShow) {
                     variant="outline-primary"
                     value={value}
                     checked={(radioValue === value)}
-                    onChange={(e) => handleChange(e, choice)}
+                    onChange={(e) => handleChange(e, option)}
                     disabled={!inProgress || counted}
-                  >{choice}</ToggleButton>);
+                  >{option}</ToggleButton>);
                 })}
               </ButtonGroup>
               <Button

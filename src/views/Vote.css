@@ -19,7 +19,13 @@
 
 .card {
   display: flex;
+<<<<<<< HEAD
   max-width: max-content;
   min-width: fit-content;
 }
 >>>>>>> 880c5f2 (Reafactoring)
+=======
+  align-items: center;
+  width: fit-content;
+}
+>>>>>>> a86a343 (Implemented router dom and user drop down menu)

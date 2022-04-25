@@ -4,12 +4,18 @@
   "private": true,
   "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a86a343 (Implemented router dom and user drop down menu)
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.6.2",
     "@mui/material": "^5.6.2",
+<<<<<<< HEAD
 =======
 >>>>>>> ae1b665 (Initial commit)
+=======
+>>>>>>> a86a343 (Implemented router dom and user drop down menu)
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.0.1",
     "@testing-library/user-event": "^13.5.0",
