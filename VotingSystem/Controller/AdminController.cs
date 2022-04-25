@@ -198,6 +198,5 @@ serialNumber: '{serial}'");
             }
         }
 
-
     }
 }

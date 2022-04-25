@@ -11,7 +11,7 @@ namespace VotingSystem.Controller
     // We could have a separate func that adds options to existing issue too, but that's low priority.
     public class BallotIssueOptionController
     {
-        public int AddEntry(BallotIssueOption entry)
+        public static int AddEntry(BallotIssueOption entry)
         {
 
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
@@ -57,7 +57,7 @@ namespace VotingSystem.Controller
             }
         }
 
-        public void DeleteIssueOption(string issueSerialNumber, int optionNumber)
+        public static void DeleteIssueOption(string issueSerialNumber, int optionNumber)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {

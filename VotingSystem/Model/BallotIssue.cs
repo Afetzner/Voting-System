@@ -15,7 +15,7 @@ namespace VotingSystem.Model
         public string Description { get; }
         public List<BallotIssueOption> Options { get; }
 
-        BallotIssue(string serialNum, DateTime start, DateTime end, string title, string description,
+        private BallotIssue(string serialNum, DateTime start, DateTime end, string title, string description,
             List<BallotIssueOption> options)
         {
             SerialNumber = serialNum;
