@@ -34,13 +34,11 @@ export default function Vote() {
     <>
       <PopUp title={"Alert"} show={show} setShow={setShow}>Are you sure?  This cannot be undone.</PopUp>
       <div className="div__vote-selection">
-        <Container>
-          <Card>
-            <Card.Body className="card-body__vote-selection">
-              <Accordion>{polls.map((item, index) => Poll(item, index, setShow))}</Accordion>
-            </Card.Body>
-          </Card>
-        </Container>
+        <Card>
+          <Card.Body className="card-body__vote-selection">
+            <Accordion>{polls.map((item, index) => Poll(item, index, setShow))}</Accordion>
+          </Card.Body>
+        </Card>
       </div>
     </>
   );

@@ -3,10 +3,10 @@
 }
 
 .brand-text {
+  display: inline-flex;
   position: absolute;
-  display: inline;
   align-items: center;
-  padding-left: 16px;
+  padding-left: 8px;
   font-weight: bold;
   font-size: larger;
   padding-top: 12px;
