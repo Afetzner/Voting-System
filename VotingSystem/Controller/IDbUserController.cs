@@ -29,7 +29,6 @@
         /// Returns true if the given serial number is already in use in the DB
         /// </summary>
         /// <param name="serial">Serial number to check</param>
-        /// <returns>if serial number is in use</returns>
-        public bool CheckSerial(string serial);
+        public bool IsSerialInUse(string serial);
     }
 }

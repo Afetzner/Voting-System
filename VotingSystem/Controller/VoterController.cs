@@ -158,7 +158,7 @@ password: '{password}'" );
             }
         }
 
-        public bool CheckSerial(string serial)
+        public bool IsSerialInUse(string serial)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {

@@ -1,6 +1,10 @@
 ﻿using System;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+using System.Diagnostics.CodeAnalysis;
+>>>>>>> 7d03c21 (fixed bad procedure variable names, fixed admin controller)
 using MySql.Data.MySqlClient;
 using VotingSystem.Controller;
 using VotingSystem.Model;
@@ -117,36 +121,52 @@ namespace VotingSystem
 >>>>>>> 1caf447 (Big remodel)
 =======
             Console.WriteLine("Testing voter accessor");
+
+            Console.WriteLine("In use (before): " + Voter.DbController.IsSerialInUse("V77124460"));
             Voter.DbController.AddUser(voter);
-            
-            Console.WriteLine(Voter.DbController.CheckSerial("V77124460"));
+            Console.WriteLine("In use after): " + Voter.DbController.IsSerialInUse("V77124460"));
 
             var other = Voter.DbController.GetUser(voter.Username, voter.Password);
             Console.WriteLine($@"u: '{other.Username}', p: '{other.Password}', s: '{other.SerialNumber}', f: '{other.FirstName}', l: '{other.LastName}'");
                 
             Voter.DbController.DeleteUser(voter.SerialNumber);
+            Console.WriteLine("In use (after delete): " + Voter.DbController.IsSerialInUse("V77124460"));
             Console.WriteLine("Done");
 <<<<<<< HEAD
 >>>>>>> 2443d3f (Fixed some procedures/accessors. Added helpful comments for upcomming accessors)
 =======
 
+      
+
+
             var admin = new AdminBuilder()
-                .WithUsername("SarahTheFirst")
-                .WithPassword("D0eN0ADear!")
-                .WithSerialNumber("A77124460")
+                .WithUsername("BillyJoel")
+                .WithPassword("WillyTheKid12#!")
+                .WithSerialNumber("A78885510")
                 .Build();
 
             Console.WriteLine("Testing admin accessor");
+
+            Console.WriteLine("In use (before): " + Admin.DbController.IsSerialInUse("A78885510"));
             Admin.DbController.AddUser(admin);
-            // error with check serial
-            Console.WriteLine(Admin.DbController.CheckSerial("A77124460"));
+            Console.WriteLine("In use (after): " + Admin.DbController.IsSerialInUse("A78885510"));
 
             var other2 = Admin.DbController.GetUser(admin.Username, admin.Password);
             Console.WriteLine($@"u: '{other2.Username}', p: '{other2.Password}', s: '{other2.SerialNumber}'");
 
             Admin.DbController.DeleteUser(admin.SerialNumber);
+            Console.WriteLine("In use (after delete): " + Voter.DbController.IsSerialInUse("A78885510"));
             Console.WriteLine("Done");
+<<<<<<< HEAD
 >>>>>>> 7f03271 (Test for admin accessor but getting sql exceptions with check serial)
+=======
+
+
+            var noone = Admin.DbController.GetUser("notAUsername", "notAPassword");
+            Console.WriteLine(noone.Username, noone.Password, noone.SerialNumber);
+
+
+>>>>>>> 7d03c21 (fixed bad procedure variable names, fixed admin controller)
         }
     }
 }
