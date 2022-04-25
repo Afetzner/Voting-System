@@ -127,7 +127,7 @@ namespace IntegrationTests
             throw new NotImplementedException();
         }
 
-        private static void SelectAdminOption()
+        private static bool SelectAdminOption(bool endOnError = true)
         {
             var admin = new AdminBuilder()
                 .WithSerialNumber("A77777777")
@@ -150,35 +150,60 @@ namespace IntegrationTests
             Console.WriteLine($@"Using admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
            
             Console.Write("Serial in use already? (expect no) ");
-            Console.WriteLine(Admin.DbController.IsSerialInUse(admin.SerialNumber) ? "yes" : "no");
+            var inUse = Admin.DbController.IsSerialInUse(admin.SerialNumber);
+            Console.WriteLine( inUse ? "yes" : "no");
+            if (endOnError & inUse)
+                return false;
+
 
             Console.WriteLine($"Getting admin w/ username '{admin.Username}' and password '{admin.Password}'");
             var fromDb = Admin.DbController.GetUser(admin.Username, admin.Password);
             Console.WriteLine($@"Gotten admin has s: '{fromDb.SerialNumber}', u: '{fromDb.Username}', p:'{fromDb.Password}'");
+            if (endOnError
+                & !string.Equals(admin.SerialNumber, fromDb.SerialNumber)
+                & !string.Equals(admin.Username, fromDb.Username)
+                & !string.Equals(admin.Password, fromDb.Password))
+                return false;
 
 
             Console.WriteLine("Adding...");
             var collision = Admin.DbController.AddUser(admin);
             Console.WriteLine($@"Done. Collision (expect no): {(collision ? "yes" : "no")}");
+            if (endOnError & collision)
+                return false;
 
             Console.Write("Serial now in use? (expect yes) ");
-            Console.WriteLine(Admin.DbController.IsSerialInUse(admin.SerialNumber) ? "yes" : "no");
+            inUse = Admin.DbController.IsSerialInUse(admin.SerialNumber);
+            Console.WriteLine(inUse ? "yes" : "no");
+            if (endOnError & !inUse)
+                return false;
 
             Console.WriteLine("Trying to add duplicate serial:");
             collision = Admin.DbController.AddUser(other1);
             Console.WriteLine($@"Done. Collision (expect yes): {(collision ? "yes" : "no")}");
+            if (endOnError & !collision)
+                return false;
 
             Console.WriteLine("Trying to add duplicate username:");
             collision = Admin.DbController.AddUser(other2);
             Console.WriteLine($@"Done. Collision (expect yes): {(collision ? "yes" : "no")}");
+            if (endOnError & !collision)
+                return false;
 
             Console.WriteLine("Trying to removing admin");
             Admin.DbController.DeleteUser(admin.SerialNumber);
             Console.WriteLine("Done.");
 
             Console.Write("Serial in use after? (expect no) ");
-            Console.WriteLine(Admin.DbController.IsSerialInUse(admin.SerialNumber) ? "yes" : "no");
+            inUse = Admin.DbController.IsSerialInUse(admin.SerialNumber);
+            Console.WriteLine(inUse ? "yes" : "no");
+            if (endOnError & inUse)
+                return false;
 
+            //TODO
+            //Check result of getUser
+
+            return true;
         }
 
         private static void SelectVoterOption()
