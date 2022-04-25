@@ -16,8 +16,12 @@ function FailedSignIn() {
   if (show) {
     return (
       <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+<<<<<<< HEAD
       Incorrect username, email, or password.
 >>>>>>> ae1b665 (Initial commit)
+=======
+        Incorrect username, email, or password.
+>>>>>>> 10e0c32 (Continued work on Vote view)
       </Alert>
     );
   }
@@ -90,17 +94,17 @@ export default function SignIn() {
               </Form.Group>
               <Form.Group className="form-group__check">
                 <Form.Check type="checkbox" label="Remember me"/>
-              </Form.Group>
+                </Form.Group>
               <Form.Group className="form-group__submit">
-                <Button varient="primary" type="submit" onClick={handleSubmit}>Submit</Button>
+                <Button varient="primary" onClick={handleSubmit}>Submit</Button>
               </Form.Group>
               <Form.Text>
                 Must be a registered voter to sign in.<br/>
                 For more information on voter registration, visit <a href="https://vote.gov/">vote.gov</a>
               </Form.Text>
             </Form>
-          </Card.Body>
-        </Card>
+            </Card.Body>
+          </Card>
       </div>
     </>
   );
