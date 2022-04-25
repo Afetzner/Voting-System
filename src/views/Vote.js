@@ -79,6 +79,7 @@ export default function Vote() {
       <PopUp title={"Alert"} show={show} setShow={setShow}>Are you sure?  This cannot be undone.</PopUp>
       <div className="div__vote-selection">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <Card>
           <Card.Body className="card-body__vote-selection">
 <<<<<<< HEAD
@@ -98,6 +99,13 @@ export default function Vote() {
           </Card>
         </Container>
 >>>>>>> a86a343 (Implemented router dom and user drop down menu)
+=======
+        <Card>
+          <Card.Body className="card-body__vote-selection">
+            <Accordion>{polls.map((item, index) => Poll(item, index, setShow))}</Accordion>
+          </Card.Body>
+        </Card>
+>>>>>>> 1842def (Cleaned up syntax, recentered vote view)
       </div>
     </>
   );
