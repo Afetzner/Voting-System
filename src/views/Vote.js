@@ -43,6 +43,7 @@ import Header from "../components/Header";
 import Poll from "../components/Poll";
 import Confirmation from "../components/Confirmation";
 import { Accordion, Card } from "react-bootstrap";
+import { useState } from "react";
 
 const polls = [
   {
@@ -71,19 +72,21 @@ const polls = [
 ];
 
 export default function Vote() {
-  const rows = [];
-  for (let i = 0; i < polls.length; i++) {
-    rows.push(Poll(i, polls[i]));
-  }
+  var [show, setShow] = useState(false);
+
   return (
     <>
       <Header />
-      <Confirmation />
+      <Confirmation show={show} setShow={setShow} />
       <div className="div__vote-selection">
         <Card>
           <Card.Body className="card-body__vote-selection">
+<<<<<<< HEAD
             <Accordion>{rows}</Accordion>
 >>>>>>> ae1b665 (Initial commit)
+=======
+            <Accordion>{polls.map((item, index) => Poll(item, index, setShow))}</Accordion>
+>>>>>>> 880c5f2 (Reafactoring)
           </Card.Body>
         </Card>
       </div>

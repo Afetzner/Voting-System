@@ -9,7 +9,17 @@
   width: 1200px;
   min-width: 10px;
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 =======
 }
 >>>>>>> ae1b665 (Initial commit)
+=======
+}
+
+.card {
+  display: flex;
+  max-width: max-content;
+  min-width: fit-content;
+}
+>>>>>>> 880c5f2 (Reafactoring)

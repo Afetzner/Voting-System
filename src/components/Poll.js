@@ -79,10 +79,18 @@ import { Modal } from "bootstrap";
 import Confirmation from "../components/Confirmation";
 >>>>>>> 10e0c32 (Continued work on Vote view)
 
-export default function Poll(i, poll) {
+export default function Poll(poll, i, props) {
   const [inProgress, setInProgress] = useState(poll.endDate < new Date());
+  const [counted, setCounted] = useState(false);
   const [radioValue, setRadioValue] = useState("");
-  // const [selection, setSelection] = useState("");
+  const [selection, setSelection] = useState("");
+  
+  // const [state, setState] = useState({
+  //   inProgress: (poll.endDate < new Date()),
+  //   counted: true,
+  //   radioValue: "",
+  //   selection: ""
+  // });
 
   // function Result() {
   //   if (!inProgress) {
@@ -106,26 +114,32 @@ export default function Poll(i, poll) {
   //   }
   // }
 
-  function Confirmation() {
-    const [show, setShow] = useState(false);
+  // function Confirmation() {
+  //   const [show, setShow] = useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  //   const handleClose = () => setShow(false);
+  //   const handleShow = () => setShow(true);
 
-    return (
-      <>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header>
-            <Modal.Title>Test</Modal.Title>  
-          </Modal.Header>
-          <Modal.Body>Are you sure?</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>Cancel</Button>
-            <Button variant="primary" onClick={handleClose}>Confirm</Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-    );
+  //   return (
+  //     <>
+  //       <Modal show={show} onHide={handleClose}>
+  //         <Modal.Header>
+  //           <Modal.Title>Test</Modal.Title>  
+  //         </Modal.Header>
+  //         <Modal.Body>Are you sure?</Modal.Body>
+  //         <Modal.Footer>
+  //           <Button variant="secondary" onClick={handleClose}>Cancel</Button>
+  //           <Button variant="primary" onClick={handleClose}>Confirm</Button>
+  //         </Modal.Footer>
+  //       </Modal>
+  //     </>
+  //   );
+  // }
+
+  const handleChange = (e, item) => {
+    setRadioValue(e.currentTarget.value);
+    setSelection(item);
+    console.log(item);
   }
 
   return (
@@ -140,10 +154,14 @@ export default function Poll(i, poll) {
           <strong>{poll.title}</strong>
         </Container>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 880c5f2 (Reafactoring)
         <div className="badges">
           {(counted) ? <Badge bg="primary">Vote Counted</Badge> : undefined}
           {(inProgress) ? <Badge bg="success">In Progress</Badge> : <Badge bg="danger">Ended</Badge>}
         </div>
+<<<<<<< HEAD
       </Accordion.Header>
       <Accordion.Body>
         <Form>
@@ -175,6 +193,8 @@ export default function Poll(i, poll) {
           <Form.Text>{"End Date: " + poll.endDate}</Form.Text>
 =======
         {(inProgress) ? <Badge bg="success">In Progress</Badge> : <Badge bg="danger">Ended</Badge>}
+=======
+>>>>>>> 880c5f2 (Reafactoring)
       </Accordion.Header>
       <Accordion.Body>
         <Form>
@@ -185,12 +205,35 @@ export default function Poll(i, poll) {
           <Form.Group>
             <div className="d-grid gap-2">
               <ButtonGroup vertical>
+<<<<<<< HEAD
                 {poll.choices.map((item, index) => {
                   const value = i + "" + index;
                   return (<ToggleButton key={index} type="radio" variant="outline-primary" value={value} checked={(radioValue === value)} onClick={() => {setRadioValue(value)}} disabled={!inProgress}>{item}</ToggleButton>);
                 })}
               </ButtonGroup>
               <Button variant="success" style={{width: "200px"}} onClick={Confirmation} disabled={!inProgress}>Confirm Selection</Button>
+=======
+                {poll.choices.map((choice, index) => {
+                  const value = `radio-${i}${index}`;
+                  return (<ToggleButton
+                    key={index}
+                    id={value}
+                    type="radio"
+                    variant="outline-primary"
+                    value={value}
+                    checked={(radioValue === value)}
+                    onChange={(e) => handleChange(e, choice)}
+                    disabled={!inProgress || counted}
+                  >{choice}</ToggleButton>);
+                })}
+              </ButtonGroup>
+              <Button
+                className="confirm-button"
+                variant="success"
+                onClick={() => props.setShow(true)}
+                disabled={!inProgress || counted}
+              >Confirm Selection</Button>
+>>>>>>> 237e15b (added files)
             </div>
           </Form.Group>
           <Form.Text>{"End Date: " + poll.endDate}</Form.Text>
