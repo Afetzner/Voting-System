@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\IntegrationTests\\IntegrationTests.csproj": {}
+    "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\IntegrationTests\\IntegrationTests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\IntegrationTests\\IntegrationTests.csproj": {
+    "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\IntegrationTests\\IntegrationTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\IntegrationTests\\IntegrationTests.csproj",
+        "projectUniqueName": "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\IntegrationTests\\IntegrationTests.csproj",
         "projectName": "IntegrationTests",
-        "projectPath": "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\IntegrationTests\\IntegrationTests.csproj",
-        "packagesPath": "C:\\Users\\anfet\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\IntegrationTests\\obj\\",
+        "projectPath": "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\IntegrationTests\\IntegrationTests.csproj",
+        "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\IntegrationTests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\anfet\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +28,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj": {
-                "projectPath": "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj"
+              "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj": {
+                "projectPath": "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj"
               }
             }
           }
@@ -58,21 +58,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj": {
+    "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj",
+        "projectUniqueName": "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj",
         "projectName": "VotingSystem",
-        "projectPath": "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj",
-        "packagesPath": "C:\\Users\\anfet\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\VotingSystem\\obj\\",
+        "projectPath": "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj",
+        "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\VotingSystem\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\anfet\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -118,7 +118,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

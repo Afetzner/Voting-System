@@ -6919,19 +6919,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\anfet\\.nuget\\packages\\": {}
+    "C:\\Users\\Alex\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\UnitTests\\UnitTests.csproj",
+      "projectUniqueName": "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\UnitTests\\UnitTests.csproj",
       "projectName": "UnitTests",
-      "projectPath": "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\UnitTests\\UnitTests.csproj",
-      "packagesPath": "C:\\Users\\anfet\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\UnitTests\\obj\\",
+      "projectPath": "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\UnitTests\\UnitTests.csproj",
+      "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\UnitTests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\anfet\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6945,8 +6945,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj": {
-              "projectPath": "C:\\Users\\anfet\\source\\repos\\Afetzner\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj"
+            "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj": {
+              "projectPath": "C:\\Users\\Alex\\Desktop\\CSCE361_voting_system_group_3\\VotingSystem\\VotingSystem.csproj"
             }
           }
         }
@@ -6993,7 +6993,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
