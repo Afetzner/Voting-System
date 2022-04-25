@@ -16,6 +16,7 @@
 >>>>>>> ae1b665 (Initial commit)
 =======
 }
+<<<<<<< HEAD
 
 .card {
   display: flex;
@@ -33,3 +34,5 @@
 =======
 }
 >>>>>>> 1842def (Cleaned up syntax, recentered vote view)
+=======
+>>>>>>> 81759bd (Added eslint, syntax clean up)

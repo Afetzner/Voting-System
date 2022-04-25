@@ -66,6 +66,7 @@ export default function Poll(poll, i, setShow) {
     setSelection(item);
     console.log(item);
   };
+<<<<<<< HEAD
 
   return (
     <Accordion.Item key={i} eventKey={i}>
@@ -144,6 +145,8 @@ export default function Poll(poll, i, setShow) {
     setSelection(item);
     console.log(item);
   }
+=======
+>>>>>>> 81759bd (Added eslint, syntax clean up)
 
   return (
 <<<<<<< HEAD

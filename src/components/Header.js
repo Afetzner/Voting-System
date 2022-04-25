@@ -80,23 +80,34 @@ import { Button, Container, Navbar } from "react-bootstrap";
 >>>>>>> 10e0c32 (Continued work on Vote view)
 =======
 import { Link } from "react-router-dom";
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Avatar } from "@mui/material";
 >>>>>>> a86a343 (Implemented router dom and user drop down menu)
 
-function stringToColor(string) {
-  /* eslint-disable no-bitwise */
-  let hash = 0;
-  for (let i = 0; i < string.length; i++) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+const color = (name) => {
+  let hash = 0, color = "#";
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
   }
-  let color = '#';
   for (let i = 0; i < 3; i++) {
     const value = (hash >> (i * 8)) & 0xff;
     color += `00${value.toString(16)}`.slice(-2);
   }
-  /* eslint-enable no-bitwise */
   return color;
+};
+
+function UserAvatar(props) {
+  if (props.user === null) {
+    return (
+      <Avatar />
+    );
+  } else {
+    return (
+      <Avatar sx={{bgcolor: color(props.user.firstname + " " + props.user.lastname)}}>
+        {`${props.user.firstname[0]}${props.user.lastname[0]}`}
+      </Avatar>
+    );
+  }
 }
 
 function UserDropdown(props) {
@@ -116,15 +127,23 @@ function UserDropdown(props) {
 =======
     <div className="user">
       <Nav>
-        <Avatar sx={{bgcolor: stringToColor(props.user.firstname + " " + props.user.lastname)}}>
-          {`${props.user.firstname[0]}${props.user.lastname[0]}`}
-        </Avatar>
+        <Container>
+          {(props.user === null) ? 
+          <Link to="/signin">
+            <Button variant="outline-light">Sign In</Button> 
+          </Link>
+          : undefined}
+        </Container>
+        <UserAvatar user={props.user} />
         <Navbar.Collapse>
           <Nav>
-            <NavDropdown align="end" title={props.user.username}>
+            <NavDropdown align="end" title={(props.user === null) ? "" : props.user.username}>
               <NavDropdown.Item>Account Info</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item>Sign Out</NavDropdown.Item>
+              <NavDropdown.Item>About</NavDropdown.Item>
+              <NavDropdown.Item>Enable Dark Mode</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item onClick={() => props.setUser(null)}>Sign Out</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

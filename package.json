@@ -51,11 +51,17 @@
       "last 1 safari version"
     ]
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 81759bd (Added eslint, syntax clean up)
   },
   "devDependencies": {
     "eslint": "^8.14.0",
     "eslint-plugin-react": "^7.29.4"
+<<<<<<< HEAD
 =======
 >>>>>>> ae1b665 (Initial commit)
+=======
+>>>>>>> 81759bd (Added eslint, syntax clean up)
   }
 }

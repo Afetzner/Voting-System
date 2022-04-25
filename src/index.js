@@ -9,6 +9,7 @@ import "./index.css";
 import SignIn from "./views/SignIn";
 import Vote from "./views/Vote";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Layout from "./views/Layout";
 =======
 import "./index.css";
@@ -18,6 +19,9 @@ import Vote from "./views/Vote";
 =======
 import Layout from "./views/Layout"
 >>>>>>> a86a343 (Implemented router dom and user drop down menu)
+=======
+import Layout from "./views/Layout";
+>>>>>>> 81759bd (Added eslint, syntax clean up)
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -32,6 +36,9 @@ root.render(
         <Route path="/" element={<Layout />}>
           <Route index element={<Vote />} />
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 81759bd (Added eslint, syntax clean up)
           <Route path="signin" element={<SignIn />} />
         </Route>
       </Routes>
