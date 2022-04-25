@@ -14,11 +14,15 @@ namespace UnitTests.ModelTests
                 .WithUsername("jdoe16")
                 .WithPassword("Abc$900")
                 .WithSerialNumber("A12345678")
+                .WithFirstName("jane")
+                .WithLastName("doe")
                 .Build();
 
             Assert.AreEqual("jdoe16", admin.Username);
             Assert.AreEqual("Abc$900", admin.Password);
             Assert.AreEqual("A12345678", admin.SerialNumber);
+            Assert.AreEqual("jane", admin.FirstName);
+            Assert.AreEqual("doe", admin.LastName);
         }
 
         [TestMethod]
@@ -39,9 +43,20 @@ namespace UnitTests.ModelTests
             Admin admin = new AdminBuilder()
                 .WithUsername("NoThoughts")
                 .WithPassword("Head3mpty@")
-                .WithSerialNumber("T-1000")
+                .WithSerialNumber("T10006666")
                 .Build();
 
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidBuilderParameterException), "Admin with invalid first name was allowed")]
+        public void AdminBuilderFailureNoFirstName()
+        {
+            Admin admin = new AdminBuilder()
+                .WithUsername("NoThoughts")
+                .WithPassword("Head3mpty@")
+                .WithSerialNumber("T10006666")
+                .Build();
         }
     }
 }
