@@ -55,12 +55,14 @@ namespace VotingSystem
 >>>>>>> 98ec0b5 (minor change)
 =======
             Voter me = new VoterBuilder()
+                .WithUsername("JDoe11")
+                .WithPassword("D0eN0ADear!")
                 .WithLastName("Doe")
                 .WithFirstName("Jane")
-                .WithMiddleName("X")
-                .WithLicenseNumber("A12345678")
+                .WithSerialNumber("A12345678")
                 .Build();
 
+<<<<<<< HEAD
             int myId = 0;
             try
             {
@@ -105,6 +107,8 @@ namespace VotingSystem
             Console.WriteLine("Done!");
 
 >>>>>>> cd543ae (implimented stored procedures)
+=======
+>>>>>>> 1caf447 (Big remodel)
         }
     }
 }

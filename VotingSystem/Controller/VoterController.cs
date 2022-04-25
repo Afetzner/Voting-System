@@ -33,10 +33,7 @@ namespace VotingSystem.Controller
                     cmd.Parameters.AddWithValue("varFirstName", entry.FirstName);
                     cmd.Parameters["@varFirstName"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("varMiddleName", entry.MiddleName);
-                    cmd.Parameters["@varMiddleName"].Direction = ParameterDirection.Input;
-
-                    cmd.Parameters.AddWithValue("varLicenseNumber", entry.LicenseNumber);
+                    cmd.Parameters.AddWithValue("varSerialNumber", entry.SerialNumber);
                     cmd.Parameters["@varLicenseNumber"].Direction = ParameterDirection.Input;
 
                     cmd.Parameters.Add("varVoterId", MySqlDbType.Int32);
@@ -51,8 +48,7 @@ namespace VotingSystem.Controller
                         Console.WriteLine(e + "\nCould not execute SQL procedure 'add_voter' with parameters"
                                             + "\nLastName: " + entry.LastName
                                             + "\nFirstName: " + entry.FirstName
-                                            + "\nMiddleName: " + entry.MiddleName
-                                            + "\nLicenseNumber: " + entry.LicenseNumber);
+                                            + "\nSerialNumber: " + entry.SerialNumber);
                         throw;
                     }
 
@@ -119,10 +115,7 @@ namespace VotingSystem.Controller
                     cmd.Parameters.AddWithValue("varFirstName", voter.FirstName);
                     cmd.Parameters["@varFirstName"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("varMiddleName", voter.MiddleName);
-                    cmd.Parameters["@varMiddleName"].Direction = ParameterDirection.Input;
-
-                    cmd.Parameters.AddWithValue("varLicenseNumber", voter.LicenseNumber);
+                    cmd.Parameters.AddWithValue("varLicenseNumber", voter.SerialNumber);
                     cmd.Parameters["@varLicenseNumber"].Direction = ParameterDirection.Input;
 
                     cmd.Parameters.Add("varVoterId", MySqlDbType.Int32);
@@ -137,8 +130,7 @@ namespace VotingSystem.Controller
                         Console.WriteLine(e + "\nCould not execute SQL procedure 'get_voter_id_from_info' with parameters"
                                             + "\nLastName: " + voter.LastName
                                             + "\nFirstName: " + voter.FirstName
-                                            + "\nMiddleName: " + voter.MiddleName
-                                            + "\nLicenseNumber:" + voter.LicenseNumber);
+                                            + "\nLicenseNumber:" + voter.SerialNumber);
                         throw;
                     }
                     return Convert.ToInt32(cmd.Parameters["varVoterId"].Value);
@@ -173,9 +165,6 @@ namespace VotingSystem.Controller
                     cmd.Parameters.Add("varFirstName", MySqlDbType.VarChar);
                     cmd.Parameters["@varFirstName"].Direction = ParameterDirection.Output;
 
-                    cmd.Parameters.Add("varMiddleName", MySqlDbType.VarChar);
-                    cmd.Parameters["@varMiddleName"].Direction = ParameterDirection.Output;
-
                     cmd.Parameters.Add("varLicenseNumber", MySqlDbType.VarChar);
                     cmd.Parameters["@varLicenseNumber"].Direction = ParameterDirection.Output;
 
@@ -193,8 +182,7 @@ namespace VotingSystem.Controller
                     Voter voter = new VoterBuilder()
                         .WithLastName(Convert.ToString(cmd.Parameters["varLastName"].Value))
                         .WithFirstName(Convert.ToString(cmd.Parameters["varFirstName"].Value))
-                        .WithMiddleName(Convert.ToString(cmd.Parameters["varMiddleName"].Value))
-                        .WithLicenseNumber(Convert.ToString(cmd.Parameters["varLicenseNumber"].Value))
+                        .WithSerialNumber(Convert.ToString(cmd.Parameters["varLicenseNumber"].Value))
                         .Build();
 
                     return voter;

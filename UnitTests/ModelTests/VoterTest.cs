@@ -1,7 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VotingSystem.Model;
+using VotingSystem.Utils;
 
-namespace UnitTesting.TestModel
+namespace UnitTests.ModelTests
 {
     [TestClass]
     public class VoterTest
@@ -10,51 +11,117 @@ namespace UnitTesting.TestModel
         public void VoterBuilderSuccess()
         {
             Voter voter = new VoterBuilder()
+                .WithUsername("jdoe16")
+                .WithPassword("abc/900")
                 .WithFirstName("Jane")
                 .WithLastName("Doe")
-                .WithMiddleName("X")
-                .WithLicenseNumber("A12345678")
+                .WithSerialNumber("A12345678")
                 .Build();
 
+            Assert.AreEqual("jdoe16", voter.Username);
+            Assert.AreEqual("abc/900", voter.Password);
             Assert.AreEqual("Jane", voter.FirstName);
             Assert.AreEqual("Doe", voter.LastName);
-            Assert.AreEqual("X", voter.MiddleName);
-            Assert.AreEqual("A12345678", voter.LicenseNumber);
+            Assert.AreEqual("A12345678", voter.SerialNumber);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidBuilderParameterException), "Voter w/out license num. was allowed")]
-        public void VoterBuilderFailureNullArg()
+        [ExpectedException(typeof(InvalidBuilderParameterException), "Voter w/out first name was allowed")]
+        public void VoterBuilderFailureNullUsername()
         {
             Voter voter = new VoterBuilder()
-                .WithFirstName("Alex")
-                .WithLastName("F")
-                .WithMiddleName("Z")
-                .Build();
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidBuilderParameterException), "Voter with invalid name was allowed")]
-        public void VoterBuilderFailureBadName()
-        {
-            Voter voter = new VoterBuilder()
-                .WithFirstName("Jane1")
-                .WithLastName("Doe")
-                .WithMiddleName("X")
-                .WithLicenseNumber("A12345678")
-                .Build();
-
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidBuilderParameterException), "Voter with invalid name was allowed")]
-        public void VoterBuilderFailureBadLicense()
-        {
-            Voter voter = new VoterBuilder()
+                .WithPassword("abc/900")
                 .WithFirstName("Jane")
                 .WithLastName("Doe")
-                .WithMiddleName("X")
-                .WithLicenseNumber("A1234567")
+                .WithSerialNumber("A12345678")
+                .Build();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidBuilderParameterException), "Voter w/out first name was allowed")]
+        public void VoterBuilderFailureNullPassword()
+        {
+            Voter voter = new VoterBuilder()
+                .WithUsername("jdoe16")
+                .WithFirstName("Jane")
+                .WithLastName("Doe")
+                .WithSerialNumber("A12345678")
+                .Build();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidBuilderParameterException), "Voter w/out first name was allowed")]
+        public void VoterBuilderFailureNullFirst()
+        {
+            Voter voter = new VoterBuilder()
+                .WithUsername("afet001")
+                .WithPassword("000ztef!")
+                .WithLastName("F")
+                .WithSerialNumber("Z98765432")
+                .Build();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidBuilderParameterException), "Voter w/out last name was allowed")]
+        public void VoterBuilderFailureNullLast()
+        {
+            Voter voter = new VoterBuilder()
+                .WithUsername("alex1")
+                .WithPassword("xyz6&r")
+                .WithFirstName("Alex")
+                .WithSerialNumber("T90000123")
+                .Build();
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidBuilderParameterException), "Voter w/out serial num. was allowed")]
+        public void VoterBuilderFailureNullSerial()
+        {
+            Voter voter = new VoterBuilder()
+                .WithUsername("afet001")
+                .WithPassword("000ztef!")
+                .WithFirstName("Alex")
+                .WithLastName("F")
+                .Build();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidBuilderParameterException), "Voter with invalid first name was allowed")]
+        public void VoterBuilderFailureBadFirstName()
+        {
+            Voter voter = new VoterBuilder()
+                .WithUsername("jdoe88")
+                .WithPassword("&defg12")
+                .WithFirstName("Jane1")
+                .WithLastName("Doe")
+                .WithSerialNumber("A12345678")
+                .Build();
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidBuilderParameterException), "Voter with invalid first name was allowed")]
+        public void VoterBuilderFailureBadLastName()
+        {
+            Voter voter = new VoterBuilder()
+                .WithUsername("aDeerNoADoeOhDear")
+                .WithPassword("123#asdfg")
+                .WithFirstName("Jane")
+                .WithLastName("Doe?")
+                .WithSerialNumber("A12345678")
+                .Build();
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidBuilderParameterException), "Voter with invalid serial number was allowed")]
+        public void VoterBuilderFailureBadSerial()
+        {
+            Voter voter = new VoterBuilder()
+                .WithUsername("NoThoughts")
+                .WithPassword("head3mpty@")
+                .WithFirstName("Jane")
+                .WithLastName("Doe")
+                .WithSerialNumber("T-1000")
                 .Build();
 
         }

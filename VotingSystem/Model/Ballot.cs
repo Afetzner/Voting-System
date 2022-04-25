@@ -6,15 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using VotingSystem;
 using VotingSystem.Controller;
+using VotingSystem.Utils;
 
 
 namespace VotingSystem.Model
 {
     public class Ballot
     {
-        public int VoterId { get; }
-        public int ElectionId { get; }
-        public List<CandidateElection> ListBallotVotes { get; }
+        public Voter Voter { get; }
+        public BallotIssue Issue { get; }
+        public BallotIssueOption Choice { get; }
 
         /*when ballot is submitted, how is data processed?
         Each individual vote on each issue must be recorded in the database
@@ -23,15 +24,17 @@ namespace VotingSystem.Model
 
         */
 
-        public Ballot(int voterId, int electionId)
+        public Ballot(Voter voter, BallotIssue issue, BallotIssueOption choice)
         {
-            VoterId = voterId;
-            ElectionId = electionId;
-            ListBallotVotes = null;
+            Voter = voter;
+            Issue = issue;
+            Choice = choice;
         }
     }
 
-        /*access database to retrieve all votes associated witha ballot and return a
+        /* Moot: ballots can now only have one vote
+         
+         * access database to retrieve all votes associated with a ballot and return a
          * List of votes from a particular ballot
         public List<CandidateElection> getBallotVotes(int ballotId, List<CandidateElection> listBallotVotes)
         {
@@ -44,31 +47,40 @@ namespace VotingSystem.Model
 
         public class BallotBuilder
         {
-            public int VoterId = -1;
-            public int ElectionId = -1;
-            public List<CandidateElection> ListBallotVotes = null;
+            public Voter Voter = null;
+            public BallotIssue Issue = null;
+            public BallotIssueOption Choice = null;
+            private bool _inputtedChoice = false;
 
-            public BallotBuilder WithVoter(int voterId)
+            public BallotBuilder WithVoter(Voter voter)
             {
-                VoterId = voterId;
+                Voter = voter;
                 return this;
             }
 
-            public BallotBuilder WithElection(int electionId)
+            public BallotBuilder WithIssue(BallotIssue issue)
             {
-                ElectionId = electionId;
+                Issue = issue;
                 return this;
             }
 
-            public BallotBuilder WithListBallotVotes(List<CandidateElection> listBallotVotes)
+            public BallotBuilder WithChoice(BallotIssueOption choice)
             {
-                ListBallotVotes = listBallotVotes;
+                _inputtedChoice = true;
+                Choice = choice;
                 return this;
             }
 
             public Ballot Build()
             {
-                Ballot ballot = new Ballot(VoterId, ElectionId);
+                if (Voter == null)
+                    throw new InvalidBuilderParameterException("Invalid (Null) BallotVoter");
+                if (Issue == null)
+                    throw new InvalidBuilderParameterException("Invalid (null) BallotIssue");
+                if (!_inputtedChoice)
+                    throw new InvalidBuilderParameterException(
+                        "Invalid choice (Null allowed, but must be inputted: WithChoice(Null))");
+                Ballot ballot = new (Voter, Issue, Choice);
                 return ballot;
             }
         }

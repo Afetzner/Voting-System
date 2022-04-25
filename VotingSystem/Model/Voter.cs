@@ -3,49 +3,58 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Org.BouncyCastle.Bcpg.OpenPgp;
 using VotingSystem;
 using VotingSystem.Controller;
+using VotingSystem.Utils;
 
 namespace VotingSystem.Model
 {
-    public class Voter : IUser
+    public class Voter
     {
+        public string SerialNumber { get; }
+        public string Username { get; }
+        public string Password { get; }
         public string LastName { get; }
         public string FirstName { get; }
-        public string MiddleName { get; }
-        public string LicenseNumber { get; }
 
         public static IDbController<Voter> DbController = new VoterController();
 
-        public Voter(string lastName, string firstName, string middleName, string licenseNumber)
+        public Voter(string username, string password, string lastName, string firstName, string serialNumber)
         {
+            SerialNumber = serialNumber;
+            Username = username;
+            Password = password;
             LastName = lastName;
             FirstName = firstName;
-            MiddleName = middleName;
-            LicenseNumber = licenseNumber;
         }
     }
 
-    //Grabbed from microsoft documentation https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/exceptions/creating-and-throwing-exceptions 
-    [Serializable]
-    public class InvalidBuilderParameterException : Exception
-    {
-        public InvalidBuilderParameterException() : base() { }
-        public InvalidBuilderParameterException(string message) : base(message) { }
-        public InvalidBuilderParameterException(string message, Exception inner) : base(message, inner) { }
-
-        // A constructor is needed for serialization when an
-        // exception propagates from a remoting server to the client.
-        protected InvalidBuilderParameterException(System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
-    }
-    
     public class VoterBuilder
     {
-        public string LastName = null;
-        public string FirstName = null;
-        public string MiddleName = null;
-        public string LicenseNumber = null;
+        public string SerialNumber;
+        public string Username;
+        public string Password;
+        public string LastName;
+        public string FirstName;
+
+        public VoterBuilder WithSerialNumber(string serialNum)
+        {
+            SerialNumber = serialNum;
+            return this;
+        }
+
+        public VoterBuilder WithUsername(string username)
+        {
+            Username = username;
+            return this;
+        }
+
+        public VoterBuilder WithPassword(string password)
+        {
+            Password = password;
+            return this;
+        }
 
         public VoterBuilder WithLastName(string lastName)
         {
@@ -59,30 +68,20 @@ namespace VotingSystem.Model
             return this;
         }
 
-        public VoterBuilder WithMiddleName(string middleName)
-        {
-            MiddleName = middleName;
-            return this;
-        }
-
-        public VoterBuilder WithLicenseNumber(string licenseNumber)
-        {
-            LicenseNumber = licenseNumber;
-            return this;
-        }
-
         public Voter Build()
         {
-            if (!ValidationUtils.IsValidName(LastName))
+            if (!Validation.IsValidSerialNumber(SerialNumber))
+                throw new InvalidBuilderParameterException("Invalid serial number '" + SerialNumber + "'");
+            if (!Validation.IsValidUsername(Username))
+                throw new InvalidBuilderParameterException("Invalid username '" + Username + "'");
+            if (!Validation.IsValidPassword(Password))
+                throw new InvalidBuilderParameterException("Invalid password '" + Password + "'");
+            if (!Validation.IsValidName(LastName))
                 throw new InvalidBuilderParameterException("Invalid last name '" + LastName + "'");
-            if (!ValidationUtils.IsValidName(FirstName))
+            if (!Validation.IsValidName(FirstName))
                 throw new InvalidBuilderParameterException("Invalid first name '" + FirstName + "'");
-            if (String.IsNullOrWhiteSpace(MiddleName))
-                throw new InvalidBuilderParameterException("Middle name cannot be null or white space");
-            if (!ValidationUtils.IsValidLicense(LicenseNumber))
-                throw new InvalidBuilderParameterException("Invalid license number '" + LicenseNumber + "'");
-
-            Voter voter = new Voter(LastName, FirstName, MiddleName, LicenseNumber);
+            
+            Voter voter = new (Username, Password, LastName, FirstName,  SerialNumber);
             return voter;
         }
     }
