@@ -9,8 +9,3 @@
   width: 1200px;
   min-width: 10px;
 }
-
-.card {
-  display: flex;
-  align-items: center;
-}

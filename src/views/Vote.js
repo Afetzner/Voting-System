@@ -1,7 +1,7 @@
 import "./Vote.css";
 import Poll from "../components/Poll";
 import PopUp from "../components/PopUp";
-import { Accordion, Card, Container } from "react-bootstrap";
+import { Accordion, Card } from "react-bootstrap";
 import { useState } from "react";
 
 const polls = [

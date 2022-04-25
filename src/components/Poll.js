@@ -63,7 +63,7 @@ export default function Poll(poll, i, setShow) {
     setRadioValue(e.currentTarget.value);
     setSelection(item);
     console.log(item);
-  }
+  };
 
   return (
     <Accordion.Item key={i} eventKey={i}>
