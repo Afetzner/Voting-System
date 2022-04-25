@@ -3,9 +3,12 @@ import { useState } from "react";
 import { Alert, Button, Form, Card } from "react-bootstrap";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import { Link } from "react-router-dom";
 >>>>>>> a86a343 (Implemented router dom and user drop down menu)
+=======
+>>>>>>> c4663b3 (Implemented router dom and user drop down menu)
 
 function FailedSignIn(props) {
   if (props.show) {
