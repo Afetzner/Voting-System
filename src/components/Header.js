@@ -1,5 +1,6 @@
 import "./Header.css";
 import Logo from "../assets/logo.png";
+<<<<<<< HEAD
 import { Link } from "react-router-dom";
 import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Avatar } from "@mui/material";
@@ -70,6 +71,18 @@ export default function Header(props) {
           </Navbar.Brand>
         </Link>
         <UserDropdown user={props.user} setUser={props.setUser} />
+=======
+import { Container, Navbar } from "react-bootstrap";
+
+export default function Header() {
+  return (
+    <Navbar className="nav-bar" bg="primary" variant="dark">
+      <Container>
+        <Navbar.Brand>
+        <img alt="" src={Logo} width="64px" height="64px"/>
+        <div className="brand-text">Voting System</div>
+        </Navbar.Brand>
+>>>>>>> ae1b665 (Initial commit)
       </Container>
     </Navbar>
   );

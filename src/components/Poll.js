@@ -1,5 +1,6 @@
 import "./Poll.css";
 import React, { useState } from "react";
+<<<<<<< HEAD
 import { Accordion, Badge, Button, ButtonGroup, Container, Form, ProgressBar, ToggleButton } from "react-bootstrap";
 
 export default function Poll(poll, i, setShow) {
@@ -67,10 +68,35 @@ export default function Poll(poll, i, setShow) {
 
   return (
     <Accordion.Item key={i} eventKey={i}>
+=======
+import { Accordion, Badge, Container, ToggleButton, Form } from "react-bootstrap";
+
+
+
+export default function Poll(i, poll) {
+  const [inProgress, setInProgress] = useState(poll.endDate < new Date());
+
+  function Body() {
+    return (
+      <>
+        <Form.Group>
+          <div className="d-grid gap-2">
+            {poll.choices.map((item) => {return (<ToggleButton>{item}</ToggleButton>)})}  
+         </div>
+        </Form.Group>
+        <Form.Text>{"End Date: " + poll.endDate}</Form.Text>
+      </>
+    );
+  }
+
+  return (
+    <Accordion.Item eventKey={i}>
+>>>>>>> ae1b665 (Initial commit)
       <Accordion.Header>
         <Container>
           <strong>{poll.title}</strong>
         </Container>
+<<<<<<< HEAD
         <div className="badges">
           {(counted) ? <Badge bg="primary">Vote Counted</Badge> : undefined}
           {(inProgress) ? <Badge bg="success">In Progress</Badge> : <Badge bg="danger">Ended</Badge>}
@@ -104,8 +130,48 @@ export default function Poll(poll, i, setShow) {
             </div>
           </Form.Group>
           <Form.Text>{"End Date: " + poll.endDate}</Form.Text>
+=======
+        {(inProgress) ? <Badge bg="success">In Progress</Badge> : <Badge bg="danger">Ended</Badge>}
+      </Accordion.Header>
+      <Accordion.Body>
+        <Form>
+          <Body />
+>>>>>>> ae1b665 (Initial commit)
         </Form>
       </Accordion.Body>
     </Accordion.Item>
   );
+<<<<<<< HEAD
+=======
+  
+/*
+  return (
+    <>
+      <Accordion.Item eventKey={i}>
+        <Accordion.Header>
+          <Container>
+            <strong>{poll.title}</strong>
+          </Container>
+          <div className="header-badge">
+            <Container>
+              <Status endDate={poll.endDate}/>
+            </Container>
+          </div>
+        </Accordion.Header>
+        <Accordion.Body>
+          <Form>
+            <Form.Group>
+              <div className="d-grid gap-2">
+                <ToggleButton type="checkbox" varient="primary" checked="false" size="lg">{poll.choice1}</ToggleButton>
+                <ToggleButton type="checkbox" variant="danger" checked="true" size="lg">{poll.choice2}</ToggleButton>
+              </div>
+            </Form.Group>
+            <Form.Text>{"End Date: " + poll.endDate}</Form.Text>
+          </Form>
+        </Accordion.Body>
+      </Accordion.Item>
+    </>
+  );
+  */
+>>>>>>> ae1b665 (Initial commit)
 }
