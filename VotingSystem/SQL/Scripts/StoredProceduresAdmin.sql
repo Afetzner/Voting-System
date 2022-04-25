@@ -58,5 +58,4 @@ BEGIN
 	SET `occupied` = EXISTS (SELECT 1 FROM admin WHERE serial_number = `serialNumber`);
 END
 $$
-
 DELIMITER ;

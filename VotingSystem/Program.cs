@@ -126,7 +126,27 @@ namespace VotingSystem
                 
             Voter.DbController.DeleteUser(voter.SerialNumber);
             Console.WriteLine("Done");
+<<<<<<< HEAD
 >>>>>>> 2443d3f (Fixed some procedures/accessors. Added helpful comments for upcomming accessors)
+=======
+
+            var admin = new AdminBuilder()
+                .WithUsername("SarahTheFirst")
+                .WithPassword("D0eN0ADear!")
+                .WithSerialNumber("A77124460")
+                .Build();
+
+            Console.WriteLine("Testing admin accessor");
+            Admin.DbController.AddUser(admin);
+            // error with check serial
+            Console.WriteLine(Admin.DbController.CheckSerial("A77124460"));
+
+            var other2 = Admin.DbController.GetUser(admin.Username, admin.Password);
+            Console.WriteLine($@"u: '{other2.Username}', p: '{other2.Password}', s: '{other2.SerialNumber}'");
+
+            Admin.DbController.DeleteUser(admin.SerialNumber);
+            Console.WriteLine("Done");
+>>>>>>> 7f03271 (Test for admin accessor but getting sql exceptions with check serial)
         }
     }
 }
