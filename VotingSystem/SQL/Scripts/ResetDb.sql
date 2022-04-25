@@ -1,62 +1,68 @@
 use afetzner;
 
-DROP TABLE IF EXISTS tab_ballot;
-DROP TABLE IF EXISTS tab_ballot_issue_option;
-DROP TABLE IF EXISTS tab_ballot_issue;
-DROP TABLE IF EXISTS tab_voter;
-DROP TABLE IF EXISTS tab_admin;
-DROP TABLE IF EXISTS tab_user;
+DROP TABLE IF EXISTS ballot;
+DROP TABLE IF EXISTS ballot_issue_option;
+DROP TABLE IF EXISTS ballot_issue;
+DROP TABLE IF EXISTS voter;
+DROP TABLE IF EXISTS admin;
+DROP TABLE IF EXISTS user;
 
-CREATE TABLE tab_user (
+CREATE TABLE user (
 	user_id int auto_increment,
-    username varchar(31) NOT NULL,
+    username varchar(31) NOT NULL UNIQUE,
     password varchar(31) NOT NULL,
     PRIMARY KEY (user_id)
 );
 
-CREATE TABLE tab_admin (
+CREATE TABLE admin (
 	admin_id int auto_increment,
     user_id int,
     serial_number varchar(9) NOT NULL UNIQUE,
     PRIMARY KEY (admin_id),
-    FOREIGN KEY (user_id) REFERENCES tab_user(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
-CREATE TABLE tab_voter (
+CREATE TABLE voter (
 	voter_id int auto_increment,
     user_id int,
     serial_number varchar(9) NOT NULL UNIQUE,
     first_name varchar(31) NOT NULL,
     last_name varchar(31) NOT NULL,
     PRIMARY KEY (voter_id),
-    FOREIGN KEY (user_id) REFERENCES tab_user(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
-CREATE TABLE tab_ballot_issue (
+CREATE TABLE issue (
 	issue_id int auto_increment,
     serial_number varchar(9) NOT NULL UNIQUE,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-    title varchar(127) NOT NULL,
+    title varchar(127) NOT NULL UNIQUE,
     description varchar(255) NOT NULL,
     PRIMARY KEY(issue_id)
 );
 
-CREATE TABLE tab_ballot_issue_option (
+CREATE TABLE issue_option (
 	option_id int auto_increment,
     option_number int NOT NULL,
-    title varchar(127) NOT NULL,
-    PRIMARY KEY (option_id)
+    title varchar(127) NOT NULL UNIQUE,
+    issue_id int,
+    issue_serial varchar(9),
+    PRIMARY KEY (option_id),
+    FOREIGN KEY (issue_id) REFERENCES issue(issue_id)
 );
 
-CREATE TABLE tab_ballot (
+CREATE TABLE ballot (
 	ballot_id int auto_increment,
-    serial_number varchar(9) NOT NULL UNIQUE,
-    voter int,
-    issue int,
-    choice int,
+    ballot_serial_number varchar(9) NOT NULL UNIQUE,
+    voter_serial_number varchar(9) NOT NULL,
+    issue_serial_number varchar(9) NOT NULL,
+    choice_number int,
+    voter_id int,
+    issue_id int,
+    choice_id int,
     PRIMARY KEY (ballot_id),
-    FOREIGN KEY (voter) REFERENCES tab_voter(voter_id),
-    FOREIGN KEY (issue) REFERENCES tab_ballot_issue(issue_id),
-    FOREIGN KEY (choice) REFERENCES tab_ballot_issue_option(option_id)
+    FOREIGN KEY (voter_id) REFERENCES voter(voter_id),
+    FOREIGN KEY (issue_id) REFERENCES issue(issue_id),
+    FOREIGN KEY (choice_id) REFERENCES issue_option(option_id)
 );
