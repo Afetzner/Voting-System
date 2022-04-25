@@ -10,7 +10,11 @@ Voter table:
 */
 DELIMITER //
 DROP PROCEDURE IF EXISTS afetzner.add_voter;
+<<<<<<< HEAD
 DROP PROCEDURE IF EXISTS afetzner.remove_voter;
+=======
+DROP PROCEDURE IF EXISTS afetzner.delete_voter;
+>>>>>>> 98ec0b5 (minor change)
 DROP PROCEDURE IF EXISTS afetzner.get_voter_info_from_id;
 DROP PROCEDURE IF EXISTS afetzner.get_voter_id_from_info;
 //
@@ -28,7 +32,11 @@ BEGIN
 END 
 //
 	
+<<<<<<< HEAD
 CREATE PROCEDURE afetzner.remove_voter (
+=======
+CREATE PROCEDURE afetzner.delete_voter (
+>>>>>>> 98ec0b5 (minor change)
 		IN VoterId int)
 	DELETE FROM VOTER WHERE VOTER.VoterId = VoterId;
 //

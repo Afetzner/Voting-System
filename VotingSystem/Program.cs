@@ -40,9 +40,12 @@ namespace VotingSystem
             
 =======
             Console.WriteLine("Hello World!");
+<<<<<<< HEAD
             Console.WriteLine(ValidationUtils.IsValidDate("2999-12-31"));
             Console.WriteLine(ValidationUtils.IsValidDate("2000-01-01"));
 >>>>>>> 2149257 (added validateDate tests)
+=======
+>>>>>>> 98ec0b5 (minor change)
         }
     }
 }
