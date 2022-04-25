@@ -3,10 +3,6 @@
 }
 
 .brand-text {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 1842def (Cleaned up syntax, recentered vote view)
   display: inline-flex;
   position: absolute;
   align-items: center;
@@ -22,23 +18,3 @@
   font-weight: bold;
   font-size: large;
 }
-=======
-  position: absolute;
-  display: inline;
-  align-items: center;
-  padding-left: 16px;
-  font-weight: bold;
-  font-size: larger;
-  padding-top: 12px;
-}
-<<<<<<< HEAD
->>>>>>> ae1b665 (Initial commit)
-=======
-
-.user {
-  display: inline-flex;
-  align-items: center;
-  font-weight: bold;
-  font-size: large;
-}
->>>>>>> a86a343 (Implemented router dom and user drop down menu)

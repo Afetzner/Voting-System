@@ -8,31 +8,4 @@
 .card-body__vote-selection {
   width: 1200px;
   min-width: 10px;
-<<<<<<< HEAD
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> ae1b665 (Initial commit)
-=======
-}
-<<<<<<< HEAD
-
-.card {
-  display: flex;
-<<<<<<< HEAD
-  max-width: max-content;
-  min-width: fit-content;
-}
->>>>>>> 880c5f2 (Reafactoring)
-=======
-  align-items: center;
-<<<<<<< HEAD
-  width: fit-content;
-}
->>>>>>> a86a343 (Implemented router dom and user drop down menu)
-=======
-}
->>>>>>> 1842def (Cleaned up syntax, recentered vote view)
-=======
->>>>>>> 81759bd (Added eslint, syntax clean up)
