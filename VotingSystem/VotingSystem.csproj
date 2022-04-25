@@ -5,6 +5,7 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+<<<<<<< HEAD
   <ItemGroup>
     <Compile Remove="View\**" />
     <EmbeddedResource Remove="View\**" />
@@ -18,6 +19,9 @@
 		</Reference>
 	</ItemGroup>
 =======
+=======
+
+>>>>>>> 25eeb9c (integration tests for db)
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.28" />
   </ItemGroup>

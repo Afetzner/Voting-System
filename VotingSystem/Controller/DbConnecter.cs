@@ -3,7 +3,7 @@ using MySql.Data.MySqlClient;
 
 namespace VotingSystem.Controller
 {
-    internal class DbConnecter
+    public class DbConnecter
     {
 
         private static readonly MySqlConnectionStringBuilder ConnstrBuilder = new ()
