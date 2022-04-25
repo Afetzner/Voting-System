@@ -22,6 +22,7 @@ namespace VotingSystem
         {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             Voter me = new VoterBuilder()
                 .WithLastName("Fetz")
                 .WithFirstName("Alex")
@@ -56,12 +57,17 @@ namespace VotingSystem
 =======
             Voter me = new VoterBuilder()
                 .WithUsername("JDoe11")
+=======
+            var voter = new VoterBuilder()
+                .WithUsername("SarahTheFirst")
+>>>>>>> 2443d3f (Fixed some procedures/accessors. Added helpful comments for upcomming accessors)
                 .WithPassword("D0eN0ADear!")
-                .WithLastName("Doe")
-                .WithFirstName("Jane")
-                .WithSerialNumber("A12345678")
+                .WithLastName("Sandra")
+                .WithFirstName("Sarah")
+                .WithSerialNumber("V77124460")
                 .Build();
 
+<<<<<<< HEAD
 <<<<<<< HEAD
             int myId = 0;
             try
@@ -109,6 +115,18 @@ namespace VotingSystem
 >>>>>>> cd543ae (implimented stored procedures)
 =======
 >>>>>>> 1caf447 (Big remodel)
+=======
+            Console.WriteLine("Testing voter accessor");
+            Voter.DbController.AddUser(voter);
+            
+            Console.WriteLine(Voter.DbController.CheckSerial("V77124460"));
+
+            var other = Voter.DbController.GetUser(voter.Username, voter.Password);
+            Console.WriteLine($@"u: '{other.Username}', p: '{other.Password}', s: '{other.SerialNumber}', f: '{other.FirstName}', l: '{other.LastName}'");
+                
+            Voter.DbController.DeleteUser(voter.SerialNumber);
+            Console.WriteLine("Done");
+>>>>>>> 2443d3f (Fixed some procedures/accessors. Added helpful comments for upcomming accessors)
         }
     }
 }

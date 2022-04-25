@@ -7,7 +7,7 @@ namespace VotingSystem.Controller
 {
     public class BallotIssueOptionController
     {
-        public int AddIssueOption(BallotIssueOption entry)
+        public int AddEntry(BallotIssueOption entry)
         {
 
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
@@ -24,15 +24,12 @@ namespace VotingSystem.Controller
 
                 using (var cmd = new MySqlCommand("add_issue_option", conn))
                 {
-                    //  TO DO:adding issue serial number?
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("varIssueSerialNumber", entry.IssueSerialNumber);
-                    cmd.Parameters["@varIssueSerialNumber"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("varTitle", entry.Title);
+                    cmd.Parameters.AddWithValue("title", entry.Title);
                     cmd.Parameters["@varTitle"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("varNumber", entry.Number);
+                    cmd.Parameters.AddWithValue("number", entry.Number);
                     cmd.Parameters["@varNumber"].Direction = ParameterDirection.Output;
 
                     cmd.Parameters.Add("varOptionId", MySqlDbType.Int32);
@@ -45,7 +42,7 @@ namespace VotingSystem.Controller
                     catch (MySqlException e)
                     {
                         Console.WriteLine(e + "\nCould not execute SQL procedure 'add_voter' with parameters"
-                                            + "\nSerialNumber: " + entry.IssueSerialNumber
+                                            + "\nSerialNumber: " 
                                             + "\nTitle: " + entry.Title
                                             + "\nNumber: " + entry.Number);
                         throw;

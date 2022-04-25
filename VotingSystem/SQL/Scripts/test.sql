@@ -29,7 +29,7 @@ SELECT @collision;
 
 select * from afetzner.ballot;
 
-	SELECT EXISTS (SELECT 1 FROM afetzner.ballot WHERE voter_serial_number = 'tvs' AND issue_serial_number = 'tis' LIMIT 1) INTO @collision;
+	SELECT EXISTS (SELECT 1 FROM afetzner.ballot WHERE voter_serial_number = 'V12399874' AND issue_serial_number = 'I78955500' LIMIT 1) INTO @collision;
     SELECT @collision;
     
     INSERT INTO afetzner.ballot 
@@ -51,7 +51,21 @@ select * from afetzner.ballot;
 	-- Protects against multiple ballots from one voter being entered on any issue? Needs testing
     WHERE NOT @collision;
     
-select * from afetzner.ballot;
+select * from afetzner.user;
 
-insert into afetzner.ballot (ballot_id, ballot_serial_number, voter_serial_number, issue_serial_number, choice_number, voter_id, issue_id, choice_id)
-values (null, 'bsn', 'vsn', 'isn', 1, 101, 102, 103);
+select * from afetzner.voter;
+
+	DELETE voter, user, ballot
+    FROM voter 
+    LEFT JOIN user ON voter.user_id = user.user_id
+    LEFT JOIN ballot ON voter.voter_id = ballot.voter_id
+    WHERE voter.serial_number = 'V77124460';
+    
+    SELECT * FROM afetzner.voter where voter.serial_number = 'V77124460';
+    
+    	SELECT *
+    FROM voter 
+    LEFT JOIN user ON voter.user_id = user.user_id
+    LEFT JOIN ballot ON voter.voter_id = ballot.voter_id
+    WHERE voter.serial_number = 'V77124460';
+    

@@ -11,7 +11,7 @@ namespace VotingSystem.Model
         public string LastName { get; }
         public string FirstName { get; }
 
-        public static IDbController<Voter> DbController = new VoterController();
+        public static readonly IDbUserController<Voter> DbController = new VoterController();
 
         public Voter(string username, string password, string lastName, string firstName, string serialNumber)
         {

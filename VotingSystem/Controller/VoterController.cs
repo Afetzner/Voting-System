@@ -5,9 +5,9 @@ using VotingSystem.Model;
 
 namespace VotingSystem.Controller
 {
-    public class VoterController : IDbController<Voter>
+    public class VoterController : IDbUserController<Voter>
     {
-        public int AddEntry(Voter entry)
+        public bool AddUser(Voter voter)
         {
 
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
@@ -18,24 +18,30 @@ namespace VotingSystem.Controller
                 }
                 catch (MySqlException e)
                 {
-                    Console.WriteLine(e + "Could not connect to database");
+                    Console.WriteLine(e + "\nCould not connect to database");
                     throw;
                 }
 
                 using (var cmd = new MySqlCommand("add_voter", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("varLastName", entry.LastName);
-                    cmd.Parameters["@varLastName"].Direction = ParameterDirection.Input;
+                    cmd.Parameters.AddWithValue("v_username", voter.Username);
+                    cmd.Parameters["@v_username"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("varFirstName", entry.FirstName);
-                    cmd.Parameters["@varFirstName"].Direction = ParameterDirection.Input;
+                    cmd.Parameters.AddWithValue("v_password", voter.Password);
+                    cmd.Parameters["@v_password"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("varSerialNumber", entry.SerialNumber);
-                    cmd.Parameters["@varLicenseNumber"].Direction = ParameterDirection.Input;
+                    cmd.Parameters.AddWithValue("v_firstName", voter.FirstName);
+                    cmd.Parameters["@v_firstName"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.Add("varVoterId", MySqlDbType.Int32);
-                    cmd.Parameters["@varVoterId"].Direction = ParameterDirection.Output;
+                    cmd.Parameters.AddWithValue("v_lastName", voter.LastName);
+                    cmd.Parameters["@v_lastName"].Direction = ParameterDirection.Input;
+
+                    cmd.Parameters.AddWithValue("v_serialNumber", voter.SerialNumber);
+                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+
+                    cmd.Parameters.Add("v_collision", MySqlDbType.Byte);
+                    cmd.Parameters["@v_collision"].Direction = ParameterDirection.Output;
 
                     try
                     {
@@ -43,19 +49,23 @@ namespace VotingSystem.Controller
                     }
                     catch (MySqlException e)
                     {
-                        Console.WriteLine(e + "\nCould not execute SQL procedure 'add_voter' with parameters"
-                                            + "\nLastName: " + entry.LastName
-                                            + "\nFirstName: " + entry.FirstName
-                                            + "\nSerialNumber: " + entry.SerialNumber);
+                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'add_voter' with parameters:
+username: '{voter.Username}', 
+password: '{voter.Password}', 
+firstName: '{voter.FirstName}',
+lastName: '{voter.LastName}', 
+serialNumber: '{voter.SerialNumber}' 
+(Probably a duplicate serial number)");
+
                         throw;
                     }
 
-                    return Convert.ToInt32(cmd.Parameters["varVoterId"].Value);
+                    return Convert.ToBoolean(cmd.Parameters["v_collision"].Value);
                 }
             }
         }
 
-        public void DeleteEntry(int voterId)
+        public void DeleteUser(string serial)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
@@ -65,31 +75,32 @@ namespace VotingSystem.Controller
                 }
                 catch (MySqlException e)
                 {
-                    Console.WriteLine(e + "Could not connect to database");
+                    Console.WriteLine(e + "\nCould not connect to database");
                     throw;
                 }
 
                 using (var cmd = new MySqlCommand("delete_voter", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("varVoterId", voterId);
-                    cmd.Parameters["@varVoterId"].Direction = ParameterDirection.Input;
-
+                    cmd.Parameters.AddWithValue("v_serialNumber", serial);
+                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+                    
                     try
                     {
                         cmd.ExecuteNonQuery();
                     }
                     catch (MySqlException e)
                     {
-                        Console.WriteLine(e + "\nCould not execute SQL procedure 'delete_voter' with parameters"
-                                            + "\nVoterId: " + voterId);
+                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'remove_voter' with parameters: 
+serialNumber: '{serial}'");
+
                         throw;
                     }
                 }
             }
         }
-        
-        public int GetId(Voter voter)
+
+        public Voter GetUser(string username, string password)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
@@ -99,25 +110,27 @@ namespace VotingSystem.Controller
                 }
                 catch (MySqlException e)
                 {
-                    Console.WriteLine(e + "Could not connect to database");
+                    Console.WriteLine(e + "\nCould not connect to database");
                     throw;
                 }
 
-                using (var cmd = new MySqlCommand("get_voter_id_from_info", conn))
+                using (var cmd = new MySqlCommand("get_voter", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("v_username", username);
+                    cmd.Parameters["@v_username"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("varLastName", voter.LastName);
-                    cmd.Parameters["@varLastName"].Direction = ParameterDirection.Input;
+                    cmd.Parameters.AddWithValue("v_password", password);
+                    cmd.Parameters["@v_password"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("varFirstName", voter.FirstName);
-                    cmd.Parameters["@varFirstName"].Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add("v_firstName", MySqlDbType.VarChar);
+                    cmd.Parameters["@v_firstName"].Direction = ParameterDirection.Output;
 
-                    cmd.Parameters.AddWithValue("varLicenseNumber", voter.SerialNumber);
-                    cmd.Parameters["@varLicenseNumber"].Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add("v_lastName", MySqlDbType.VarChar);
+                    cmd.Parameters["@v_lastName"].Direction = ParameterDirection.Output;
 
-                    cmd.Parameters.Add("varVoterId", MySqlDbType.Int32);
-                    cmd.Parameters["@varVoterId"].Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("v_serialNumber", MySqlDbType.VarChar);
+                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Output;
 
                     try
                     {
@@ -125,67 +138,65 @@ namespace VotingSystem.Controller
                     }
                     catch (MySqlException e)
                     {
-                        Console.WriteLine(e + "\nCould not execute SQL procedure 'get_voter_id_from_info' with parameters"
-                                            + "\nLastName: " + voter.LastName
-                                            + "\nFirstName: " + voter.FirstName
-                                            + "\nLicenseNumber:" + voter.SerialNumber);
-                        throw;
-                    }
-                    return Convert.ToInt32(cmd.Parameters["varVoterId"].Value);
-                }
-            }
-        }
+                        Console.WriteLine(e + "\n" + $@"\nCould not execute SQL procedure 'get_voter' with parameters:
+username: '{username}', 
+password: '{password}'" );
 
-        public Voter GetInfo(int voterId)
-        {
-            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
-            {
-                try
-                {
-                    conn.Open();
-                }
-                catch (MySqlException e)
-                {
-                    Console.WriteLine(e + "Could not connect to database");
-                    throw;
-                }
-
-                using (var cmd = new MySqlCommand("get_voter_info_from_id", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("varVoterId", voterId);
-                    cmd.Parameters["@varVoterId"].Direction = ParameterDirection.Input;
-
-                    cmd.Parameters.Add("varLastName", MySqlDbType.VarChar);
-                    cmd.Parameters["@varLastName"].Direction = ParameterDirection.Output;
-
-                    cmd.Parameters.Add("varFirstName", MySqlDbType.VarChar);
-                    cmd.Parameters["@varFirstName"].Direction = ParameterDirection.Output;
-
-                    cmd.Parameters.Add("varLicenseNumber", MySqlDbType.VarChar);
-                    cmd.Parameters["@varLicenseNumber"].Direction = ParameterDirection.Output;
-
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (MySqlException e)
-                    {
-                        Console.WriteLine(e + "\nCould not execute SQL procedure 'get_voter_id_from_info' with parameters"
-                                            + "\nVoterId: " + voterId);
                         throw;
                     }
 
                     var voter = new VoterBuilder()
-                        .WithLastName(Convert.ToString(cmd.Parameters["varLastName"].Value))
-                        .WithFirstName(Convert.ToString(cmd.Parameters["varFirstName"].Value))
-                        .WithSerialNumber(Convert.ToString(cmd.Parameters["varLicenseNumber"].Value))
+                        .WithUsername(username)
+                        .WithPassword(password)
+                        .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
+                        .WithLastName(Convert.ToString(cmd.Parameters["v_lastName"].Value))
+                        .WithSerialNumber(Convert.ToString(cmd.Parameters["v_SerialNumber"].Value))
                         .Build();
 
                     return voter;
                 }
             }
         }
+
+        public bool CheckSerial(string serial)
+        {
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine(e + "\nCould not connect to database");
+                    throw;
+                }
+
+                using (var cmd = new MySqlCommand("check_voter_serial", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("v_serialNumber", serial);
+                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+
+                    cmd.Parameters.Add("v_occupied", MySqlDbType.Byte);
+                    cmd.Parameters["@v_occupied"].Direction = ParameterDirection.Output;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (MySqlException e)
+                    {
+                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'check_voter_serial' with parameters: 
+serialNumber: '{serial}'");
+
+                        throw;
+                    }
+
+                    return Convert.ToBoolean(cmd.Parameters["v_occupied"].Value);
+                }
+            }
+        }
+
     }
 }
