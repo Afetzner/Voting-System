@@ -11,5 +11,9 @@ namespace VotingSystem.Model
         public string SerialNumber { get; }
         public string Username { get; }
         public string Password { get; }
+        public string LastName { get; }
+        public string FirstName { get; }
+
+        public static bool IsAdmin;
     }
 }

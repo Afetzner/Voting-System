@@ -8,14 +8,21 @@ namespace VotingSystem.Model
         public string SerialNumber { get; }
         public string Username { get; }
         public string Password { get; }
+        public string FirstName { get; }
+        public string LastName { get; }
+
+
+        public static bool IsAdmin = true;
 
         public static readonly IDbUserController<Admin> DbController = new AdminController();
 
-        public Admin(string serialNum, string username, string password)
+        public Admin(string serialNum, string username, string password, string firstName, string lastName)
         {
             SerialNumber = serialNum;
             Username = username;
             Password = password;
+            FirstName = firstName;
+            LastName = lastName;
         }
     }
 
@@ -24,6 +31,8 @@ namespace VotingSystem.Model
         public string SerialNumber; 
         public string Username; 
         public string Password;
+        public string FirstName;
+        public string LastName;
 
         public AdminBuilder WithSerialNumber(string serialNum) 
         { 
@@ -42,6 +51,18 @@ namespace VotingSystem.Model
             Password = password; 
             return this;
         }
+
+        public AdminBuilder WithFirstName(string firstName)
+        {
+            FirstName = firstName;
+            return this;
+        }
+
+        public AdminBuilder WithLastName(string lastName)
+        {
+            LastName = lastName;
+            return this;
+        }
         
         public Admin Build() 
         { 
@@ -51,8 +72,11 @@ namespace VotingSystem.Model
                 throw new InvalidBuilderParameterException("Invalid username '" + Username + "'");
             if (!Validation.IsValidPassword(Password)) 
                 throw new InvalidBuilderParameterException("Invalid password '" + Password + "'");
-
-            Admin admin = new(SerialNumber, Username, Password); 
+            if (!Validation.IsValidName(FirstName))
+                throw new InvalidBuilderParameterException("Invalid first name '" + FirstName + "'");
+            if (!Validation.IsValidName(LastName))
+                throw new InvalidBuilderParameterException("Invalid last name '" + LastName + "'");
+            Admin admin = new(SerialNumber, Username, Password, FirstName, LastName); 
             return admin;
         }
     }

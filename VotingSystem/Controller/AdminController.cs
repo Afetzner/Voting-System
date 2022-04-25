@@ -34,6 +34,12 @@ namespace VotingSystem.Controller
                     cmd.Parameters.AddWithValue("v_serialNumber", admin.SerialNumber);
                     cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
 
+                    cmd.Parameters.AddWithValue("v_firstName", admin.FirstName);
+                    cmd.Parameters["@v_firstName"].Direction = ParameterDirection.Input;
+
+                    cmd.Parameters.AddWithValue("v_lastName", admin.FirstName);
+                    cmd.Parameters["@v_lastName"].Direction = ParameterDirection.Input;
+
                     cmd.Parameters.Add("v_collision", MySqlDbType.Byte);
                     cmd.Parameters["@v_collision"].Direction = ParameterDirection.Output;
 
@@ -46,6 +52,8 @@ namespace VotingSystem.Controller
                         Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'add_admin' with parameters:
 username: '{admin.Username}', 
 password: '{admin.Password}', 
+firstname: '{admin.FirstName}',
+lastname: '{admin.LastName},
 serialNumber: '{admin.SerialNumber}' 
 (Probably a duplicate serial number)");
 
@@ -118,6 +126,12 @@ serialNumber: '{serial}'");
                     cmd.Parameters.Add("v_serialNumber", MySqlDbType.VarChar);
                     cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Output;
 
+                    cmd.Parameters.Add("v_firstName", MySqlDbType.VarChar);
+                    cmd.Parameters["@v_firstName"].Direction = ParameterDirection.Output;
+
+                    cmd.Parameters.Add("v_lastName", MySqlDbType.VarChar);
+                    cmd.Parameters["@v_lastName"].Direction = ParameterDirection.Output;
+
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -134,7 +148,9 @@ password: '{password}'");
                     var admin = new AdminBuilder()
                         .WithUsername(username)
                         .WithPassword(password)
-                        .WithSerialNumber(Convert.ToString(cmd.Parameters["v_SerialNumber"].Value))
+                        .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
+                        .WithLastName(Convert.ToString(cmd.Parameters["v_lastName"].Value))
+                        .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
                         .Build();
 
                     return admin;

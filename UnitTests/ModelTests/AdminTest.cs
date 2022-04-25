@@ -13,10 +13,14 @@ namespace UnitTests.ModelTests
             Admin admin = new AdminBuilder()
                 .WithUsername("jdoe16")
                 .WithPassword("Abc$900")
+                .WithFirstName("jane")
+                .WithLastName("doe")
                 .WithSerialNumber("A12345678")
                 .Build();
 
             Assert.AreEqual("jdoe16", admin.Username);
+            Assert.AreEqual("jane", admin.FirstName);
+            Assert.AreEqual("doe", admin.LastName);
             Assert.AreEqual("Abc$900", admin.Password);
             Assert.AreEqual("A12345678", admin.SerialNumber);
         }
