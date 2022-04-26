@@ -1,3 +1,4 @@
+using VotingSystem.Controller;
 using VotingSystem.Utils;
 
 
@@ -9,12 +10,7 @@ namespace VotingSystem.Model
         public BallotIssue Issue { get; }
         public BallotIssueOption Choice { get; }
 
-        /*when ballot is submitted, how is data processed?
-        Each individual vote on each issue must be recorded in the database
-        but only after the voter has reviewed and hit the final "submit" 
-        button
-
-        */
+        public static BallotIssueController Controller = new ();
 
         public Ballot(Voter voter, BallotIssue issue, BallotIssueOption choice)
         {
@@ -23,19 +19,6 @@ namespace VotingSystem.Model
             Choice = choice;
         }
     }
-
-        /* Moot: ballots can now only have one vote
-         
-         * access database to retrieve all votes associated with a ballot and return a
-         * List of votes from a particular ballot
-        public List<CandidateElection> getBallotVotes(int ballotId, List<CandidateElection> listBallotVotes)
-        {
-            for ( )
-            {
-                ListBallotVotes.Add()
-            }
-        }
-        */
 
         public class BallotBuilder
         {

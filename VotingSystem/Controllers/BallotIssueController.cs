@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using System.Data;
 using VotingSystem.Model;
+using VotingSystem.Utils;
 
 namespace VotingSystem.Controller
 {
-    class BallotIssueController : IDbBallotIssueController
+    public class BallotIssueController
     {
+        /// <summary>
+        /// Adds an issue and its options to the DB
+        /// </summary>
+        /// <param name="issue">Issue to be added</param>
+        /// <returns>false on serial number/title collision</returns>
+        /// <exception cref="MySqlException">Bad connection to DB</exception>
         public bool AddIssue(BallotIssue issue)
         {
             bool collision1 = false;
@@ -98,6 +105,11 @@ namespace VotingSystem.Controller
             return (collision1 || collision2); //returns fasle (as in, "no collisions" - desired result) only if both are false
         }
 
+        /// <summary>
+        /// Removes an issue and its options from the DB
+        /// </summary>
+        /// <param name="serial">Serial number of issue</param>
+        /// <exception cref="MySqlException">Bad connection to DB</exception>
         public void RemoveIssue(string serial)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
@@ -133,6 +145,11 @@ namespace VotingSystem.Controller
             }
         }
 
+        /// <summary>
+        /// Gets all the ballot issue (and their options) from the DB
+        /// </summary>
+        /// <exception cref="MySqlException">Bad connection to DB</exception>
+        /// <exception cref="InvalidBuilderParameterException">Corrupt data from DB</exception>
         public List<BallotIssue> GetBallotIssues()
         {
             List<BallotIssue> ballotIssueList = new List<BallotIssue>();
@@ -236,5 +253,47 @@ namespace VotingSystem.Controller
             //return issues
             return ballotIssueList;
         }
+
+        public bool IsSerialInUse(string serial)
+        {
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine(e + "\nCould not connect to database");
+                    throw;
+                }
+
+                using (var cmd = new MySqlCommand("check_issue_serial", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("v_serialNumber", serial);
+                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+
+                    cmd.Parameters.Add("v_occupied", MySqlDbType.Byte);
+                    cmd.Parameters["@v_occupied"].Direction = ParameterDirection.Output;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (MySqlException e)
+                    {
+                        Console.WriteLine(e + "\n" +
+                                          $@"Could not execute SQL procedure 'check_issue_serial' with parameters: 
+serialNumber: '{serial}'");
+
+                        throw;
+                    }
+
+                    return Convert.ToBoolean(cmd.Parameters["v_occupied"].Value);
+                }
+            }
+        }
+
     }
 }
