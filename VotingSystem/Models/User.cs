@@ -10,16 +10,16 @@ namespace VotingSystem.Models
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public bool Admin { get; set; }
+        public bool IsAdmin { get; set; }
 
-        public User(string username, string password, string email, string firstName, string lastName, bool admin)
+        public User(string username, string password, string email, string firstName, string lastName, bool isAdmin)
         {
             Username = username;
             Password = password;
             Email = email;
             FirstName = firstName;
             LastName = lastName;
-            Admin = admin;
+            IsAdmin = isAdmin;
         }
     }
 
@@ -31,7 +31,7 @@ namespace VotingSystem.Models
         public string Email;
         public string LastName;
         public string FirstName;
-        public bool Admin;
+        public bool IsAdmin;
 
         public UserBuilder WithUsername(string username)
         {
@@ -68,7 +68,7 @@ namespace VotingSystem.Models
             if (!Validation.IsValidName(FirstName))
                 throw new InvalidBuilderParameterException("Invalid first name '" + FirstName + "'");
 
-            User user = new(Username, Password, Email, FirstName, LastName, Admin);
+            User user = new(Username, Password, Email, FirstName, LastName, IsAdmin);
             return user;
         }
     }

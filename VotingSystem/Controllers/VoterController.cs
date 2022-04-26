@@ -101,7 +101,7 @@ serialNumber: '{serial}'");
             }
         }
 
-        public Voter GetUser(string username, string password)
+        public Voter GetUser(string username, string? password)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {

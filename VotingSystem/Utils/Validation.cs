@@ -34,7 +34,7 @@ namespace VotingSystem.Utils
         }
 
         ///<summary>Is 6-31 characters, at least one lower case, upper case, number & special character</summary>
-        public static bool IsValidPassword(string password)
+        public static bool IsValidPassword(string? password)
         {
             if (IsNullOrWhiteSpace(password))
                 return false;

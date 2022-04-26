@@ -100,7 +100,7 @@ serialNumber: '{serial}'");
             }
         }
 
-        public Admin GetUser(string username, string password)
+        public Admin GetUser(string username, string? password)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {

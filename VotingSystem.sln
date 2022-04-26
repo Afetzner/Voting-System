@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem", "VotingSyste
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{5ECF73A6-4CEF-493A-986D-2B01990538A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "..\..\..\Desktop\CSCE361_voting_system_group_3\UnitTests\UnitTests.csproj", "{534B9A7C-B82B-461F-B2A4-EE8EC0BC8593}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{534B9A7C-B82B-461F-B2A4-EE8EC0BC8593}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

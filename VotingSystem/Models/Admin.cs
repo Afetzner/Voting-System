@@ -7,7 +7,7 @@ namespace VotingSystem.Model
     {
         public string SerialNumber { get; }
         public string Username { get; }
-        public string Password { get; }
+        public string? Password { get; }
         public string FirstName { get; }
         public string LastName { get; }
 
@@ -15,7 +15,7 @@ namespace VotingSystem.Model
 
         public static readonly IDbUserController<Admin> DbController = new AdminController();
 
-        public Admin(string serialNum, string username, string password, string firstName, string lastName)
+        public Admin(string serialNum, string username, string? password, string firstName, string lastName)
         {
             SerialNumber = serialNum;
             Username = username;
@@ -29,7 +29,7 @@ namespace VotingSystem.Model
     { 
         public string SerialNumber; 
         public string Username; 
-        public string Password;
+        public string? Password;
         public string FirstName;
         public string LastName;
 
@@ -45,7 +45,7 @@ namespace VotingSystem.Model
             return this;
         }
 
-        public AdminBuilder WithPassword(string password) 
+        public AdminBuilder WithPassword(string? password) 
         { 
             Password = password; 
             return this;

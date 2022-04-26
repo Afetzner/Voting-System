@@ -10,7 +10,7 @@ namespace VotingSystem.Model
     {
         public string SerialNumber { get; }
         public string Username { get; }
-        public string Password { get; }
+        public string? Password { get; }
         public string FirstName { get; }
         public string LastName { get; }
     }

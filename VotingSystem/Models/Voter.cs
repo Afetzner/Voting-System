@@ -7,13 +7,13 @@ namespace VotingSystem.Model
     {
         public string SerialNumber { get; }
         public string Username { get; }
-        public string Password { get; }
+        public string? Password { get; }
         public string LastName { get; }
         public string FirstName { get; }
 
         public static readonly IDbUserController<Voter> DbController = new VoterController();
 
-        public Voter(string username, string password, string lastName, string firstName, string serialNumber)
+        public Voter(string username, string? password, string lastName, string firstName, string serialNumber)
         {
             SerialNumber = serialNumber;
             Username = username;
@@ -27,7 +27,7 @@ namespace VotingSystem.Model
     {
         public string SerialNumber;
         public string Username;
-        public string Password;
+        public string? Password;
         public string LastName;
         public string FirstName;
 
@@ -43,7 +43,7 @@ namespace VotingSystem.Model
             return this;
         }
 
-        public VoterBuilder WithPassword(string password)
+        public VoterBuilder WithPassword(string? password)
         {
             Password = password;
             return this;
