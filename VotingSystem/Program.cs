@@ -1,19 +1,27 @@
-﻿using System;
+var builder = WebApplication.CreateBuilder(args);
 
-using System.Diagnostics.CodeAnalysis;
-using MySql.Data.MySqlClient;
-using VotingSystem.Controller;
-using VotingSystem.Model;
+// Add services to the container.
 
-namespace VotingSystem
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            Console.WriteLine("hello");
-            return;
-            
-        }
-    }
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller}/{action=Index}/{id?}");
+
+app.MapFallbackToFile("index.html"); ;
+
+app.Run();
