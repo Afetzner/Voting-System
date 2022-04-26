@@ -253,5 +253,47 @@ namespace VotingSystem.Controller
             //return issues
             return ballotIssueList;
         }
+
+        public bool IsSerialInUse(string serial)
+        {
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine(e + "\nCould not connect to database");
+                    throw;
+                }
+
+                using (var cmd = new MySqlCommand("check_issue_serial", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("v_serialNumber", serial);
+                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+
+                    cmd.Parameters.Add("v_occupied", MySqlDbType.Byte);
+                    cmd.Parameters["@v_occupied"].Direction = ParameterDirection.Output;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (MySqlException e)
+                    {
+                        Console.WriteLine(e + "\n" +
+                                          $@"Could not execute SQL procedure 'check_issue_serial' with parameters: 
+serialNumber: '{serial}'");
+
+                        throw;
+                    }
+
+                    return Convert.ToBoolean(cmd.Parameters["v_occupied"].Value);
+                }
+            }
+        }
+
     }
 }
