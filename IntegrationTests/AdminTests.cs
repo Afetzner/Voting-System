@@ -1,7 +1,6 @@
 ﻿using System;
 using VotingSystem.Model;
 using IntegrationTests.Interactive;
-using MySql.Data.MySqlClient;
 
 namespace IntegrationTests
 {
