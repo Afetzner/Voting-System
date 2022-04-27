@@ -8,7 +8,7 @@ namespace IntegrationTests
     {
         public static Func<bool> AdminTestMenu()
         {
-            Console.WriteLine("Select a group to test");
+            Console.WriteLine("Select a method to test");
             Console.WriteLine(
                 " (0) Reset Db tables\n" +
                 " (1) Load Test data\n" +
@@ -51,11 +51,11 @@ namespace IntegrationTests
                 fail++;
             if (!TestDeleteAdmin())
                 fail++;
-            if (TestGetAdmin())
+            if (!TestGetAdmin())
                 fail++;
-            if (TestAddDuplicateAdminSerial())
+            if (!TestAddDuplicateAdminSerial())
                 fail++;
-            if (TestAddDuplicateAdminUsername())
+            if (!TestAddDuplicateAdminUsername())
                 fail++;
 
             Console.WriteLine($@"{5 - fail} succeed, {fail} fail");
@@ -72,7 +72,7 @@ namespace IntegrationTests
                 .WithLastName("Doe")
                 .Build();
 
-            Console.WriteLine("Testing add admin");
+            Console.WriteLine("    Testing add admin");
             //Console.WriteLine($@"Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
 
             if (Admin.DbController.IsSerialInUse(admin.SerialNumber))
@@ -106,7 +106,7 @@ namespace IntegrationTests
                 .WithLastName("Doe")
                 .Build();
 
-            Console.WriteLine("Testing delete admin");
+            Console.WriteLine("    Testing delete admin");
             //Console.WriteLine($@"    Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
 
             if (Admin.DbController.IsSerialInUse(admin.SerialNumber))
@@ -152,7 +152,7 @@ namespace IntegrationTests
                 .WithLastName("Doe")
                 .Build();
 
-            Console.WriteLine("Testing get admin");
+            Console.WriteLine("    Testing get admin");
             //Console.WriteLine($@"    Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
 
             if (Admin.DbController.IsSerialInUse(admin.SerialNumber))
@@ -214,7 +214,7 @@ namespace IntegrationTests
                 .WithLastName("Doe")
                 .Build();
 
-            Console.WriteLine("Testing add admin w/ duplicate username");
+            Console.WriteLine("    Testing add admin w/ duplicate username");
             //Console.WriteLine($@"    Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
 
             if (Admin.DbController.IsSerialInUse(admin.SerialNumber)
@@ -270,7 +270,7 @@ namespace IntegrationTests
                 .WithLastName("Doe")
                 .Build();
 
-            Console.WriteLine("Testing add admin w/ duplicate serial");
+            Console.WriteLine("    Testing add admin w/ duplicate serial");
             //Console.WriteLine($@"    Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
 
             if (Admin.DbController.IsSerialInUse(admin.SerialNumber))
@@ -295,12 +295,6 @@ namespace IntegrationTests
             if (!collision2)
             {
                 Console.WriteLine("(F) Add duplicate admin serial failed: collision not detected");
-                return false;
-            }
-
-            if (Admin.DbController.IsSerialInUse(admin2.SerialNumber))
-            {
-                Console.WriteLine("(F) Add duplicate admin serial failed: serial of duplicate added ");
                 return false;
             }
 

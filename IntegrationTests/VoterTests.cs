@@ -8,7 +8,7 @@ namespace IntegrationTests
     {
         public static Func<bool> VoterTestMenu()
         {
-            Console.WriteLine("Select a group to test");
+            Console.WriteLine("Select a method to test");
             Console.WriteLine(
                 " (0) Reset Db tables\n" +
                 " (1) Load Test data\n" +
@@ -51,11 +51,11 @@ namespace IntegrationTests
                 fail++;
             if (!TestDeleteVoter())
                 fail++;
-            if (TestGetVoter())
+            if (!TestGetVoter())
                 fail++;
-            if (TestAddDuplicateVoterSerial())
+            if (!TestAddDuplicateVoterSerial())
                 fail++;
-            if (TestAddDuplicateVoterUsername())
+            if (!TestAddDuplicateVoterUsername())
                 fail++;
 
             Console.WriteLine($@"{5 - fail} succeed, {fail} fail");
@@ -65,14 +65,14 @@ namespace IntegrationTests
         public static bool TestAddVoter()
         {
             Voter voter = new VoterBuilder()
-                .WithSerialNumber("A77777777")
+                .WithSerialNumber("V77777777")
                 .WithUsername("testVoterUsername1110")
                 .WithPassword("testVoterPass1!")
                 .WithFirstName("Jane")
                 .WithLastName("Doe")
                 .Build();
 
-            Console.WriteLine("Testing add voter");
+            Console.WriteLine("    Testing add voter");
             //Console.WriteLine($@"Adding voter with s: '{voter.SerialNumber}', u: '{voter.Username}', p:'{voter.Password}'");
 
             if (Voter.DbController.IsSerialInUse(voter.SerialNumber))
@@ -99,14 +99,14 @@ namespace IntegrationTests
         public static bool TestDeleteVoter()
         {
             Voter voter = new VoterBuilder()
-                .WithSerialNumber("A88888888")
+                .WithSerialNumber("V88888888")
                 .WithUsername("warningTestVoterUsername332")
                 .WithPassword("testVoterPass1!")
                 .WithFirstName("Jane")
                 .WithLastName("Doe")
                 .Build();
 
-            Console.WriteLine("Testing delete voter");
+            Console.WriteLine("    Testing delete voter");
             //Console.WriteLine($@"    Adding voter with s: '{voter.SerialNumber}', u: '{voter.Username}', p:'{voter.Password}'");
 
             if (Voter.DbController.IsSerialInUse(voter.SerialNumber))
@@ -145,14 +145,14 @@ namespace IntegrationTests
         public static bool TestGetVoter()
         {
             Voter voter = new VoterBuilder()
-                .WithSerialNumber("A99999999")
+                .WithSerialNumber("V99999999")
                 .WithUsername("testVoterUsername0123")
                 .WithPassword("testVoterPass1!")
                 .WithFirstName("Jane")
                 .WithLastName("Doe")
                 .Build();
 
-            Console.WriteLine("Testing get voter");
+            Console.WriteLine("    Testing get voter");
             //Console.WriteLine($@"    Adding voter with s: '{voter.SerialNumber}', u: '{voter.Username}', p:'{voter.Password}'");
 
             if (Voter.DbController.IsSerialInUse(voter.SerialNumber))
@@ -199,7 +199,7 @@ namespace IntegrationTests
         public static bool TestAddDuplicateVoterUsername()
         {
             Voter voter = new VoterBuilder()
-                .WithSerialNumber("A66666666")
+                .WithSerialNumber("V66666666")
                 .WithUsername("testVoterUsername22")
                 .WithPassword("testVoterPass1!")
                 .WithFirstName("Jane")
@@ -207,14 +207,14 @@ namespace IntegrationTests
                 .Build();
 
             Voter voter2 = new VoterBuilder()
-                .WithSerialNumber("A55555555")
+                .WithSerialNumber("V55555555")
                 .WithUsername("testVoterUsername22")
                 .WithPassword("testVoterPass1!")
                 .WithFirstName("Jane")
                 .WithLastName("Doe")
                 .Build();
 
-            Console.WriteLine("Testing add voter w/ duplicate username");
+            Console.WriteLine("    Testing add voter w/ duplicate username");
             //Console.WriteLine($@"    Adding voter with s: '{voter.SerialNumber}', u: '{voter.Username}', p:'{voter.Password}'");
 
             if (Voter.DbController.IsSerialInUse(voter.SerialNumber)
@@ -255,7 +255,7 @@ namespace IntegrationTests
         public static bool TestAddDuplicateVoterSerial()
         {
             Voter voter = new VoterBuilder()
-                .WithSerialNumber("A44444444")
+                .WithSerialNumber("V44444444")
                 .WithUsername("testVoterUsername267")
                 .WithPassword("testVoterPass1!")
                 .WithFirstName("Jane")
@@ -263,14 +263,14 @@ namespace IntegrationTests
                 .Build();
 
             Voter voter2 = new VoterBuilder()
-                .WithSerialNumber("A44444444")
+                .WithSerialNumber("V44444444")
                 .WithUsername("testVoterUsername159")
                 .WithPassword("testVoterPass1!")
                 .WithFirstName("Jane")
                 .WithLastName("Doe")
                 .Build();
 
-            Console.WriteLine("Testing add voter w/ duplicate serial");
+            Console.WriteLine("    Testing add voter w/ duplicate serial");
             //Console.WriteLine($@"    Adding voter with s: '{voter.SerialNumber}', u: '{voter.Username}', p:'{voter.Password}'");
 
             if (Voter.DbController.IsSerialInUse(voter.SerialNumber))
@@ -295,12 +295,6 @@ namespace IntegrationTests
             if (!collision2)
             {
                 Console.WriteLine("(F) Add duplicate voter serial failed: collision not detected");
-                return false;
-            }
-
-            if (Voter.DbController.IsSerialInUse(voter2.SerialNumber))
-            {
-                Console.WriteLine("(F) Add duplicate voter serial failed: serial of duplicate added ");
                 return false;
             }
 

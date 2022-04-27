@@ -82,9 +82,9 @@ namespace IntegrationTests.Interactive
                 return key.KeyChar switch
                 {
                     '0' => DbInitializers.DbInitMenu,
-                    '1' => VoterTests.VoterTestMenu,
+                    '1' => null,
                     '2' => AdminTests.AdminTestMenu,
-                    '3' => null,
+                    '3' => VoterTests.VoterTestMenu,
                     '4' => null,
                     '5' => null,
                     '6' => null,
