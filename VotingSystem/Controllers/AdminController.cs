@@ -47,15 +47,19 @@ namespace VotingSystem.Controller
                     {
                         cmd.ExecuteNonQuery();
                     }
+                    catch (MySqlException e) when (e.ErrorCode == -2147467259)
+                    {
+                        //duplicate key, don't throw, handled by return variable
+                    }
                     catch (MySqlException e)
                     {
-                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'add_admin' with parameters:
-username: '{admin.Username}', 
-password: '{admin.Password}', 
-serialNumber: '{admin.SerialNumber}' ,
-firstName: '{admin.FirstName}',
-lastName: '{admin.LastName}'
-(Probably a duplicate serial number)");
+                        Console.WriteLine(e.ErrorCode);
+                        Console.WriteLine(e + "\n\n" + $@"Could not execute SQL procedure 'add_admin' with parameters:
+    username: '{admin.Username}', 
+    password: '{admin.Password}', 
+    serialNumber: '{admin.SerialNumber}' ,
+    firstName: '{admin.FirstName}',
+    lastName: '{admin.LastName}'");
 
                         throw;
                     }
@@ -92,7 +96,7 @@ lastName: '{admin.LastName}'
                     catch (MySqlException e)
                     {
                         Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'remove_admin' with parameters: 
-serialNumber: '{serial}'");
+    serialNumber: '{serial}'");
 
                         throw;
                     }
@@ -139,8 +143,8 @@ serialNumber: '{serial}'");
                     catch (MySqlException e)
                     {
                         Console.WriteLine(e + "\n" + $@"\nCould not execute SQL procedure 'get_admin' with parameters:
-username: '{username}', 
-password: '{password}'");
+    username: '{username}', 
+    password: '{password}'");
 
                         throw;
                     }
@@ -188,7 +192,7 @@ password: '{password}'");
                     catch (MySqlException e)
                     {
                         Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'check_admin_serial' with parameters: 
-serialNumber: '{serial}'");
+    serialNumber: '{serial}'");
 
                         throw;
                     }
@@ -197,6 +201,5 @@ serialNumber: '{serial}'");
                 }
             }
         }
-
     }
 }
