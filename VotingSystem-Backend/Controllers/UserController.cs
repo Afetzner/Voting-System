@@ -8,13 +8,17 @@ using VotingSystem.Models;
 
 namespace VotingSystem.Controller
 {
+
+    [ApiController]
     public class UserController : ControllerBase
     {
+        private User test = new User("abusch8", "1234", "abusch8@huskers.unl.edu", "Alex", "Busch", false);
+
         [HttpGet]
         [Route("api/user")]
         public User GetUser()
         {
-            return new("abusch8", "1234", "abusch8@huskers.unl.edu", "Alex", "Busch", false); 
+            return test; 
         }
     }
 }
