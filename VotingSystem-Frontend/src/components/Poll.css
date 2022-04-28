@@ -1,0 +1,13 @@
+.badges {
+  display: flex;
+  margin-right: 20px;
+}
+
+.badge {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.confirm-button {
+  width: 200px
+}
