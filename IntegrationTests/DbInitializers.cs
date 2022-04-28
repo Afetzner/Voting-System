@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using IntegrationTests.Interactive;
+using VotingSystem.Controller;
 
 namespace IntegrationTests
 {
@@ -37,12 +34,14 @@ namespace IntegrationTests
 
         public static bool ResetDb()
         {
-            throw new NotImplementedException();
+            DbInitializer.ResetDbTables();
+            return true;
         }
 
         public static bool LoadTestData()
         {
-            throw new NotImplementedException();
+            DbInitializer.LoadDummyData();
+            return true;
         }
     }
 }
