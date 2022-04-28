@@ -5,9 +5,9 @@ using System.Data;
 using VotingSystem.Model;
 using VotingSystem.Utils;
 
-namespace VotingSystem.Accessors
+namespace VotingSystem.Accessor
 {
-    public class BallotIssueAccessors
+    public class BallotIssueAccessor
     {
         /// <summary>
         /// Adds an issue and its options to the DB
