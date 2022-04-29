@@ -1,4 +1,4 @@
-﻿using VotingSystem.Model
+﻿using VotingSystem.Model;
 
 namespace VotingSystem.Accessor
 {
@@ -39,5 +39,4 @@ namespace VotingSystem.Accessor
         /// <exception cref="MySqlException">Bad connection to DB</exception>
         public bool IsSerialInUse(string ballotSerial);
     }
-}
 }
