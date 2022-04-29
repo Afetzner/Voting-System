@@ -1,5 +1,5 @@
-using VotingSystem.Controller;
 using VotingSystem.Utils;
+using VotingSystem.Accessor;
 
 
 namespace VotingSystem.Model
@@ -10,7 +10,7 @@ namespace VotingSystem.Model
         public BallotIssue Issue { get; }
         public BallotIssueOption Choice { get; }
 
-        public static BallotIssueController Controller = new ();
+        public static BallotIssueAccessor Accessor = new ();
 
         public Ballot(Voter voter, BallotIssue issue, BallotIssueOption choice)
         {
@@ -22,9 +22,9 @@ namespace VotingSystem.Model
 
         public class BallotBuilder
         {
-            public Voter Voter;
-            public BallotIssue Issue;
-            public BallotIssueOption Choice;
+            public Voter? Voter;
+            public BallotIssue? Issue;
+            public BallotIssueOption? Choice;
             private bool _inputtedChoice;
 
             public BallotBuilder WithVoter(Voter voter)
@@ -52,7 +52,7 @@ namespace VotingSystem.Model
                     throw new InvalidBuilderParameterException("Invalid (Null) BallotVoter");
                 if (Issue == null)
                     throw new InvalidBuilderParameterException("Invalid (null) BallotIssue");
-                if (!_inputtedChoice)
+                if (!_inputtedChoice || Choice == null)
                     throw new InvalidBuilderParameterException(
                         "Invalid BallotIssue choice (Null allowed, but must be inputted: WithChoice(null))");
                 Ballot ballot = new (Voter, Issue, Choice);

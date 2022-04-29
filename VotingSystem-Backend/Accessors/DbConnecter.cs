@@ -1,7 +1,7 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
 
-namespace VotingSystem.Controller
+namespace VotingSystem.Accessor
 {
     public class DbConnecter
     {

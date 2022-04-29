@@ -1,6 +1,6 @@
 ﻿using System;
 using IntegrationTests.Interactive;
-using VotingSystem.Controller;
+using VotingSystem.Accessor;
 
 namespace IntegrationTests
 {

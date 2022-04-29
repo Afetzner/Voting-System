@@ -75,18 +75,18 @@ namespace IntegrationTests
             Console.WriteLine("    Testing add admin");
             //Console.WriteLine($@"Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
 
-            if (Admin.DbController.IsSerialInUse(admin.SerialNumber))
+            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber))
             {
                 Console.WriteLine("(F) Add admin failed: serial in use before addition (reset db?)");
                 return false;
             }
-            bool collision = Admin.DbController.AddUser(admin);
+            bool collision = Admin.Accessor.AddUser(admin);
             if (collision)
             {
                 Console.WriteLine("(F) Add admin failed: collison (reset db?)");
                 return false;
             }
-            if (!Admin.DbController.IsSerialInUse(admin.SerialNumber))
+            if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber))
             {
                 Console.Write("(F) Add admin failed: serial not in use after addition");
                 return false;
@@ -109,15 +109,15 @@ namespace IntegrationTests
             Console.WriteLine("    Testing delete admin");
             //Console.WriteLine($@"    Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
 
-            if (Admin.DbController.IsSerialInUse(admin.SerialNumber))
+            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber))
             {
                 Console.WriteLine("(F) Delete admin failed: serial in use before addition (reset db?)");
                 return false;
             }
 
-            bool collision = Admin.DbController.AddUser(admin);
+            bool collision = Admin.Accessor.AddUser(admin);
 
-            if (!Admin.DbController.IsSerialInUse(admin.SerialNumber))
+            if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber))
             {
                 Console.WriteLine("(F) Delete admin failed: serial not in use after addition");
                 return false;
@@ -131,8 +131,8 @@ namespace IntegrationTests
 
             Console.WriteLine($@"    Deleting admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
 
-            Admin.DbController.DeleteUser(admin.SerialNumber);
-            if (Admin.DbController.IsSerialInUse(admin.SerialNumber))
+            Admin.Accessor.DeleteUser(admin.SerialNumber);
+            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber))
             {
                 Console.WriteLine("(F) Delete admin failed: serial in use after deletion");
                 return false;
@@ -155,25 +155,25 @@ namespace IntegrationTests
             Console.WriteLine("    Testing get admin");
             //Console.WriteLine($@"    Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
 
-            if (Admin.DbController.IsSerialInUse(admin.SerialNumber))
+            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber))
             {
                 Console.WriteLine("(F) Get admin failed: serial in use before addition (reset db?)");
                 return false;
             }
-            bool collision = Admin.DbController.AddUser(admin);
+            bool collision = Admin.Accessor.AddUser(admin);
             if (collision)
             {
                 Console.WriteLine("(F) Get admin failed: collison (reset db?)");
                 return false;
             }
-            if (!Admin.DbController.IsSerialInUse(admin.SerialNumber))
+            if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber))
             {
                 Console.Write("(F) Get admin failed: serial not in use after addition");
                 return false;
             }
 
             Console.WriteLine($@"    Getting admin with u: '{admin.Username}', p:'{admin.Password}'");
-            Admin fromDb = Admin.DbController.GetUser(admin.Username, admin.Password);
+            Admin fromDb = (Admin)Admin.Accessor.GetUser(admin.Username, admin.Password);
 
             if (fromDb == null)
             {
@@ -217,32 +217,32 @@ namespace IntegrationTests
             Console.WriteLine("    Testing add admin w/ duplicate username");
             //Console.WriteLine($@"    Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
 
-            if (Admin.DbController.IsSerialInUse(admin.SerialNumber)
-                || Admin.DbController.IsSerialInUse(admin2.SerialNumber))
+            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber)
+                || Admin.Accessor.IsSerialInUse(admin2.SerialNumber))
             {
                 Console.WriteLine("(F) Add duplicate admin username failed: serial in use before addition (reset db?)");
                 return false;
             }
-            bool collision = Admin.DbController.AddUser(admin);
+            bool collision = Admin.Accessor.AddUser(admin);
             if (collision)
             {
                 Console.WriteLine("(F) Add duplicate admin username failed: pre-collision (reset db?)");
                 return false;
             }
-            if (!Admin.DbController.IsSerialInUse(admin.SerialNumber))
+            if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber))
             {
                 Console.Write("(F) Add duplicate admin username failed: serial not in use after addition");
                 return false;
             }
 
-            bool collision2 = Admin.DbController.AddUser(admin2);
+            bool collision2 = Admin.Accessor.AddUser(admin2);
             if (!collision2)
             {
                 Console.WriteLine("(F) Add duplicate admin username failed: collision not detected");
                 return false;
             }
 
-            if (Admin.DbController.IsSerialInUse(admin2.SerialNumber))
+            if (Admin.Accessor.IsSerialInUse(admin2.SerialNumber))
             {
                 Console.WriteLine("(F) Add duplicate admin username failed: serial of duplicate added ");
                 return false;
@@ -273,25 +273,25 @@ namespace IntegrationTests
             Console.WriteLine("    Testing add admin w/ duplicate serial");
             //Console.WriteLine($@"    Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
 
-            if (Admin.DbController.IsSerialInUse(admin.SerialNumber))
+            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber))
             {
                 Console.WriteLine("(F) Add duplicate admin username failed: serial in use before addition (reset db?)");
                 return false;
             }
 
-            bool collision = Admin.DbController.AddUser(admin);
+            bool collision = Admin.Accessor.AddUser(admin);
             if (collision)
             {
                 Console.WriteLine("(F) Add duplicate admin username failed: pre-collision (reset db?)");
                 return false;
             }
-            if (!Admin.DbController.IsSerialInUse(admin.SerialNumber))
+            if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber))
             {
                 Console.Write("(F) Add duplicate admin username failed: serial not in use after addition");
                 return false;
             }
 
-            bool collision2 = Admin.DbController.AddUser(admin2);
+            bool collision2 = Admin.Accessor.AddUser(admin2);
             if (!collision2)
             {
                 Console.WriteLine("(F) Add duplicate admin serial failed: collision not detected");

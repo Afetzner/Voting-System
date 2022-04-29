@@ -1,5 +1,8 @@
 ﻿using System;
 using IntegrationTests.Interactive;
+using VotingSystem.Model;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace IntegrationTests
 {
@@ -7,6 +10,7 @@ namespace IntegrationTests
     {
         static void Main(string[] args)
         {
+            
             Console.WriteLine("Integration Testing Console:");
             if (!Menu.ConnectionTestMenu())
                 return;

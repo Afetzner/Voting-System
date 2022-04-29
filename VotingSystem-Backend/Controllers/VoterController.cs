@@ -5,6 +5,7 @@ using VotingSystem.Model;
 
 namespace VotingSystem.Controller
 {
+    /*
     public class VoterController : IDbUserController<Voter>
     {
         public bool AddUser(Voter voter)
@@ -199,6 +200,5 @@ serialNumber: '{serial}'");
                 }
             }
         }
-
-    }
+    */
 }

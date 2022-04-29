@@ -190,7 +190,8 @@ namespace VotingSystem.Accessor
                         cmd.Parameters.Add("v_description", MySqlDbType.VarChar);
                         cmd.Parameters["v_description"].Direction = ParameterDirection.Output;
 
-                        String ballotIssueSerialNumber = Convert.ToString(cmd.Parameters["v_serialNumber"].Value);
+                        //TODO Not used
+                        String? ballotIssueSerialNumber = Convert.ToString(cmd.Parameters["v_serialNumber"].Value);
 
                         using(var cmd2 = new MySqlCommand("get_options", conn))
                         {

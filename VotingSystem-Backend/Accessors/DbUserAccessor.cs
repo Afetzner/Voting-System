@@ -1,14 +1,14 @@
-﻿using System;
+using System;
+using VotingSystem.Model;
 using System.Data;
 using MySql.Data.MySqlClient;
-using VotingSystem.Model;
 
-namespace VotingSystem.Controller
+namespace VotingSystem.Accessor
 {
-    /*
-    public class AdminController : IDbUserController<Admin>
+    public class UserDbAccessor : IUserAccessor
     {
-        public bool AddUser(Admin admin)
+        
+        public bool AddUser(IUser user)
         {
 
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
@@ -23,23 +23,29 @@ namespace VotingSystem.Controller
                     throw;
                 }
 
-                using (var cmd = new MySqlCommand("add_admin", conn))
+                using (var cmd = new MySqlCommand("add_user", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("v_username", admin.Username);
+                    cmd.Parameters.AddWithValue("v_username", user.Username);
                     cmd.Parameters["@v_username"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("v_password", admin.Password);
+                    cmd.Parameters.AddWithValue("v_password", user.Password);
                     cmd.Parameters["@v_password"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("v_serialNumber", admin.SerialNumber);
+                    cmd.Parameters.AddWithValue("v_email", user.Email);
                     cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("v_firstName", admin.FirstName);
+                    cmd.Parameters.AddWithValue("v_firstName", user.FirstName);
                     cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
 
-                    cmd.Parameters.AddWithValue("v_lastName", admin.LastName);
+                    cmd.Parameters.AddWithValue("v_lastName", user.LastName);
                     cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+
+                    cmd.Parameters.AddWithValue("v_serialNumber", user.SerialNumber);
+                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+
+                    cmd.Parameters.AddWithValue("v_isAdmin", user.IsAdmin);
+                    cmd.Parameters["@v_isAdmin"].Direction = ParameterDirection.Output;
 
                     cmd.Parameters.Add("v_collision", MySqlDbType.Byte);
                     cmd.Parameters["@v_collision"].Direction = ParameterDirection.Output;
@@ -55,12 +61,15 @@ namespace VotingSystem.Controller
                     catch (MySqlException e)
                     {
                         Console.WriteLine(e.ErrorCode);
-                        Console.WriteLine(e + "\n\n" + $@"Could not execute SQL procedure 'add_admin' with parameters:
-    username: '{admin.Username}', 
-    password: '{admin.Password}', 
-    serialNumber: '{admin.SerialNumber}' ,
-    firstName: '{admin.FirstName}',
-    lastName: '{admin.LastName}'");
+                        Console.WriteLine(e + "\n\n" 
+                            + $@"Could not execute SQL procedure 'add_user' with parameters:
+    username: '{user.Username}', 
+    password: '{user.Password}', 
+    email: '{user.Email}',
+    serialNumber: '{user.SerialNumber}' ,
+    firstName: '{user.FirstName}',
+    lastName: '{user.LastName}'
+    isAdmin: '{user.IsAdmin}'");
 
                         throw;
                     }
@@ -84,7 +93,7 @@ namespace VotingSystem.Controller
                     throw;
                 }
 
-                using (var cmd = new MySqlCommand("delete_admin", conn))
+                using (var cmd = new MySqlCommand("delete_user", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("v_serialNumber", serial);
@@ -96,7 +105,7 @@ namespace VotingSystem.Controller
                     }
                     catch (MySqlException e)
                     {
-                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'remove_admin' with parameters: 
+                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'remove_user' with parameters: 
     serialNumber: '{serial}'");
 
                         throw;
@@ -105,7 +114,7 @@ namespace VotingSystem.Controller
             }
         }
 
-        public Admin GetUser(string username, string? password)
+        public IUser GetUser(string username, string password)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
@@ -119,7 +128,7 @@ namespace VotingSystem.Controller
                     throw;
                 }
 
-                using (var cmd = new MySqlCommand("get_admin", conn))
+                using (var cmd = new MySqlCommand("get_user", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("v_username", username);
@@ -127,6 +136,9 @@ namespace VotingSystem.Controller
 
                     cmd.Parameters.AddWithValue("v_password", password);
                     cmd.Parameters["@v_password"].Direction = ParameterDirection.Input;
+
+                    cmd.Parameters.Add("v_email", MySqlDbType.VarChar);
+                    cmd.Parameters["@v_email"].Direction = ParameterDirection.Output;
 
                     cmd.Parameters.Add("v_serialNumber", MySqlDbType.VarChar);
                     cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Output;
@@ -137,28 +149,49 @@ namespace VotingSystem.Controller
                     cmd.Parameters.Add("v_lastName", MySqlDbType.VarChar);
                     cmd.Parameters["@v_lastName"].Direction = ParameterDirection.Output;
 
+                    cmd.Parameters.Add("v_isAdmin", MySqlDbType.Byte);
+                    cmd.Parameters["@v_isAdmin"].Direction = ParameterDirection.Output;
+
                     try
                     {
                         cmd.ExecuteNonQuery();
                     }
                     catch (MySqlException e)
                     {
-                        Console.WriteLine(e + "\n" + $@"\nCould not execute SQL procedure 'get_admin' with parameters:
+                        Console.WriteLine(e + "\n" + $@"\nCould not execute SQL procedure 'get_user' with parameters:
     username: '{username}', 
     password: '{password}'");
 
                         throw;
                     }
 
-                    var admin = new AdminBuilder()
-                        .WithUsername(username)
-                        .WithPassword(password)
-                        .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
-                        .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
-                        .WithLastName(Convert.ToString(cmd.Parameters["v_lastName"].Value))
-                        .Build();
+                    IUser user;
 
-                    return admin;
+                    if (Convert.ToBoolean(cmd.Parameters["@v_isAdmin"]))
+                    {
+                        user = new AdminBuilder()
+                            .WithUsername(username)
+                            .WithPassword(password)
+                            .WithEmail(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
+                            .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
+                            .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
+                            .WithLastName(Convert.ToString(cmd.Parameters["v_lastName"].Value))
+                            .Build();
+                    }
+                    else
+                    {
+                        user = new VoterBuilder()
+                            .WithUsername(username)
+                            .WithPassword(password)
+                            .WithEmail(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
+                            .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
+                            .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
+                            .WithLastName(Convert.ToString(cmd.Parameters["v_lastName"].Value))
+                            .Build();
+                        
+                    }
+
+                    return user;
                 }
             }
         }
@@ -177,7 +210,7 @@ namespace VotingSystem.Controller
                     throw;
                 }
 
-                using (var cmd = new MySqlCommand("check_admin_serial", conn))
+                using (var cmd = new MySqlCommand("check_user_serial", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("v_serialNumber", serial);
@@ -192,7 +225,7 @@ namespace VotingSystem.Controller
                     }
                     catch (MySqlException e)
                     {
-                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'check_admin_serial' with parameters: 
+                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'check_user_serial' with parameters: 
     serialNumber: '{serial}'");
 
                         throw;
@@ -202,6 +235,15 @@ namespace VotingSystem.Controller
                 }
             }
         }
+
+        public bool IsUsernameInUse(string username)
+        {
+            throw new NotImplementedException();
+        }
+
+        IUser IUserAccessor.GetUser(string username, string? password)
+        {
+            throw new NotImplementedException();
+        }
     }
-    */
 }

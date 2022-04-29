@@ -8,11 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\AdminController.cs" />
-    <Compile Remove="Controllers\BallotIssueController.cs" />
-    <Compile Remove="Controllers\BallotIssueOptionController.cs" />
-    <Compile Remove="Controllers\UserController.cs" />
-    <Compile Remove="Controllers\VoterController.cs" />
+    <Compile Remove="Models\User.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="Accessors\" />
   </ItemGroup>
 
 </Project>

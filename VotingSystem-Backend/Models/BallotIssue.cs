@@ -30,14 +30,14 @@ namespace VotingSystem.Model
         {
             private bool _selectedStartTime = false;
             private bool _selectedEndTime = false;
-            public string SerialNumber;
+            public string? SerialNumber;
             public DateTime StartDate;
             public DateTime EndDate;
-            public string Title;
-            public string Description;
+            public string? Title;
+            public string? Description;
             public List<BallotIssueOption> Options = new();
 
-            public BallotIssueBuilder WithSerialNumber(string serialNum)
+            public BallotIssueBuilder WithSerialNumber(string? serialNum)
             {
                 SerialNumber = serialNum;
                 return this;
@@ -57,13 +57,13 @@ namespace VotingSystem.Model
                 return this;
             }
 
-            public BallotIssueBuilder WithTitle(string title)
+            public BallotIssueBuilder WithTitle(string? title)
             {
                 Title = title;
                 return this;
             }
 
-            public BallotIssueBuilder WithDescription(string description)
+            public BallotIssueBuilder WithDescription(string? description)
             {
                 Description = description;
                 return this;
@@ -124,7 +124,7 @@ namespace VotingSystem.Model
 
             public BallotIssue Build()
             {
-                if (!Validation.IsValidSerialNumber(SerialNumber))
+                if (SerialNumber == null || !Validation.IsValidSerialNumber(SerialNumber))
                     throw new InvalidBuilderParameterException($@"Invalid serial number '{SerialNumber}'");
                 if (!_selectedStartTime)
                     throw new InvalidBuilderParameterException($@"Invalid BallotIssue w/out start time");

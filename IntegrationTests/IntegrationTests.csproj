@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VotingSystem\VotingSystem.csproj" />
+    <ProjectReference Include="..\VotingSystem-Backend\VotingSystem-Backend.csproj" />
   </ItemGroup>
 
 </Project>

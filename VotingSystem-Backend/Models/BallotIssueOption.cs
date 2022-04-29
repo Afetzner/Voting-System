@@ -17,7 +17,7 @@ namespace VotingSystem.Model
         public class BallotIssueOptionBuilder
         {
             public int Number = -1;
-            public string Title;
+            public string? Title;
             
             public BallotIssueOptionBuilder WithOptionNumber(int number)
             {
@@ -25,7 +25,7 @@ namespace VotingSystem.Model
                 return this;
             }
 
-            public BallotIssueOptionBuilder WithTitle(string title)
+            public BallotIssueOptionBuilder WithTitle(string? title)
             {
                 Title = title;
                 return this;

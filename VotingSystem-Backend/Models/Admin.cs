@@ -1,5 +1,5 @@
-﻿using VotingSystem.Controller;
-using VotingSystem.Utils;
+﻿using VotingSystem.Utils;
+using VotingSystem.Accessor;
 
 namespace VotingSystem.Model
 {
@@ -7,19 +7,20 @@ namespace VotingSystem.Model
     {
         public string SerialNumber { get; }
         public string Username { get; }
-        public string? Password { get; }
+        public string Password { get; }
+        public string Email { get; }
         public string FirstName { get; }
         public string LastName { get; }
+        public bool IsAdmin { get { return true; } }
 
-        public static readonly bool IsAdmin = true;
+        public static readonly IUserAccessor Accessor = new UserDbAccessor();
 
-        public static readonly IDbUserController<Admin> DbController = new AdminController();
-
-        public Admin(string serialNum, string username, string? password, string firstName, string lastName)
+        public Admin(string serialNum, string username, string password, string email, string firstName, string lastName)
         {
             SerialNumber = serialNum;
             Username = username;
             Password = password;
+            Email = email;
             FirstName = firstName;
             LastName = lastName;
         }
@@ -27,19 +28,20 @@ namespace VotingSystem.Model
 
     public class AdminBuilder
     { 
-        public string SerialNumber; 
-        public string Username; 
+        public string? SerialNumber; 
+        public string? Username; 
         public string? Password;
-        public string FirstName;
-        public string LastName;
+        public string? Email;
+        public string? FirstName;
+        public string? LastName;
 
-        public AdminBuilder WithSerialNumber(string serialNum) 
+        public AdminBuilder WithSerialNumber(string? serialNum) 
         { 
             SerialNumber = serialNum; 
             return this;
         }
 
-        public AdminBuilder WithUsername(string username) 
+        public AdminBuilder WithUsername(string? username) 
         { 
             Username = username; 
             return this;
@@ -51,13 +53,19 @@ namespace VotingSystem.Model
             return this;
         }
 
-        public AdminBuilder WithFirstName(string firstName)
+        public AdminBuilder WithEmail(string? email)
+        {
+            Email = email;
+            return this;
+        }
+
+        public AdminBuilder WithFirstName(string? firstName)
         {
             FirstName = firstName;
             return this;
         }
 
-        public AdminBuilder WithLastName(string lastName)
+        public AdminBuilder WithLastName(string? lastName)
         {
             LastName = lastName;
             return this;
@@ -65,18 +73,20 @@ namespace VotingSystem.Model
         
         public Admin Build() 
         { 
-            if (!Validation.IsValidSerialNumber(SerialNumber)) 
+            if (SerialNumber == null || !Validation.IsValidSerialNumber(SerialNumber)) 
                 throw new InvalidBuilderParameterException($@"Invalid serial number '{SerialNumber}'");
-            if (!Validation.IsValidUsername(Username)) 
+            if (Username == null || !Validation.IsValidUsername(Username)) 
                 throw new InvalidBuilderParameterException($@"Invalid username '{Username}'");
-            if (!Validation.IsValidPassword(Password)) 
+            if (Password == null || !Validation.IsValidPassword(Password)) 
                 throw new InvalidBuilderParameterException($@"Invalid password '{Password}'");
-            if (!Validation.IsValidName(FirstName))
+            if (Email == null)
+                throw new InvalidBuilderParameterException($@"Invalid email (null) '{Email}'");
+            if (FirstName == null || !Validation.IsValidName(FirstName))
                 throw new InvalidBuilderParameterException($@"Invalid first name '{FirstName}'");
-            if (!Validation.IsValidName(LastName))
+            if (LastName == null || !Validation.IsValidName(LastName))
                 throw new InvalidBuilderParameterException($@"Invalid last name '{LastName}'");
 
-            Admin admin = new(SerialNumber, Username, Password, FirstName, LastName); 
+            Admin admin = new(SerialNumber, Username, Password, Email, FirstName, LastName); 
             return admin;
         }
     }

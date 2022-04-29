@@ -1,5 +1,5 @@
-﻿using VotingSystem.Controller;
-using VotingSystem.Utils;
+﻿using VotingSystem.Utils;
+using VotingSystem.Accessor;
 
 namespace VotingSystem.Model
 {
@@ -7,17 +7,20 @@ namespace VotingSystem.Model
     {
         public string SerialNumber { get; }
         public string Username { get; }
-        public string? Password { get; }
-        public string LastName { get; }
+        public string Password { get; }
+        public string Email { get; }
         public string FirstName { get; }
+        public string LastName { get; }
+        public bool IsAdmin { get { return false; } }
 
-        public static readonly IDbUserController<Voter> DbController = new VoterController();
+        public static readonly IUserAccessor Accessor = new UserDbAccessor();
 
-        public Voter(string username, string? password, string lastName, string firstName, string serialNumber)
+        public Voter(string username, string password, string email, string lastName, string firstName, string serialNumber)
         {
             SerialNumber = serialNumber;
             Username = username;
             Password = password;
+            Email = email;
             LastName = lastName;
             FirstName = firstName;
         }
@@ -25,19 +28,20 @@ namespace VotingSystem.Model
 
     public class VoterBuilder
     {
-        public string SerialNumber;
-        public string Username;
+        public string? SerialNumber;
+        public string? Username;
+        public string? Email;
         public string? Password;
-        public string LastName;
-        public string FirstName;
+        public string? LastName;
+        public string? FirstName;
 
-        public VoterBuilder WithSerialNumber(string serialNum)
+        public VoterBuilder WithSerialNumber(string? serialNum)
         {
             SerialNumber = serialNum;
             return this;
         }
 
-        public VoterBuilder WithUsername(string username)
+        public VoterBuilder WithUsername(string? username)
         {
             Username = username;
             return this;
@@ -49,13 +53,19 @@ namespace VotingSystem.Model
             return this;
         }
 
-        public VoterBuilder WithLastName(string lastName)
+        public VoterBuilder WithEmail(string? email)
+        {
+            Email = email;
+            return this;
+        }
+
+        public VoterBuilder WithLastName(string? lastName)
         {
             LastName = lastName;
             return this;
         }
 
-        public VoterBuilder WithFirstName(string firstName)
+        public VoterBuilder WithFirstName(string? firstName)
         {
             FirstName = firstName;
             return this;
@@ -63,18 +73,20 @@ namespace VotingSystem.Model
 
         public Voter Build()
         {
-            if (!Validation.IsValidSerialNumber(SerialNumber))
+            if (SerialNumber == null || !Validation.IsValidSerialNumber(SerialNumber))
                 throw new InvalidBuilderParameterException("Invalid serial number '" + SerialNumber + "'");
-            if (!Validation.IsValidUsername(Username))
+            if (Username == null || !Validation.IsValidUsername(Username))
                 throw new InvalidBuilderParameterException("Invalid username '" + Username + "'");
-            if (!Validation.IsValidPassword(Password))
+            if (Password == null || !Validation.IsValidPassword(Password))
                 throw new InvalidBuilderParameterException("Invalid password '" + Password + "'");
-            if (!Validation.IsValidName(LastName))
+            if (LastName == null || !Validation.IsValidName(LastName))
                 throw new InvalidBuilderParameterException("Invalid last name '" + LastName + "'");
-            if (!Validation.IsValidName(FirstName))
+            if (FirstName == null || !Validation.IsValidName(FirstName))
                 throw new InvalidBuilderParameterException("Invalid first name '" + FirstName + "'");
-            
-            Voter voter = new (Username, Password, LastName, FirstName,  SerialNumber);
+            if (Email == null)
+                throw new InvalidBuilderParameterException("Invalid email (null)'" + Email + "'");
+
+            Voter voter = new(Username, Password, Email, LastName, FirstName, SerialNumber);
             return voter;
         }
     }

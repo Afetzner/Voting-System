@@ -1,19 +1,19 @@
 ﻿using MySql.Data.MySqlClient;
 using VotingSystem.Utils;
+using VotingSystem.Model;
 
-namespace VotingSystem.Controller
+namespace VotingSystem.Accessor
 {
-    public interface IDbUserController <T>
+    public interface IUserAccessor
     {
-        private static readonly string ConnectionString = DbConnecter.ConnectionString;
 
         /// <summary>
-        /// Adds a u to the DB. No need to manage connection, but still wrap in try-catch for failed connection
+        /// Adds a user to the DB. No need to manage connection, but still wrap in try-catch for failed connection
         /// </summary>
         /// <param name="user">object being added</param>
         /// <returns>id of new entry</returns>
         /// <exception cref="MySqlException">Bad connection to DB</exception>
-        public bool AddUser(T user);
+        public bool AddUser(IUser user);
 
         /// <summary>
         /// Removes a user by serial number from the DB. No need to manage connection, but still wrap in try-catch for failed connection
@@ -30,7 +30,7 @@ namespace VotingSystem.Controller
         /// <returns>The serial number of the user</returns>
         /// <exception cref="MySqlException">Bad connection to DB</exception>
         /// <exception cref="InvalidBuilderParameterException">Corrupt data from DB</exception>
-        public T GetUser(string username, string? password);
+        public IUser GetUser(string username, string password);
 
         /// <summary>
         /// Returns true if the given serial number is already in use in the DB. Wrap in try-catch for failed connection
@@ -38,5 +38,12 @@ namespace VotingSystem.Controller
         /// <param name="serial">Serial number to check</param>
         /// <exception cref="MySqlException">Bad connection to DB</exception>
         public bool IsSerialInUse(string serial);
+
+        /// <summary>
+        /// Returns if the given username is already in use in the DB. Wrap in try-catch for failed connection
+        /// </summary>
+        /// <param name="serial">Serial number to check</param>
+        /// <exception cref="MySqlException">Bad connection to DB</exception>
+        public bool IsUsernameInUse(string username);
     }
 }
