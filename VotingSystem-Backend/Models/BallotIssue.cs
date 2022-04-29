@@ -134,13 +134,11 @@ namespace VotingSystem.Model
                     throw new InvalidBuilderParameterException($@"Invalid BallotIssue w/out end time");
                 if (EndDate < StartDate)
                     throw new InvalidBuilderParameterException($@"Invalid start/end date (end before start) s:'{StartDate}' e:'{EndDate}'");
-                if (EndDate < DateTime.Now)
-                    throw new InvalidBuilderParameterException($@"Invalid end date (before now) '{EndDate}'");
                 if (IsNullOrEmpty(Title))
                     throw new InvalidBuilderParameterException($@"Invalid title '{Title}'");
                 if (Description == null)
                     Description = ""; 
-                    //Alex didn't want to include descriptions
+                    //Alex B didn't want to include descriptions
                 if (Options.Count == 0)
                     throw new InvalidBuilderParameterException(@"Invalid options list (empty)");
                 

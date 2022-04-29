@@ -64,9 +64,8 @@ namespace IntegrationTests.Interactive
                 " (2) Admin\n" +
                 " (3) Voter\n" +
                 " (4) Ballot-Issue\n" +
-                " (5) Ballot-Issue Option\n" +
-                " (6) Results\n" +
-                " (7) Exit\n");
+                " (5) Results\n" +
+                " (6) Exit\n");
 
             while (true)
             {
@@ -82,10 +81,8 @@ namespace IntegrationTests.Interactive
                     '1' => MetaAllTests,
                     '2' => AdminTests.AdminTestMenu,
                     '3' => VoterTests.VoterTestMenu,
-                    '4' => null,
+                    '4' => IssueTests.IssueTestMenu,
                     '5' => null,
-                    '6' => null,
-                    '7' => MetaExit,
                     _ => MetaExit
                 };
             }
