@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using VotingSystem.Accessor;
 using VotingSystem.Utils;
 using static System.String;
 
@@ -15,6 +16,7 @@ namespace VotingSystem.Model
         public string Description { get; }
         public List<BallotIssueOption> Options { get; }
 
+        public static readonly IBallotIssueAccessor Accessor = new BallotIssueAccessor();
         private BallotIssue(string serialNum, DateTime start, DateTime end, string title, string description,
             List<BallotIssueOption> options)
         {

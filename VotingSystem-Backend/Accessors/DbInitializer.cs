@@ -1,13 +1,13 @@
-using System;
-using MySql.Data;
 using MySql.Data.MySqlClient;
+using VotingSystem.Model;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace VotingSystem.Accessor {
     public class DbInitializer
     {
         //From stack overflow: https://stackoverflow.com/questions/19001423/getting-path-to-the-parent-folder-of-the-solution-file-using-c-sharp
-
-        public static DirectoryInfo? TryGetSolutionDirectoryInfo(string? currentPath = null)
+        private static DirectoryInfo? TryGetSolutionDirectoryInfo(string? currentPath = null)
         {
             var directory = new DirectoryInfo(
                 currentPath ?? Directory.GetCurrentDirectory());
@@ -52,7 +52,7 @@ namespace VotingSystem.Accessor {
             }
         }
 
-        public static void LoadDummyData()
+        public static void LoadDummyDataFromSql()
         {
             DirectoryInfo? homeDir = TryGetSolutionDirectoryInfo();
             if (homeDir == null)
@@ -84,6 +84,44 @@ namespace VotingSystem.Accessor {
                     throw;
                 }
             }
+        }
+
+        public static void LoadDummyDataFromJson()
+        {
+            DirectoryInfo? homeDir = TryGetSolutionDirectoryInfo();
+            if (homeDir == null)
+                throw new Exception("Cannot find solution home directory");
+
+            var file = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/Voters.json");
+            string data = File.ReadAllText(file);
+            var voters = JsonSerializer.Deserialize<List<Voter>>(data);
+
+            file = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/Admins.json");
+            data = File.ReadAllText(file);
+            var admins = JsonSerializer.Deserialize<List<Admin>>(data);
+
+            file = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/BallotIssues.json");
+            data = File.ReadAllText(file);
+            var issues = JsonSerializer.Deserialize<List<BallotIssue>>(data);
+
+            file = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/Ballots.json");
+            data = File.ReadAllText(file);
+            var ballots = JsonSerializer.Deserialize<List<Ballot>>(data);
+
+            if (voters == null || admins == null || issues == null || ballots == null)
+                throw new NullReferenceException();
+
+            foreach (Admin admin in admins) 
+                Admin.Accessor.AddUser(admin);
+
+            foreach (Voter voter in voters) 
+                Voter.Accessor.AddUser(voter);
+
+            foreach (BallotIssue issue in issues)
+                BallotIssue.Accessor.AddIssue(issue);
+
+            foreach (Ballot ballot in ballots)
+                Ballot.Accessor.AddBallot(ballot);
         }
     }
 }

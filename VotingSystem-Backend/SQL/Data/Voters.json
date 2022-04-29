@@ -1,0 +1,40 @@
+{
+  "Voters": [
+    {
+      "SerialNumber": "V78881255",
+      "Username": "jdoe",
+      "Password": "1234Aqwe!",
+      "Email": "jDoe@email.com",
+      "FirstName": "Jane",
+      "LastName": "Doe",
+      "IsAdmin": false
+    },
+    {
+      "SerialNumber": "V45662321",
+      "Username": "jackle11",
+      "Password": "#undersc0re#",
+      "Email": "theJack@email.com",
+      "FirstName": "Jack",
+      "LastName": "Ritz",
+      "IsAdmin": false
+    },
+    {
+      "SerialNumber": "V12456399",
+      "Username": "SaracTheGreat",
+      "Password": "/Asd1234?",
+      "Email": "sarah@email.com",
+      "FirstName": "Sarah",
+      "LastName": "Sandra",
+      "IsAdmin": false
+    },
+    {
+      "SerialNumber": "V11200678",
+      "Username": "AndersSon",
+      "Password": "9jgfk$aAsdm",
+      "Email": "ander@email.com",
+      "FirstName": "Anderson",
+      "LastName": "Rick",
+      "IsAdmin": false
+    }
+  ]
+}

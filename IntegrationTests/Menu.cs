@@ -105,7 +105,7 @@ namespace IntegrationTests.Interactive
             Console.WriteLine("Running all integration tests...");
             Console.WriteLine("Reseting DB");
             DbInitializer.ResetDbTables();
-            DbInitializer.LoadDummyData();
+            DbInitializer.LoadDummyDataFromSql();
 
             foreach (var testSuite in tests)
             {

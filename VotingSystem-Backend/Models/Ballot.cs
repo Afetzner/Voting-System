@@ -10,7 +10,7 @@ namespace VotingSystem.Model
         public BallotIssue Issue { get; }
         public BallotIssueOption Choice { get; }
 
-        public static BallotIssueAccessor Accessor = new ();
+        public static readonly IBallotAccessor Accessor = new BallotAccessor();
 
         public Ballot(Voter voter, BallotIssue issue, BallotIssueOption choice)
         {

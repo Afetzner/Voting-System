@@ -40,7 +40,7 @@ namespace IntegrationTests
 
         public static bool LoadTestData()
         {
-            DbInitializer.LoadDummyData();
+            DbInitializer.LoadDummyDataFromSql();
             return true;
         }
     }
