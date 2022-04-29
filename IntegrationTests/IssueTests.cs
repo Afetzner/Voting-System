@@ -104,10 +104,10 @@ namespace IntegrationTests
         public static bool TestDeleteIssue()
         {
             var issue = new BallotIssue.BallotIssueBuilder()
-                .WithSerialNumber("I111111111")
+                .WithSerialNumber("I11111111")
                 .WithStartDate(new DateTime(2022, 04, 28))
                 .WithEndDate(new DateTime(2022, 05, 28))
-                .WithTitle("TestIssue001")
+                .WithTitle("WarningTestIssue001")
                 .WithOptions("X", "Y")
                 .Build();
 

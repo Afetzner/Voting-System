@@ -91,7 +91,8 @@ namespace IntegrationTests.Interactive
         private static List<List<Func<bool>>> tests = new List<List<Func<bool>>>()
         {
             VoterTests.AllVoterTests,
-            AdminTests.AllAdminTests
+            AdminTests.AllAdminTests,
+            IssueTests.AllIssueTests
         };
 
         private static Func<bool> MetaAllTests()

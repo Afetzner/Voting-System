@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using System.Data;
 using VotingSystem.Model;
-using VotingSystem.Utils;
 
 namespace VotingSystem.Accessor
 {
@@ -52,6 +51,10 @@ namespace VotingSystem.Accessor
                     {
                         cmd.ExecuteNonQuery();
                     }
+                    catch (MySqlException e) when (e.ErrorCode== -2147467259)
+                    {
+                        //Duplicate entry, do not throw, handled by return value
+                    }
                     catch (MySqlException e)
                     {
                         Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'add_issue' with parameters:
@@ -84,6 +87,10 @@ namespace VotingSystem.Accessor
                             try
                             {
                                 cmd.ExecuteNonQuery();
+                            }
+                            catch (MySqlException e) when (e.ErrorCode== -2147467259)
+                            {
+                                //Duplicate entry, don't throw, handled by return value
                             }
                             catch (MySqlException e)
                             {
@@ -136,7 +143,9 @@ namespace VotingSystem.Accessor
 
         public List<BallotIssue> GetBallotIssues()
         {
-            List<BallotIssue> ballotIssueList = new List<BallotIssue>();
+            //List of ballot-issues *builders* (all get built at end)
+            var ballotIssueBuilderList = new List<BallotIssue.BallotIssueBuilder>();
+            var ballotIssueList = new List<BallotIssue>();
 
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
@@ -157,86 +166,52 @@ namespace VotingSystem.Accessor
 
                     while (reader.Read())
                     {
-                        List<BallotIssueOption> optionsList = new List<BallotIssueOption>();
+                        //Ballot-issue W/OUT OPTIONS
+                        // (can't execute the get-options query in the middle of getting issues
+                        // Only one return table can exists at a time
+                        // Options gotten for each issue *outside* of this loop)
+                        var ballotIssueBuilder = new BallotIssue.BallotIssueBuilder()
+                            .WithSerialNumber(reader.GetString(0))
+                            .WithStartDate(reader.GetDateTime(1))
+                            .WithEndDate(reader.GetDateTime(2))
+                            .WithTitle(reader.GetString(3))
+                            .WithDescription(reader.GetString(4));
 
-                        cmd.Parameters.Add("v_serialNumber", MySqlDbType.VarChar);
-                        cmd.Parameters["v_serialNumber"].Direction = ParameterDirection.Output;
-
-                        cmd.Parameters.Add("v_start", MySqlDbType.DateTime);
-                        cmd.Parameters["v_start"].Direction = ParameterDirection.Output;
-
-                        cmd.Parameters.Add("v_end", MySqlDbType.DateTime);
-                        cmd.Parameters["v_end"].Direction = ParameterDirection.Output;
-
-                        cmd.Parameters.Add("v_title", MySqlDbType.VarChar);
-                        cmd.Parameters["v_title"].Direction = ParameterDirection.Output;
-
-                        cmd.Parameters.Add("v_description", MySqlDbType.VarChar);
-                        cmd.Parameters["v_description"].Direction = ParameterDirection.Output;
-
-                        //TODO Not used
-                        String? ballotIssueSerialNumber = Convert.ToString(cmd.Parameters["v_serialNumber"].Value);
-
-                        using(var cmd2 = new MySqlCommand("get_options", conn))
-                        {
-                            cmd2.CommandType = CommandType.StoredProcedure;
-                            MySqlDataReader reader2 = cmd2.ExecuteReader();
-
-                            while (reader2.Read())
-                            {
-                                cmd2.Parameters.AddWithValue("v_serialNumber", ballotIssueSerialNumber);
-                                cmd2.Parameters["v_serialNumber"].Direction = ParameterDirection.Input;
-
-                                cmd2.Parameters.Add("v_number", MySqlDbType.Int32);
-                                cmd2.Parameters["v_number"].Direction = ParameterDirection.Output;
-
-                                cmd2.Parameters.Add("v_title", MySqlDbType.VarChar);
-                                cmd2.Parameters["v_title"].Direction = ParameterDirection.Output;
-
-                                cmd2.Parameters.AddWithValue("v_count", MySqlDbType.Int32);
-                                cmd2.Parameters["v_count"].Direction = ParameterDirection.Output;
-
-                                var newOption = new BallotIssueOption.BallotIssueOptionBuilder()
-                                    .WithOptionNumber(Convert.ToInt32(cmd2.Parameters["v_number"].Value))
-                                    .WithTitle(Convert.ToString(cmd2.Parameters["v_title"].Value))
-                                    .Build();
-
-                                optionsList.Add(newOption);
-                            }
-                        }
-                        var ballotIssue = new BallotIssue.BallotIssueBuilder()
-                            .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
-                            .WithStartDate(Convert.ToDateTime(cmd.Parameters["v_start"].Value))
-                            .WithEndDate(Convert.ToDateTime(cmd.Parameters["v_end"].Value))
-                            .WithTitle(Convert.ToString(cmd.Parameters["v_title"].Value))
-                            .WithDescription(Convert.ToString(cmd.Parameters["v_description"].Value))
-                            .WithOptions(optionsList)
-                            .Build();
-                        ballotIssueList.Add(ballotIssue);
+                        ballotIssueBuilderList.Add(ballotIssueBuilder);
                     }
+                    reader.Close();
                 }
+                
+                //Get options for each issue
+                foreach (BallotIssue.BallotIssueBuilder builder in ballotIssueBuilderList)
+                {
+                    List<BallotIssueOption> optionsList = new List<BallotIssueOption>();
+                    string? ballotIssueSerialNumber = builder.SerialNumber;
+
+                    using (var cmd = new MySqlCommand("get_options", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("v_serialNumber", ballotIssueSerialNumber);
+                        cmd.Parameters["v_serialNumber"].Direction = ParameterDirection.Input;
+]
+                        MySqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            var newOption = new BallotIssueOption.BallotIssueOptionBuilder()
+                                .WithOptionNumber(reader.GetInt32(0))
+                                .WithTitle(reader.GetString(1))
+                                .Build();
+
+                            optionsList.Add(newOption);
+                        }
+                        reader.Close();
+                    }
+
+                    var issue = builder.WithOptions(optionsList).Build();
+                    ballotIssueList.Add(issue);
+                }
+                return ballotIssueList;
             }
-            //Using conn = ...
-            //  Using cmd = "get_ballot_issue"
-            //  cmd.type = stored procedure
-            //  set up output cmd args (see voterController getUser)
-            //  execute cmd
-            //
-            //  iterate through returned values
-            //  (the return values will be a table, not a single item,
-            //  you'll have to figure out how to do this, no other funcs have done this yet)
-            //  start building issue with serial number, title ... ect.
-            //  foreach returned value {
-            //    using cmd = "get_issue_options"
-            //    cmd.args["serialNumber"] = current issue being built's serial number
-            //    ...
-            //    execute cmd
-            //    foreach returned value {
-            //      var option = ballotIssueOptionBuilder().WithTitle(...)... .Build()
-            //      add option to issue
-            //   build issue
-            //return issues
-            return ballotIssueList;
         }
 
         public bool IsSerialInUse(string serial)
