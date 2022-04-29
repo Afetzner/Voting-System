@@ -138,8 +138,9 @@ namespace VotingSystem.Model
                     throw new InvalidBuilderParameterException($@"Invalid end date (before now) '{EndDate}'");
                 if (IsNullOrEmpty(Title))
                     throw new InvalidBuilderParameterException($@"Invalid title '{Title}'");
-                if (IsNullOrEmpty(Description))
-                    throw new InvalidBuilderParameterException($@"Invalid description '{Description }'");
+                if (Description == null)
+                    Description = ""; 
+                    //Alex didn't want to include descriptions
                 if (Options.Count == 0)
                     throw new InvalidBuilderParameterException(@"Invalid options list (empty)");
                 
