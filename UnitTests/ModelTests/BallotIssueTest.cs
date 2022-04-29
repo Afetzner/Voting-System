@@ -186,7 +186,8 @@ namespace UnitTests.ModelTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidBuilderParameterException), "Ballot issue w/ null description allowed")]
+        //[ExpectedException(typeof(InvalidBuilderParameterException), "Ballot issue w/ null description allowed")]
+        //Now blank descsritions are allowed allowed
         public void BallotIssueFailNullDescription()
         {
             var now = DateTime.Now;
@@ -198,7 +199,10 @@ namespace UnitTests.ModelTests
                 .WithEndDate(now.AddDays(1))
                 .WithOptions("A", "B", "C")
                 .Build();
+
+            Assert.AreEqual("", issue.Description);
         }
+
 
         [TestMethod]
         [ExpectedException(typeof(InvalidBuilderParameterException), "Ballot issue w/ null serial num allowed")]
