@@ -13,7 +13,7 @@ namespace VotingSystem.Model
         public string LastName { get; }
         public bool IsAdmin { get { return true; } }
 
-        public static readonly IUserAccessor Accessor = new UserDbAccessor();
+        public static readonly IUserAccessor<Admin> Accessor = new UserDbAccessor<Admin>();
 
         public Admin(string serialNum, string username, string password, string email, string firstName, string lastName)
         {

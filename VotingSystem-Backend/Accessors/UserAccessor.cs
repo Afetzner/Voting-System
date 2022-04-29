@@ -5,7 +5,7 @@ using MySql.Data.MySqlClient;
 
 namespace VotingSystem.Accessor
 {
-    public class UserDbAccessor : IUserAccessor
+    public class UserDbAccessor <T> : IUserAccessor <T> where T : IUser
     {
         
         public bool AddUser(IUser user)
@@ -45,7 +45,7 @@ namespace VotingSystem.Accessor
                     cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
 
                     cmd.Parameters.AddWithValue("v_isAdmin", user.IsAdmin);
-                    cmd.Parameters["@v_isAdmin"].Direction = ParameterDirection.Output;
+                    cmd.Parameters["@v_isAdmin"].Direction = ParameterDirection.Input;
 
                     cmd.Parameters.Add("v_collision", MySqlDbType.Byte);
                     cmd.Parameters["@v_collision"].Direction = ParameterDirection.Output;
@@ -114,7 +114,7 @@ namespace VotingSystem.Accessor
             }
         }
 
-        public IUser GetUser(string username, string password)
+        public T GetUser(string username, string password)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
@@ -165,11 +165,12 @@ namespace VotingSystem.Accessor
                         throw;
                     }
 
-                    IUser user;
+                    T user;
+                    bool isAdmin = Convert.ToBoolean(cmd.Parameters["@v_isAdmin"]);
 
-                    if (Convert.ToBoolean(cmd.Parameters["@v_isAdmin"]))
+                    if (isAdmin)
                     {
-                        user = new AdminBuilder()
+                        Admin admin = new AdminBuilder()
                             .WithUsername(username)
                             .WithPassword(password)
                             .WithEmail(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
@@ -177,10 +178,11 @@ namespace VotingSystem.Accessor
                             .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
                             .WithLastName(Convert.ToString(cmd.Parameters["v_lastName"].Value))
                             .Build();
+                        user = (T)(IUser)admin;
                     }
                     else
                     {
-                        user = new VoterBuilder()
+                        Voter voter = new VoterBuilder()
                             .WithUsername(username)
                             .WithPassword(password)
                             .WithEmail(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
@@ -188,9 +190,8 @@ namespace VotingSystem.Accessor
                             .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
                             .WithLastName(Convert.ToString(cmd.Parameters["v_lastName"].Value))
                             .Build();
-                        
+                        user = (T)(IUser)voter;
                     }
-
                     return user;
                 }
             }
@@ -238,12 +239,42 @@ namespace VotingSystem.Accessor
 
         public bool IsUsernameInUse(string username)
         {
-            throw new NotImplementedException();
-        }
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine(e + "\nCould not connect to database");
+                    throw;
+                }
 
-        IUser IUserAccessor.GetUser(string username, string? password)
-        {
-            throw new NotImplementedException();
+                using (var cmd = new MySqlCommand("check_username", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("v_username", username);
+                    cmd.Parameters["@v_username"].Direction = ParameterDirection.Input;
+
+                    cmd.Parameters.Add("v_occupied", MySqlDbType.Byte);
+                    cmd.Parameters["@v_occupied"].Direction = ParameterDirection.Output;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (MySqlException e)
+                    {
+                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'check_username' with parameters: 
+    username: '{username}'");
+
+                        throw;
+                    }
+
+                    return Convert.ToBoolean(cmd.Parameters["v_occupied"].Value);
+                }
+            }
         }
     }
 }
