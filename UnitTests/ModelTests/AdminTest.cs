@@ -13,6 +13,7 @@ namespace UnitTests.ModelTests
             Admin admin = new AdminBuilder()
                 .WithUsername("jdoe16")
                 .WithPassword("Abc$900")
+                .WithEmail("email@email.com")
                 .WithSerialNumber("A12345678")
                 .WithFirstName("jane")
                 .WithLastName("doe")
@@ -20,6 +21,7 @@ namespace UnitTests.ModelTests
 
             Assert.AreEqual("jdoe16", admin.Username);
             Assert.AreEqual("Abc$900", admin.Password);
+            Assert.AreEqual("email@email.com", admin.Email);
             Assert.AreEqual("A12345678", admin.SerialNumber);
             Assert.AreEqual("jane", admin.FirstName);
             Assert.AreEqual("doe", admin.LastName);
@@ -27,11 +29,66 @@ namespace UnitTests.ModelTests
 
         [TestMethod]
         [ExpectedException(typeof(InvalidBuilderParameterException), "Admin w/out serial num. was allowed")]
-        public void AdminBuilderFailureNullSerial()
+        public void AdminBuilderFailureNoSerial()
         {
             Admin admin = new AdminBuilder()
-                .WithUsername("afet001")
-                .WithPassword("000zteF!")
+                .WithUsername("NoThoughts")
+                .WithPassword("Head3mpty")
+                .WithEmail("email@email.com")
+                .WithFirstName("jane")
+                .WithLastName("doe")
+                .Build();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidBuilderParameterException), "Admin w/out username was allowed")]
+        public void AdminBuilderFailureNoUsername()
+        {
+            Admin admin = new AdminBuilder()
+                .WithPassword("Head3mpty")
+                .WithEmail("email@email.com")
+                .WithFirstName("jane")
+                .WithLastName("doe")
+                .WithSerialNumber("A12345678")
+                .Build();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidBuilderParameterException), "Admin w/out password was allowed")]
+        public void AdminBuilderFailureNoPassword()
+        {
+            Admin admin = new AdminBuilder()
+                .WithUsername("NoThoughts")
+                .WithEmail("email@email.com")
+                .WithFirstName("jane")
+                .WithLastName("doe")
+                .WithSerialNumber("A12345678")
+                .Build();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidBuilderParameterException), "Admin w/out first name was allowed")]
+        public void AdminBuilderFailureNoFirst()
+        {
+            Admin admin = new AdminBuilder()
+                .WithUsername("NoThoughts")
+                .WithPassword("Head3mpty")
+                .WithEmail("email@email.com")
+                .WithSerialNumber("A12345678")
+                .WithLastName("doe")
+                .Build();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidBuilderParameterException), "Admin w/out last name was allowed")]
+        public void AdminBuilderFailureNoLast()
+        {
+            Admin admin = new AdminBuilder()
+                .WithUsername("NoThoughts")
+                .WithPassword("Head3mpty")
+                .WithEmail("email@email.com")
+                .WithSerialNumber("A12345678")
+                .WithFirstName("jane")
                 .Build();
         }
 
@@ -42,20 +99,10 @@ namespace UnitTests.ModelTests
         {
             Admin admin = new AdminBuilder()
                 .WithUsername("NoThoughts")
-                .WithPassword("Head3mpty@")
-                .WithSerialNumber("T10006666")
-                .Build();
-
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidBuilderParameterException), "Admin with invalid first name was allowed")]
-        public void AdminBuilderFailureNoFirstName()
-        {
-            Admin admin = new AdminBuilder()
-                .WithUsername("NoThoughts")
-                .WithPassword("Head3mpty@")
-                .WithSerialNumber("T10006666")
+                .WithPassword("Head3mpty")
+                .WithEmail("email@email.com")
+                .WithSerialNumber("A-12345678")
+                .WithFirstName("jane")
                 .Build();
         }
     }
