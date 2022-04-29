@@ -9,7 +9,34 @@ namespace VotingSystem.Model
     public class BallotAccessor : IBallotAccessor
     {
         //TODO
-public bool AddBallot(Ballot ballot)
+        public bool AddBallot(Ballot ballot)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Ballot> GetBallotsByVoter(string voterSerial)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<BallotIssue> GetIssuesVotedOn(string voterSerial)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsSerialInUse(string ballotSerial)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveBallot(string serial)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+    /*
+    public bool AddBallot(Ballot ballot)
 {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
@@ -29,7 +56,7 @@ public bool AddBallot(Ballot ballot)
                 IN `v_voterSerial` varchar(9),
                 IN `v_issueSerial` varchar(9),
                 IN `v_choiceNumber` int,
-                OUT `v_collision` bool)*/
+                OUT `v_collision` bool)
                 cmd.Parameters.AddWithValue("v_ballotSerial", ballot.)
             }
       
@@ -38,7 +65,7 @@ public bool AddBallot(Ballot ballot)
 
 public List<Ballot> GetBallotsByVoter(string voterSerial)
 {
-            /*
+            
            CREATE PROCEDURE afetzner.get_voters_ballot(
     IN `v_voterSerial` varchar(9),
     IN `v_issueSerial` varchar(9),
@@ -47,7 +74,7 @@ public List<Ballot> GetBallotsByVoter(string voterSerial)
     OUT `v_choiceTitle` varchar(127))
 BEGIN
   END
-                */
+                
     using(var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
                 try
@@ -91,11 +118,11 @@ public bool IsSerialInUse(string ballotSerial)
         }
 
         using (var cmd = new MySqlCommand("check_ballot_serial")
-    /*
+    
     CREATE PROCEDURE afetzner.check_ballot_serial(
     IN `v_ballotSerial` varchar(9),
     OUT `v_occupied` bool)
-    */
+    
     throw new NotImplementedException();
 }
 
@@ -105,3 +132,4 @@ public void RemoveBallot(string serial)
 }
 }
 }
+    */
