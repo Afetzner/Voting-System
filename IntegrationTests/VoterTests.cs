@@ -41,7 +41,7 @@ namespace IntegrationTests
                     '6' => TestAddDuplicateVoterUsername,
                     '7' => TestAddDuplicateVoterSerial,
                     '8' => TestAddDuplicateVoterEmail,
-                    '9' => Menu.Exit,
+                    _ => Menu.Exit,
                 };
             }
         }

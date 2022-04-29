@@ -1,0 +1,252 @@
+{
+  "Admins": [
+    {
+      "SerialNumber": "A12455865",
+      "Username": "Afetzner",
+      "Password": "advC4e!sad",
+      "Email": "afetz@email.com",
+      "FirstName": "Alex",
+      "LastName": "Fetzner",
+      "IsAdmin": true
+    },
+    {
+      "SerialNumber": "A98932345",
+      "Username": "Chambers",
+      "Password": "ttyy$123Avb",
+      "Email": "abch@email.com",
+      "FirstName": "Alex",
+      "LastName": "Busch",
+      "IsAdmin": true
+    },
+    {
+      "SerialNumber": "A22144658",
+      "Username": "Janice",
+      "Password": "34Asf#asf",
+      "Email": "jslc@email.com",
+      "FirstName": "Janice",
+      "LastName": "Shu Lin Chng",
+      "IsAdmin": true
+    }
+  ],
+  "Voters": [
+    {
+      "SerialNumber": "V78881255",
+      "Username": "jdoe",
+      "Password": "1234Aqwe!",
+      "Email": "jDoe@email.com",
+      "FirstName": "Jane",
+      "LastName": "Doe",
+      "IsAdmin": false
+    },
+    {
+      "SerialNumber": "V45662321",
+      "Username": "jackle11",
+      "Password": "#undersc0re#",
+      "Email": "theJack@email.com",
+      "FirstName": "Jack",
+      "LastName": "Ritz",
+      "IsAdmin": false
+    },
+    {
+      "SerialNumber": "V12456399",
+      "Username": "SaracTheGreat",
+      "Password": "/Asd1234?",
+      "Email": "sarah@email.com",
+      "FirstName": "Sarah",
+      "LastName": "Sandra",
+      "IsAdmin": false
+    },
+    {
+      "SerialNumber": "V11200678",
+      "Username": "AndersSon",
+      "Password": "9jgfk$aAsdm",
+      "Email": "ander@email.com",
+      "FirstName": "Anderson",
+      "LastName": "Rick",
+      "IsAdmin": false
+    }
+  ],
+  "BallotIssues": [
+    {
+      "SerialNumber": "I12224588",
+      "StartDate": "2022-04-21",
+      "EndSate": "2022-06-21",
+      "Title": "Mayor of Lincoln",
+      "Description": "Who will be the mayor of Lincoln?",
+      "Options": [
+        {
+          "Number": 0,
+          "Title": "John Durtz"
+        },
+        {
+          "Number": 1,
+          "Title": "Susan Marie"
+        },
+        {
+          "Number": 2,
+          "Title": "Edgar Brown"
+        }
+      ]
+    },
+    {
+      "SerialNumber": "I25348965",
+      "StartDate": "2022-05-21",
+      "EndSate": "2022-07-11",
+      "Title": "Police Chief of Lincoln",
+      "Description": "Who will be the police chief of Lincoln?",
+      "Options": [
+        {
+          "Number": 0,
+          "Title": "Jona Cop"
+        },
+        {
+          "Number": 1,
+          "Title": "Roman Stix"
+        }
+      ]
+    },
+    {
+      "SerialNumber": "I66335487",
+      "StartDate": "2022-04-21",
+      "EndSate": "2022-06-21",
+      "Title": "City Corronner",
+      "Description": "Who will be the corroner of Lincoln?",
+      "Options": [
+        {
+          "Number": 0,
+          "Title": "Mason Bricks"
+        }
+      ]
+    }
+  ],
+  "Ballots": [
+    {
+      "Voter": {
+        "SerialNumber": "V78881255",
+        "Username": "jdoe",
+        "Password": "1234Aqwe!",
+        "Email": "jDoe@email.com",
+        "FirstName": "Jane",
+        "LastName": "Doe",
+        "IsAdmin": false
+      },
+      "Issue": {
+        "SerialNumber": "I12224588",
+        "StartDate": "2022-04-21",
+        "EndSate": "2022-06-21",
+        "Title": "Mayor of Lincoln",
+        "Description": "Who will be the mayor of Lincoln?",
+        "Options": [
+          {
+            "Number": 0,
+            "Title": "John Durtz"
+          },
+          {
+            "Number": 1,
+            "Title": "Susan Marie"
+          },
+          {
+            "Number": 2,
+            "Title": "Edgar Brown"
+          }
+        ]
+      },
+      "Choice": {
+        "Number": 0,
+        "Title": "John Durtz"
+      }
+    },
+    {
+      "Voter": {
+        "SerialNumber": "V78881255",
+        "Username": "jdoe",
+        "Password": "1234Aqwe!",
+        "Email": "jDoe@email.com",
+        "FirstName": "Jane",
+        "LastName": "Doe",
+        "IsAdmin": false
+      },
+      "Issue": {
+        "SerialNumber": "I25348965",
+        "StartDate": "2022-05-21",
+        "EndSate": "2022-07-11",
+        "Title": "Police Chief of Lincoln",
+        "Description": "Who will be the police chief of Lincoln?",
+        "Options": [
+          {
+            "Number": 0,
+            "Title": "Jona Cop"
+          },
+          {
+            "Number": 1,
+            "Title": "Roman Stix"
+          }
+        ]
+      },
+      "Choice": {
+        "Number": 0,
+        "Title": "Jona Cop"
+      }
+    },
+    {
+      "Voter": {
+        "SerialNumber": "V45662321",
+        "Username": "jackle11",
+        "Password": "#undersc0re#",
+        "Email": "theJack@email.com",
+        "FirstName": "Jack",
+        "LastName": "Ritz",
+        "IsAdmin": false
+      },
+      "Issue": {
+        "SerialNumber": "I25348965",
+        "StartDate": "2022-05-21",
+        "EndSate": "2022-07-11",
+        "Title": "Police Chief of Lincoln",
+        "Description": "Who will be the police chief of Lincoln?",
+        "Options": [
+          {
+            "Number": 0,
+            "Title": "Jona Cop"
+          },
+          {
+            "Number": 1,
+            "Title": "Roman Stix"
+          }
+        ]
+      },
+      "Choice": {
+        "Number": 1,
+        "Title": "Roman Stix"
+      }
+    },
+    {
+      "Voter": {
+        "SerialNumber": "V45662321",
+        "Username": "jackle11",
+        "Password": "#undersc0re#",
+        "Email": "theJack@email.com",
+        "FirstName": "Jack",
+        "LastName": "Ritz",
+        "IsAdmin": false
+      },
+      "Issue": {
+        "SerialNumber": "I66335487",
+        "StartDate": "2022-04-21",
+        "EndSate": "2022-06-21",
+        "Title": "City Corronner",
+        "Description": "Who will be the corroner of Lincoln?",
+        "Options": [
+          {
+            "Number": 0,
+            "Title": "Mason Bricks"
+          }
+        ]
+      },
+      "Choice": {
+        "Number": 0,
+        "Title": "Mason Bricks"
+      }
+    }
+  ]
+}
