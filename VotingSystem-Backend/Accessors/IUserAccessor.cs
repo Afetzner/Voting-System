@@ -4,7 +4,7 @@ using VotingSystem.Model;
 
 namespace VotingSystem.Accessor
 {
-    public interface IUserAccessor
+    public interface IUserAccessor <T> where T : IUser
     {
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace VotingSystem.Accessor
         /// <returns>The serial number of the user</returns>
         /// <exception cref="MySqlException">Bad connection to DB</exception>
         /// <exception cref="InvalidBuilderParameterException">Corrupt data from DB</exception>
-        public IUser GetUser(string username, string password);
+        public T GetUser(string username, string password);
 
         /// <summary>
         /// Returns true if the given serial number is already in use in the DB. Wrap in try-catch for failed connection

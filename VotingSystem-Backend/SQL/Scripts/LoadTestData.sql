@@ -1,31 +1,31 @@
 use afetzner;
 
 -- Create admins
-INSERT INTO user (username, password) VALUES ('afetz00', 'Drowsap1!');
-INSERT INTO admin (user_id, serial_number) VALUES (last_insert_id(), 'A99900012');
+INSERT INTO user (username, password, email, first_name, last_name, serial_number, is_admin)
+    VALUES ('afetz00', 'Drowsap1', 'alexEmail@gmail.com', 'Alex', 'Fetzner', 'A99900012', true);
 SET @adminAlexId = last_insert_id();
-INSERT INTO user (username, password) VALUES ('3akycka', 'pa55W0RD@');
-INSERT INTO admin (user_id, serial_number) VALUES (last_insert_id(), 'A99900013');
+INSERT INTO user (username, password, email, first_name, last_name, serial_number, is_admin)
+    VALUES ('3akycka', 'pa55W0RD@', 'ana@gmail.com', 'Anastasiya', 'Krestovsky', 'A99900013', true);
 SET @adminAnastasyiaId = last_insert_id();
 
 -- Create voters
-INSERT INTO user (username, password) VALUES ('jdoe16', '2bOr!2b');
-INSERT INTO voter (user_id, first_name, last_name, serial_number) VALUES (last_insert_id(), 'Jane', 'Doe', 'V12399874');
-SET @voterJaneId = last_insert_id();
-INSERT INTO user (username, password) VALUES ('johndoe99', 'Cook!33ater');
-INSERT INTO voter (user_id, first_name, last_name, serial_number) VALUES (last_insert_id(), 'John', 'Doe', 'V78955412');
+INSERT INTO user (username, password, email, first_name, last_name, serial_number, is_admin)
+    VALUES ('jdoe16', '2bOr!2b', 'jackDoe@gmail.com', 'Jack', 'Doe', 'V12399874', false);
+SET @voterJackId = last_insert_id();
+INSERT INTO user (username, password, email, first_name, last_name, serial_number, is_admin)
+    VALUES ('johndoe99', 'Cook!33ater', 'johndoe66@gmail.com', 'John', 'Doe', 'V78955412', false);
 SET @voterJohnId = last_insert_id();
-INSERT INTO user (username, password) VALUES ('ultimateRick', '123asd99A$');
-INSERT INTO voter (user_id, first_name, last_name, serial_number) VALUES (last_insert_id(), 'Richard', 'Brown', 'V55544463');
+INSERT INTO user (username, password, email, first_name, last_name, serial_number, is_admin)
+    VALUES ('ultimateRick', '123asd99A$', 'ricksEmail@gmail.com', 'Richard', 'Brown', 'V55544463', false);
 SET @voterRickId = last_insert_id();
-INSERT INTO user (username, password) VALUES ('Bullfighter', '#grrrrrHaha7');
-INSERT INTO voter (user_id, first_name, last_name, serial_number) VALUES (last_insert_id(), 'Sarah', 'Bull', 'V12300077');
+INSERT INTO user (username, password, email, first_name, last_name, serial_number, is_admin)
+    VALUES ('Bullfighter', '#grrrrrHaha7', 'bullSara@gmail.com', 'Sarah', 'Bull', 'V12300077', false);
 SET @voterSarahId = last_insert_id();
-INSERT INTO user (username, password) VALUES ('drichard', 'th!sIsMyPa55W0rd');
-INSERT INTO voter (user_id, first_name, last_name, serial_number) VALUES (last_insert_id(), 'Dick', 'Richard', 'V80000112');
+INSERT INTO user (username, password, email, first_name, last_name, serial_number, is_admin)
+    VALUES ('drichard', '#th!sIsMyPa55W0rd', 'dickRick@gmail.com', 'Dick', 'Richard', 'V80000112', false);
 SET @voterDickId = last_insert_id();
-INSERT INTO user (username, password) VALUES ('Periwinkle', 'cyanRed$brown6');
-INSERT INTO voter (user_id, first_name, last_name, serial_number) VALUES (last_insert_id(), 'Perry', 'Platipus', 'V11122233');
+INSERT INTO user (username, password, email, first_name, last_name, serial_number, is_admin)
+    VALUES ('Periwinkle', 'cyanRed$brown6', 'secreteAgent@gmail.com', 'Perry', 'Platipus', 'V11122233', false);
 SET @voterPerryId = last_insert_id();
 
 -- Create ballot issues
@@ -67,11 +67,11 @@ SET @corronerOptionZeroId = last_insert_id();
 INSERT INTO ballot (ballot_serial_number, voter_serial_number, issue_serial_number, 
     choice_number, voter_id, issue_id, choice_id)
 VALUES ('B11240001', 'V12399874', 'I78955500', 0,
-    @voterJaneId, @issueMayorId, @mayorOptionZeroId);
+    @voterJackId, @issueMayorId, @mayorOptionZeroId);
 INSERT INTO ballot (ballot_serial_number, voter_serial_number, issue_serial_number, 
 	choice_number, voter_id, issue_id, choice_id)
 VALUES ('B11240002', 'V12399874', 'I78955501', 1,
-    @voterJaneId, @issuePoliceId, @policeOptionOneId);
+    @voterJackId, @issuePoliceId, @policeOptionOneId);
     
 INSERT INTO ballot (ballot_serial_number, voter_serial_number, issue_serial_number, 
     choice_number, voter_id, issue_id, choice_id)

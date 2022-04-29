@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VotingSystem.Model;
 using VotingSystem.Utils;
@@ -15,6 +14,7 @@ namespace UnitTests.ModelTests
             Voter voter = new VoterBuilder()
                 .WithUsername("jdoe16")
                 .WithPassword("Abc$900")
+                .WithEmail("email@email.com")
                 .WithFirstName("Jane")
                 .WithLastName("Doe")
                 .WithSerialNumber("A12345678")

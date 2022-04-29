@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VotingSystem.Accessor;
 
 namespace IntegrationTests.Interactive
@@ -82,7 +79,7 @@ namespace IntegrationTests.Interactive
                 return key.KeyChar switch
                 {
                     '0' => DbInitializers.DbInitMenu,
-                    '1' => null,
+                    '1' => MetaAllTests,
                     '2' => AdminTests.AdminTestMenu,
                     '3' => VoterTests.VoterTestMenu,
                     '4' => null,
@@ -92,6 +89,38 @@ namespace IntegrationTests.Interactive
                     _ => MetaExit
                 };
             }
+        }
+
+        private static List<List<Func<bool>>> tests = new List<List<Func<bool>>>()
+        {
+            VoterTests.AllVoterTests,
+            AdminTests.AllAdminTests
+        };
+
+        private static Func<bool> MetaAllTests()
+        {
+            int total = 0;
+            int fail = 0;
+
+            Console.WriteLine("Running all integration tests...");
+            Console.WriteLine("Reseting DB");
+            DbInitializer.ResetDbTables();
+            DbInitializer.LoadDummyData();
+
+            foreach (var testSuite in tests)
+            {
+                foreach (var test in testSuite)
+                {
+                    total++;
+                    if (!test())
+                        fail++;
+                }
+            }
+
+            Console.WriteLine("\n\nTesting done:");
+            Console.WriteLine($@"{fail}/{total} failed, {total - fail}/{total} passed");
+
+            return Exit;
         }
     }
 }
