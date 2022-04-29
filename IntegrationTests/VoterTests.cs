@@ -19,7 +19,8 @@ namespace IntegrationTests
                 " (5) Get voter\n" +
                 " (6) Add duplicate username\n" +
                 " (7) Add dupicate serial\n" +
-                " (8) Exit\n");
+                " (8) Add duplicate email\n" +
+                " (9) Exit\n");
 
             while (true)
             {
@@ -41,7 +42,6 @@ namespace IntegrationTests
                     '7' => TestAddDuplicateVoterSerial,
                     '8' => TestAddDuplicateVoterEmail,
                     '9' => Menu.Exit,
-                    _ => Menu.Exit
                 };
             }
         }

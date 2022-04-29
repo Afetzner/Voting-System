@@ -19,7 +19,8 @@ namespace IntegrationTests
                 " (5) Get admin\n" +
                 " (6) Add duplicate username\n" +
                 " (7) Add dupicate serial\n" +
-                " (8) Exit\n");
+                " (8) Add duplicate email\n" +
+                " (9) Exit\n");
 
             while (true)
             {
@@ -40,7 +41,6 @@ namespace IntegrationTests
                     '6' => TestAddDuplicateAdminUsername,
                     '7' => TestAddDuplicateAdminSerial,
                     '8' => TestAddDuplicateAdminEmail,
-                    '9' => Menu.Exit,
                     _ => Menu.Exit
                 };
             }
