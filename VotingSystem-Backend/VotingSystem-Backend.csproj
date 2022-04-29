@@ -9,19 +9,12 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\AdminController.cs" />
-    <Compile Remove="Controllers\BallotIssueController.cs" />
-    <Compile Remove="Controllers\BallotIssueOptionController.cs" />
-    <Compile Remove="Controllers\UserController.cs" />
     <Compile Remove="Controllers\VoterController.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.29" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

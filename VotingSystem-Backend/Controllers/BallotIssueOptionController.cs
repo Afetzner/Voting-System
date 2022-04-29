@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using MySql.Data.MySqlClient;
+using VotingSystem.Accessor;
 using VotingSystem.Model;
 
 namespace VotingSystem.Controller

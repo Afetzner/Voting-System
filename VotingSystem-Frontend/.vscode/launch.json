@@ -4,7 +4,7 @@
     {
       "type": "chrome",
       "request": "launch",
-      "name": "localhost (Chrome)",
+      "name": "localhost (Firefox)",
       "url": "https://localhost:3000",
       "webRoot": "${workspaceFolder}"
     },

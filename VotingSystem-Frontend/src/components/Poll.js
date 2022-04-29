@@ -1,12 +1,26 @@
 import "./Poll.css";
 import React, { useState } from "react";
 import { Accordion, Badge, Button, ButtonGroup, Container, Form, ProgressBar, ToggleButton } from "react-bootstrap";
+import propTypes from "prop-types";
+import { BalletIssue } from "../views/Vote";
 
-export default function Poll(poll, i, setShow) {
-  const [inProgress, setInProgress] = useState(poll.endDate < new Date());
-  const [counted, setCounted] = useState(false);
-  const [radioValue, setRadioValue] = useState("");
-  const [selection, setSelection] = useState("");
+Poll.propTypes = {
+  poll: propTypes.instanceOf(BalletIssue),
+  setShow: propTypes.boolean
+}
+
+export default function Poll(poll, i, props) {
+  // const [inProgress, setInProgress] = useState(poll.endDate < new Date());
+  // const [counted, setCounted] = useState(false);
+  // const [radioValue, setRadioValue] = useState("");
+  // const [selection, setSelection] = useState("");
+
+  // const inProgress = false;
+  // const counted = false;
+  // const radioValue = "";
+  // const selection = "";
+
+  console.log(poll);
 
   // const [state, setState] = useState({
   //   inProgress: (poll.endDate < new Date()),
@@ -60,8 +74,8 @@ export default function Poll(poll, i, setShow) {
   // }
 
   const handleChange = (e, item) => {
-    setRadioValue(e.currentTarget.value);
-    setSelection(item);
+    props.setRadioValue(e.currentTarget.value);
+    props.setSelection(item);
     console.log(item);
   };
 
@@ -72,8 +86,8 @@ export default function Poll(poll, i, setShow) {
           <strong>{poll.title}</strong>
         </Container>
         <div className="badges">
-          {(counted) ? <Badge bg="primary">Vote Counted</Badge> : undefined}
-          {(inProgress) ? <Badge bg="success">In Progress</Badge> : <Badge bg="danger">Ended</Badge>}
+          {(props.counted) ? <Badge bg="primary">Vote Counted</Badge> : undefined}
+          {(props.inProgress) ? <Badge bg="success">In Progress</Badge> : <Badge bg="danger">Ended</Badge>}
         </div>
       </Accordion.Header>
       <Accordion.Body>
@@ -89,17 +103,17 @@ export default function Poll(poll, i, setShow) {
                     type="radio"
                     variant="outline-primary"
                     value={value}
-                    checked={(radioValue === value)}
+                    checked={(props.radioValue === value)}
                     onChange={(e) => handleChange(e, option)}
-                    disabled={!inProgress || counted}
-                  >{option}</ToggleButton>);
+                    disabled={!props.inProgress || props.counted}
+                  >{option.title}</ToggleButton>);
                 })}
               </ButtonGroup>
               <Button
                 className="confirm-button"
                 variant="success"
-                onClick={() => setShow(true)}
-                disabled={!inProgress || counted || selection === ""}
+                onClick={() => props.setShow(true)}
+                disabled={!props.inProgress || props.counted || props.selection === ""}
               >Confirm Selection</Button>
             </div>
           </Form.Group>
