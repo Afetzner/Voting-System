@@ -23,7 +23,7 @@ namespace VotingSystem.Accessor {
             DirectoryInfo? homeDir = TryGetSolutionDirectoryInfo();
             if (homeDir == null)
                 throw new Exception("Cannot find solution home directory");
-            var queryFile = Path.Combine(homeDir.FullName, "VotingSystem/SQL/Scripts/ResetDb.sql");
+            var queryFile = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/Scripts/ResetDb.sql");
             string sql = File.ReadAllText(queryFile);
 
             using (MySqlConnection conn = new MySqlConnection(DbConnecter.ConnectionString))
@@ -57,7 +57,7 @@ namespace VotingSystem.Accessor {
             DirectoryInfo? homeDir = TryGetSolutionDirectoryInfo();
             if (homeDir == null)
                 throw new Exception("Cannot find solution home directory");
-            var queryFile = Path.Combine(homeDir.FullName, "VotingSystem/SQL/Scripts/LoadTestData.sql");
+            var queryFile = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/Scripts/LoadTestData.sql");
             string sql = File.ReadAllText(queryFile);
 
             using (MySqlConnection conn = new MySqlConnection(DbConnecter.ConnectionString))

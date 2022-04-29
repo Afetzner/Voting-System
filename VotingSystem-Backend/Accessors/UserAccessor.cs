@@ -33,13 +33,13 @@ namespace VotingSystem.Accessor
                     cmd.Parameters["@v_password"].Direction = ParameterDirection.Input;
 
                     cmd.Parameters.AddWithValue("v_email", user.Email);
-                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+                    cmd.Parameters["@v_email"].Direction = ParameterDirection.Input;
 
                     cmd.Parameters.AddWithValue("v_firstName", user.FirstName);
-                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+                    cmd.Parameters["@v_firstName"].Direction = ParameterDirection.Input;
 
                     cmd.Parameters.AddWithValue("v_lastName", user.LastName);
-                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
+                    cmd.Parameters["@v_lastName"].Direction = ParameterDirection.Input;
 
                     cmd.Parameters.AddWithValue("v_serialNumber", user.SerialNumber);
                     cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Input;
@@ -166,14 +166,14 @@ namespace VotingSystem.Accessor
                     }
 
                     T user;
-                    bool isAdmin = Convert.ToBoolean(cmd.Parameters["@v_isAdmin"]);
+                    bool isAdmin = Convert.ToBoolean(cmd.Parameters["@v_isAdmin"].Value);
 
                     if (isAdmin)
                     {
                         Admin admin = new AdminBuilder()
                             .WithUsername(username)
                             .WithPassword(password)
-                            .WithEmail(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
+                            .WithEmail(Convert.ToString(cmd.Parameters["v_email"].Value))
                             .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
                             .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
                             .WithLastName(Convert.ToString(cmd.Parameters["v_lastName"].Value))
@@ -185,7 +185,7 @@ namespace VotingSystem.Accessor
                         Voter voter = new VoterBuilder()
                             .WithUsername(username)
                             .WithPassword(password)
-                            .WithEmail(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
+                            .WithEmail(Convert.ToString(cmd.Parameters["v_email"].Value))
                             .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
                             .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
                             .WithLastName(Convert.ToString(cmd.Parameters["v_lastName"].Value))

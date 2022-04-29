@@ -19,7 +19,7 @@ BEGIN
 	SET `v_collision` = TRUE;
 	START TRANSACTION;
     SET `v_collision` = EXISTS(
-		SELECT 1 FROM user WHERE username = `v_username` OR email = `v_email` OR serial_number = `v_serialNumber`
+		SELECT 1 FROM user WHERE user.username = `v_username` OR user.email = `v_email` OR user.serial_number = `v_serialNumber`
     );
     
 	INSERT INTO user(username, password, email, first_name, last_name, serial_number, is_admin) 
@@ -37,7 +37,7 @@ BEGIN
 	DELETE user, ballot
     FROM user
     LEFT JOIN ballot ON user.user_id = ballot.voter_id
-    WHERE voter.serial_number = `v_serialNumber`;
+    WHERE user.serial_number = `v_serialNumber`;
     COMMIT;
 END
 $$
@@ -65,15 +65,15 @@ CREATE PROCEDURE afetzner.check_user_serial (
 	IN `v_serialNumber` varchar(9),
     OUT `v_occupied` bool)
 BEGIN
-	SET `v_occupied` = EXISTS (SELECT 1 FROM user WHERE serial_number = `v_serialNumber`);
+	SET `v_occupied` = EXISTS (SELECT 1 FROM user WHERE user.serial_number = `v_serialNumber`);
 END
 $$
 
-CREATE PROCEDURE afetzner.check_user_username (
+CREATE PROCEDURE afetzner.check_username (
 	IN `v_username` varchar(31),
     OUT `v_occupied` bool)
 BEGIN
-	SET `v_occupied` = EXISTS (SELECT 1 FROM user WHERE username = `v_username`);
+	SET `v_occupied` = EXISTS (SELECT 1 FROM user WHERE user.username = `v_username`);
 END
 $$
 DELIMITER ;

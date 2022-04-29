@@ -11,28 +11,13 @@ CREATE TABLE user (
 	user_id int auto_increment,
     username varchar(31) NOT NULL UNIQUE,
     password varchar(31) NOT NULL,
+    email varchar(63) NOT NULL,
+	first_name varchar(31) NOT NULL,
+    last_name varchar(31) NOT NULL,
+    serial_number varchar(9) NOT NULL UNIQUE,
+    is_admin bool NOT NULL,
     
     PRIMARY KEY (user_id)
-);
-
-CREATE TABLE admin (
-	admin_id int auto_increment,
-    user_id int NOT NULL,
-    serial_number varchar(9) NOT NULL UNIQUE,
-    
-    PRIMARY KEY (admin_id),
-    FOREIGN KEY (user_id) REFERENCES user(user_id)
-);
-
-CREATE TABLE voter (
-	voter_id int auto_increment,
-    user_id int NOT NULL,
-    serial_number varchar(9) NOT NULL UNIQUE,
-    first_name varchar(31) NOT NULL,
-    last_name varchar(31) NOT NULL,
-    
-    PRIMARY KEY (voter_id),
-    FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
 CREATE TABLE issue (
@@ -68,7 +53,7 @@ CREATE TABLE ballot (
     choice_id int NOT NULL,
     
     PRIMARY KEY (ballot_id),
-    FOREIGN KEY (voter_id) REFERENCES voter(voter_id),
+    FOREIGN KEY (voter_id) REFERENCES user(user_id),
     FOREIGN KEY (issue_id) REFERENCES issue(issue_id),
     FOREIGN KEY (choice_id) REFERENCES issue_option(option_id)
 );
