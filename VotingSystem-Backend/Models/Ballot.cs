@@ -49,7 +49,7 @@ namespace VotingSystem.Model
             return this;
         }
 
-        public BallotBuilder WithSerialNumber(string serialNumber)
+        public BallotBuilder WithSerialNumber(string? serialNumber)
         {
             SerialNumber = serialNumber;
             return this;

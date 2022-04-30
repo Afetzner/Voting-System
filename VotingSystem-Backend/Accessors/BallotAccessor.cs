@@ -1,6 +1,7 @@
 using VotingSystem.Accessor;
 using System;
 using VotingSystem.Model;
+using VotingSystem.Utils;
 using System.Data;
 using MySql.Data.MySqlClient;
 
@@ -61,9 +62,11 @@ namespace VotingSystem.Model
             }
         }
 
-        public List<Ballot> GetBallotsByVoter(string voterSerial)
+        public Ballot? GetBallot(ref Voter voter, ref BallotIssue issue)
         {
-            List<Ballot> ballots = new List<Ballot>();
+            var ballotBuilder = new BallotBuilder()
+                .WithVoter(voter)
+                .WithIssue(issue);
 
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
@@ -81,8 +84,11 @@ namespace VotingSystem.Model
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("v_voterSerial", voterSerial);
+                    cmd.Parameters.AddWithValue("v_voterSerial", voter.SerialNumber);
                     cmd.Parameters["v_voterSerial"].Direction = ParameterDirection.Input;
+
+                    cmd.Parameters.AddWithValue("v_issueSerial", issue.SerialNumber);
+                    cmd.Parameters["v_issueSerial"].Direction = ParameterDirection.Input;
 
                     cmd.Parameters.Add("v_ballotSerial", MySqlDbType.VarChar);
                     cmd.Parameters["@v_ballotSerial"].Direction = ParameterDirection.Output;
@@ -100,19 +106,31 @@ namespace VotingSystem.Model
                     catch (MySqlException e)
                     {
                         Console.WriteLine(e + "\n" + $@"\nCould not execute SQL procedure get_voters_ballot' with parameters:
-                                                    voterSerial: '{voterSerial}'");
+    voterSerial: '{voter.SerialNumber}',
+    issueSerial: '{issue.SerialNumber}'");
 
                         throw;
                     }
+
+                    //No vote on that issue
+                    if (cmd.Parameters["v_choiceNumber"].Value == null)
+                        return null;
+
+                    int num = Convert.ToInt32(cmd.Parameters["@v_choiceNumber"].Value);
+                    string? title = Convert.ToString(cmd.Parameters["v_choiceTitle"].Value);
+                    var choice = issue.Options.Find(option => option.Number == num && option.Title == title);
+
+                    if (choice == null)
+                        throw new InvalidBuilderParameterException("Issue option from db does not match an options in provided issue");
+
+                    return ballotBuilder
+                        .WithSerialNumber(Convert.ToString(cmd.Parameters["v_ballotSerial"].Value))
+                        .WithChoice(choice)
+                        .Build();
+                    
                 }
             }
-            throw new NotImplementedException();
-
         }
-
-
-
-
 
         public List<BallotIssue> GetIssuesVotedOn(string voterSerial)
             {
@@ -218,5 +236,10 @@ namespace VotingSystem.Model
                     }
                 }
             }
+
+        List<Ballot> IBallotAccessor.GetBallotsByVoter(string voterSerial)
+        {
+            throw new NotImplementedException();
         }
+    }
     }

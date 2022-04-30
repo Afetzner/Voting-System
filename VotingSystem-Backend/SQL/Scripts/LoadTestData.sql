@@ -30,10 +30,10 @@ SET @voterPerryId = last_insert_id();
 
 -- Create ballot issues
 INSERT INTO issue (serial_number, start_date, end_date, title, description)
-	VALUES ('I78955500', "2020-04-19", "2020-05-19", "Lincoln City Mayor", "The mayor of the city of Lincoln. Responsibilties include vetoing or passing bills passed by city council");
+	VALUES ('I78955500', "2020-04-19", "2022-05-19", "Lincoln City Mayor", "The mayor of the city of Lincoln. Responsibilties include vetoing or passing bills passed by city council");
 SET @issueMayorId = last_insert_id();
 INSERT INTO issue (serial_number, start_date, end_date, title, description)
-	VALUES ('I78955501', "2020-04-19", "2020-05-19", "Lincoln City Police Chief", 
+	VALUES ('I78955501', "2020-04-19", "2023-05-19", "Lincoln City Police Chief", 
 		"The mayor of the city of Lincoln. Responsibilties include managing the Lincoln city police department and community outreach program");
 SET @issuePoliceId = last_insert_id();
 INSERT INTO issue (serial_number, start_date, end_date, title, description)

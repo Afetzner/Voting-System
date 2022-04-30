@@ -4,7 +4,7 @@ using VotingSystem.Accessor;
 
 namespace VotingSystem.Controller
 {
-    public class ResultViwer
+    public class ResultViewer
     {
 
     }
