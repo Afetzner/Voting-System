@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Outlet, Routes, Route } from "react-router-dom";
 import "./index.css";
-import SignIn from "./views/SignIn";
-import Vote from "./views/Vote";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "./components/Header";
+import SignIn from "./views/SignIn";
+import Vote from "./views/Vote";
 
-const App = () => {
+function App() {
   const [user, setUser] = useState(undefined);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const App = () => {
   );
 }
 
-const Layout = (props) => {
+function Layout(props) {
   return (
     <>
       <Header user={props.user} setUser={props.setUser} />

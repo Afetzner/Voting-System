@@ -13,7 +13,7 @@ function FailedSignIn(props) {
 }
 
 export default function SignIn(props) {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
