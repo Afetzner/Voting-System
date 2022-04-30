@@ -17,7 +17,7 @@ CREATE PROCEDURE afetzner.add_issue(
     OUT `v_collision` bool)
 BEGIN
 	-- Detect if issue with same title exists
-	SET `v_collision` =  EXISTS (SELECT 1 FROM issue WHERE issue.title = `v_title` LIMIT 1);
+	SET `v_collision` =  EXISTS (SELECT 1 FROM issue WHERE issue.title = `v_title` OR issue.serial_number = `v_serialNumber` LIMIT 1);
 	START TRANSACTION;
 	INSERT INTO issue (serial_number, start_date, end_date, title, description)
     SELECT `v_serialNumber`, `v_start`, `v_end`, `v_title`, `v_description`
@@ -84,16 +84,9 @@ END
 $$
 
 -- Gets all the ballot issues in the DB
-CREATE PROCEDURE afetzner.get_issues(
-	-- OUT `v_serialNumber` varchar(9),
-    -- OUT `v_start` DATE,
-    -- OUT `v_end` DATE,
-    -- OUT `v_title` varchar(127),
-    -- OUT `v_description` varchar(255)
-    )
+CREATE PROCEDURE afetzner.get_issues()
 BEGIN
 	SELECT serial_number, start_date, end_date, title, description  
-    -- AS `v_serialNumber`, `v_start`, `v_end`, `v_title`, `v_description`
     FROM issue;
 END
 $$
@@ -101,13 +94,9 @@ $$
 -- Gets all the ballot options associated with an issue, also number of options
 CREATE PROCEDURE afetzner.get_options(
 	IN `v_serialNumber` varchar(9)
-    -- OUT `v_number` int,
-    -- OUT `v_title` varchar(127),
-    -- OUT `v_count` int
     )
 BEGIN
 	SELECT issue_option.option_number, issue_option.title 
-    -- AS `v_number`, `v_title`
     FROM issue JOIN issue_option ON issue.issue_id = issue_option.issue_id
     WHERE issue.serial_number = `v_serialNumber`;
 END
