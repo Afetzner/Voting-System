@@ -76,17 +76,11 @@ use afetzner;
 select * FROM issue left JOIN issue_option ON issue.issue_id = issue_option.issue_id
 		left JOIN ballot ON issue.issue_id = ballot.issue_id;
         
-SELECT issue_id INTO @v_issueId FROM issue WHERE issue.serial_number = 'I11111111';
+SELECT issue_id INTO @v_issueId FROM issue WHERE issue.serial_number = 'I66666666';
+
+(SELECT issue_id FROM issue WHERE issue.serial_number = 'I66666666' LIMIT 1);
 
 DELETE FROM ballot WHERE issue_id = @v_issueId;
 DELETE FROM issue_option WHERE issue_id = @v_issueId;
 DELETE FROM issue WHERE issue_id = @V_issueId;
         
-	DELETE issue, issue_option, ballot
-    FROM ballot RIGHT JOIN issue ON ballot.issue_id = issue.issue_id
-		RIGHT JOIN issue_option ON issue.issue_id = issue_option.issue_id
-	WHERE issue.serial_number = 'I11111111';
-    FROM issue_option LEFT JOIN issue ON issue_option.issue_id = issue.issue_id
-		LEFT JOIN ballot ON issue.issue_id = ballot.issue_id
-    WHERE issue.serial_number = 'I11111111';
-    

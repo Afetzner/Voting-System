@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\AdminController.cs" />
+    <Compile Remove="Controllers\BallotIssueOptionController.cs" />
     <Compile Remove="Controllers\VoterController.cs" />
   </ItemGroup>
 

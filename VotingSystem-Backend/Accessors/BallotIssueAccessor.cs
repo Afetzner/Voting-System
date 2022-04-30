@@ -49,9 +49,10 @@ namespace VotingSystem.Accessor
                     {
                         cmd.ExecuteNonQuery();
                     }
-                    catch (MySqlException e) when (e.ErrorCode== -2147467259)
+                    catch (MySqlException e) when (e.ErrorCode == -2147467259)
                     {
                         //Duplicate entry, do not throw, handled by return value
+                        return true;
                     }
                     catch (MySqlException e)
                     {
@@ -89,6 +90,7 @@ namespace VotingSystem.Accessor
                             catch (MySqlException e) when (e.ErrorCode== -2147467259)
                             {
                                 //Duplicate entry, don't throw, handled by return value
+                                return true;
                             }
                             catch (MySqlException e)
                             {

@@ -92,19 +92,19 @@ namespace VotingSystem.Accessor {
             if (homeDir == null)
                 throw new Exception("Cannot find solution home directory");
 
-            var file = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/Voters.json");
+            var file = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/Data/Voters.json");
             string data = File.ReadAllText(file);
             var voters = JsonSerializer.Deserialize<List<Voter>>(data);
 
-            file = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/Admins.json");
+            file = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/Data/Admins.json");
             data = File.ReadAllText(file);
             var admins = JsonSerializer.Deserialize<List<Admin>>(data);
 
-            file = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/BallotIssues.json");
+            file = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/Data/BallotIssues.json");
             data = File.ReadAllText(file);
             var issues = JsonSerializer.Deserialize<List<BallotIssue>>(data);
 
-            file = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/Ballots.json");
+            file = Path.Combine(homeDir.FullName, "VotingSystem-Backend/SQL/Data/Ballots.json");
             data = File.ReadAllText(file);
             var ballots = JsonSerializer.Deserialize<List<Ballot>>(data);
 

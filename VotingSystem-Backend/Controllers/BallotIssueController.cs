@@ -13,6 +13,7 @@ namespace VotingSystem.Controller
         [Route("api/polls")]
         public List<BallotIssue> GetBallotIssues()
         {
+<<<<<<< HEAD
             /*
             List<BallotIssue> list = new List<BallotIssue>();
             BallotIssue issue1 = new BallotIssue.BallotIssueBuilder()
@@ -62,6 +63,9 @@ namespace VotingSystem.Controller
             list.Add(issue5);
             */
             return BallotIssue.Accessor.GetBallotIssues();
+=======
+            return BallotIssue.Accessor.GetBallotIssues(); 
+>>>>>>> ad412585677c46443e2ead4d110df4a6d69ed8a0
         }
     }
 }
