@@ -20,6 +20,13 @@ export default function Vote(props) {
     });
   }, []);
 
+  useEffect(() => {
+    if (props.user === undefined) {
+      setRadioValue([]);
+      setSelection([]);
+    }
+  }, [props.user])
+
   const handleChange = (event, item, index) => {
     setRadioValue([
       ...radioValue.slice(0, index),
