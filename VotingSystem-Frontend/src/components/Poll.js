@@ -50,7 +50,7 @@ export default function Poll(props) {
                     variant="outline-primary"
                     value={value}
                     checked={(props.radioValue === value)}
-                    onChange={(e) => props.handleChange(e, option, props.index)}
+                    onChange={(event) => props.handleChange(event, option, props.index)}
                     // disabled={!props.inProgress || props.counted}
                   >{option.title}</ToggleButton>);
                 })}

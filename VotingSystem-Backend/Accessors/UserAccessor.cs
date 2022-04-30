@@ -1,4 +1,3 @@
-using System;
 using VotingSystem.Model;
 using System.Data;
 using MySql.Data.MySqlClient;
@@ -182,7 +181,7 @@ namespace VotingSystem.Accessor
                     }
                     else
                     {
-                        Voter voter = new VoterBuilder()
+                        Voter voter = new Voter.VoterBuilder()
                             .WithUsername(username)
                             .WithPassword(password)
                             .WithEmail(Convert.ToString(cmd.Parameters["v_email"].Value))

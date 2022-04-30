@@ -16,16 +16,17 @@ export default function Vote() {
 
   useEffect(() => {
     axios.get("https://localhost:7237/api/polls").then((response) => {
+      console.log(response.data);
       setPolls(response.data);
     }).catch(error => {
       console.log(error);
     });
-  }, [polls]);
+  }, []);
 
-  const handleChange = (e, item, index) => {
+  const handleChange = (event, item, index) => {
     setRadioValue([
       ...radioValue.slice(0, index),
-      e.currentTarget.value,
+      event.currentTarget.value,
       ...radioValue.slice(index + 1)
     ]);
     setSelection([

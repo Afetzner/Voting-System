@@ -24,70 +24,69 @@ namespace VotingSystem.Model
             LastName = lastName;
             FirstName = firstName;
         }
-    }
-
-    public class VoterBuilder
-    {
-        public string? SerialNumber;
-        public string? Username;
-        public string? Email;
-        public string? Password;
-        public string? LastName;
-        public string? FirstName;
-
-        public VoterBuilder WithSerialNumber(string? serialNum)
+        public class VoterBuilder
         {
-            SerialNumber = serialNum;
-            return this;
-        }
+            public string? SerialNumber;
+            public string? Username;
+            public string? Email;
+            public string? Password;
+            public string? LastName;
+            public string? FirstName;
 
-        public VoterBuilder WithUsername(string? username)
-        {
-            Username = username;
-            return this;
-        }
+            public VoterBuilder WithSerialNumber(string? serialNum)
+            {
+                SerialNumber = serialNum;
+                return this;
+            }
 
-        public VoterBuilder WithPassword(string? password)
-        {
-            Password = password;
-            return this;
-        }
+            public VoterBuilder WithUsername(string? username)
+            {
+                Username = username;
+                return this;
+            }
 
-        public VoterBuilder WithEmail(string? email)
-        {
-            Email = email;
-            return this;
-        }
+            public VoterBuilder WithPassword(string? password)
+            {
+                Password = password;
+                return this;
+            }
 
-        public VoterBuilder WithLastName(string? lastName)
-        {
-            LastName = lastName;
-            return this;
-        }
+            public VoterBuilder WithEmail(string? email)
+            {
+                Email = email;
+                return this;
+            }
 
-        public VoterBuilder WithFirstName(string? firstName)
-        {
-            FirstName = firstName;
-            return this;
-        }
+            public VoterBuilder WithLastName(string? lastName)
+            {
+                LastName = lastName;
+                return this;
+            }
 
-        public Voter Build()
-        {
-            if (SerialNumber == null || !Validation.IsValidSerialNumber(SerialNumber))
-                throw new InvalidBuilderParameterException("Invalid serial number '" + SerialNumber + "'");
-            if (Username == null || !Validation.IsValidUsername(Username))
-                throw new InvalidBuilderParameterException("Invalid username '" + Username + "'");
-            if (Password == null || !Validation.IsValidPassword(Password))
-                throw new InvalidBuilderParameterException("Invalid password '" + Password + "'");
-            if (LastName == null || !Validation.IsValidName(LastName))
-                throw new InvalidBuilderParameterException("Invalid last name '" + LastName + "'");
-            if (FirstName == null || !Validation.IsValidName(FirstName))
-                throw new InvalidBuilderParameterException("Invalid first name '" + FirstName + "'");
-            if (Email == null)
-                throw new InvalidBuilderParameterException("Invalid email (null)'" + Email + "'");
+            public VoterBuilder WithFirstName(string? firstName)
+            {
+                FirstName = firstName;
+                return this;
+            }
 
-            Voter voter = new(Username, Password, Email, LastName, FirstName, SerialNumber);
-            return voter;
+            public Voter Build()
+            {
+                if (SerialNumber == null || !Validation.IsValidSerialNumber(SerialNumber))
+                    throw new InvalidBuilderParameterException("Invalid serial number '" + SerialNumber + "'");
+                if (Username == null || !Validation.IsValidUsername(Username))
+                    throw new InvalidBuilderParameterException("Invalid username '" + Username + "'");
+                if (Password == null || !Validation.IsValidPassword(Password))
+                    throw new InvalidBuilderParameterException("Invalid password '" + Password + "'");
+                if (LastName == null || !Validation.IsValidName(LastName))
+                    throw new InvalidBuilderParameterException("Invalid last name '" + LastName + "'");
+                if (FirstName == null || !Validation.IsValidName(FirstName))
+                    throw new InvalidBuilderParameterException("Invalid first name '" + FirstName + "'");
+                if (Email == null)
+                    throw new InvalidBuilderParameterException("Invalid email (null)'" + Email + "'");
+
+                Voter voter = new(Username, Password, Email, LastName, FirstName, SerialNumber);
+                return voter;
+            }
         }
     }
 }

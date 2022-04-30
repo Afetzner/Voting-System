@@ -12,7 +12,7 @@ function FailedSignIn(props) {
   }
 }
 
-export default function SignIn() {
+export default function SignIn(props) {
   const [show, setShow] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

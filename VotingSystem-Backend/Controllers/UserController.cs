@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VotingSystem.Accessor;
 using VotingSystem.Model;
 
 namespace VotingSystem.Controller
@@ -11,7 +12,15 @@ namespace VotingSystem.Controller
         [Route("api/user")]
         public IUser GetUser()
         {
-            return null; 
+            Voter user = new Voter.VoterBuilder()
+                .WithSerialNumber("U12345678")
+                .WithUsername("abusch8")
+                .WithPassword("a34V&3d")
+                .WithEmail("abusch8@huskers.unl.edu")
+                .WithLastName("Busch")
+                .WithFirstName("Alex")
+                .Build();
+            return user; 
         }
     }
 }

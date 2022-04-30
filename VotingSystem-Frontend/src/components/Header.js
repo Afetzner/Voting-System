@@ -17,13 +17,13 @@ const color = (name) => {
 };
 
 function UserAvatar(props) {
-  if (props.user === null) {
+  if (props.user === undefined) {
     return (
       <Avatar />
     );
   } else {
     return (
-      <Avatar sx={{bgcolor: color(props.user.name)}}>
+      <Avatar sx={{bgcolor: color(props.user.firstName + " " + props.user.lastName)}}>
         {`${props.user.firstName[0]}${props.user.lastName[0]}`}
       </Avatar>
     );
@@ -35,7 +35,7 @@ function UserDropdown(props) {
     <div className="user">
       <Nav>
         <Container>
-          {(props.user === null) ? 
+          {(props.user === undefined) ? 
           <Link to="/sign-in">
             <Button variant="outline-light">Sign In</Button> 
           </Link>
@@ -44,13 +44,13 @@ function UserDropdown(props) {
         <UserAvatar user={props.user} />
         <Navbar.Collapse>
           <Nav>
-            <NavDropdown align="end" title={(props.user === null) ? "" : props.user.username}>
+            <NavDropdown align="end" title={(props.user === undefined) ? "" : props.user.username}>
               <NavDropdown.Item>Account Info</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item>About</NavDropdown.Item>
               <NavDropdown.Item>Enable Dark Mode</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item onClick={() => props.setUser(null)}>Sign Out</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => props.setUser(undefined)}>Sign Out</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

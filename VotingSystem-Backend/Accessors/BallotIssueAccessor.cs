@@ -193,7 +193,7 @@ namespace VotingSystem.Accessor
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("v_serialNumber", ballotIssueSerialNumber);
                         cmd.Parameters["v_serialNumber"].Direction = ParameterDirection.Input;
-]
+
                         MySqlDataReader reader = cmd.ExecuteReader();
                         while (reader.Read())
                         {
