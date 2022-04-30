@@ -6,8 +6,6 @@ using VotingSystem.Model;
 
 namespace VotingSystem.Controllers
 {
-
-
     [ApiController]
     public class BallotIssueController : ControllerBase
     {        
@@ -34,6 +32,24 @@ namespace VotingSystem.Controllers
                 .WithOptions("option1", "option2")
                 .Build();
             list.Add(issue2);
+            BallotIssue issue3 = new BallotIssue.BallotIssueBuilder()
+                .WithSerialNumber("B12345678")
+                .WithStartDate(new DateTime(2022, 3, 12))
+                .WithEndDate(new DateTime(2022, 7, 5))
+                .WithTitle("Test v. Test")
+                .WithDescription("test")
+                .WithOptions("option1", "option2")
+                .Build();
+            list.Add(issue3);
+            BallotIssue issue4 = new BallotIssue.BallotIssueBuilder()
+                .WithSerialNumber("A12345678")
+                .WithStartDate(new DateTime(2022, 3, 12))
+                .WithEndDate(new DateTime(2022, 8, 5))
+                .WithTitle("Test v. Test")
+                .WithDescription("test")
+                .WithOptions("option1", "option2")
+                .Build();
+            list.Add(issue4);
             return list;
         }
     }
