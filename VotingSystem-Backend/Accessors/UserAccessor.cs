@@ -169,7 +169,7 @@ namespace VotingSystem.Accessor
 
                     if (isAdmin)
                     {
-                        Admin admin = new AdminBuilder()
+                        Admin admin = new Admin.AdminBuilder()
                             .WithUsername(username)
                             .WithPassword(password)
                             .WithEmail(Convert.ToString(cmd.Parameters["v_email"].Value))

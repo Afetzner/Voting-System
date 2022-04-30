@@ -1,7 +1,8 @@
 import "./Header.css";
 import Logo from "../assets/logo.png";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Button, Container, Modal, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Avatar } from "@mui/material";
 
 const color = (name) => {
@@ -30,27 +31,54 @@ function UserAvatar(props) {
   }
 }
 
+function AccountInfo(props) {
+  return (
+    <>
+      <Modal show={props.show} onHide={() => props.setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Account Info</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            {(props.user.isAdmin) ? <strong>### ADMIN ACCOUNT ###<br /></strong> : undefined}
+            Username: {props.user.username} <br />
+            Password: ********<br />
+            Email: {props.user.email}<br />
+            Name: {props.user.firstName + " " + props.user.lastName}<br />
+            Serial: {props.user.serialNumber}<br />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={() => props.setShow(false)}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
+
 function UserDropdown(props) {
   return (
     <div className="user">
       <Nav>
         <Container>
-          {(props.user === undefined) ? 
-          <Link to="/sign-in">
-            <Button variant="outline-light">Sign In</Button> 
-          </Link>
-          : undefined}
+          {(props.user === undefined)
+            ? <Button variant="outline-light" as={Link} to={"/sign-in"}>Sign In</Button>
+            : undefined}
         </Container>
         <UserAvatar user={props.user} />
         <Navbar.Collapse>
           <Nav>
             <NavDropdown align="end" title={(props.user === undefined) ? "" : props.user.username}>
-              <NavDropdown.Item>Account Info</NavDropdown.Item>
-              <NavDropdown.Divider />
+              {(props.user !== undefined) 
+                ? <>
+                    <NavDropdown.Item onClick={()=> props.setShow(true)}>Account Info</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                  </>
+                : undefined}
               <NavDropdown.Item>About</NavDropdown.Item>
               <NavDropdown.Item>Enable Dark Mode</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item onClick={() => props.setUser(undefined)}>Sign Out</NavDropdown.Item>
+              {(props.user !== undefined) 
+                ? <NavDropdown.Item onClick={() => props.setUser(undefined)}>Sign Out</NavDropdown.Item>
+                : <NavDropdown.Item as={Link} to="/sign-in">Sign In</NavDropdown.Item>}
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
@@ -60,17 +88,21 @@ function UserDropdown(props) {
 }
 
 export default function Header(props) {
+  const [show, setShow] = useState(false);
   return (
-    <Navbar className="nav-bar" bg="primary" variant="dark" >
-      <Container>
-        <Link to="/">
-          <Navbar.Brand placement="start">
-            <img alt="" src={Logo} width="64px" height="64px" />
-            <div className="brand-text">Voting System</div>
-          </Navbar.Brand>
-        </Link>
-        <UserDropdown user={props.user} setUser={props.setUser} />
-      </Container>
-    </Navbar>
+    <>
+      {(props.user !== undefined) ? <AccountInfo show={show} setShow={setShow} user={props.user} /> : undefined}
+      <Navbar className="nav-bar" bg="primary" variant="dark" >
+        <Container>
+          <Link to="/">
+            <Navbar.Brand placement="start">
+              <img alt="" src={Logo} width="64px" height="64px" />
+              <div className="brand-text">Voting System</div>
+            </Navbar.Brand>
+          </Link>
+          <UserDropdown setShow={setShow} user={props.user} setUser={props.setUser} />
+        </Container>
+      </Navbar>
+    </>
   );
 }

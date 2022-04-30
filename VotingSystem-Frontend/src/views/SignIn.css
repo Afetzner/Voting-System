@@ -1,4 +1,4 @@
-.div__sign-in {
+.sign-in {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -6,14 +6,14 @@
   min-height: 600px;
  }
 
-.form-group__username, .form-group__password, .form-group__check {
+.username, .password, .checkbox {
   padding-bottom: 16px;
 }
 
-.form-group__check {
+.checkbox {
   padding-top: 2px;
 }
 
-.form-group__submit {
+.submit {
   padding-bottom: 8px;
 }

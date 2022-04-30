@@ -1,29 +1,7 @@
 import "./Poll.css";
-import { Accordion, Badge, Button, ButtonGroup, Container, Form, ProgressBar, ToggleButton } from "react-bootstrap";
+import { Accordion, Badge, Button, ButtonGroup, Container, Form, ToggleButton } from "react-bootstrap";
 
 export default function Poll(props) {
-
-  // function Result() {
-  //   if (!inProgress) {
-  //     return (
-  //       <Form.Group>
-  //         {/* Election Results:
-  //         <div style={{paddingBottom: "8px"}}>
-  //           <ProgressBar style={{height: "40px", fontSize: "20px", fontWeight: "bold"}} variant="primary" now={40} label={`Trump @ ${40}%`} />
-  //           <ProgressBar style={{height: "40px"}} variant="danger" now={20} label={`${20}%`} />
-  //         </div>
-  //         Winner: Trump */}
-  //         Winner: test1
-  //         <ProgressBar style={{height: "40px", fontSize: "20px", fontWeight: "bold"}}>
-  //           <ProgressBar variant="primary" now={40} label={"40%"}></ProgressBar>
-  //           <ProgressBar variant="danger" now={20} label={"20%"}></ProgressBar>
-  //           <ProgressBar variant="success" now={20} label={"20%"}></ProgressBar>
-  //           <ProgressBar variant="warning" now={5} label={"5%"}></ProgressBar>
-  //         </ProgressBar>
-  //       </Form.Group>
-  //     )
-  //   }
-  // }
 
   return (
     <Accordion.Item key={props.index} eventKey={props.index}>
@@ -59,7 +37,7 @@ export default function Poll(props) {
                 className="confirm-button"
                 variant="success"
                 onClick={() => props.setShow(true)}
-                // disabled={!props.inProgress[i] || props.counted[i] || props.selection[i] === ""}
+                disabled={props.radioValue === undefined/* || !props.inProgress || props.counted*/}
               >Confirm Selection</Button>
             </div>
           </Form.Group>

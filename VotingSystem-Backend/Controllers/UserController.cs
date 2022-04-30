@@ -12,7 +12,7 @@ namespace VotingSystem.Controller
         [Route("api/user")]
         public IUser GetUser()
         {
-            Voter user = new Voter.VoterBuilder()
+            IUser user = new Voter.VoterBuilder()
                 .WithSerialNumber("U12345678")
                 .WithUsername("abusch8")
                 .WithPassword("a34V&3d")
@@ -21,6 +21,13 @@ namespace VotingSystem.Controller
                 .WithFirstName("Alex")
                 .Build();
             return user; 
+        }
+
+        [HttpPost]
+        [Route("api/sign-in")]
+        public void PostUser(string[] signInData)
+        {
+            Console.WriteLine(signInData);
         }
     }
 }

@@ -1,6 +1,7 @@
 import "./SignIn.css";
 import { useState } from "react";
 import { Alert, Button, Form, Card } from "react-bootstrap";
+import axios from "axios";
 
 function FailedSignIn(props) {
   if (props.show) {
@@ -17,30 +18,34 @@ export default function SignIn(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => { 
     console.log(username, password);
+    axios.post("https://localhost:7237/api/sign-in", [username, password]).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log(error);
+    })
   };
-
+  
   return (
-    <div className="div__sign-in">
+    <div className="sign-in">
       <Card>
         <Card.Header>Registered Voter Sign In</Card.Header>
-        <Card.Body className="card-body__sign-in">
+        <Card.Body>
           <Form>
             <FailedSignIn show={show} setShow={setShow} />
-            <Form.Group className="form-group__username">
+            <Form.Group className="username">
               <Form.Label>Username/email:</Form.Label>
               <Form.Control type="username" placeholder="Enter your username or email address" onChange={(e) => (setUsername(e.target.value))} />
             </Form.Group>
-            <Form.Group className="form-group__password">
+            <Form.Group className="password">
               <Form.Label>Password:</Form.Label>
               <Form.Control type="password" placeholder="Enter your password" onChange={(e) => (setPassword(e.target.value))} />
             </Form.Group>
-            <Form.Group className="form-group__check">
+            <Form.Group className="checkbox">
               <Form.Check type="checkbox" label="Remember me"/>
             </Form.Group>
-            <Form.Group className="form-group__submit">
+            <Form.Group className="submit">
               <Button varient="primary" onClick={handleSubmit}>Submit</Button>
             </Form.Group>
             <Form.Text>

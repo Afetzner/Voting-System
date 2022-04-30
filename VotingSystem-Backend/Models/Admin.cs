@@ -24,70 +24,70 @@ namespace VotingSystem.Model
             FirstName = firstName;
             LastName = lastName;
         }
-    }
 
-    public class AdminBuilder
-    { 
-        public string? SerialNumber; 
-        public string? Username; 
-        public string? Password;
-        public string? Email;
-        public string? FirstName;
-        public string? LastName;
-
-        public AdminBuilder WithSerialNumber(string? serialNum) 
-        { 
-            SerialNumber = serialNum; 
-            return this;
-        }
-
-        public AdminBuilder WithUsername(string? username) 
-        { 
-            Username = username; 
-            return this;
-        }
-
-        public AdminBuilder WithPassword(string? password) 
-        { 
-            Password = password; 
-            return this;
-        }
-
-        public AdminBuilder WithEmail(string? email)
+        public class AdminBuilder
         {
-            Email = email;
-            return this;
-        }
+            public string? SerialNumber;
+            public string? Username;
+            public string? Password;
+            public string? Email;
+            public string? FirstName;
+            public string? LastName;
 
-        public AdminBuilder WithFirstName(string? firstName)
-        {
-            FirstName = firstName;
-            return this;
-        }
+            public AdminBuilder WithSerialNumber(string? serialNum)
+            {
+                SerialNumber = serialNum;
+                return this;
+            }
 
-        public AdminBuilder WithLastName(string? lastName)
-        {
-            LastName = lastName;
-            return this;
-        }
-        
-        public Admin Build() 
-        { 
-            if (SerialNumber == null || !Validation.IsValidSerialNumber(SerialNumber)) 
-                throw new InvalidBuilderParameterException($@"Invalid serial number '{SerialNumber}'");
-            if (Username == null || !Validation.IsValidUsername(Username)) 
-                throw new InvalidBuilderParameterException($@"Invalid username '{Username}'");
-            if (Password == null || !Validation.IsValidPassword(Password)) 
-                throw new InvalidBuilderParameterException($@"Invalid password '{Password}'");
-            if (Email == null)
-                throw new InvalidBuilderParameterException($@"Invalid email (null) '{Email}'");
-            if (FirstName == null || !Validation.IsValidName(FirstName))
-                throw new InvalidBuilderParameterException($@"Invalid first name '{FirstName}'");
-            if (LastName == null || !Validation.IsValidName(LastName))
-                throw new InvalidBuilderParameterException($@"Invalid last name '{LastName}'");
+            public AdminBuilder WithUsername(string? username)
+            {
+                Username = username;
+                return this;
+            }
 
-            Admin admin = new(SerialNumber, Username, Password, Email, FirstName, LastName); 
-            return admin;
+            public AdminBuilder WithPassword(string? password)
+            {
+                Password = password;
+                return this;
+            }
+
+            public AdminBuilder WithEmail(string? email)
+            {
+                Email = email;
+                return this;
+            }
+
+            public AdminBuilder WithFirstName(string? firstName)
+            {
+                FirstName = firstName;
+                return this;
+            }
+
+            public AdminBuilder WithLastName(string? lastName)
+            {
+                LastName = lastName;
+                return this;
+            }
+
+            public Admin Build()
+            {
+                if (SerialNumber == null || !Validation.IsValidSerialNumber(SerialNumber))
+                    throw new InvalidBuilderParameterException($@"Invalid serial number '{SerialNumber}'");
+                if (Username == null || !Validation.IsValidUsername(Username))
+                    throw new InvalidBuilderParameterException($@"Invalid username '{Username}'");
+                if (Password == null || !Validation.IsValidPassword(Password))
+                    throw new InvalidBuilderParameterException($@"Invalid password '{Password}'");
+                if (Email == null)
+                    throw new InvalidBuilderParameterException($@"Invalid email (null) '{Email}'");
+                if (FirstName == null || !Validation.IsValidName(FirstName))
+                    throw new InvalidBuilderParameterException($@"Invalid first name '{FirstName}'");
+                if (LastName == null || !Validation.IsValidName(LastName))
+                    throw new InvalidBuilderParameterException($@"Invalid last name '{LastName}'");
+
+                Admin admin = new(SerialNumber, Username, Password, Email, FirstName, LastName);
+                return admin;
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 import "./Vote.css";
 import Poll from "../components/Poll";
-import PopUp from "../components/PopUp";
+import Confimation from "../components/Confirmation";
 import { Accordion, Card } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -38,10 +38,10 @@ export default function Vote() {
 
   return (
     <>
-      <PopUp title={"Alert"} show={show} setShow={setShow}>Are you sure?  This cannot be undone.</PopUp>
-      <div className="div__vote-selection">
+      <Confimation title={"Alert"} show={show} setShow={setShow}>Are you sure?  This cannot be undone.</Confimation>
+      <div className="vote-selection-container">
         <Card>
-          <Card.Body className="card-body__vote-selection">
+          <Card.Body className="vote-selection">
             <Accordion>
               {(polls !== undefined) ? polls.map((item, index) => 
                 <Poll
