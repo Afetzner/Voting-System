@@ -41,6 +41,9 @@ namespace IntegrationTests
         public static bool LoadTestData()
         {
             DbInitializer.LoadDummyDataFromSql();
+            //Json not working, need to find a way to 
+            //turn JSON in a list of objects
+            //DbInitializer.LoadDummyDataFromJson();
             return true;
         }
     }
