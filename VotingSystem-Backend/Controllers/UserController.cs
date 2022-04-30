@@ -25,9 +25,10 @@ namespace VotingSystem.Controller
 
         [HttpPost]
         [Route("api/sign-in")]
-        public void PostUser(string[] signInData)
+        public bool PostUser(string username, string password)
         {
-            Console.WriteLine(signInData);
+            Console.WriteLine(username, password);
+            return true;
         }
     }
 }

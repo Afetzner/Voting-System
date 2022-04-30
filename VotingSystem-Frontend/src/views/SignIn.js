@@ -13,20 +13,20 @@ function FailedSignIn(props) {
   }
 }
 
-export default function SignIn(props) {
+export default function SignIn() {
   const [show, setShow] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => { 
     console.log(username, password);
-    axios.post("https://localhost:7237/api/sign-in", [username, password]).then((response) => {
+    axios.post("https://localhost:7237/api/sign-in", username, password).then((response) => {
       console.log(response);
     }).catch((error) => {
       console.log(error);
     })
   };
-  
+
   return (
     <div className="sign-in">
       <Card>

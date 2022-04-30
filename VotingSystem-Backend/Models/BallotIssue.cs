@@ -16,6 +16,8 @@ namespace VotingSystem.Model
         public string Description { get; }
         public List<BallotIssueOption> Options { get; }
 
+        public bool IsEnded { get; }
+
         public static readonly IBallotIssueAccessor Accessor = new BallotIssueAccessor();
         private BallotIssue(string serialNum, DateTime start, DateTime end, string title, string description,
             List<BallotIssueOption> options)
@@ -26,6 +28,7 @@ namespace VotingSystem.Model
             Title = title;
             Description = description;
             Options = options;
+            IsEnded = (end < DateTime.Now);
         }
 
         public class BallotIssueBuilder

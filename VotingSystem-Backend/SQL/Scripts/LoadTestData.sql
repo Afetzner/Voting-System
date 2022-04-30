@@ -37,7 +37,7 @@ INSERT INTO issue (serial_number, start_date, end_date, title, description)
 		"The mayor of the city of Lincoln. Responsibilties include managing the Lincoln city police department and community outreach program");
 SET @issuePoliceId = last_insert_id();
 INSERT INTO issue (serial_number, start_date, end_date, title, description)
-	VALUES ('I78955502', "2020-04-19", "2020-06-19", "Corroner of the city of Lincoln", 
+	VALUES ('I78955502', "2020-04-19", "2023-06-19", "Corroner of the city of Lincoln", 
 		"The corroner of the city of Lincoln. Offical corroner for assisting investigations by the city");
 SET @issueCorronerId = last_insert_id();
 

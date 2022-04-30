@@ -13,6 +13,7 @@ namespace VotingSystem.Controller
         [Route("api/polls")]
         public List<BallotIssue> GetBallotIssues()
         {
+            /*
             List<BallotIssue> list = new List<BallotIssue>();
             BallotIssue issue1 = new BallotIssue.BallotIssueBuilder()
                 .WithSerialNumber("A12345678")
@@ -59,7 +60,8 @@ namespace VotingSystem.Controller
                 .WithOptions("option1", "option2")
                 .Build();
             list.Add(issue5);
-            return list;
+            */
+            return BallotIssue.Accessor.GetBallotIssues();
         }
     }
 }
