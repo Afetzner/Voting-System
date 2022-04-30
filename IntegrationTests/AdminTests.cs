@@ -73,7 +73,7 @@ namespace IntegrationTests
 
         public static bool TestAddAdmin()
         {
-            Admin admin = new AdminBuilder()
+            Admin admin = new Admin.AdminBuilder()
                 .WithSerialNumber("A77777777")
                 .WithUsername("testAdminUsername4551")
                 .WithPassword("testAdminPass1!")
@@ -114,7 +114,7 @@ namespace IntegrationTests
 
         public static bool TestDeleteAdmin()
         {
-            Admin admin = new AdminBuilder()
+            Admin admin = new Admin.AdminBuilder()
                 .WithSerialNumber("A88888888")
                 .WithUsername("warningTestAdminUsernameX72")
                 .WithPassword("testAdminPass1!")
@@ -168,7 +168,7 @@ namespace IntegrationTests
 
         public static bool TestGetAdmin()
         {
-            Admin admin = new AdminBuilder()
+            Admin admin = new Admin.AdminBuilder()
                 .WithSerialNumber("A99999999")
                 .WithUsername("testAdminUsername123fg")
                 .WithPassword("testAdminPass1!")
@@ -230,7 +230,7 @@ namespace IntegrationTests
 
         public static bool TestAddDuplicateAdminUsername()
         {
-            Admin admin = new AdminBuilder()
+            Admin admin = new Admin.AdminBuilder()
                 .WithSerialNumber("A66666666")
                 .WithUsername("testAdminUsername67112")
                 .WithPassword("testAdminPass1!")
@@ -239,7 +239,7 @@ namespace IntegrationTests
                 .WithLastName("Doe")
                 .Build();
 
-            Admin admin2 = new AdminBuilder()
+            Admin admin2 = new Admin.AdminBuilder()
                 .WithSerialNumber("A55555555")
                 .WithUsername("testAdminUsername67112")
                 .WithPassword("testAdminPass1!")
@@ -295,7 +295,7 @@ namespace IntegrationTests
 
         public static bool TestAddDuplicateAdminSerial()
         {
-            Admin admin = new AdminBuilder()
+            Admin admin = new Admin.AdminBuilder()
                 .WithSerialNumber("A44444444")
                 .WithUsername("testAdminUsernametyytd")
                 .WithPassword("testAdminPass1!")
@@ -304,7 +304,7 @@ namespace IntegrationTests
                 .WithLastName("Doe")
                 .Build();
 
-            Admin admin2 = new AdminBuilder()
+            Admin admin2 = new Admin.AdminBuilder()
                 .WithSerialNumber("A44444444")
                 .WithUsername("testAdminUsername123f34")
                 .WithPassword("testAdminPass1!")
@@ -355,7 +355,7 @@ namespace IntegrationTests
 
         public static bool TestAddDuplicateAdminEmail()
         {
-            Admin admin = new AdminBuilder()
+            Admin admin = new Admin.AdminBuilder()
                 .WithSerialNumber("A22222222")
                 .WithUsername("testAdminUsernamesddcc")
                 .WithPassword("testAdminPass1!")
@@ -364,7 +364,7 @@ namespace IntegrationTests
                 .WithLastName("Doe")
                 .Build();
 
-            Admin admin2 = new AdminBuilder()
+            Admin admin2 = new Admin.AdminBuilder()
                 .WithSerialNumber("A33333333")
                 .WithUsername("testAdminUsername8unjj")
                 .WithPassword("testAdminPass1!")

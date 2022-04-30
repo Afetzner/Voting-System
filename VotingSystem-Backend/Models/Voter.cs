@@ -15,7 +15,7 @@ namespace VotingSystem.Model
 
         public static readonly IUserAccessor<Voter> Accessor = new UserDbAccessor<Voter>();
 
-        public Voter(string username, string password, string email, string lastName, string firstName, string serialNumber)
+        private Voter(string username, string password, string email, string lastName, string firstName, string serialNumber)
         {
             SerialNumber = serialNumber;
             Username = username;

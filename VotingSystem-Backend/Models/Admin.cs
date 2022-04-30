@@ -15,7 +15,7 @@ namespace VotingSystem.Model
 
         public static readonly IUserAccessor<Admin> Accessor = new UserDbAccessor<Admin>();
 
-        public Admin(string serialNum, string username, string password, string email, string firstName, string lastName)
+        private Admin(string serialNum, string username, string password, string email, string firstName, string lastName)
         {
             SerialNumber = serialNum;
             Username = username;

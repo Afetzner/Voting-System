@@ -10,7 +10,7 @@ namespace UnitTests.ModelTests
         [TestMethod]
         public void AdminBuilderSuccess()
         {
-            Admin admin = new AdminBuilder()
+            Admin admin = new Admin.AdminBuilder()
                 .WithUsername("jdoe16")
                 .WithPassword("Abc$900")
                 .WithEmail("email@email.com")
@@ -31,7 +31,7 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Admin w/out serial num. was allowed")]
         public void AdminBuilderFailureNoSerial()
         {
-            Admin admin = new AdminBuilder()
+            Admin admin = new Admin.AdminBuilder()
                 .WithUsername("NoThoughts")
                 .WithPassword("Head3mpty")
                 .WithEmail("email@email.com")
@@ -44,7 +44,7 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Admin w/out username was allowed")]
         public void AdminBuilderFailureNoUsername()
         {
-            Admin admin = new AdminBuilder()
+            Admin admin = new Admin.AdminBuilder()
                 .WithPassword("Head3mpty")
                 .WithEmail("email@email.com")
                 .WithFirstName("jane")
@@ -57,7 +57,7 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Admin w/out password was allowed")]
         public void AdminBuilderFailureNoPassword()
         {
-            Admin admin = new AdminBuilder()
+            Admin admin = new Admin.AdminBuilder()
                 .WithUsername("NoThoughts")
                 .WithEmail("email@email.com")
                 .WithFirstName("jane")
@@ -70,7 +70,7 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Admin w/out first name was allowed")]
         public void AdminBuilderFailureNoFirst()
         {
-            Admin admin = new AdminBuilder()
+            Admin admin = new Admin.AdminBuilder()
                 .WithUsername("NoThoughts")
                 .WithPassword("Head3mpty")
                 .WithEmail("email@email.com")
@@ -83,7 +83,7 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Admin w/out last name was allowed")]
         public void AdminBuilderFailureNoLast()
         {
-            Admin admin = new AdminBuilder()
+            Admin admin = new Admin.AdminBuilder()
                 .WithUsername("NoThoughts")
                 .WithPassword("Head3mpty")
                 .WithEmail("email@email.com")
@@ -97,7 +97,7 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Admin with invalid serial number was allowed")]
         public void AdminBuilderFailureBadSerial()
         {
-            Admin admin = new AdminBuilder()
+            Admin admin = new Admin.AdminBuilder()
                 .WithUsername("NoThoughts")
                 .WithPassword("Head3mpty")
                 .WithEmail("email@email.com")

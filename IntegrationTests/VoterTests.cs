@@ -74,7 +74,7 @@ namespace IntegrationTests
 
         public static bool TestAddVoter()
         {
-            Voter voter = new VoterBuilder()
+            Voter voter = new Voter.VoterBuilder()
                 .WithSerialNumber("V77777777")
                 .WithUsername("testVoterUsername1110")
                 .WithPassword("testVoterPass1!")
@@ -115,7 +115,7 @@ namespace IntegrationTests
 
         public static bool TestDeleteVoter()
         {
-            Voter voter = new VoterBuilder()
+            Voter voter = new Voter.VoterBuilder()
                 .WithSerialNumber("V88888888")
                 .WithUsername("warningTestVoterUsername332")
                 .WithPassword("testVoterPass1!")
@@ -169,7 +169,7 @@ namespace IntegrationTests
 
         public static bool TestGetVoter()
         {
-            Voter voter = new VoterBuilder()
+            Voter voter = new Voter.VoterBuilder()
                 .WithSerialNumber("V99999999")
                 .WithUsername("testVoterUsername0123")
                 .WithPassword("testVoterPass1!")
@@ -231,7 +231,7 @@ namespace IntegrationTests
 
         public static bool TestAddDuplicateVoterUsername()
         {
-            Voter voter = new VoterBuilder()
+            Voter voter = new Voter.VoterBuilder()
                 .WithSerialNumber("V66666666")
                 .WithUsername("testVoterUsername22")
                 .WithPassword("testVoterPass1!")
@@ -240,7 +240,7 @@ namespace IntegrationTests
                 .WithLastName("Doe")
                 .Build();
 
-            Voter voter2 = new VoterBuilder()
+            Voter voter2 = new Voter.VoterBuilder()
                 .WithSerialNumber("V55555555")
                 .WithUsername("testVoterUsername22")
                 .WithPassword("testVoterPass1!")
@@ -296,7 +296,7 @@ namespace IntegrationTests
 
         public static bool TestAddDuplicateVoterSerial()
         {
-            Voter voter = new VoterBuilder()
+            Voter voter = new Voter.VoterBuilder()
                 .WithSerialNumber("V44444444")
                 .WithUsername("testVoterUsername267")
                 .WithPassword("testVoterPass1!")
@@ -305,7 +305,7 @@ namespace IntegrationTests
                 .WithLastName("Doe")
                 .Build();
 
-            Voter voter2 = new VoterBuilder()
+            Voter voter2 = new Voter.VoterBuilder()
                 .WithSerialNumber("V44444444")
                 .WithUsername("testVoterUsername159")
                 .WithPassword("testVoterPass1!")
@@ -356,7 +356,7 @@ namespace IntegrationTests
 
         public static bool TestAddDuplicateVoterEmail()
         {
-            Voter voter = new VoterBuilder()
+            Voter voter = new Voter.VoterBuilder()
                 .WithSerialNumber("V22222222")
                 .WithUsername("testVoterUsername660")
                 .WithPassword("testVoterPass1!")
@@ -365,7 +365,7 @@ namespace IntegrationTests
                 .WithLastName("Doe")
                 .Build();
 
-            Voter voter2 = new VoterBuilder()
+            Voter voter2 = new Voter.VoterBuilder()
                 .WithSerialNumber("V33333333")
                 .WithUsername("testVoterUsername412")
                 .WithPassword("testVoterPass1!")

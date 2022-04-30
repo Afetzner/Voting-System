@@ -11,7 +11,7 @@ namespace UnitTests.ModelTests
         [TestMethod]
         public void BallotSuccess()
         {
-            Voter voter = new VoterBuilder()
+            Voter voter = new Voter.VoterBuilder()
                 .WithUsername("jdoe16")
                 .WithPassword("Abc$900")
                 .WithEmail("email@email.com")
@@ -52,7 +52,7 @@ namespace UnitTests.ModelTests
 
         public void BallotSuccessWithNullChoice()
         {
-            Voter voter = new VoterBuilder()
+            Voter voter = new Voter.VoterBuilder()
                 .WithUsername("jdoe16")
                 .WithPassword("Abc$900")
                 .WithEmail("email@email.com")
@@ -123,7 +123,7 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Ballot without ballot issue was allowed")]
         public void BallotFailNullIssue()
         {
-            Voter voter = new VoterBuilder()
+            Voter voter = new Voter.VoterBuilder()
                 .WithUsername("bleh1")
                 .WithPassword("AbH$900")
                 .WithFirstName("Larry")
@@ -149,7 +149,7 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Ballot without ballot choice was allowed")]
         public void BallotFailNullChoice()
         {
-            Voter voter = new VoterBuilder()
+            Voter voter = new Voter.VoterBuilder()
                 .WithUsername("bleh1")
                 .WithPassword("AbH$900")
                 .WithFirstName("Larry")
@@ -185,7 +185,7 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Ballot without serial number was allowed")]
         public void BallotFailNullSerial()
         {
-            Voter voter = new VoterBuilder()
+            Voter voter = new Voter.VoterBuilder()
                 .WithUsername("bleh1")
                 .WithPassword("AbH$900")
                 .WithFirstName("Larry")
