@@ -100,8 +100,8 @@ namespace VotingSystem.Model
                     cmd.Parameters.Add("v_choiceTitle", MySqlDbType.VarChar);
                     cmd.Parameters["@v_choiceTitle"].Direction = ParameterDirection.Output;
 
-                    cmd.Parameters.Add("v_didVote", MySqlDbType.Byte);
-                    cmd.Parameters["@v_didVote"].Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("v_isNull", MySqlDbType.Byte);
+                    cmd.Parameters["@v_isNull"].Direction = ParameterDirection.Output;
 
                     try
                     {
@@ -117,7 +117,7 @@ namespace VotingSystem.Model
                     }
 
                     //No vote on that issue
-                    if (!Convert.ToBoolean(cmd.Parameters["v_didVote"].Value))
+                    if (Convert.ToBoolean(cmd.Parameters["v_isNull"].Value))
                         return null;
 
                     int choice = Convert.ToInt32(cmd.Parameters["v_choiceNumber"].Value);

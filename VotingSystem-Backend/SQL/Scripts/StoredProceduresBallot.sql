@@ -52,9 +52,9 @@ CREATE PROCEDURE afetzner.get_voters_ballot (
     OUT `v_ballotSerial` varchar(9),
     OUT `v_choiceNumber` int,
     OUT `v_choiceTitle` varchar(127),
-    OUT `v_didVote` bool)
+    OUT `v_isNull` bool)
 BEGIN
-	SET `v_didVote` = EXISTS (SELECT 1 FROM ballot WHERE voter_serial_number = `v_voterSerial` AND issue_serial_number = `v_issueSerial`);
+	SET `v_isNull` = NOT EXISTS (SELECT 1 FROM ballot WHERE voter_serial_number = `v_voterSerial` AND issue_serial_number = `v_issueSerial`);
 	SELECT ballot_serial_number, choice_number, issue_option.title
     INTO `v_ballotSerial`, `v_choiceNumber`, `v_choiceTitle`
     FROM ballot 

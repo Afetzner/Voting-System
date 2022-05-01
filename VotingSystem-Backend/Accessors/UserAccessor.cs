@@ -153,6 +153,9 @@ namespace VotingSystem.Accessor
                     cmd.Parameters.Add("v_isAdmin", MySqlDbType.Byte);
                     cmd.Parameters["@v_isAdmin"].Direction = ParameterDirection.Output;
 
+                    cmd.Parameters.Add("v_isNull", MySqlDbType.Byte);
+                    cmd.Parameters["@v_isNull"].Direction = ParameterDirection.Output;
+
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -165,6 +168,9 @@ namespace VotingSystem.Accessor
 
                         throw;
                     }
+
+                    if (Convert.ToBoolean(cmd.Parameters["v_isNull"].Value))
+                        return default;
 
                     T user;
                     bool isAdmin = Convert.ToBoolean(cmd.Parameters["@v_isAdmin"].Value);
