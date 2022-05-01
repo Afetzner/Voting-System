@@ -273,10 +273,11 @@ namespace IntegrationTests
             if (collision)
             {
                 Console.WriteLine("(F) Add ballot-issue w/ duplicate title failed: pre-collision (reset DB?)");
+                return false;
             }
             if (!BallotIssue.Accessor.IsSerialInUse(issue1.SerialNumber))
             {
-                Console.WriteLine("(F) Add ballot-issue w/ duplicate serial failed: serial not in use after addition");
+                Console.WriteLine("(F) Add ballot-issue w/ duplicate title failed: serial not in use after addition");
                 return false;
             }
 
@@ -284,16 +285,16 @@ namespace IntegrationTests
 
             if (!collision)
             {
-                Console.WriteLine("(F) Add ballot-issue w/ duplicate serial failed: collision not detected");
+                Console.WriteLine("(F) Add ballot-issue w/ duplicate title failed: collision not detected");
                 return false;
             }
             if (BallotIssue.Accessor.IsSerialInUse(issue2.SerialNumber))
             {
-                Console.WriteLine("(F) Add ballot-issue w/ duplicate serial failed: issue added anyway");
+                Console.WriteLine("(F) Add ballot-issue w/ duplicate title failed: issue added anyway");
                 return false;
             }
 
-            Console.WriteLine("(S) Add ballot-issue w/ duplicate serial success");
+            Console.WriteLine("(S) Add ballot-issue w/ duplicate title success");
             return true;
         }
     }
