@@ -40,10 +40,10 @@ function AccountInfo(props) {
         </Modal.Header>
         <Modal.Body>
             {(props.user.isAdmin) ? <strong>### ADMIN ACCOUNT ###<br /></strong> : undefined}
-            Username: {props.user.username} <br />
-            Password: ********<br />
-            Email: {props.user.email}<br />
             Name: {props.user.firstName + " " + props.user.lastName}<br />
+            Username: {props.user.username} <br />
+            Email: {props.user.email}<br />
+            Password: ********<br />
             Serial: {props.user.serialNumber}<br />
         </Modal.Body>
         <Modal.Footer>

@@ -10,6 +10,8 @@ export default function Vote(props) {
   const [polls, setPolls] = useState(undefined);
   const [radioValue, setRadioValue] = useState([]);
   const [selection, setSelection] = useState([]);
+  const [voted, setVoted] = useState([]);
+  const [index, setIndex] = useState();
 
   useEffect(() => {
     axios.get("https://localhost:7237/api/polls").then((response) => {
@@ -19,6 +21,14 @@ export default function Vote(props) {
       console.log(error);
     });
   }, []);
+
+  // useEffect(() => {
+  //   axios.post("https://localhost:7237/api/", props.user.serialNumber, props.poll.serialNumber).then((response) => {
+  //     console.log(response);
+  //   }).catch(error => {
+  //     console.log(error);
+  //   })
+  // });
 
   useEffect(() => {
     if (props.user === undefined) {
@@ -40,9 +50,32 @@ export default function Vote(props) {
     ]);
   };
 
+  const handleClick = (index) => {
+    setShow(true);
+    setIndex(index);
+  };
+
+  const handleConfirmation = () => {
+    setShow(false);
+    setVoted([
+      ...voted.slice(0, index),
+      true,
+      ...voted.slice(index + 1)
+    ]);
+    axios.post("https://localhost:7237/api/vote",
+      props.user.serialNumber,
+      polls[index].serialNumber,
+      selection[index].number,
+      selection[index].title).then((response) => {
+      console.log(response);
+    }).catch(error => {
+      console.log(error);
+    });
+  };
+
   return (
     <>
-      <Confimation title={"Alert"} show={show} setShow={setShow}>Are you sure?  This cannot be undone.</Confimation>
+      <Confimation title={"Alert"} show={show} setShow={setShow} handleConfirmation={handleConfirmation}>Are you sure?  This cannot be undone.</Confimation>
       <div className="vote-selection-container">
         <Card>
           <Card.Body className="vote-selection">
@@ -55,7 +88,8 @@ export default function Vote(props) {
                   index={index}
                   radioValue={radioValue[index]}
                   selection={selection[index]}
-                  setShow={setShow}
+                  voted={voted[index]}
+                  handleClick={handleClick}
                   handleChange={handleChange}
                 />) : <><Spinner animation="border" size="sm" />{" "}Loading...</>}
             </Accordion>

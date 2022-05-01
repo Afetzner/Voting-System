@@ -11,7 +11,7 @@ export default function Confimation(props) {
           <Modal.Body>{props.children}</Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => props.setShow(false)}>Cancel</Button>
-            <Button variant="primary" onClick={() => props.setShow(false)}>Confirm</Button>
+            <Button variant="primary" onClick={() => props.handleConfirmation()}>Confirm</Button>
           </Modal.Footer>
         </Modal>
       </>

@@ -30,5 +30,13 @@ namespace VotingSystem.Controller
             Console.WriteLine(username, password);
             return true;
         }
+
+        [HttpPost]
+        [Route("api/vote")]
+        public bool PostVote(string userSerialNumber, string balletSerialNumber, int count, string selection)
+        {
+            Console.WriteLine(userSerialNumber, balletSerialNumber, new BallotIssueOption(count, selection));
+            return true;
+        }
     }
 }
