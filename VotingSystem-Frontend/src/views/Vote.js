@@ -15,7 +15,7 @@ export default function Vote(props) {
 
   useEffect(() => {
     console.log(radioValue, selection);
-  }, [radioValue, selection])
+  }, [radioValue, selection]);
 
   useEffect(() => {
     axios.get("https://localhost:7237/api/polls").then((response) => {
@@ -43,7 +43,7 @@ export default function Vote(props) {
       setSelection([]);
       setVoted([]);
     }
-  }, [props.user])
+  }, [props.user]);
 
   const handleChange = (event, item, index) => {
     setRadioValue([
@@ -88,7 +88,7 @@ export default function Vote(props) {
         <Card>
           <Card.Body className="vote-selection">
             <Accordion>
-              {(polls !== undefined) ? polls.map((item, index) => 
+              {(polls !== undefined) ? polls.map((item, index) =>
                 <Poll
                   key={index}
                   poll={item}

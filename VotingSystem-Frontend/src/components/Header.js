@@ -67,7 +67,7 @@ function UserDropdown(props) {
         <Navbar.Collapse>
           <Nav>
             <NavDropdown align="end" title={(props.user === undefined) ? "" : props.user.username}>
-              {(props.user !== undefined) 
+              {(props.user !== undefined)
                 ? <>
                     <NavDropdown.Item onClick={()=> props.setShow(true)}>Account Info</NavDropdown.Item>
                     <NavDropdown.Divider />
@@ -76,7 +76,7 @@ function UserDropdown(props) {
               <NavDropdown.Item>About</NavDropdown.Item>
               <NavDropdown.Item>Enable Dark Mode</NavDropdown.Item>
               <NavDropdown.Divider />
-              {(props.user !== undefined) 
+              {(props.user !== undefined)
                 ? <NavDropdown.Item onClick={() => props.setUser(undefined)}>Sign Out</NavDropdown.Item>
                 : <NavDropdown.Item as={Link} to="/sign-in">Sign In</NavDropdown.Item>}
             </NavDropdown>

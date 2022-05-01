@@ -45,4 +45,4 @@ export default function Poll(props) {
       </Accordion.Body>
     </Accordion.Item>
   );
-} 
+}

@@ -20,6 +20,9 @@
         "react-hooks"
     ],
     "rules": {
+        "semi": ["error", "always"],
+        "quotes": ["error", "double"],
+        "no-trailing-spaces": "error",
         "react/react-in-jsx-scope": "off",
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "react-hooks/rules-of-hooks": "error",
