@@ -47,7 +47,7 @@ namespace VotingSystem.Controller
 
             _ballots = new List<Ballot>();
             //Assign query results to _votes
-           _votes = Ballot.Accessor.GetBallotsByVoter(voter.SerialNumber);
+           _ballots = Ballot.Accessor.GetBallotsByVoter(voter.SerialNumber);
             return _ballots;
         }
 
