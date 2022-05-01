@@ -57,11 +57,15 @@ export default function Vote(props) {
 
   const handleConfirmation = () => {
     setShow(false);
-    setVoted([
-      ...voted.slice(0, index),
-      true,
-      ...voted.slice(index + 1)
-    ]);
+    if (index > voted.length - 1) {
+      setVoted([...Array(index).fill(false), true]);
+    } else {
+      setVoted([
+        ...voted.slice(0, index),
+        true,
+        ...voted.slice(index + 1)
+      ]);
+    }
     axios.post("https://localhost:7237/api/vote",
       props.user.serialNumber,
       polls[index].serialNumber,
