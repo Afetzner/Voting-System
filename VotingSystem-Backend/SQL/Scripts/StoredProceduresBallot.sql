@@ -51,14 +51,16 @@ CREATE PROCEDURE afetzner.get_voters_ballot (
     IN `v_issueSerial` varchar(9),
     OUT `v_ballotSerial` varchar(9),
     OUT `v_choiceNumber` int,
-    OUT `v_choiceTitle` varchar(127))
+    OUT `v_choiceTitle` varchar(127),
+    OUT `v_didVote` bool)
 BEGIN
-	SELECT ballot_serial_number, choice_number, choice_title
+	SET `v_didVote` = EXISTS (SELECT 1 FROM ballot WHERE voter_serial_number = `v_voterSerial` AND issue_serial_number = `v_issueSerial`);
+	SELECT ballot_serial_number, choice_number, issue_option.title
     INTO `v_ballotSerial`, `v_choiceNumber`, `v_choiceTitle`
-    FROM issue 
-		RIGHT JOIN issue_choice ON issue.issue_id = issue_choice.issue_id
-		RIGHT JOIN ballot ON ballot.issue_id = issue.issue_id
-	WHERE ballot.voter_serial = `v_voterSerial`
+    FROM ballot 
+		LEFT JOIN issue_option ON ballot.issue_id = issue_option.issue_id
+		LEFT JOIN issue ON ballot.issue_id = issue.issue_id
+	WHERE ballot.voter_serial_number = `v_voterSerial` AND ballot.issue_serial_number = `v_issueSerial`
     LIMIT 1;
 END
 $$

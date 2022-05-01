@@ -11,9 +11,9 @@ select serial_number, issue.title, start_date, end_date, description, issue.titl
 from issue join issue_option on issue.issue_id = issue_option.issue_id;
 
 -- See all ballots
-select ballot_serial_number, voter_serial_number, voter.first_name, voter.last_name, issue_serial_number, issue.title as "issue", issue_option.title as "choice"
+select ballot_serial_number, voter_serial_number, user.first_name, user.last_name, issue_serial_number, issue.title as "issue", issue_option.title as "choice", ballot.choice_number
 from ballot 
-	join voter on ballot.voter_id = voter.voter_id
+	join user on ballot.voter_id = user.user_id
     join issue on ballot.issue_id = issue.issue_id
     join issue_option on ballot.choice_id = issue_option.option_id;
 
@@ -84,3 +84,9 @@ DELETE FROM ballot WHERE issue_id = @v_issueId;
 DELETE FROM issue_option WHERE issue_id = @v_issueId;
 DELETE FROM issue WHERE issue_id = @V_issueId;
         
+	SELECT ballot_serial_number, choice_number, issue_option.title
+    FROM ballot 
+		LEFT JOIN issue_option ON ballot.issue_id = issue_option.issue_id
+		LEFT JOIN issue ON ballot.issue_id = issue.issue_id
+	WHERE ballot.voter_serial_number = "V12399874" AND ballot.issue_serial_number = "I78955502"
+    LIMIT 1;

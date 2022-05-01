@@ -1,6 +1,7 @@
 ﻿using System;
 using IntegrationTests.Interactive;
 using System.Collections.Generic;
+using VotingSystem.Model;
 
 namespace IntegrationTests
 {
@@ -8,7 +9,6 @@ namespace IntegrationTests
     {
         static void Main(string[] args)
         {
-            
             Console.WriteLine("Integration Testing Console:");
             if (!Menu.ConnectionTestMenu())
                 return;

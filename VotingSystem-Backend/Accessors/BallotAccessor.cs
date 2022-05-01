@@ -99,6 +99,9 @@ namespace VotingSystem.Model
                     cmd.Parameters.Add("v_choiceTitle", MySqlDbType.VarChar);
                     cmd.Parameters["@v_choiceTitle"].Direction = ParameterDirection.Output;
 
+                    cmd.Parameters.Add("v_didVote", MySqlDbType.Byte);
+                    cmd.Parameters["@v_didVote"].Direction = ParameterDirection.Output;
+
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -113,18 +116,16 @@ namespace VotingSystem.Model
                     }
 
                     //No vote on that issue
-                    if (cmd.Parameters["v_choiceNumber"].Value == null)
+                    if (!Convert.ToBoolean(cmd.Parameters["v_didVote"].Value))
                         return null;
-                    int choice = Convert.ToInt32(cmd.Parameters["v_choiceNumber"].Value);
 
-                    int num = Convert.ToInt32(cmd.Parameters["@v_choiceNumber"].Value);
+                    int choice = Convert.ToInt32(cmd.Parameters["v_choiceNumber"].Value);
                     string? title = Convert.ToString(cmd.Parameters["v_choiceTitle"].Value);
 
                     return ballotBuilder
                         .WithSerialNumber(Convert.ToString(cmd.Parameters["v_ballotSerial"].Value))
                         .WithChoice(choice)
-                        .Build();
-                    
+                        .Build();   
                 }
             }
         }
