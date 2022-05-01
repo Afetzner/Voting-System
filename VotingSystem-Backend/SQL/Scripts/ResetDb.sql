@@ -34,7 +34,7 @@ CREATE TABLE issue (
 CREATE TABLE issue_option (
 	option_id int auto_increment,
     option_number int NOT NULL,
-    title varchar(127) NOT NULL UNIQUE,
+    title varchar(127) NOT NULL,
     issue_id int NOT NULL,
     issue_serial varchar(9) NOT NULL,
     
