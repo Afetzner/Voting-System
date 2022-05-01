@@ -51,11 +51,13 @@ CREATE PROCEDURE afetzner.get_user (
     OUT `v_firstName` varchar(31),
     OUT `v_lastName` varchar(31),
     OUT `v_serialNumber` varchar(9),
-    OUT `v_isAdmin` bool)
+    OUT `v_isAdmin` bool,
+    OUT `v_isNull` bool)
 BEGIN
+	SET `v_isNull` = NOT EXISTS (SELECT 1 FROM user WHERE username = `v_username` AND password = `v_password`);
 	SELECT email, first_name, last_name, serial_number, is_admin INTO `v_email`, `v_firstName`, `v_lastName`, `v_serialNumber`, `v_isAdmin`
     FROM user 
-    WHERE user.username = `v_username` AND user.password = `v_password`
+    WHERE username = `v_username` AND password = `v_password`
 	LIMIT 1;
 END
 $$
