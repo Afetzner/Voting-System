@@ -17,8 +17,9 @@ CREATE PROCEDURE afetzner.add_issue(
     OUT `v_collision` bool)
 BEGIN
 	-- Detect if issue with same title exists
-	SET `v_collision` =  EXISTS (SELECT 1 FROM issue WHERE issue.title = `v_title` OR issue.serial_number = `v_serialNumber` LIMIT 1);
+    SET `v_collision` = true;
 	START TRANSACTION;
+    SET `v_collision` =  EXISTS (SELECT 1 FROM issue WHERE issue.title = `v_title` OR issue.serial_number = `v_serialNumber` LIMIT 1);
 	INSERT INTO issue (serial_number, start_date, end_date, title, description)
     SELECT `v_serialNumber`, `v_start`, `v_end`, `v_title`, `v_description`
     -- Protects against issues with the same title

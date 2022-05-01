@@ -62,6 +62,7 @@ namespace VotingSystem.Accessor
 
                         throw;
                     }
+                    collision1 = Convert.ToBoolean(cmd.Parameters["v_collision"].Value);
                 }
                 if (!collision1)
                 {
@@ -99,6 +100,7 @@ namespace VotingSystem.Accessor
                                                     + "\nNumber: " + option.Number);
                                 throw;
                             }
+                            collision2 = Convert.ToBoolean(cmd.Parameters["v_collision"].Value);
                         }
                     } //foreach option, use add_isssue_option
                 } //if not collisoin1
