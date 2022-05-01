@@ -14,8 +14,15 @@ export default function Vote(props) {
   const [index, setIndex] = useState();
 
   useEffect(() => {
+    console.log(radioValue, selection);
+  }, [radioValue, selection])
+
+  useEffect(() => {
     axios.get("https://localhost:7237/api/polls").then((response) => {
       console.log(response.data);
+      setRadioValue(Array(response.data.length).fill(""));
+      setSelection(Array(response.data.length).fill(""));
+      setVoted(Array(response.data.length).fill(false));
       setPolls(response.data);
     }).catch(error => {
       console.log(error);
@@ -34,6 +41,7 @@ export default function Vote(props) {
     if (props.user === undefined) {
       setRadioValue([]);
       setSelection([]);
+      setVoted([]);
     }
   }, [props.user])
 
@@ -57,15 +65,11 @@ export default function Vote(props) {
 
   const handleConfirmation = () => {
     setShow(false);
-    if (index > voted.length - 1) {
-      setVoted([...Array(index).fill(false), true]);
-    } else {
-      setVoted([
-        ...voted.slice(0, index),
-        true,
-        ...voted.slice(index + 1)
-      ]);
-    }
+    setVoted([
+      ...voted.slice(0, index),
+      true,
+      ...voted.slice(index + 1)
+    ]);
     axios.post("https://localhost:7237/api/vote",
       props.user.serialNumber,
       polls[index].serialNumber,
