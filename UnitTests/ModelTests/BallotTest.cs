@@ -11,83 +11,17 @@ namespace UnitTests.ModelTests
         [TestMethod]
         public void BallotSuccess()
         {
-            Voter voter = new Voter.VoterBuilder()
-                .WithUsername("jdoe16")
-                .WithPassword("Abc$900")
-                .WithEmail("email@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .WithSerialNumber("A12345678")
-                .Build();
-
-            var now = DateTime.Now;
-            BallotIssueOption option1 = new(0, "A");
-            BallotIssueOption option2 = new(1, "B");
-            BallotIssueOption option3 = new(2, "C");
-
-            var issue = new BallotIssue.BallotIssueBuilder()
-                .WithTitle("Multiple Choice")
-                .WithDescription("Choose a response")
-                .WithSerialNumber("A12345678")
-                .WithStartDate(now)
-                .WithEndDate(now.AddDays(1))
-                .WithOption(option1)
-                .WithOption(option2)
-                .WithOption(option3)
-                .Build();
-
-            var ballot = new BallotBuilder()
-                .WithVoter(voter)
-                .WithIssue(issue)
-                .WithChoice(option1)
+            var ballot = new Ballot.BallotBuilder()
+                .WithVoter("A12345679")
+                .WithIssue("A12345678")
+                .WithChoice(0)
                 .WithSerialNumber("B45479965")
                 .Build();
 
-            Assert.AreEqual(voter, ballot.Voter);
-            Assert.AreEqual(issue, ballot.Issue);
-            Assert.AreEqual(option1, ballot.Choice);
+            Assert.AreEqual("A12345679", ballot.VoterSerial);
+            Assert.AreEqual("A12345678", ballot.IssueSerial);
+            Assert.AreEqual(0, ballot.Choice);
             Assert.AreEqual("B45479965", ballot.SerialNumber);
-
-        }
-
-        public void BallotSuccessWithNullChoice()
-        {
-            Voter voter = new Voter.VoterBuilder()
-                .WithUsername("jdoe16")
-                .WithPassword("Abc$900")
-                .WithEmail("email@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .WithSerialNumber("A12345678")
-                .Build();
-
-            var now = DateTime.Now;
-            BallotIssueOption option1 = new(0, "A");
-            BallotIssueOption option2 = new(1, "B");
-            BallotIssueOption option3 = new(2, "C");
-
-            var issue = new BallotIssue.BallotIssueBuilder()
-                .WithTitle("Multiple Choice")
-                .WithDescription("Choose a response")
-                .WithSerialNumber("A12345678")
-                .WithStartDate(now)
-                .WithEndDate(now.AddDays(1))
-                .WithOption(option1)
-                .WithOption(option2)
-                .WithOption(option3)
-                .Build();
-
-            var ballot = new BallotBuilder()
-                .WithVoter(voter)
-                .WithIssue(issue)
-                .WithChoice(null)
-                .WithSerialNumber("B45479965")
-                .Build();
-
-            Assert.AreEqual(voter, ballot.Voter);
-            Assert.AreEqual(issue, ballot.Issue);
-            Assert.AreEqual(option1, ballot.Choice);
-            Assert.AreEqual(null, ballot.SerialNumber);
 
         }
 
@@ -95,51 +29,21 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Ballot without voter was allowed")]
         public void BallotFailNullVoter()
         {
-            var now = DateTime.Now;
-            BallotIssueOption option1 = new(5, "A");
-            BallotIssueOption option2 = new(6, "B");
-            BallotIssueOption option3 = new(7, "C");
-
-            var issue = new BallotIssue.BallotIssueBuilder()
-                .WithTitle("Multiple Choice")
-                .WithDescription("Choose a response")
-                .WithSerialNumber("A12345678")
-                .WithStartDate(now)
-                .WithEndDate(now.AddDays(1))
-                .WithOption(option1)
-                .WithOption(option2)
-                .WithOption(option3)
-                .Build();
-
-            var ballot = new BallotBuilder()
-                .WithIssue(issue)
-                .WithChoice(option1)
+            var ballot = new Ballot.BallotBuilder()
+                .WithIssue("B45479965")
+                .WithChoice(3)
                 .WithSerialNumber("B78885425")
                 .Build();
-
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidBuilderParameterException), "Ballot without ballot issue was allowed")]
         public void BallotFailNullIssue()
         {
-            Voter voter = new Voter.VoterBuilder()
-                .WithUsername("bleh1")
-                .WithPassword("AbH$900")
-                .WithFirstName("Larry")
-                .WithLastName("Poe")
-                .WithSerialNumber("A23458678")
-                .Build();
 
-            var now = DateTime.Now;
-            BallotIssueOption option1 = new(0, "A");
-            BallotIssueOption option2 = new(1, "B");
-            BallotIssueOption option3 = new(2, "C");
-
-
-            var ballot = new BallotBuilder()
-                .WithVoter(voter)
-                .WithChoice(option1)
+            var ballot = new Ballot.BallotBuilder()
+                .WithVoter("B45479965")
+                .WithChoice(-1)
                 .WithSerialNumber("B15564412")
                 .Build();
 
@@ -149,33 +53,9 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Ballot without ballot choice was allowed")]
         public void BallotFailNullChoice()
         {
-            Voter voter = new Voter.VoterBuilder()
-                .WithUsername("bleh1")
-                .WithPassword("AbH$900")
-                .WithFirstName("Larry")
-                .WithLastName("Poe")
-                .WithSerialNumber("A23458678")
-                .Build();
-
-            var now = DateTime.Now;
-            BallotIssueOption option1 = new(0, "A");
-            BallotIssueOption option2 = new(1, "B");
-            BallotIssueOption option3 = new(2, "C");
-
-            var issue = new BallotIssue.BallotIssueBuilder()
-                .WithTitle("Multiple Choice")
-                .WithDescription("Choose a response")
-                .WithSerialNumber("A12345678")
-                .WithStartDate(now)
-                .WithEndDate(now.AddDays(1))
-                .WithOption(option1)
-                .WithOption(option2)
-                .WithOption(option3)
-                .Build();
-
-            var ballot = new BallotBuilder()
-                .WithVoter(voter)
-                .WithIssue(issue)
+            var ballot = new Ballot.BallotBuilder()
+                .WithVoter("A23458678")
+                .WithIssue("A23458678")
                 .WithSerialNumber("B98652330")
                 .Build();
 
@@ -185,34 +65,11 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Ballot without serial number was allowed")]
         public void BallotFailNullSerial()
         {
-            Voter voter = new Voter.VoterBuilder()
-                .WithUsername("bleh1")
-                .WithPassword("AbH$900")
-                .WithFirstName("Larry")
-                .WithLastName("Poe")
-                .WithSerialNumber("A23458678")
-                .Build();
-
-            var now = DateTime.Now;
-            BallotIssueOption option1 = new(0, "A");
-            BallotIssueOption option2 = new(1, "B");
-            BallotIssueOption option3 = new(2, "C");
-
-            var issue = new BallotIssue.BallotIssueBuilder()
-                .WithTitle("Multiple Choice")
-                .WithDescription("Choose a response")
-                .WithSerialNumber("A12345678")
-                .WithStartDate(now)
-                .WithEndDate(now.AddDays(1))
-                .WithOption(option1)
-                .WithOption(option2)
-                .WithOption(option3)
-                .Build();
-
-            var ballot = new BallotBuilder()
-                .WithVoter(voter)
-                .WithIssue(issue)
-                .WithChoice(option1)
+            
+            var ballot = new Ballot.BallotBuilder()
+                .WithVoter("A23458678")
+                .WithIssue("A23458678")
+                .WithChoice(0)
                 .Build();
         }
     }

@@ -27,7 +27,7 @@ namespace VotingSystem.Accessor
         /// <returns>The corresponding ballot, null if voter did not vote on that issue</returns>
         /// <exception cref="MySqlException">Bad connection to DB</exception>
         /// <exception cref="InvalidBuilderParameterException">Corrupt data from DB</exception>
-        Ballot? GetBallot(ref Voter voter, ref BallotIssue issue);
+        Ballot? GetBallot(string voter, string issue);
 
         /// <summary>
         /// Gets all the ballot a voter has submitteed from the DB
