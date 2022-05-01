@@ -25,8 +25,9 @@ namespace VotingSystem.Controller
                 return _issues;
 
             _issues = new List<BallotIssue>();
-            //TODO
             //retrieve ballot issues and cache in _issues
+            _issues = BallotIssue.Accessor.GetBallotIssues();
+
             return _issues;
         }
 
@@ -45,8 +46,8 @@ namespace VotingSystem.Controller
                 throw new ArgumentNullException("null voter arg w/out pre-assigned current voter");
 
             _ballots = new List<Ballot>();
-            //TODO
             //Assign query results to _votes
+           _votes = Ballot.Accessor.GetBallotsByVoter(voter.SerialNumber);
             return _ballots;
         }
 
