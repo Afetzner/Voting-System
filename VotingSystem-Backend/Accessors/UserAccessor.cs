@@ -1,6 +1,8 @@
 using VotingSystem.Model;
 using System.Data;
+using System.Security.Cryptography.X509Certificates;
 using MySql.Data.MySqlClient;
+using VotingSystem.Controller;
 
 namespace VotingSystem.Accessor
 {
@@ -274,6 +276,18 @@ namespace VotingSystem.Accessor
                     return Convert.ToBoolean(cmd.Parameters["v_occupied"].Value);
                 }
             }
+        }
+
+        public String GenerateUserSerialNo()
+        {
+            GenerateSerialNo user = new GenerateSerialNo();
+            String uniqueNo = user.generateSerialNo();
+            do
+            {
+                uniqueNo = user.generateSerialNo();
+            } while (IsSerialInUse(uniqueNo) == true);
+
+            return uniqueNo;
         }
     }
 }

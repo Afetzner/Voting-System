@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using VotingSystem.Model;
 
 namespace VotingSystem.Controller;
 
@@ -27,4 +28,5 @@ public class GenerateSerialNo
         var finalString = new String(stringChars);
         return finalString;
     }
+
 }

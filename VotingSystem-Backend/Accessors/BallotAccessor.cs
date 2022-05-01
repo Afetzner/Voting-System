@@ -4,6 +4,7 @@ using VotingSystem.Model;
 using VotingSystem.Utils;
 using System.Data;
 using MySql.Data.MySqlClient;
+using VotingSystem.Controller;
 
 namespace VotingSystem.Model
 {
@@ -238,6 +239,18 @@ namespace VotingSystem.Model
         List<Ballot> IBallotAccessor.GetBallotsByVoter(string voterSerial)
         {
             throw new NotImplementedException();
+        }
+
+        public String GenerateUserSerialNo()
+        {
+            GenerateSerialNo ballot = new GenerateSerialNo();
+            String uniqueNo = ballot.generateSerialNo();
+            do
+            {
+                uniqueNo = ballot.generateSerialNo();
+            } while (IsSerialInUse(uniqueNo) == true);
+
+            return uniqueNo;
         }
     }
 }

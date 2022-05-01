@@ -1,5 +1,6 @@
 using MySql.Data.MySqlClient;
 using System.Data;
+using VotingSystem.Controller;
 using VotingSystem.Model;
 
 namespace VotingSystem.Accessor
@@ -255,6 +256,18 @@ serialNumber: '{serial}'");
                     return Convert.ToBoolean(cmd.Parameters["v_occupied"].Value);
                 }
             }
+        }
+
+        public String GenerateUserSerialNo()
+        {
+            GenerateSerialNo ballotIssue = new GenerateSerialNo();
+            String uniqueNo = ballotIssue.generateSerialNo();
+            do
+            {
+                uniqueNo = ballotIssue.generateSerialNo();
+            } while (IsSerialInUse(uniqueNo) == true);
+
+            return uniqueNo;
         }
 
     }
