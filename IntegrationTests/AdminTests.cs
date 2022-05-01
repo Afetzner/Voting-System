@@ -58,6 +58,7 @@ namespace IntegrationTests
 
         public static bool RunAllAdminTests()
         {
+            DbInitializers.ResetDb();
             int fail = 0;
             int tot = 0;
             foreach (var test in AllAdminTests)

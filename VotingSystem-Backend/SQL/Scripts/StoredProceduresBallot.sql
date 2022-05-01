@@ -80,13 +80,13 @@ $$
 
 -- Return total voter per option on an issue
 CREATE PROCEDURE afetzner.get_election_results (
-	IN `v_issueSerial` varchar(9),
-    OUT `v_count` int)
+	IN `v_issueSerial` varchar(9))
 BEGIN
-	SELECT count(ballot_id) INTO `v_count`
-    FROM ballot
-    WHERE ballot.issue_serial = `v_issueSerial`
-    GROUP BY ballot.choice_id;
+	SELECT issue_option.option_number, count(ballot_id)
+	FROM issue
+		RIGHT JOIN issue_option ON issue.issue_id = issue_option.issue_id
+		LEFT JOIN ballot ON ballot.choice_id = issue_option.option_id
+	GROUP BY issue_option.option_id;
 END
 $$
 

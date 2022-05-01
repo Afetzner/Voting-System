@@ -11,7 +11,7 @@ CREATE TABLE user (
 	user_id int auto_increment,
     username varchar(31) NOT NULL UNIQUE,
     password varchar(31) NOT NULL,
-    email varchar(63) NOT NULL,
+    email varchar(63) NOT NULL UNIQUE,
 	first_name varchar(31) NOT NULL,
     last_name varchar(31) NOT NULL,
     serial_number varchar(9) NOT NULL UNIQUE,

@@ -159,8 +159,6 @@ namespace VotingSystem.Model
             */
         }
 
-
-
         public bool IsSerialInUse(string ballotSerial)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))

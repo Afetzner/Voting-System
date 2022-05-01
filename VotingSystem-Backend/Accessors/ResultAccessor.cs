@@ -4,12 +4,9 @@ using MySql.Data.MySqlClient;
 
 namespace VotingSystem.Accessor
 {
-    public class ResultAccessor
-    {
-        /// <summary>
-        /// Retrives a list of all voter serials who particpated in an issue
-        /// </summary>
-        public static List<Voter> GetVoterParticipation(BallotIssue issue)
+    public class ResultAccessor : IResultAccessor
+    { 
+        public List<Voter> GetVoterParticipation(string issueSerial)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
@@ -27,7 +24,7 @@ namespace VotingSystem.Accessor
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("v_issueSerial", issue.SerialNumber);
+                    cmd.Parameters.AddWithValue("v_issueSerial", issueSerial);
                     cmd.Parameters["@v_issueSerial"].Direction = ParameterDirection.Input;
 
                     try
@@ -37,7 +34,7 @@ namespace VotingSystem.Accessor
                     catch (MySqlException e)
                     {
                         Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'get_voter_participation' with parameters:
-    issueSerial: '{issue.SerialNumber}'");
+    issueSerial: '{issueSerial}'");
 
                         throw;
                     }
@@ -57,6 +54,53 @@ namespace VotingSystem.Accessor
                             participants.Add(participant);
                         }
                         return participants;
+                    }
+                }
+            }
+        }
+
+        public Dictionary<int, int> GetIssueResults(string issueSerial)
+        {
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine(e + "\nCould not connect to database");
+                    throw;
+                }
+
+                using (var cmd = new MySqlCommand("get_election_results", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("v_issueSerial", issueSerial);
+                    cmd.Parameters["@v_issueSerial"].Direction = ParameterDirection.Input;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (MySqlException e)
+                    {
+                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'get_voter_participation' with parameters:
+    issueSerial: '{issueSerial}'");
+
+                        throw;
+                    }
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        var results = new Dictionary<int, int>();
+                        while (reader.Read())
+                        {
+                            int optionNumber = Convert.ToInt32(reader.GetValue(0));
+                            int count = Convert.ToInt32(reader.GetValue(1));
+                            results.Add(optionNumber, count);
+                        }   
+                        return results;
                     }
                 }
             }
