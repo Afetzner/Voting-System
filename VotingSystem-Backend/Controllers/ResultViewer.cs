@@ -10,16 +10,10 @@ namespace VotingSystem.Controller
         //I.e. we don't want to grab everything in the constructer, 
         //Fill it out as needed and cache it
         private Voter? _currVoter;                                              // Logged-in voter, null for general view
-        private List<Voter>? _allVoters;                                        // List of all voters
         private List<BallotIssue>? _issues;                                     // All ballot-issues
-        private List<Ballot>? _votes;                                           // Votes submitted by the current voter
+        private List<Ballot>? _ballots;                                         // Votes submitted by the current voter
         private Dictionary<BallotIssueOption, int>? _results;                   // Vote counts for each issue option
-        private Dictionary<BallotIssue, HashSet<Voter>>? _voterParticipation;   // Set of voters who participated in each issue
-        
-        ResultViewer(Voter loggedInVoter)
-        {
-            _currVoter = loggedInVoter;
-        }
+        private Dictionary<BallotIssue, List<Voter>>? _voterParticipation;      // List of voters who participated in each issue
 
         /// <summary>
         /// Retrives all the issues from the DB (Already written ,only slight refactor)
@@ -42,21 +36,19 @@ namespace VotingSystem.Controller
         /// <param name="voter"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public List<Ballot> GetBallots(Voter voter = null)
+        public List<Ballot> GetBallots(Voter voter)
         {
-            if (_votes != null)
-                return _votes;
-            if (voter != null)
-                _currVoter = voter;
+            if (_ballots != null)
+                return _ballots;
+            _currVoter = voter;
             if (_currVoter == null)
                 throw new ArgumentNullException("null voter arg w/out pre-assigned current voter");
 
-            _votes = new List<Ballot>();
+            _ballots = new List<Ballot>();
             //TODO
             //Assign query results to _votes
-            return _votes;
+            return _ballots;
         }
-
 
         //Not sure how best to return results
         //Ideally the results should be somehow organized by issue
@@ -84,24 +76,27 @@ namespace VotingSystem.Controller
 
         }
         
-        public Dictionary<BallotIssue,HashSet<Voter>> GetVoterParticipation()
+        /// <summary>
+        /// Retrieves a list of voters who participated in *each* election
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public Dictionary<BallotIssue,List<Voter>> GetVoterParticipation()
         {
             if (_voterParticipation != null)
                 return _voterParticipation;
             if (_issues == null)
                 GetBallotIssues();
-            _voterParticipation = new Dictionary<BallotIssue, HashSet<Voter>>();
-            //TODO
-            //Dictionary<string, Voter> votersDict
-            //foreach (var issue in _issues)
-            //   HashSet<voters> partipants = new()
-            //   listOfVoterSerials = getVoterPartipation
-            //   foreach(string voterserial in list)
-            //        if voterserial not in votersDict
-            //             voter = getVoter
-            //             voterDict.Add(voter)
-            //        partipants.add(voter)
-            //        _voterParicpation.add(isse:particpants)
+            if (_issues == null)
+                throw new ArgumentNullException();
+            
+            _voterParticipation = new Dictionary<BallotIssue, List<Voter>>();
+
+            foreach (var issue in _issues)
+            {
+                List<Voter> issueParticipants = ResultAccessor.GetVoterParticipation(issue);
+                _voterParticipation.Add(issue, issueParticipants);
+            }
             return _voterParticipation;
         }
     }
