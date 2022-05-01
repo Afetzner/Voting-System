@@ -33,10 +33,17 @@ namespace VotingSystem.Controller
 
         [HttpPost]
         [Route("api/vote")]
-        public bool PostVote(string userSerialNumber, string balletSerialNumber, int count, string selection)
+        public bool PostVote(string userSerialNumber, string issueSerialNumber, int count, string selection)
         {
-            Console.WriteLine(userSerialNumber, balletSerialNumber, new BallotIssueOption(count, selection));
+            Console.WriteLine(userSerialNumber, issueSerialNumber, new BallotIssueOption(count, selection));
             return true;
+        }
+
+        [HttpPost]
+        [Route("api/voted")]
+        public BallotIssueOption PostVoted(string userSerialNumber, string balletSerialNumber)
+        {
+            return new BallotIssueOption(0, "UNKNOWN");
         }
     }
 }

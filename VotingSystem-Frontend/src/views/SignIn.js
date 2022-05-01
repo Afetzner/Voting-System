@@ -18,13 +18,13 @@ export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = () => { 
+  const handleSubmit = () => {
     console.log(username, password);
     axios.post("https://localhost:7237/api/sign-in", username, password).then((response) => {
       console.log(response);
     }).catch((error) => {
       console.log(error);
-    })
+    });
   };
 
   return (

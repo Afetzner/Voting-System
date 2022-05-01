@@ -14,12 +14,11 @@ export default function Vote(props) {
   const [index, setIndex] = useState();
 
   useEffect(() => {
-    console.log(radioValue, selection);
-  }, [radioValue, selection]);
+    console.log(radioValue, selection, voted);
+  }, [radioValue, selection, voted]);
 
   useEffect(() => {
     axios.get("https://localhost:7237/api/polls").then((response) => {
-      console.log(response.data);
       setRadioValue(Array(response.data.length).fill(""));
       setSelection(Array(response.data.length).fill(""));
       setVoted(Array(response.data.length).fill(false));
@@ -29,13 +28,35 @@ export default function Vote(props) {
     });
   }, []);
 
-  // useEffect(() => {
-  //   axios.post("https://localhost:7237/api/", props.user.serialNumber, props.poll.serialNumber).then((response) => {
-  //     console.log(response);
-  //   }).catch(error => {
-  //     console.log(error);
-  //   })
-  // });
+  useEffect(() => {
+    if (props.user !== undefined && polls !== undefined) {
+      const radioValue = [];
+      const selection = [];
+      const voted = [];
+      for (let i = 0; i < polls.length; i++) {
+        axios.post("https://localhost:7237/api/voted",
+          props.user.serialNumber,
+          polls[i].serialNumber
+        ).then((response) => {
+          console.log("VOTED:", response);
+          if (response === null) {
+            radioValue.push("");
+            selection.push("");
+            voted.push(false);
+          } else {
+            radioValue.push(`radio-${i}${response.number}`);
+            selection.push(response.title);
+            voted.push(true);
+          }
+          setRadioValue(radioValue);
+          setSelection(selection);
+          setVoted(voted);
+        }).catch(error => {
+          console.log(error);
+        });
+      }
+    }
+  }, [props.user, polls]);
 
   useEffect(() => {
     if (props.user === undefined) {
@@ -74,7 +95,8 @@ export default function Vote(props) {
       props.user.serialNumber,
       polls[index].serialNumber,
       selection[index].number,
-      selection[index].title).then((response) => {
+      selection[index].title
+    ).then((response) => {
       console.log(response);
     }).catch(error => {
       console.log(error);
@@ -83,7 +105,12 @@ export default function Vote(props) {
 
   return (
     <>
-      <Confimation title={"Alert"} show={show} setShow={setShow} handleConfirmation={handleConfirmation}>Are you sure?  This cannot be undone.</Confimation>
+      <Confimation
+        title={"Alert"}
+        show={show}
+        setShow={setShow}
+        handleConfirmation={handleConfirmation}
+      >Are you sure?  This cannot be undone.</Confimation>
       <div className="vote-selection-container">
         <Card>
           <Card.Body className="vote-selection">

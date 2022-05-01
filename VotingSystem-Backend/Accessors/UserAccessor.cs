@@ -113,7 +113,7 @@ namespace VotingSystem.Accessor
             }
         }
 
-        public T GetUser(string username, string password)
+        public T? GetUser(string username, string password)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
@@ -166,7 +166,7 @@ namespace VotingSystem.Accessor
 
                     T user;
                     bool isAdmin = Convert.ToBoolean(cmd.Parameters["@v_isAdmin"].Value);
-
+                    // TODO Return null is user does not exist
                     if (isAdmin)
                     {
                         Admin admin = new Admin.AdminBuilder()
