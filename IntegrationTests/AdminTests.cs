@@ -10,7 +10,7 @@ namespace IntegrationTests
     {
         public static Func<bool> AdminTestMenu()
         {
-            Console.WriteLine("Select a method to test");
+            Console.WriteLine("\nSelect a method to test");
             Console.WriteLine(
                 " (0) Reset Db tables\n" +
                 " (1) Load Test data\n" +
@@ -18,10 +18,12 @@ namespace IntegrationTests
                 " (3) Add admin\n" +
                 " (4) Delete admin\n" +
                 " (5) Get admin\n" +
-                " (6) Add duplicate username\n" +
-                " (7) Add dupicate serial\n" +
-                " (8) Add duplicate email\n" +
-                " (9) Generate Admin serial\n" +
+                " (6) Get non-existent admin\n" +
+                " (7) Get non-admin (voter)\n" +
+                " (8) Add duplicate username\n" +
+                " (9) Add dupicate serial\n" +
+                " (a) Add duplicate email\n" +
+                " (b) Generate Admin serial\n" +
                 " (*) Exit\n");
 
             while (true)
@@ -40,10 +42,12 @@ namespace IntegrationTests
                     '3' => TestAddAdmin,
                     '4' => TestDeleteAdmin,
                     '5' => TestGetAdmin,
-                    '6' => TestAddDuplicateAdminUsername,
-                    '7' => TestAddDuplicateAdminSerial,
-                    '8' => TestAddDuplicateAdminEmail,
-                    '9' => TestGenerateAdminSerial,
+                    '6' => TestGetNonExistentAdmin,
+                    '7' => TestGetNonAdmin,
+                    '8' => TestAddDuplicateAdminUsername,
+                    '9' => TestAddDuplicateAdminSerial,
+                    'a' => TestAddDuplicateAdminEmail,
+                    'b' => TestGenerateAdminSerial,
                     _ => Menu.Exit
                 };
             }
@@ -54,6 +58,8 @@ namespace IntegrationTests
             TestAddAdmin,
             TestDeleteAdmin,
             TestGetAdmin,
+            TestGetNonExistentAdmin,
+            TestGetNonAdmin,
             TestAddDuplicateAdminSerial,
             TestAddDuplicateAdminUsername,
             TestAddDuplicateAdminEmail,
@@ -231,6 +237,49 @@ namespace IntegrationTests
             }
 
             Console.WriteLine("(S) Get admin success");
+            return true;
+        }
+
+        public static bool TestGetNonExistentAdmin()
+        {
+            Console.WriteLine("    Testing get non-existent voter");
+            Voter? v = Voter.Accessor.GetUser("neverAUserName", "NeverAPassW0rd!");
+            if (v != null)
+            {
+                Console.WriteLine("(F) Get non-existent voter failed: non null");
+                Console.WriteLine($@"    s: '{v.SerialNumber}', f: '{v.FirstName}', l: '{v.LastName}', u: '{v.Username}', p: '{v.Password}'");
+                return false;
+            }
+            Console.WriteLine("(S) Get non-existent voter success");
+            return true;
+        }
+
+        public static bool TestGetNonAdmin()
+        {
+            Console.WriteLine("    Testing get non-voter (admin)");
+            Voter v = new Voter.VoterBuilder()
+                .WithSerialNumber("V90000001")
+                .WithUsername("anVotersUsername")
+                .WithPassword("T3stV0ters!Passw0rd896")
+                .WithEmail("ubhjnmklas@email.com")
+                .WithFirstName("Rick")
+                .WithLastName("Amorl")
+                .Build();
+            Voter.Accessor.AddUser(v);
+
+            if (!Voter.Accessor.IsSerialInUse(v.SerialNumber))
+            {
+                Console.WriteLine("(F) Get non-admin failed: serial not in use after addition");
+            }
+
+            Admin? a = Admin.Accessor.GetUser("anVotersUsername", "T3stV0ters!Passw0rd896");
+            if (a != null)
+            {
+                Console.WriteLine("(F) Get non-existent admin failed: non null");
+                Console.WriteLine($@"    s: '{a.SerialNumber}', f: '{a.FirstName}', l: '{a.LastName}', u: '{a.Username}', p: '{a.Password}'");
+                return false;
+            }
+            Console.WriteLine("(S) Get non-existent admin success");
             return true;
         }
 

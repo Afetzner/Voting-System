@@ -174,7 +174,7 @@ namespace VotingSystem.Accessor
                     T user;
                     bool isAdmin = Convert.ToBoolean(cmd.Parameters["@v_isAdmin"].Value);
                     // TODO Return null is user does not exist
-                    if (isAdmin)
+                    if (isAdmin && typeof(T) == typeof(Admin))
                     {
                         Admin admin = new Admin.AdminBuilder()
                             .WithUsername(username)
@@ -186,7 +186,7 @@ namespace VotingSystem.Accessor
                             .Build();
                         user = (T)(IUser)admin;
                     }
-                    else
+                    else if (!isAdmin && typeof(T) == typeof(Voter))
                     {
                         Voter voter = new Voter.VoterBuilder()
                             .WithUsername(username)
@@ -197,6 +197,10 @@ namespace VotingSystem.Accessor
                             .WithLastName(Convert.ToString(cmd.Parameters["v_lastName"].Value))
                             .Build();
                         user = (T)(IUser)voter;
+                    }
+                    else
+                    {
+                        return default;
                     }
                     return user;
                 }

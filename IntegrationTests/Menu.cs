@@ -57,7 +57,7 @@ namespace IntegrationTests.Interactive
 
         public static Func<Func<bool>> SelectTestGroupMenu()
         {
-            Console.WriteLine("Select a group to test");
+            Console.WriteLine("\nSelect a group to test");
             Console.WriteLine(
                 " (0) Initialize Db\n" +
                 " (1) Auto all tests\n" + 

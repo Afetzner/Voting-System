@@ -19,10 +19,12 @@ namespace IntegrationTests
                 " (3) Add voter\n" +
                 " (4) Delete voter\n" +
                 " (5) Get voter\n" +
-                " (6) Add duplicate username\n" +
-                " (7) Add dupicate serial\n" +
-                " (8) Add duplicate email\n" +
-                " (9) Generate voter serial\n" +
+                " (6) Get non-existent voter\n" +
+                " (7) Get non-voter (admin)\n" +
+                " (8) Add duplicate username\n" +
+                " (9) Add dupicate serial\n" +
+                " (a) Add duplicate email\n" +
+                " (b) Generate voter serial\n" +
                 " (*) Exit\n");
 
             while (true)
@@ -41,10 +43,12 @@ namespace IntegrationTests
                     '3' => TestAddVoter,
                     '4' => TestDeleteVoter,
                     '5' => TestGetVoter,
-                    '6' => TestAddDuplicateVoterUsername,
-                    '7' => TestAddDuplicateVoterSerial,
-                    '8' => TestAddDuplicateVoterEmail,
-                    '9' => TestGenerateVoterSerial,
+                    '6' => TestGetNonExistentVoter,
+                    '7' => TestGetNonVoter,
+                    '8' => TestAddDuplicateVoterUsername,
+                    '9' => TestAddDuplicateVoterSerial,
+                    'a' => TestAddDuplicateVoterEmail,
+                    'b' => TestGenerateVoterSerial,
                     _ => Menu.Exit,
                 };
             }
@@ -55,6 +59,8 @@ namespace IntegrationTests
             TestAddVoter,
             TestDeleteVoter,
             TestGetVoter,
+            TestGetNonExistentVoter,
+            TestGetNonVoter,
             TestAddDuplicateVoterSerial,
             TestAddDuplicateVoterUsername,
             TestAddDuplicateVoterEmail,
@@ -233,6 +239,50 @@ namespace IntegrationTests
             Console.WriteLine("(S) Get voter success");
             return true;
         }
+
+        public static bool TestGetNonExistentVoter() 
+        {
+            Console.WriteLine("    Testing get non-existent voter");
+            Voter? v = Voter.Accessor.GetUser("neverAUserName", "NeverAPassW0rd!");
+            if (v != null)
+            {
+                Console.WriteLine("(F) Get non-existent voter failed: non null");
+                Console.WriteLine($@"    s: '{v.SerialNumber}', f: '{v.FirstName}', l: '{v.LastName}', u: '{v.Username}', p: '{v.Password}'");
+                return false;
+            }
+            Console.WriteLine("(S) Get non-existent voter success");
+            return true;
+        }
+
+        public static bool TestGetNonVoter()
+        {
+            Console.WriteLine("    Testing get non-voter (admin)");
+            Admin a = new Admin.AdminBuilder()
+                .WithSerialNumber("A90000000")
+                .WithUsername("anAdminsUsername")
+                .WithPassword("T3stAdm!nsPassw0rd665")
+                .WithEmail("tcfvghjbnmkl@email.com")
+                .WithFirstName("Sandra")
+                .WithLastName("Knight")
+                .Build();
+            Admin.Accessor.AddUser(a);
+
+            if (!Admin.Accessor.IsSerialInUse(a.SerialNumber))
+            {
+                Console.WriteLine("(F) Get non-voter failed: serial not in use after addition");
+            }
+
+            Voter? v = Voter.Accessor.GetUser("anAdminsUsername", "T3stAdm!nsPassw0rd665");
+            if (v != null)
+            {
+                Console.WriteLine("(F) Get non-existent voter failed: non null");
+                Console.WriteLine($@"    s: '{v.SerialNumber}', f: '{v.FirstName}', l: '{v.LastName}', u: '{v.Username}', p: '{v.Password}'");
+                return false;
+            }
+            Console.WriteLine("(S) Get non-existent voter success");
+            return true;
+        }
+
 
         public static bool TestAddDuplicateVoterUsername()
         {
