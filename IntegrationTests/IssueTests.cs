@@ -6,7 +6,7 @@ using VotingSystem.Utils;
 
 namespace IntegrationTests
 {
-    internal class IssueTests
+    internal static class IssueTests
     {
         public static Func<bool> IssueTestMenu()
         {
@@ -75,21 +75,11 @@ namespace IntegrationTests
 
         public static bool TestAddIssue()
         {
-            var issue = new BallotIssue.BallotIssueBuilder()
-                .WithSerialNumber("I00000000")
-                .WithStartDate(new DateTime(2022, 04, 28))
-                .WithEndDate(new DateTime(2022, 05, 28))
-                .WithTitle("TestIssue000")
-                .WithOptions("A", "B", "C")
-                .Build();
-
             Console.WriteLine("    Testing add issue");
-            if (BallotIssue.Accessor.IsSerialInUse(issue.SerialNumber))
-            {
-                Console.WriteLine("(F) Add ballot-issue failed: serial in use before addition (reset DB?)");
+            if (!DbInitializers.ClearTestData())
                 return false;
-            }
-            
+            var issue = TestData.issue.Build();
+
             bool collision = BallotIssue.Accessor.AddIssue(issue);
 
             if (collision)
@@ -108,33 +98,11 @@ namespace IntegrationTests
 
         public static bool TestDeleteIssue()
         {
-            var issue = new BallotIssue.BallotIssueBuilder()
-                .WithSerialNumber("I11111111")
-                .WithStartDate(new DateTime(2022, 04, 28))
-                .WithEndDate(new DateTime(2022, 05, 28))
-                .WithTitle("WarningTestIssue001")
-                .WithOptions("X", "Y")
-                .Build();
-
             Console.WriteLine("    Testing delete issue");
-            if (BallotIssue.Accessor.IsSerialInUse(issue.SerialNumber))
-            {
-                Console.WriteLine("(F) Delete ballot-issue failed: serial in use before addition (reset DB?)");
+            if (!DbInitializers.LoadTestData())
                 return false;
-            }
-
-            bool collision = BallotIssue.Accessor.AddIssue(issue);
-
-            if (collision)
-            {
-                Console.WriteLine("(F) Delete ballot-issue failed: collision (reset DB?)");
-            }
-            if (!BallotIssue.Accessor.IsSerialInUse(issue.SerialNumber))
-            {
-                Console.WriteLine("(F) Delete ballot-issue failed: serial not in use after addition (reset DB?)");
-                return false;
-            }
-
+            var issue = TestData.issue.Build();
+            
             BallotIssue.Accessor.RemoveIssue(issue.SerialNumber);
 
             if (BallotIssue.Accessor.IsSerialInUse(issue.SerialNumber))
@@ -149,49 +117,15 @@ namespace IntegrationTests
 
         public static bool TestGetIssues()
         {
-            var issue1 = new BallotIssue.BallotIssueBuilder()
-                .WithSerialNumber("I22222222")
-                .WithStartDate(new DateTime(2022, 06, 11))
-                .WithEndDate(new DateTime(2022, 07, 01))
-                .WithTitle("TestIssue002")
-                .WithOptions("Alpha", "Beta", "Gamma", "Delta")
-                .Build();
-
-            var issue2 = new BallotIssue.BallotIssueBuilder()
-                .WithSerialNumber("I33333333")
-                .WithStartDate(new DateTime(2022, 01, 01))
-                .WithEndDate(new DateTime(2022, 12, 31))
-                .WithTitle("TestIssue003")
-                .WithOptions("Wumbo", "Wuble-u")
-                .Build();
-
             Console.WriteLine("    Testing get issue");
-            if (BallotIssue.Accessor.IsSerialInUse(issue1.SerialNumber)
-                || BallotIssue.Accessor.IsSerialInUse(issue2.SerialNumber))
-            {
-                Console.WriteLine("(F) Get ballot-issue failed: serial in use before addition (reset DB?)");
+            if (!DbInitializers.LoadTestData())
                 return false;
-            }
-
-            bool collision1 = BallotIssue.Accessor.AddIssue(issue1);
-            bool collision2 = BallotIssue.Accessor.AddIssue(issue2);
-
-            if (collision1 || collision2)
-            {
-                Console.WriteLine("(F) Get ballot-issue failed: collision (reset DB?)");
-            }
-            if (!BallotIssue.Accessor.IsSerialInUse(issue1.SerialNumber)||
-                !BallotIssue.Accessor.IsSerialInUse(issue2.SerialNumber))
-            {
-                Console.WriteLine("(F) Get ballot-issue failed: serial not in use after addition");
-                return false;
-            }
-
+            var issue = TestData.issue.Build();
+            
             var fromDb = BallotIssue.Accessor.GetBallotIssues();
-            if (!fromDb.Exists(x => x.SerialNumber == issue1.SerialNumber)
-                || !fromDb.Exists(x => x.SerialNumber == issue2.SerialNumber))
+            if (!fromDb.Exists(x => x.SerialNumber == issue.SerialNumber))
             {
-                Console.WriteLine("(F) Get ballot-issue faile: issues not returned");
+                Console.WriteLine("(F) Get ballot-issue failed: issue not returned");
             }
 
             Console.WriteLine("(S) Get ballot-issue success");
@@ -200,44 +134,16 @@ namespace IntegrationTests
 
         public static bool TestAddIssueDuplicateSerial()
         {
-            var issue1 = new BallotIssue.BallotIssueBuilder()
-                .WithSerialNumber("I44444444")
-                .WithStartDate(new DateTime(2022, 07, 28))
-                .WithEndDate(new DateTime(2022, 12, 09))
-                .WithTitle("TestIssue004")
-                .WithOptions("1", "2", "3")
-                .Build();
-
-            var issue2 = new BallotIssue.BallotIssueBuilder()
-                .WithSerialNumber("I44444444")
-                .WithStartDate(new DateTime(2022, 08, 11))
-                .WithEndDate(new DateTime(2022, 08, 16))
-                .WithTitle("TestIssue005")
-                .WithOptions("One", "Two")
-                .Build();
-
             Console.WriteLine("    Testing add issue w/ duplicate serial");
-            if (BallotIssue.Accessor.IsSerialInUse(issue1.SerialNumber))
-            {
-                Console.WriteLine("(F) Add ballot-issue w/ duplicate serial failed: serial in use before addition (reset DB?)");
+            if (!DbInitializers.LoadTestData())
                 return false;
-            }
+            var issue = TestData.issue
+                .WithTitle("Different Title")
+                .Build();
 
-            bool collision = BallotIssue.Accessor.AddIssue(issue1);
+            bool coll = BallotIssue.Accessor.AddIssue(issue);
 
-            if (collision)
-            {
-                Console.WriteLine("(F) Add ballot-issue w/ duplicate serial failed: pre-collision (reset DB?)");
-            }
-            if (!BallotIssue.Accessor.IsSerialInUse(issue1.SerialNumber))
-            {
-                Console.WriteLine("(F) Add ballot-issue w/ duplicate serial failed: serial not in use after addition");
-                return false;
-            }
-
-            collision = BallotIssue.Accessor.AddIssue(issue2);
-
-            if (!collision)
+            if (!coll)
             {
                 Console.WriteLine("(F) Add ballot-issue w/ duplicate serial failed: collision not detected");
                 return false;
@@ -249,51 +155,21 @@ namespace IntegrationTests
 
         public static bool TestAddIssueDuplicateTitle()
         {
-            var issue1 = new BallotIssue.BallotIssueBuilder()
-                .WithSerialNumber("I66666666")
-                .WithStartDate(new DateTime(2022, 01, 05))
-                .WithEndDate(new DateTime(2022, 02, 09))
-                .WithTitle("TestIssue006")
-                .WithOptions("1", "2", "3")
+            Console.WriteLine("    Testing Add issue duplicate title");
+            if (!DbInitializers.LoadTestData())
+                return false;
+            var issue = TestData.issue
+                .WithSerialNumber("45781269")
                 .Build();
 
-            var issue2 = new BallotIssue.BallotIssueBuilder()
-                .WithSerialNumber("I77777777")
-                .WithStartDate(new DateTime(2022, 11, 08))
-                .WithEndDate(new DateTime(2022, 12, 08))
-                .WithTitle("TestIssue006")
-                .WithOptions("One", "Two")
-                .Build();
+            bool coll = BallotIssue.Accessor.AddIssue(issue);
 
-            Console.WriteLine("    Testing add issue w/ duplicate title");
-            if (BallotIssue.Accessor.IsSerialInUse(issue1.SerialNumber)
-                || BallotIssue.Accessor.IsSerialInUse(issue2.SerialNumber))
-            {
-                Console.WriteLine("(F) Add ballot-issue w/ duplicate title failed: serial in use before addition (reset DB?)");
-                return false;
-            }
-
-            bool collision = BallotIssue.Accessor.AddIssue(issue1);
-
-            if (collision)
-            {
-                Console.WriteLine("(F) Add ballot-issue w/ duplicate title failed: pre-collision (reset DB?)");
-                return false;
-            }
-            if (!BallotIssue.Accessor.IsSerialInUse(issue1.SerialNumber))
-            {
-                Console.WriteLine("(F) Add ballot-issue w/ duplicate title failed: serial not in use after addition");
-                return false;
-            }
-
-            collision = BallotIssue.Accessor.AddIssue(issue2);
-
-            if (!collision)
+            if (!coll)
             {
                 Console.WriteLine("(F) Add ballot-issue w/ duplicate title failed: collision not detected");
                 return false;
             }
-            if (BallotIssue.Accessor.IsSerialInUse(issue2.SerialNumber))
+            if (BallotIssue.Accessor.IsSerialInUse(issue.SerialNumber))
             {
                 Console.WriteLine("(F) Add ballot-issue w/ duplicate title failed: issue added anyway");
                 return false;
@@ -302,9 +178,12 @@ namespace IntegrationTests
             Console.WriteLine("(S) Add ballot-issue w/ duplicate title success");
             return true;
         }
+        
         public static bool TestGenerateIssueSerial()
         {
             Console.WriteLine("    Testing issue serial generator");
+            if (!DbInitializers.LoadTestData())
+                return false;
             string serial = BallotIssue.Accessor.GetSerial();
             if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'I')
             {

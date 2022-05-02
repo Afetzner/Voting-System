@@ -64,10 +64,6 @@ namespace VotingSystem.Controller
             return _ballots;
         }
 
-        //Not sure how best to return results
-        //Ideally the results should be somehow organized by issue
-        // Perhaps another function that returns results for a paricular issue or 
-        // packages them up? (it would call on this)
         /// <summary>
         /// Retrieves the poll results of every issue from the DB
         /// </summary>

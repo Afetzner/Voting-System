@@ -6,7 +6,7 @@ using VotingSystem.Utils;
 
 namespace IntegrationTests
 {
-    internal class AdminTests
+    internal static class AdminTests
     {
         public static Func<bool> AdminTestMenu()
         {
@@ -85,36 +85,20 @@ namespace IntegrationTests
 
         public static bool TestAddAdmin()
         {
-            Admin admin = new Admin.AdminBuilder()
-                .WithSerialNumber("A77777777")
-                .WithUsername("testAdminUsername4551")
-                .WithPassword("testAdminPass1!")
-                .WithEmail("123ytr@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
             Console.WriteLine("    Testing add admin");
-            //Console.WriteLine($@"Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
+            if (!DbInitializers.LoadTestData())
+                return false;
+            Admin v = TestData.admin.Build();
 
-            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber))
-            {
-                Console.WriteLine("(F) Add admin failed: serial in use before addition (reset db?)");
-                return false;
-            }
-            if (Admin.Accessor.IsUsernameInUse(admin.Username))
-            {
-                Console.WriteLine("(F) Add admin failed: username in use before addition (reset db?)");
-                return false;
-            }
-            bool collision = Admin.Accessor.AddUser(admin);
+            bool collision = Admin.Accessor.AddUser(v);
             if (collision)
             {
-                Console.WriteLine("(F) Add admin failed: collison (reset db?)");
+                Console.WriteLine("(F) Add admin failed: collison");
                 return false;
             }
-            if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber)
-                || !Admin.Accessor.IsUsernameInUse(admin.Username))
+
+            if (!Admin.Accessor.IsSerialInUse(v.SerialNumber)
+                || !Admin.Accessor.IsUsernameInUse(v.Username))
             {
                 Console.WriteLine("(F) Add admin failed: serial/username not in use after addition");
                 return false;
@@ -126,45 +110,10 @@ namespace IntegrationTests
 
         public static bool TestDeleteAdmin()
         {
-            Admin admin = new Admin.AdminBuilder()
-                .WithSerialNumber("A88888888")
-                .WithUsername("warningTestAdminUsernameX72")
-                .WithPassword("testAdminPass1!")
-                .WithEmail("ppo@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
             Console.WriteLine("    Testing delete admin");
-            //Console.WriteLine($@"    Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
-
-            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber))
-            {
-                Console.WriteLine("(F) Delete admin failed: serial in use before addition (reset db?)");
+            if (!DbInitializers.LoadTestData())
                 return false;
-            }
-            if (Admin.Accessor.IsUsernameInUse(admin.Username))
-            {
-                Console.WriteLine("(F) Delete admin failed: username in use before addition (reset db?)");
-                return false;
-            }
-
-            bool collision = Admin.Accessor.AddUser(admin);
-
-            if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber)
-                || !Admin.Accessor.IsUsernameInUse(admin.Username))
-            {
-                Console.WriteLine("(F) Delete admin failed: serial/username not in use after addition");
-                return false;
-            }
-
-            if (collision)
-            {
-                Console.WriteLine("(F) Delete admin failed: collision (reset db?)");
-                return false;
-            }
-
-            //Console.WriteLine($@"    Deleting admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
+            var admin = TestData.admin;
 
             Admin.Accessor.DeleteUser(admin.SerialNumber);
             if (Admin.Accessor.IsSerialInUse(admin.SerialNumber)
@@ -180,42 +129,11 @@ namespace IntegrationTests
 
         public static bool TestGetAdmin()
         {
-            Admin admin = new Admin.AdminBuilder()
-                .WithSerialNumber("A99999999")
-                .WithUsername("testAdminUsername123fg")
-                .WithPassword("testAdminPass1!")
-                .WithEmail("tyyt@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
             Console.WriteLine("    Testing get admin");
-            //Console.WriteLine($@"    Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
+            if (!DbInitializers.LoadTestData())
+                return false;
+            var admin = TestData.admin;
 
-            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber))
-            {
-                Console.WriteLine("(F) Get admin failed: serial in use before addition (reset db?)");
-                return false;
-            }
-            if (Admin.Accessor.IsUsernameInUse(admin.Username))
-            {
-                Console.WriteLine("(F) Get admin failed: username in use before addition (reset db?)");
-                return false;
-            }
-            bool collision = Admin.Accessor.AddUser(admin);
-            if (collision)
-            {
-                Console.WriteLine("(F) Get admin failed: collison (reset db?)");
-                return false;
-            }
-            if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber)
-                || !Admin.Accessor.IsUsernameInUse(admin.Username))
-            {
-                Console.WriteLine("(F) Get admin failed: serial not in use after addition");
-                return false;
-            }
-
-            //Console.WriteLine($@"    Getting admin with u: '{admin.Username}', p:'{admin.Password}'");
             Admin fromDb = Admin.Accessor.GetUser(admin.Username, admin.Password);
 
             if (fromDb == null)
@@ -242,41 +160,31 @@ namespace IntegrationTests
 
         public static bool TestGetNonExistentAdmin()
         {
-            Console.WriteLine("    Testing get non-existent voter");
-            Voter? v = Voter.Accessor.GetUser("neverAUserName", "NeverAPassW0rd!");
+            Console.WriteLine("    Testing get non-existent admin");
+            if (!DbInitializers.LoadTestData())
+                return false;
+            Admin? v = Admin.Accessor.GetUser("neverAUserName", "NeverAPassW0rd!");
             if (v != null)
             {
-                Console.WriteLine("(F) Get non-existent voter failed: non null");
+                Console.WriteLine("(F) Get non-existent admin failed: non null");
                 Console.WriteLine($@"    s: '{v.SerialNumber}', f: '{v.FirstName}', l: '{v.LastName}', u: '{v.Username}', p: '{v.Password}'");
                 return false;
             }
-            Console.WriteLine("(S) Get non-existent voter success");
+            Console.WriteLine("(S) Get non-existent admin success");
             return true;
         }
 
         public static bool TestGetNonAdmin()
         {
-            Console.WriteLine("    Testing get non-voter (admin)");
-            Voter v = new Voter.VoterBuilder()
-                .WithSerialNumber("V90000001")
-                .WithUsername("anVotersUsername")
-                .WithPassword("T3stV0ters!Passw0rd896")
-                .WithEmail("ubhjnmklas@email.com")
-                .WithFirstName("Rick")
-                .WithLastName("Amorl")
-                .Build();
-            Voter.Accessor.AddUser(v);
+            Console.WriteLine("    Testing get non-admin (admin)");
+            if (!DbInitializers.LoadTestData())
+                return false;
+            var admin = TestData.admin;
 
-            if (!Voter.Accessor.IsSerialInUse(v.SerialNumber))
-            {
-                Console.WriteLine("(F) Get non-admin failed: serial not in use after addition");
-            }
-
-            Admin? a = Admin.Accessor.GetUser("anVotersUsername", "T3stV0ters!Passw0rd896");
-            if (a != null)
+            Admin? v = Admin.Accessor.GetUser(admin.Username, admin.Password);
+            if (v != null)
             {
                 Console.WriteLine("(F) Get non-existent admin failed: non null");
-                Console.WriteLine($@"    s: '{a.SerialNumber}', f: '{a.FirstName}', l: '{a.LastName}', u: '{a.Username}', p: '{a.Password}'");
                 return false;
             }
             Console.WriteLine("(S) Get non-existent admin success");
@@ -285,60 +193,23 @@ namespace IntegrationTests
 
         public static bool TestAddDuplicateAdminUsername()
         {
-            Admin admin = new Admin.AdminBuilder()
-                .WithSerialNumber("A66666666")
-                .WithUsername("testAdminUsername67112")
-                .WithPassword("testAdminPass1!")
-                .WithEmail("hgghh@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
-            Admin admin2 = new Admin.AdminBuilder()
-                .WithSerialNumber("A55555555")
-                .WithUsername("testAdminUsername67112")
-                .WithPassword("testAdminPass1!")
-                .WithEmail("rrtfa@gmail.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
             Console.WriteLine("    Testing add admin w/ duplicate username");
-            //Console.WriteLine($@"    Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
+            if (!DbInitializers.LoadTestData())
+                return false;
+            var admin = TestData.admin
+                .WithSerialNumber("V85461234")
+                .WithEmail("otheremail@hotmail.com")
+                .Build();
 
-            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber)
-                || Admin.Accessor.IsSerialInUse(admin2.SerialNumber))
-            {
-                Console.WriteLine("(F) Add duplicate admin username failed: serial in use before addition (reset db?)");
-                return false;
-            }
-            if (Admin.Accessor.IsUsernameInUse(admin.Username)
-                || Admin.Accessor.IsUsernameInUse(admin2.Username))
-            {
-                Console.WriteLine("(F) Add duplicate admin username failed: username in use before addition (reset db?)");
-                return false;
-            }
-            bool collision = Admin.Accessor.AddUser(admin);
-            if (collision)
-            {
-                Console.WriteLine("(F) Add duplicate admin username failed: pre-collision (reset db?)");
-                return false;
-            }
-            if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber)
-                || !Admin.Accessor.IsUsernameInUse(admin.Username))
-            {
-                Console.WriteLine("(F) Add duplicate admin username failed: serial/username not in use after addition");
-                return false;
-            }
+            bool coll = Admin.Accessor.AddUser(admin);
 
-            bool collision2 = Admin.Accessor.AddUser(admin2);
-            if (!collision2)
+            if (!coll)
             {
                 Console.WriteLine("(F) Add duplicate admin username failed: collision not detected");
                 return false;
             }
 
-            if (Admin.Accessor.IsSerialInUse(admin2.SerialNumber))
+            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber))
             {
                 Console.WriteLine("(F) Add duplicate admin username failed: serial/username of duplicate added ");
                 return false;
@@ -350,55 +221,22 @@ namespace IntegrationTests
 
         public static bool TestAddDuplicateAdminSerial()
         {
-            Admin admin = new Admin.AdminBuilder()
-                .WithSerialNumber("A44444444")
-                .WithUsername("testAdminUsernametyytd")
-                .WithPassword("testAdminPass1!")
-                .WithEmail("1234lkk@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
-            Admin admin2 = new Admin.AdminBuilder()
-                .WithSerialNumber("A44444444")
-                .WithUsername("testAdminUsername123f34")
-                .WithPassword("testAdminPass1!")
-                .WithEmail("gghma@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
             Console.WriteLine("    Testing add admin w/ duplicate serial");
-            //Console.WriteLine($@"    Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
-
-            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber)
-                || Admin.Accessor.IsUsernameInUse(admin.Username))
-            {
-                Console.WriteLine("(F) Add duplicate admin username failed: serial/username in use before addition (reset db?)");
+            if (!DbInitializers.LoadTestData())
                 return false;
-            }
+            var admin = TestData.admin
+                .WithUsername("anotherUsername")
+                .WithEmail("AcompleatlySeperateEmail")
+                .Build();
 
-            bool collision = Admin.Accessor.AddUser(admin);
-            if (collision)
-            {
-                Console.WriteLine("(F) Add duplicate admin username failed: pre-collision (reset db?)");
-                return false;
-            }
-            if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber)
-                || !Admin.Accessor.IsUsernameInUse(admin.Username))
-            {
-                Console.WriteLine("(F) Add duplicate admin username failed: serial not in use after addition");
-                return false;
-            }
-
-            bool collision2 = Admin.Accessor.AddUser(admin2);
+            bool collision2 = Admin.Accessor.AddUser(admin);
             if (!collision2)
             {
                 Console.WriteLine("(F) Add duplicate admin serial failed: collision not detected");
                 return false;
             }
 
-            if (Admin.Accessor.IsUsernameInUse(admin2.Username))
+            if (Admin.Accessor.IsUsernameInUse(admin.Username))
             {
                 Console.WriteLine("(F) Add duplicate admin serial failed: duplicate entry added");
                 return false;
@@ -410,62 +248,24 @@ namespace IntegrationTests
 
         public static bool TestAddDuplicateAdminEmail()
         {
-            Admin admin = new Admin.AdminBuilder()
-                .WithSerialNumber("A22222222")
-                .WithUsername("testAdminUsernamesddcc")
-                .WithPassword("testAdminPass1!")
-                .WithEmail("alexR11@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
-            Admin admin2 = new Admin.AdminBuilder()
-                .WithSerialNumber("A33333333")
-                .WithUsername("testAdminUsername8unjj")
-                .WithPassword("testAdminPass1!")
-                .WithEmail("alexR11@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
             Console.WriteLine("    Testing add admin w/ duplicate email");
-            //Console.WriteLine($@"    Adding admin with s: '{admin.SerialNumber}', u: '{admin.Username}', p:'{admin.Password}'");
+            if (!DbInitializers.LoadTestData())
+                return false;
+            var admin = TestData.admin
+                .WithUsername("UsernameOther")
+                .WithSerialNumber("V96514567")
+                .Build();
 
-            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber)
-                || Admin.Accessor.IsSerialInUse(admin2.SerialNumber))
-            {
-                Console.WriteLine("(F) Add duplicate admin email failed: serial in use before addition (reset db?)");
-                return false;
-            }
-            if (Admin.Accessor.IsUsernameInUse(admin.Username)
-                || Admin.Accessor.IsUsernameInUse(admin2.Username))
-            {
-                Console.WriteLine("(F) Add duplicate admin email failed: username in use before addition (reset db?)");
-                return false;
-            }
 
-            bool collision = Admin.Accessor.AddUser(admin);
-            if (collision)
-            {
-                Console.WriteLine("(F) Add duplicate admin email failed: pre-collision (reset db?)");
-                return false;
-            }
-            if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber)
-                || !Admin.Accessor.IsUsernameInUse(admin.Username))
-            {
-                Console.WriteLine("(F) Add duplicate admin email failed: serial not in use after addition");
-                return false;
-            }
-
-            bool collision2 = Admin.Accessor.AddUser(admin2);
-            if (!collision2)
+            bool coll = Admin.Accessor.AddUser(admin);
+            if (!coll)
             {
                 Console.WriteLine("(F) Add duplicate admin email failed: collision not detected");
                 return false;
             }
 
-            if (Admin.Accessor.IsSerialInUse(admin2.SerialNumber)
-                || Admin.Accessor.IsUsernameInUse(admin2.Username))
+            if (Admin.Accessor.IsSerialInUse(admin.SerialNumber)
+                || Admin.Accessor.IsUsernameInUse(admin.Username))
             {
                 Console.WriteLine("(F) Add duplicate admin serial failed: duplicate entry added");
                 return false;
@@ -477,9 +277,11 @@ namespace IntegrationTests
 
         public static bool TestGenerateAdminSerial()
         {
-            Console.WriteLine("    Testing issue serial generator");
+            Console.WriteLine("    Testing admin serial generator");
+            if (!DbInitializers.LoadTestData())
+                return false;
             string serial = Admin.Accessor.GetSerial();
-            if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'A')
+            if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'V')
             {
                 Console.WriteLine($@"(F) Failed generate issue serial: '{serial}'");
                 return false;

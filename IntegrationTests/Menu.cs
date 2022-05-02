@@ -4,7 +4,7 @@ using VotingSystem.Accessor;
 
 namespace IntegrationTests.Interactive
 {
-    internal class Menu
+    internal static class Menu
     {
         public static bool ConnectionTestMenu()
         {
@@ -89,7 +89,7 @@ namespace IntegrationTests.Interactive
             }
         }
 
-        private static List<List<Func<bool>>> tests = new List<List<Func<bool>>>()
+        private static readonly List<List<Func<bool>>> tests = new()
         {
             VoterTests.AllVoterTests,
             AdminTests.AllAdminTests,
