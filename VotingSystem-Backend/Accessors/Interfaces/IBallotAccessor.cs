@@ -4,7 +4,7 @@ using MySql.Data.MySqlClient;
 
 namespace VotingSystem.Accessor
 {
-    public interface IBallotAccessor
+    public interface IBallotAccessor : IWithSerialNumber
     {
         /// <summary>
         /// Adds a ballot to the  DB
@@ -28,11 +28,5 @@ namespace VotingSystem.Accessor
         /// <exception cref="MySqlException">Bad connection to DB</exception>
         /// <exception cref="InvalidBuilderParameterException">Corrupt data from DB</exception>
         Ballot? GetBallot(string voter, string issue);
-
-        /// <summary>
-        /// Returns if a serial number is in use in DB
-        /// </summary>
-        /// <exception cref="MySqlException">Bad connection to DB</exception>
-        public bool IsSerialInUse(string ballotSerial);
     }
 }

@@ -1,8 +1,7 @@
 using VotingSystem.Model;
+using VotingSystem.Utils;
 using System.Data;
-using System.Security.Cryptography.X509Certificates;
 using MySql.Data.MySqlClient;
-using VotingSystem.Controller;
 
 namespace VotingSystem.Accessor
 {
@@ -284,16 +283,15 @@ namespace VotingSystem.Accessor
             }
         }
 
-        public String GenerateUserSerialNo()
+        public string GetSerial()
         {
-            GenerateSerialNo user = new GenerateSerialNo();
-            String uniqueNo = user.generateSerialNo();
+            string serial;
             do
             {
-                uniqueNo = user.generateSerialNo();
-            } while (IsSerialInUse(uniqueNo) == true);
+                serial = SerialGenerator.Generate(nameof(T)[0]);
+            } while (IsSerialInUse(serial));
 
-            return uniqueNo;
+            return serial;
         }
     }
 }

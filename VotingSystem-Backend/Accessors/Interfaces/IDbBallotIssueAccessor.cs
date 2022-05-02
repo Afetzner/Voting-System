@@ -11,7 +11,7 @@ namespace VotingSystem.Accessor
     // are contained in a list in the issue, so they don't have access to the issue serial num
     // I suggest we move the add_issue_options into here (so issues and their options get added together)
     // We could have a separate func that adds options to existing issue too, but that's low priority.
-    public interface IBallotIssueAccessor
+    public interface IBallotIssueAccessor : IWithSerialNumber
     {
         /// <summary>
         /// Adds an issue and its options to the DB

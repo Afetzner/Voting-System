@@ -1,6 +1,6 @@
 using MySql.Data.MySqlClient;
 using System.Data;
-using VotingSystem.Controller;
+using VotingSystem.Utils;
 using VotingSystem.Model;
 
 namespace VotingSystem.Accessor
@@ -258,17 +258,14 @@ serialNumber: '{serial}'");
             }
         }
 
-        public String GenerateUserSerialNo()
+        public string GetSerial()
         {
-            GenerateSerialNo ballotIssue = new GenerateSerialNo();
-            String uniqueNo = ballotIssue.generateSerialNo();
+            string serial;
             do
             {
-                uniqueNo = ballotIssue.generateSerialNo();
-            } while (IsSerialInUse(uniqueNo) == true);
-
-            return uniqueNo;
+                serial = SerialGenerator.Generate('I');
+            } while (IsSerialInUse(serial));
+            return serial;
         }
-
     }
 }

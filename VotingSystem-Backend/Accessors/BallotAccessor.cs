@@ -8,7 +8,7 @@ using VotingSystem.Controller;
 
 namespace VotingSystem.Model
 {
-    public class BallotAccessor : IBallotAccessor
+    public class BallotAccessor : IBallotAccessor, IWithSerialNumber
     {
         public bool AddBallot(Ballot ballot)
         {
@@ -159,6 +159,42 @@ namespace VotingSystem.Model
             */
         }
 
+        public void RemoveBallot(string serial)
+        {
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine(e + "\nCould not connect to database");
+                    throw;
+                }
+
+                using (var cmd = new MySqlCommand("delete_ballot", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("v_ballotSerial", serial);
+                    cmd.Parameters["@v_ballotSerial"].Direction = ParameterDirection.Input;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (MySqlException e)
+                    {
+                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'delete_ballot' with parameters:
+                                                    serialNumber: '{serial}' ");
+
+                        throw;
+                    }
+                }
+            }
+        }
+
         public bool IsSerialInUse(string ballotSerial)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
@@ -198,57 +234,15 @@ namespace VotingSystem.Model
             }
         }
 
-        public void RemoveBallot(string serial)
+        public string GetSerial()
         {
-            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
-            {
-                try
-                {
-                    conn.Open();
-                }
-                catch (MySqlException e)
-                {
-                    Console.WriteLine(e + "\nCould not connect to database");
-                    throw;
-                }
-
-                using (var cmd = new MySqlCommand("delete_ballot", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("v_ballotSerial", serial);
-                    cmd.Parameters["@v_ballotSerial"].Direction = ParameterDirection.Input;
-
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (MySqlException e)
-                    {
-                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'delete_ballot' with parameters:
-                                                    serialNumber: '{serial}' ");
-
-                        throw;
-                    }
-                }
-            }
-        }
-
-        List<Ballot> IBallotAccessor.GetBallotsByVoter(string voterSerial)
-        {
-            throw new NotImplementedException();
-        }
-
-        public String GenerateUserSerialNo()
-        {
-            GenerateSerialNo ballot = new GenerateSerialNo();
-            String uniqueNo = ballot.generateSerialNo();
+            string serial;
             do
             {
-                uniqueNo = ballot.generateSerialNo();
-            } while (IsSerialInUse(uniqueNo) == true);
+                serial = SerialGenerator.Generate('B');
+            } while (IsSerialInUse(serial));
 
-            return uniqueNo;
+            return serial;
         }
     }
 }
