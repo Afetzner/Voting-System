@@ -1,6 +1,6 @@
 import "./Vote.css";
 import Poll from "../components/Poll";
-import Confimation from "../components/Confirmation";
+import Confirmation from "../components/Confirmation";
 import { Accordion, Card, Spinner } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -105,12 +105,12 @@ export default function Vote(props) {
 
   return (
     <>
-      <Confimation
+      <Confirmation
         title={"Alert"}
         show={show}
         setShow={setShow}
         handleConfirmation={handleConfirmation}
-      >Are you sure?  This cannot be undone.</Confimation>
+      >Are you sure?  This cannot be undone.</Confirmation>
       <div className="vote-selection-container">
         <Card>
           <Card.Body className="vote-selection">
