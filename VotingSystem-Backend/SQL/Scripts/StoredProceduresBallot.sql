@@ -13,8 +13,13 @@ CREATE PROCEDURE afetzner.add_ballot (
     IN `v_choiceNumber` int,
     OUT `v_collision` bool)
 BEGIN
+	SET `v_collision` = true;
+    START TRANSACTION;
 	-- Detect if ballot from same voter for same issue exists
-	SELECT EXISTS (SELECT 1 FROM ballot WHERE voter_serial = `v_voterSerial` AND issue_serial = `v_issueSerial` LIMIT 1) INTO `v_collision`;
+	SET `v_collision` = EXISTS (
+		SELECT 1 FROM ballot 
+        WHERE ballot_serial_number = `v_ballotSerial`
+			OR (voter_serial_number = `v_voterSerial` AND issue_serial_number = `v_issueSerial`) LIMIT 1);
     
     INSERT INTO ballot 
 		(ballot_serial_number, 
@@ -25,15 +30,16 @@ BEGIN
 		issue_id,
 		choice_id)
 	SELECT
-		(`v_ballotSerial`,
+		`v_ballotSerial`,
         `v_voterSerial`,
         `v_issueSerial`,
         `v_choiceNumber`,
-		(SELECT voter_id FROM voter WHERE voter.serial_number = `v_voterSerial` LIMIT 1),
+		(SELECT user_id FROM user WHERE user.serial_number = `v_voterSerial` LIMIT 1),
         (SELECT issue_id FROM issue WHERE issue.serial_number = `v_issueSerial` LIMIT 1),
-        (SELECT option_id FROM issue_option WHERE issue_option.option_number = `v_choice_number` LIMIT 1))
+        (SELECT option_id FROM issue_option WHERE issue_option.option_number = `v_choiceNumber` LIMIT 1)
 	-- Protects against multiple ballots from one voter being entered on any issue
     WHERE NOT `v_collision`;
+    COMMIT;
 END
 $$
 
@@ -73,7 +79,7 @@ CREATE PROCEDURE afetzner.get_did_voter_participate (
 BEGIN
 	SELECT count(*) > 0 INTO `v_didVote`
     FROM ballot 
-    WHERE ballot.voter_serial = `v_voterSerial` AND ballot.issue_serial = `v_issueSerial` 
+    WHERE ballot.voter_serial_number = `v_voterSerial` AND ballot.issue_serial_number = `v_issueSerial` 
     LIMIT 1;
 END
 $$
@@ -95,7 +101,7 @@ CREATE PROCEDURE afetzner.check_ballot_serial (
 	IN `v_ballotSerial` varchar(9),
     OUT `v_occupied` bool)
 BEGIN
-	SET `v_occupied` = EXISTS (SELECT 1 FROM ballot WHERE serial_number = `v_ballotSerial` LIMIT 1);
+	SET `v_occupied` = EXISTS (SELECT 1 FROM ballot WHERE ballot_serial_number = `v_ballotSerial` LIMIT 1);
 END
 $$
 DELIMITER ;

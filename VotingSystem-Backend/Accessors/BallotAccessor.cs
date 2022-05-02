@@ -8,7 +8,7 @@ using VotingSystem.Controller;
 
 namespace VotingSystem.Model
 {
-    public class BallotAccessor : IBallotAccessor, IWithSerialNumber
+    public class BallotAccessor : IBallotAccessor
     {
         public bool AddBallot(Ballot ballot)
         {
@@ -47,9 +47,12 @@ namespace VotingSystem.Model
                     {
                         cmd.ExecuteNonQuery();
                     }
+                    catch (MySqlException e) when (e.ErrorCode == -2147467259)
+                    {
+                        //Duplicate entry, don't throw, handled by return vlaue
+                    }
                     catch (MySqlException e)
                     {
-                        Console.WriteLine(e.ErrorCode);
                         Console.WriteLine(e + "\n\n"
                             + $@"Could not execute SQL procedure 'add_ballot' with parameters:
                             ballot serialNumber: '{ballot.SerialNumber}',
@@ -217,7 +220,7 @@ namespace VotingSystem.Model
                     cmd.Parameters["@v_ballotSerial"].Direction = ParameterDirection.Input;
 
                     cmd.Parameters.Add("v_occupied", MySqlDbType.Byte);
-                    cmd.Parameters["@v_occupied"].Direction = ParameterDirection.Input;
+                    cmd.Parameters["@v_occupied"].Direction = ParameterDirection.Output;
 
                     try
                     {

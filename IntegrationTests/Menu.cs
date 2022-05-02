@@ -4,7 +4,7 @@ using VotingSystem.Accessor;
 
 namespace IntegrationTests.Interactive
 {
-    public class Menu
+    internal class Menu
     {
         public static bool ConnectionTestMenu()
         {
@@ -64,8 +64,9 @@ namespace IntegrationTests.Interactive
                 " (2) Admin\n" +
                 " (3) Voter\n" +
                 " (4) Ballot-Issue\n" +
-                " (5) Results\n" +
-                " (6) Exit\n");
+                " (5) Ballot\n" + 
+                " (6) Results\n" +
+                " (7) Exit\n");
 
             while (true)
             {
@@ -82,7 +83,7 @@ namespace IntegrationTests.Interactive
                     '2' => AdminTests.AdminTestMenu,
                     '3' => VoterTests.VoterTestMenu,
                     '4' => IssueTests.IssueTestMenu,
-                    '5' => null,
+                    '5' => BallotTests.BallotTestMenu,
                     _ => MetaExit
                 };
             }
@@ -92,7 +93,8 @@ namespace IntegrationTests.Interactive
         {
             VoterTests.AllVoterTests,
             AdminTests.AllAdminTests,
-            IssueTests.AllIssueTests
+            IssueTests.AllIssueTests,
+            BallotTests.AllBallotTests
         };
 
         private static Func<bool> MetaAllTests()

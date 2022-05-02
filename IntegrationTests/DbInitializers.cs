@@ -4,7 +4,7 @@ using VotingSystem.Accessor;
 
 namespace IntegrationTests
 {
-    public class DbInitializers
+    internal class DbInitializers
     {
         public static Func<bool> DbInitMenu()
         {

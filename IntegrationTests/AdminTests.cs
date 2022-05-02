@@ -68,7 +68,8 @@ namespace IntegrationTests
                     fail++;
             }
 
-            Console.WriteLine($@"{tot - fail} succeed, {fail} fail\n\n");
+            Console.WriteLine($@"{tot - fail} succeed, {fail} fail");
+            Console.WriteLine("\n");
             return fail == 0;
         }
 
@@ -105,7 +106,7 @@ namespace IntegrationTests
             if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber)
                 || !Admin.Accessor.IsUsernameInUse(admin.Username))
             {
-                Console.Write("(F) Add admin failed: serial/username not in use after addition");
+                Console.WriteLine("(F) Add admin failed: serial/username not in use after addition");
                 return false;
             }
 
@@ -200,7 +201,7 @@ namespace IntegrationTests
             if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber)
                 || !Admin.Accessor.IsUsernameInUse(admin.Username))
             {
-                Console.Write("(F) Get admin failed: serial not in use after addition");
+                Console.WriteLine("(F) Get admin failed: serial not in use after addition");
                 return false;
             }
 
@@ -273,7 +274,7 @@ namespace IntegrationTests
             if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber)
                 || !Admin.Accessor.IsUsernameInUse(admin.Username))
             {
-                Console.Write("(F) Add duplicate admin username failed: serial/username not in use after addition");
+                Console.WriteLine("(F) Add duplicate admin username failed: serial/username not in use after addition");
                 return false;
             }
 
@@ -333,7 +334,7 @@ namespace IntegrationTests
             if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber)
                 || !Admin.Accessor.IsUsernameInUse(admin.Username))
             {
-                Console.Write("(F) Add duplicate admin username failed: serial not in use after addition");
+                Console.WriteLine("(F) Add duplicate admin username failed: serial not in use after addition");
                 return false;
             }
 
@@ -399,7 +400,7 @@ namespace IntegrationTests
             if (!Admin.Accessor.IsSerialInUse(admin.SerialNumber)
                 || !Admin.Accessor.IsUsernameInUse(admin.Username))
             {
-                Console.Write("(F) Add duplicate admin email failed: serial not in use after addition");
+                Console.WriteLine("(F) Add duplicate admin email failed: serial not in use after addition");
                 return false;
             }
 

@@ -63,13 +63,19 @@ namespace VotingSystem.Model
                     throw new InvalidBuilderParameterException("Invalid (Null) BallotVoter");
                 if (Issue == null)
                     throw new InvalidBuilderParameterException("Invalid (null) BallotIssue");
-                if (SerialNumber == null || !Validation.IsValidSerialNumber(SerialNumber))
+                if (SerialNumber == null)
                     throw new InvalidBuilderParameterException("Invalid (null) SerialNumber");
-                if (Choice < -1)
-                    throw new InvalidBuilderParameterException("Invalid choice number");
+                if (!Validation.IsValidSerialNumber(Voter))
+                    throw new InvalidBuilderParameterException(@$"Invalid BallotVoter '{Voter}'");
+                if (!Validation.IsValidSerialNumber(Issue))
+                    throw new InvalidBuilderParameterException(@$"Invalid BallotIssue '{Issue}'");
+                if (!Validation.IsValidSerialNumber(SerialNumber))
+                    throw new InvalidBuilderParameterException(@$"Invalid SerialNumber '{SerialNumber}'");
                 if (!_inputtedChoice)
                     throw new InvalidBuilderParameterException(
                         "BallotIssue choice not selected");
+                if (Choice < -1)
+                    throw new InvalidBuilderParameterException("Invalid choice number");
                 Ballot ballot = new(Voter, Issue, Choice, SerialNumber);
                 return ballot;
             }

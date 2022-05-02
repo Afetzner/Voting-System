@@ -106,7 +106,7 @@ namespace IntegrationTests
             if (!Voter.Accessor.IsSerialInUse(voter.SerialNumber)
                 || !Voter.Accessor.IsUsernameInUse(voter.Username))
             {
-                Console.Write("(F) Add voter failed: serial/username not in use after addition");
+                Console.WriteLine("(F) Add voter failed: serial/username not in use after addition");
                 return false;
             }
 
@@ -201,7 +201,7 @@ namespace IntegrationTests
             if (!Voter.Accessor.IsSerialInUse(voter.SerialNumber)
                 || !Voter.Accessor.IsUsernameInUse(voter.Username))
             {
-                Console.Write("(F) Get voter failed: serial not in use after addition");
+                Console.WriteLine("(F) Get voter failed: serial not in use after addition");
                 return false;
             }
 
@@ -274,7 +274,7 @@ namespace IntegrationTests
             if (!Voter.Accessor.IsSerialInUse(voter.SerialNumber)
                 ||!Voter.Accessor.IsUsernameInUse(voter.Username))
             {
-                Console.Write("(F) Add duplicate voter username failed: serial/username not in use after addition");
+                Console.WriteLine("(F) Add duplicate voter username failed: serial/username not in use after addition");
                 return false;
             }
 
@@ -334,7 +334,7 @@ namespace IntegrationTests
             if (!Voter.Accessor.IsSerialInUse(voter.SerialNumber)
                 || !Voter.Accessor.IsUsernameInUse(voter.Username))
             {
-                Console.Write("(F) Add duplicate voter username failed: serial not in use after addition");
+                Console.WriteLine("(F) Add duplicate voter username failed: serial not in use after addition");
                 return false;
             }
 
@@ -400,7 +400,7 @@ namespace IntegrationTests
             if (!Voter.Accessor.IsSerialInUse(voter.SerialNumber)
                 || !Voter.Accessor.IsUsernameInUse(voter.Username))
             {
-                Console.Write("(F) Add duplicate voter email failed: serial not in use after addition");
+                Console.WriteLine("(F) Add duplicate voter email failed: serial not in use after addition");
                 return false;
             }
 

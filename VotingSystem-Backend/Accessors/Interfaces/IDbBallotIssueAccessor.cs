@@ -35,10 +35,5 @@ namespace VotingSystem.Accessor
         /// <exception cref="InvalidBuilderParameterException">Corrupt data from DB</exception>
         List<BallotIssue> GetBallotIssues();
 
-        /// <summary>
-        /// Returns if a serial number is in use in DB
-        /// </summary>
-        /// <exception cref="MySqlException">Bad connection to DB</exception>
-        public bool IsSerialInUse(string serial);
     }
 }
