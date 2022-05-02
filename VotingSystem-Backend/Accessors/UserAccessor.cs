@@ -288,7 +288,7 @@ namespace VotingSystem.Accessor
             string serial;
             do
             {
-                serial = SerialGenerator.Generate(nameof(T)[0]);
+                serial = SerialGenerator.Generate(typeof(T).Name[0]);
             } while (IsSerialInUse(serial));
 
             return serial;
