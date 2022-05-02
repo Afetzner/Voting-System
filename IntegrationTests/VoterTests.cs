@@ -2,6 +2,7 @@
 using IntegrationTests.Interactive;
 using System;
 using System.Collections.Generic;
+using VotingSystem.Controller;
 
 namespace IntegrationTests
 {
@@ -420,5 +421,6 @@ namespace IntegrationTests
             Console.WriteLine("(S) Add duplicate voter email success");
             return true;
         }
+
     }
 }

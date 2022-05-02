@@ -2,6 +2,8 @@
 using IntegrationTests.Interactive;
 using System;
 using System.Collections.Generic;
+using VotingSystem.Controller;
+
 namespace IntegrationTests
 {
     internal class IssueTests
@@ -18,7 +20,8 @@ namespace IntegrationTests
                 " (5) Get issues\n" +
                 " (6) Add duplicate serial\n" +
                 " (7) Add dupicate title\n" +
-                " (8) Exit\n");
+                " (8) Get Serial no\n" +
+                " (9) Exit\n");
 
             while (true)
             {
@@ -38,6 +41,7 @@ namespace IntegrationTests
                     '5' => TestGetIssues,
                     '6' => TestAddIssueDuplicateSerial,
                     '7' => TestAddIssueDuplicateTitle,
+                    '8' => TestGenerateIssueSerialNo,
                     _ => Menu.Exit,
                 };
             }
@@ -295,6 +299,15 @@ namespace IntegrationTests
             }
 
             Console.WriteLine("(S) Add ballot-issue w/ duplicate title success");
+            return true;
+        }
+        public static bool TestGenerateIssueSerialNo()
+        {
+            // this test doesn't test if it generates unique comparing to existing yet.
+            // not sure how to do it
+            GenerateSerialNo generate = new GenerateSerialNo();
+            Console.WriteLine("Generated Issue Serial No:" + generate.generateSerialNo());
+
             return true;
         }
     }
