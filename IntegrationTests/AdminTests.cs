@@ -2,6 +2,7 @@
 using IntegrationTests.Interactive;
 using System;
 using System.Collections.Generic;
+using VotingSystem.Utils;
 
 namespace IntegrationTests
 {
@@ -20,7 +21,8 @@ namespace IntegrationTests
                 " (6) Add duplicate username\n" +
                 " (7) Add dupicate serial\n" +
                 " (8) Add duplicate email\n" +
-                " (9) Exit\n");
+                " (9) Generate Admin serial\n" +
+                " (*) Exit\n");
 
             while (true)
             {
@@ -41,19 +43,21 @@ namespace IntegrationTests
                     '6' => TestAddDuplicateAdminUsername,
                     '7' => TestAddDuplicateAdminSerial,
                     '8' => TestAddDuplicateAdminEmail,
+                    '9' => TestGenerateAdminSerial,
                     _ => Menu.Exit
                 };
             }
         }
 
-        public static List<Func<bool>> AllAdminTests = new List<Func<bool>>()
+        public static List<Func<bool>> AllAdminTests = new()
         {
             TestAddAdmin,
             TestDeleteAdmin,
             TestGetAdmin,
             TestAddDuplicateAdminSerial,
             TestAddDuplicateAdminUsername,
-            TestAddDuplicateAdminEmail
+            TestAddDuplicateAdminEmail,
+            TestGenerateAdminSerial
         };
 
         public static bool RunAllAdminTests()
@@ -419,6 +423,19 @@ namespace IntegrationTests
             }
 
             Console.WriteLine("(S) Add duplicate admin email success");
+            return true;
+        }
+
+        public static bool TestGenerateAdminSerial()
+        {
+            Console.WriteLine("    Testing issue serial generator");
+            string serial = Admin.Accessor.GetSerial();
+            if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'A')
+            {
+                Console.WriteLine($@"(F) Failed generate issue serial: '{serial}'");
+                return false;
+            }
+            Console.WriteLine("(S) Generate issue serial success");
             return true;
         }
     }

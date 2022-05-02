@@ -66,7 +66,7 @@ namespace IntegrationTests.Interactive
                 " (4) Ballot-Issue\n" +
                 " (5) Ballot\n" + 
                 " (6) Results\n" +
-                " (7) Exit\n");
+                " (*) Exit\n");
 
             while (true)
             {

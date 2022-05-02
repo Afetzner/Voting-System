@@ -2,7 +2,7 @@
 using IntegrationTests.Interactive;
 using System;
 using System.Collections.Generic;
-using VotingSystem.Controller;
+using VotingSystem.Utils;
 
 namespace IntegrationTests
 {
@@ -20,8 +20,8 @@ namespace IntegrationTests
                 " (5) Get issues\n" +
                 " (6) Add duplicate serial\n" +
                 " (7) Add dupicate title\n" +
-                " (8) Get Serial no\n" +
-                " (9) Exit\n");
+                " (8) Genereate issue serial\n" +
+                " (*) Exit\n");
 
             while (true)
             {
@@ -41,19 +41,20 @@ namespace IntegrationTests
                     '5' => TestGetIssues,
                     '6' => TestAddIssueDuplicateSerial,
                     '7' => TestAddIssueDuplicateTitle,
-                    '8' => TestGenerateIssueSerialNo,
+                    '8' => TestGenerateIssueSerial,
                     _ => Menu.Exit,
                 };
             }
         }
 
-        public static List<Func<bool>> AllIssueTests = new List<Func<bool>>()
+        public static List<Func<bool>> AllIssueTests = new()
         {
             TestAddIssue,
             TestDeleteIssue,
             TestGetIssues,
             TestAddIssueDuplicateSerial,
-            TestAddIssueDuplicateTitle
+            TestAddIssueDuplicateTitle,
+            TestGenerateIssueSerial
         };
 
         public static bool RunAllIssueTests()
@@ -301,13 +302,16 @@ namespace IntegrationTests
             Console.WriteLine("(S) Add ballot-issue w/ duplicate title success");
             return true;
         }
-        public static bool TestGenerateIssueSerialNo()
+        public static bool TestGenerateIssueSerial()
         {
-            // this test doesn't test if it generates unique comparing to existing yet.
-            // not sure how to do it
-            GenerateSerialNo generate = new GenerateSerialNo();
-            Console.WriteLine("Generated Issue Serial No:" + generate.generateSerialNo());
-
+            Console.WriteLine("    Testing issue serial generator");
+            string serial = BallotIssue.Accessor.GetSerial();
+            if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'I')
+            {
+                Console.WriteLine($@"(F) Failed generate issue serial: '{serial}'");
+                return false;
+            }
+            Console.WriteLine("(S) Generate issue serial success");
             return true;
         }
     }

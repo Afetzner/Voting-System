@@ -3,6 +3,7 @@ using IntegrationTests.Interactive;
 using System;
 using System.Collections.Generic;
 using VotingSystem.Controller;
+using VotingSystem.Utils;
 
 namespace IntegrationTests
 {
@@ -21,7 +22,8 @@ namespace IntegrationTests
                 " (6) Add duplicate username\n" +
                 " (7) Add dupicate serial\n" +
                 " (8) Add duplicate email\n" +
-                " (9) Exit\n");
+                " (9) Generate voter serial\n" +
+                " (*) Exit\n");
 
             while (true)
             {
@@ -42,19 +44,21 @@ namespace IntegrationTests
                     '6' => TestAddDuplicateVoterUsername,
                     '7' => TestAddDuplicateVoterSerial,
                     '8' => TestAddDuplicateVoterEmail,
+                    '9' => TestGenerateVoterSerial,
                     _ => Menu.Exit,
                 };
             }
         }
 
-        public static List<Func<bool>> AllVoterTests = new List<Func<bool>>()
+        public static List<Func<bool>> AllVoterTests = new()
         {
             TestAddVoter,
             TestDeleteVoter,
             TestGetVoter,
             TestAddDuplicateVoterSerial,
             TestAddDuplicateVoterUsername,
-            TestAddDuplicateVoterEmail
+            TestAddDuplicateVoterEmail,
+            TestGenerateVoterSerial
         };
 
         public static bool RunAllVoterTests()
@@ -419,6 +423,19 @@ namespace IntegrationTests
             }
 
             Console.WriteLine("(S) Add duplicate voter email success");
+            return true;
+        }
+
+        public static bool TestGenerateVoterSerial()
+        {
+            Console.WriteLine("    Testing voter serial generator");
+            string serial = Voter.Accessor.GetSerial();
+            if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'V')
+            {
+                Console.WriteLine($@"(F) Failed generate issue serial: '{serial}'");
+                return false;
+            }
+            Console.WriteLine("(S) Generate issue serial success");
             return true;
         }
 

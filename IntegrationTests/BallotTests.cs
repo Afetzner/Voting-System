@@ -2,6 +2,7 @@
 using IntegrationTests.Interactive;
 using System;
 using System.Collections.Generic;
+using VotingSystem.Utils;
 
 namespace IntegrationTests
 {
@@ -19,7 +20,8 @@ namespace IntegrationTests
                 " (5) Get ballot\n" +
                 " (6) Add duplicate serial\n" +
                 " (7) Add double vote\n" +
-                " (8) Exit\n");
+                " (8) Generate ballot serial\n" +
+                " (*) Exit\n");
 
             while (true)
             {
@@ -39,18 +41,20 @@ namespace IntegrationTests
                     '5' => TestGetBallot,
                     '6' => TestAddDuplicateBallotSerial,
                     '7' => TestAddDoubleBallot,
+                    '8' => TestGenerateBallotSerial,
                     _ => Menu.Exit,
                 };
             }
         }
 
-        public static List<Func<bool>> AllBallotTests = new List<Func<bool>>()
+        public static List<Func<bool>> AllBallotTests = new ()
         {
             TestAddBallot,
             TestDeleteBallot,
             TestGetBallot,
             TestAddDuplicateBallotSerial,
-            TestAddDoubleBallot
+            TestAddDoubleBallot,
+            TestGenerateBallotSerial
         };
 
         public static bool RunAllBallotTests()
@@ -441,6 +445,19 @@ namespace IntegrationTests
             }
 
             Console.WriteLine("(S) Add ballot w/ duplicate serialsuccess");
+            return true;
+        }
+
+        public static bool TestGenerateBallotSerial()
+        {
+            Console.WriteLine("    Testing issue serial generator");
+            string serial = Ballot.Accessor.GetSerial();
+            if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'B')
+            {
+                Console.WriteLine($@"(F) Failed generate issue serial: '{serial}'");
+                return false;
+            }
+            Console.WriteLine("(S) Generate issue serial success");
             return true;
         }
     }
