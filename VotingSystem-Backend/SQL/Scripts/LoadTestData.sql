@@ -49,7 +49,7 @@ INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
 VALUES (1, "Emmy Roh", @issueMayorId, 'I78955500');
 SET @mayorOptionOneId = last_insert_id();
 INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
-VALUES (2, "Lord Farquad", @issueMayorId, 'I78955500');
+VALUES (2, "Sammy Hunt", @issueMayorId, 'I78955500');
 SET @mayorOptionTwoId = last_insert_id();
 
 INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
