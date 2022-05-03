@@ -33,7 +33,7 @@ namespace IntegrationTests
                 return key.KeyChar switch
                 {
                     '0' => DbInitializers.ResetDb,
-                    '1' => DbInitializers.LoadTestData,
+                    '1' => DbInitializers.LoadIntTestData,
                     '2' => RunAllBallotTests,
                     '3' => TestAddBallot,
                     '4' => TestDeleteBallot,
@@ -50,7 +50,6 @@ namespace IntegrationTests
             TestAddBallot,
             TestDeleteBallot,
             TestGetBallot,
-            TestAddDuplicateBallotSerial,
             TestAddDoubleBallot,
             TestGenerateBallotSerial
         };
@@ -74,11 +73,10 @@ namespace IntegrationTests
         public static bool TestAddBallot()
         {
             Console.WriteLine("    Testing add ballot");
-            if (!DbInitializers.ClearTestData())
-                return false;
-            var voter = TestData.voter.Build();
-            var issue = TestData.issue.Build();
-            var ballot = TestData.ballot.Build();
+            DbInitializers.ResetDb();
+            var voter = new TestData().voter.Build();
+            var issue = new TestData().issue.Build();
+            var ballot = new TestData().ballot.Build();
 
             Voter.Accessor.AddUser(voter);
             BallotIssue.Accessor.AddIssue(issue);
@@ -102,9 +100,9 @@ namespace IntegrationTests
         public static bool TestDeleteBallot()
         {
             Console.WriteLine("    Testing delete ballot");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            var ballot = TestData.ballot;
+            var ballot = new TestData().ballot.Build();
 
             Ballot.Accessor.RemoveBallot(ballot.SerialNumber);
             if (Ballot.Accessor.IsSerialInUse(ballot.SerialNumber))
@@ -120,9 +118,9 @@ namespace IntegrationTests
         public static bool TestGetBallot()
         {
             Console.WriteLine("    Testing get ballot");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            var ballot = TestData.ballot.Build();
+            var ballot = new TestData().ballot.Build();
 
             Ballot fromDb = Ballot.Accessor.GetBallot(ballot.VoterSerial, ballot.IssueSerial);
 
@@ -149,9 +147,9 @@ namespace IntegrationTests
         public static bool TestAddDoubleBallot()
         {
             Console.WriteLine("    Testing add ballot w/ duplicate voter & issue");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            var ballot = TestData.ballot
+            var ballot = new TestData().ballot
                 .WithSerialNumber("B12695478")
                 .WithChoice(1)
                 .Build();
@@ -176,7 +174,7 @@ namespace IntegrationTests
         public static bool TestGenerateBallotSerial()
         {
             Console.WriteLine("    Testing issue serial generator");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
             string serial = Ballot.Accessor.GetSerial();
             if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'B')

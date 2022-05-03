@@ -37,7 +37,7 @@ namespace IntegrationTests
                 return key.KeyChar switch
                 {
                     '0' => DbInitializers.ResetDb,
-                    '1' => DbInitializers.LoadTestData,
+                    '1' => DbInitializers.LoadIntTestData,
                     '2' => RunAllAdminTests,
                     '3' => TestAddAdmin,
                     '4' => TestDeleteAdmin,
@@ -86,9 +86,8 @@ namespace IntegrationTests
         public static bool TestAddAdmin()
         {
             Console.WriteLine("    Testing add admin");
-            if (!DbInitializers.LoadTestData())
-                return false;
-            Admin v = TestData.admin.Build();
+            DbInitializers.ResetDb();
+            Admin v = new TestData().admin.Build();
 
             bool collision = Admin.Accessor.AddUser(v);
             if (collision)
@@ -111,9 +110,9 @@ namespace IntegrationTests
         public static bool TestDeleteAdmin()
         {
             Console.WriteLine("    Testing delete admin");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            var admin = TestData.admin;
+            var admin = new TestData().admin.Build();
 
             Admin.Accessor.DeleteUser(admin.SerialNumber);
             if (Admin.Accessor.IsSerialInUse(admin.SerialNumber)
@@ -130,9 +129,9 @@ namespace IntegrationTests
         public static bool TestGetAdmin()
         {
             Console.WriteLine("    Testing get admin");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            var admin = TestData.admin;
+            var admin = new TestData().admin;
 
             Admin fromDb = Admin.Accessor.GetUser(admin.Username, admin.Password);
 
@@ -161,9 +160,9 @@ namespace IntegrationTests
         public static bool TestGetNonExistentAdmin()
         {
             Console.WriteLine("    Testing get non-existent admin");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            Admin? v = Admin.Accessor.GetUser("neverAUserName", "NeverAPassW0rd!");
+            var v = Admin.Accessor.GetUser("neverAUserName", "NeverAPassW0rd!");
             if (v != null)
             {
                 Console.WriteLine("(F) Get non-existent admin failed: non null");
@@ -177,11 +176,11 @@ namespace IntegrationTests
         public static bool TestGetNonAdmin()
         {
             Console.WriteLine("    Testing get non-admin (admin)");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            var admin = TestData.admin;
+            var voter = new TestData().voter.Build();
 
-            Admin? v = Admin.Accessor.GetUser(admin.Username, admin.Password);
+            var v = Admin.Accessor.GetUser(voter.Username, voter.Password);
             if (v != null)
             {
                 Console.WriteLine("(F) Get non-existent admin failed: non null");
@@ -194,9 +193,9 @@ namespace IntegrationTests
         public static bool TestAddDuplicateAdminUsername()
         {
             Console.WriteLine("    Testing add admin w/ duplicate username");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            var admin = TestData.admin
+            var admin = new TestData().admin
                 .WithSerialNumber("V85461234")
                 .WithEmail("otheremail@hotmail.com")
                 .Build();
@@ -216,15 +215,16 @@ namespace IntegrationTests
             }
 
             Console.WriteLine("(S) Add duplicate admin username success");
+            Admin.Accessor.DeleteUser(admin.SerialNumber);
             return true;
         }
 
         public static bool TestAddDuplicateAdminSerial()
         {
             Console.WriteLine("    Testing add admin w/ duplicate serial");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            var admin = TestData.admin
+            var admin = new TestData().admin
                 .WithUsername("anotherUsername")
                 .WithEmail("AcompleatlySeperateEmail")
                 .Build();
@@ -243,16 +243,17 @@ namespace IntegrationTests
             }
 
             Console.WriteLine("(S) Add duplicate admin serial success");
+            Admin.Accessor.DeleteUser(admin.SerialNumber);
             return true;
         }
 
         public static bool TestAddDuplicateAdminEmail()
         {
             Console.WriteLine("    Testing add admin w/ duplicate email");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            var admin = TestData.admin
-                .WithUsername("UsernameOther")
+            var admin = new TestData().admin
+                .WithUsername("YetAnotherUsername")
                 .WithSerialNumber("V96514567")
                 .Build();
 
@@ -272,21 +273,22 @@ namespace IntegrationTests
             }
 
             Console.WriteLine("(S) Add duplicate admin email success");
+            Admin.Accessor.DeleteUser(admin.SerialNumber);
             return true;
         }
 
         public static bool TestGenerateAdminSerial()
         {
             Console.WriteLine("    Testing admin serial generator");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
             string serial = Admin.Accessor.GetSerial();
-            if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'V')
+            if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'A')
             {
                 Console.WriteLine($@"(F) Failed generate issue serial: '{serial}'");
                 return false;
             }
-            Console.WriteLine("(S) Generate issue serial success");
+            Console.WriteLine("(S) Generate admin serial success");
             return true;
         }
     }

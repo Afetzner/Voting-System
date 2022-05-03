@@ -147,7 +147,7 @@ namespace VotingSystem.Accessor
         public List<BallotIssue> GetBallotIssues()
         {
             //List of ballot-issues *builders* (all get built at end)
-            var ballotIssueBuilderList = new List<BallotIssue.BallotIssueBuilder>();
+            var ballotIssueBuilderList = new List<BallotIssue.Builder>();
             var ballotIssueList = new List<BallotIssue>();
 
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
@@ -173,7 +173,7 @@ namespace VotingSystem.Accessor
                         // (can't execute the get-options query in the middle of getting issues
                         // Only one return table can exists at a time
                         // Options gotten for each issue *outside* of this loop)
-                        var ballotIssueBuilder = new BallotIssue.BallotIssueBuilder()
+                        var ballotIssueBuilder = new BallotIssue.Builder()
                             .WithSerialNumber(reader.GetString(0))
                             .WithStartDate(reader.GetDateTime(1))
                             .WithEndDate(reader.GetDateTime(2))
@@ -186,7 +186,7 @@ namespace VotingSystem.Accessor
                 }
                 
                 //Get options for each issue
-                foreach (BallotIssue.BallotIssueBuilder builder in ballotIssueBuilderList)
+                foreach (BallotIssue.Builder builder in ballotIssueBuilderList)
                 {
                     List<BallotIssueOption> optionsList = new List<BallotIssueOption>();
                     string? ballotIssueSerialNumber = builder.SerialNumber;
@@ -200,7 +200,7 @@ namespace VotingSystem.Accessor
                         MySqlDataReader reader = cmd.ExecuteReader();
                         while (reader.Read())
                         {
-                            var newOption = new BallotIssueOption.BallotIssueOptionBuilder()
+                            var newOption = new BallotIssueOption.Builder()
                                 .WithOptionNumber(reader.GetInt32(0))
                                 .WithTitle(reader.GetString(1))
                                 .Build();

@@ -114,11 +114,17 @@ namespace IntegrationTests.Interactive
                     total++;
                     if (!test())
                         fail++;
+                    Console.WriteLine();
                 }
             }
 
             Console.WriteLine("\n\nTesting done:");
             Console.WriteLine($@"{fail}/{total} failed, {total - fail}/{total} passed");
+            Console.WriteLine();
+
+            Console.WriteLine("Cleaning up...");
+            DbInitializer.ResetDbTables();
+            DbInitializer.LoadDummyDataFromSql();
 
             return Exit;
         }

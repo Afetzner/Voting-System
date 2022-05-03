@@ -24,7 +24,7 @@ namespace VotingSystem.Model
             LastName = lastName;
             FirstName = firstName;
         }
-        public class VoterBuilder
+        public class Builder
         {
             public string? SerialNumber;
             public string? Username;
@@ -33,37 +33,37 @@ namespace VotingSystem.Model
             public string? LastName;
             public string? FirstName;
 
-            public VoterBuilder WithSerialNumber(string? serialNum)
+            public Builder WithSerialNumber(string? serialNum)
             {
                 SerialNumber = serialNum;
                 return this;
             }
 
-            public VoterBuilder WithUsername(string? username)
+            public Builder WithUsername(string? username)
             {
                 Username = username;
                 return this;
             }
 
-            public VoterBuilder WithPassword(string? password)
+            public Builder WithPassword(string? password)
             {
                 Password = password;
                 return this;
             }
 
-            public VoterBuilder WithEmail(string? email)
+            public Builder WithEmail(string? email)
             {
                 Email = email;
                 return this;
             }
 
-            public VoterBuilder WithLastName(string? lastName)
+            public Builder WithLastName(string? lastName)
             {
                 LastName = lastName;
                 return this;
             }
 
-            public VoterBuilder WithFirstName(string? firstName)
+            public Builder WithFirstName(string? firstName)
             {
                 FirstName = firstName;
                 return this;

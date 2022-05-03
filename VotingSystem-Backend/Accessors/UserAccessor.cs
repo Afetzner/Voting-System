@@ -176,7 +176,7 @@ namespace VotingSystem.Accessor
                     // TODO Return null is user does not exist
                     if (isAdmin && typeof(T) == typeof(Admin))
                     {
-                        Admin admin = new Admin.AdminBuilder()
+                        Admin admin = new Admin.Builder()
                             .WithUsername(username)
                             .WithPassword(password)
                             .WithEmail(Convert.ToString(cmd.Parameters["v_email"].Value))
@@ -188,7 +188,7 @@ namespace VotingSystem.Accessor
                     }
                     else if (!isAdmin && typeof(T) == typeof(Voter))
                     {
-                        Voter voter = new Voter.VoterBuilder()
+                        Voter voter = new Voter.Builder()
                             .WithUsername(username)
                             .WithPassword(password)
                             .WithEmail(Convert.ToString(cmd.Parameters["v_email"].Value))

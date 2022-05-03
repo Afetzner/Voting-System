@@ -1,10 +1,12 @@
+use afetzner;
+
 -- get all admins with username & password
 select admin_id, username, password 
 from user join admin on user.user_id = admin.user_id;
 
 -- get all voters with username & password
 select serial_number, username, password, first_name, last_name 
-from user join voter on user.user_id = voter.user_id;
+from user;
 
 -- See all issues with options
 select serial_number, issue.title, start_date, end_date, description, issue.title, option_number, issue_option.title 
@@ -53,40 +55,10 @@ select * from afetzner.ballot;
     
 select * from afetzner.user;
 
-select * from afetzner.voter;
+select * from afetzner.ballot;
 
-	DELETE voter, user, ballot
-    FROM voter 
-    LEFT JOIN user ON voter.user_id = user.user_id
-    LEFT JOIN ballot ON voter.voter_id = ballot.voter_id
-    WHERE voter.serial_number = 'V77124460';
-    
-    SELECT * FROM afetzner.voter where voter.serial_number = 'V77124460';
-    
-    	SELECT *
-    FROM voter 
-    LEFT JOIN user ON voter.user_id = user.user_id
-    LEFT JOIN ballot ON voter.voter_id = ballot.voter_id
-    WHERE voter.serial_number = 'V77124460';
-    
-select * from afetzner.issue;
+select * from afetzner.ballot;
+	right join ballot on user.user_id = ballot.voter_id;
+    where user.serial_number = 'V55544463';
 
-use afetzner;
-
-select * FROM issue left JOIN issue_option ON issue.issue_id = issue_option.issue_id
-		left JOIN ballot ON issue.issue_id = ballot.issue_id;
-        
-SELECT issue_id INTO @v_issueId FROM issue WHERE issue.serial_number = 'I66666666';
-
-(SELECT issue_id FROM issue WHERE issue.serial_number = 'I66666666' LIMIT 1);
-
-DELETE FROM ballot WHERE issue_id = @v_issueId;
-DELETE FROM issue_option WHERE issue_id = @v_issueId;
-DELETE FROM issue WHERE issue_id = @V_issueId;
-        
-	SELECT ballot_serial_number, choice_number, issue_option.title
-    FROM ballot 
-		LEFT JOIN issue_option ON ballot.issue_id = issue_option.issue_id
-		LEFT JOIN issue ON ballot.issue_id = issue.issue_id
-	WHERE ballot.voter_serial_number = "V12399874" AND ballot.issue_serial_number = "I78955502"
-    LIMIT 1;
+	

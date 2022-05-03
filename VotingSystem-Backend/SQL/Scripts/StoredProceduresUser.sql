@@ -34,10 +34,8 @@ CREATE PROCEDURE afetzner.delete_user (
 	IN `v_serialNumber` varchar(9))
 BEGIN
 	START TRANSACTION;
-	DELETE user, ballot
-    FROM user
-    LEFT JOIN ballot ON user.user_id = ballot.voter_id
-    WHERE user.serial_number = `v_serialNumber`;
+    DELETE FROM ballot WHERE voter_serial_number = `v_serialNumber`;
+    DELETE FROM user WHERE serial_number = `v_serialNumber`;
     COMMIT;
 END
 $$

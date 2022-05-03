@@ -30,7 +30,7 @@ namespace IntegrationTests
                 return key.KeyChar switch
                 {
                     '0' => DbInitializers.ResetDb,
-                    '1' => DbInitializers.LoadTestData,
+                    '1' => DbInitializers.LoadIntTestData,
                     '2' => RunAllVoterTests,
 
                     _ => Menu.Exit,
@@ -61,12 +61,8 @@ namespace IntegrationTests
 
         public static bool TestGetIssues()
         {
-            
-            
-            IResultAccessor resultAccessor = new ResultAccessor();
 
-
-
+            return true;
         }
     }
 }

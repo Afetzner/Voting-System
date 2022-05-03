@@ -68,7 +68,7 @@ namespace VotingSystem.Model
 
         public Ballot? GetBallot(string voterSerial, string issueSerial)
         {
-            var ballotBuilder = new Ballot.BallotBuilder()
+            var ballotBuilder = new Ballot.Builder()
                 .WithVoter(voterSerial)
                 .WithIssue(issueSerial);
 

@@ -17,7 +17,7 @@ namespace UnitTests.ModelTests
             BallotIssueOption option2 = new(1, "B");
             BallotIssueOption option3 = new(2, "C");
             
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithTitle("Multiple Choice")
                 .WithDescription("Choose a response")
                 .WithSerialNumber("A12345678")
@@ -44,7 +44,7 @@ namespace UnitTests.ModelTests
             BallotIssueOption option2 = new(1, "B");
             BallotIssueOption option3 = new(2, "C");
 
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithTitle("Multiple Choice")
                 .WithDescription("Choose a response")
                 .WithSerialNumber("A12345678")
@@ -67,7 +67,7 @@ namespace UnitTests.ModelTests
             var now = DateTime.Now;
             List<string> titles = new (){"A", "B", "C"};
 
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithTitle("Multiple Choice")
                 .WithDescription("Choose a response")
                 .WithSerialNumber("A12345678")
@@ -94,7 +94,7 @@ namespace UnitTests.ModelTests
         {
             var now = DateTime.Now;
 
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithTitle("Multiple Choice")
                 .WithDescription("Choose a response")
                 .WithSerialNumber("A12345678")
@@ -122,7 +122,7 @@ namespace UnitTests.ModelTests
         {
             var now = DateTime.Now;
 
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithTitle("Multiple Choice")
                 .WithDescription("Choose a response")
                 .WithSerialNumber("A12345678")
@@ -138,7 +138,7 @@ namespace UnitTests.ModelTests
         {
             var now = DateTime.Now;
 
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithTitle("Multiple Choice")
                 .WithDescription("Choose a response")
                 .WithSerialNumber("A12345678")
@@ -158,7 +158,7 @@ namespace UnitTests.ModelTests
             BallotIssueOption option2 = new(1, "B");
             BallotIssueOption option3 = new(1, "C");
 
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithTitle("Multiple Choice")
                 .WithDescription("Choose a response")
                 .WithSerialNumber("A12345678")
@@ -176,7 +176,7 @@ namespace UnitTests.ModelTests
         {
             var now = DateTime.Now;
 
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithDescription("Choose a response")
                 .WithSerialNumber("A12345678")
                 .WithStartDate(now)
@@ -192,7 +192,7 @@ namespace UnitTests.ModelTests
         {
             var now = DateTime.Now;
 
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithTitle("Multiple Choice")
                 .WithSerialNumber("A12345678")
                 .WithStartDate(now)
@@ -210,7 +210,7 @@ namespace UnitTests.ModelTests
         {
             var now = DateTime.Now;
 
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithTitle("Multiple Choice")
                 .WithDescription("Choose a response")
                 .WithStartDate(now)
@@ -225,7 +225,7 @@ namespace UnitTests.ModelTests
         {
             var now = DateTime.Now;
 
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithTitle("Multiple Choice")
                 .WithDescription("Choose a response")
                 .WithSerialNumber("A12345678")
@@ -240,7 +240,7 @@ namespace UnitTests.ModelTests
         {
             var now = DateTime.Now;
 
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithTitle("Multiple Choice")
                 .WithDescription("Choose a response")
                 .WithSerialNumber("A12345678")
@@ -255,7 +255,7 @@ namespace UnitTests.ModelTests
         {
             var now = DateTime.Now;
 
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithTitle("Multiple Choice")
                 .WithDescription("Choose a response")
                 .WithSerialNumber("A12345678")
@@ -270,7 +270,7 @@ namespace UnitTests.ModelTests
         {
             var now = DateTime.Now.AddDays(-2);
 
-            var issue = new BallotIssue.BallotIssueBuilder()
+            var issue = new BallotIssue.Builder()
                 .WithTitle("Multiple Choice")
                 .WithDescription("Choose a response")
                 .WithSerialNumber("A12345678")

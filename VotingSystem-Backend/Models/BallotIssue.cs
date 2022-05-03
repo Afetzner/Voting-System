@@ -31,7 +31,7 @@ namespace VotingSystem.Model
             IsEnded = (end < DateTime.Now);
         }
 
-        public class BallotIssueBuilder
+        public class Builder
         {
             private bool _selectedStartTime = false;
             private bool _selectedEndTime = false;
@@ -42,33 +42,33 @@ namespace VotingSystem.Model
             public string? Description;
             public List<BallotIssueOption> Options = new();
 
-            public BallotIssueBuilder WithSerialNumber(string? serialNum)
+            public Builder WithSerialNumber(string? serialNum)
             {
                 SerialNumber = serialNum;
                 return this;
             }
 
-            public BallotIssueBuilder WithStartDate(DateTime start)
+            public Builder WithStartDate(DateTime start)
             {
                 _selectedStartTime = true;
                 StartDate = start;
                 return this;
             }
 
-            public BallotIssueBuilder WithEndDate(DateTime end)
+            public Builder WithEndDate(DateTime end)
             {
                 _selectedEndTime = true;
                 EndDate = end;
                 return this;
             }
 
-            public BallotIssueBuilder WithTitle(string? title)
+            public Builder WithTitle(string? title)
             {
                 Title = title;
                 return this;
             }
 
-            public BallotIssueBuilder WithDescription(string? description)
+            public Builder WithDescription(string? description)
             {
                 Description = description;
                 return this;
@@ -77,7 +77,7 @@ namespace VotingSystem.Model
             /// <summary>
             /// Adds options from a list of BallotIssueOptions
             /// </summary>
-            public BallotIssueBuilder WithOptions(List<BallotIssueOption> options)
+            public Builder WithOptions(List<BallotIssueOption> options)
             {
                 foreach (var option in options)
                     Options.Add(option);
@@ -87,7 +87,7 @@ namespace VotingSystem.Model
             /// <summary>
             /// Adds a single ballotIssueOption to the BallotIssue
             /// </summary>
-            public BallotIssueBuilder WithOption(BallotIssueOption option)
+            public Builder WithOption(BallotIssueOption option)
             {
                 Options.Add(option);
                 return this;
@@ -96,10 +96,10 @@ namespace VotingSystem.Model
             /// <summary>
             /// Adds options to BallotIssue from a list of titles
             /// </summary>
-            public BallotIssueBuilder WithOptions(List<string> titles)
+            public Builder WithOptions(List<string> titles)
             {
                 var count = 0;
-                foreach (var option in titles.Select(title => new BallotIssueOption.BallotIssueOptionBuilder()
+                foreach (var option in titles.Select(title => new BallotIssueOption.Builder()
                              .WithTitle(title)
                              .WithOptionNumber(count++)
                              .Build()))
@@ -113,12 +113,12 @@ namespace VotingSystem.Model
             /// **preferred** Adds options to the BallotIssue with titles specified
             /// </summary>
             /// <param name="titles">Titles of options</param>
-            public BallotIssueBuilder WithOptions(params string[] titles)
+            public Builder WithOptions(params string[] titles)
             {
                 var count = 0;
                 foreach (var title in titles)
                 {
-                    var opt = new BallotIssueOption.BallotIssueOptionBuilder()
+                    var opt = new BallotIssueOption.Builder()
                         .WithTitle(title)
                         .WithOptionNumber(count++)
                         .Build();

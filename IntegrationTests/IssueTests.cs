@@ -34,7 +34,7 @@ namespace IntegrationTests
                 return key.KeyChar switch
                 {
                     '0' => DbInitializers.ResetDb,
-                    '1' => DbInitializers.LoadTestData,
+                    '1' => DbInitializers.LoadIntTestData,
                     '2' => RunAllIssueTests,
                     '3' => TestAddIssue,
                     '4' => TestDeleteIssue,
@@ -76,9 +76,8 @@ namespace IntegrationTests
         public static bool TestAddIssue()
         {
             Console.WriteLine("    Testing add issue");
-            if (!DbInitializers.ClearTestData())
-                return false;
-            var issue = TestData.issue.Build();
+            DbInitializers.ResetDb();
+            var issue = new TestData().issue.Build();
 
             bool collision = BallotIssue.Accessor.AddIssue(issue);
 
@@ -99,9 +98,9 @@ namespace IntegrationTests
         public static bool TestDeleteIssue()
         {
             Console.WriteLine("    Testing delete issue");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            var issue = TestData.issue.Build();
+            var issue = new TestData().issue.Build();
             
             BallotIssue.Accessor.RemoveIssue(issue.SerialNumber);
 
@@ -118,9 +117,9 @@ namespace IntegrationTests
         public static bool TestGetIssues()
         {
             Console.WriteLine("    Testing get issue");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            var issue = TestData.issue.Build();
+            var issue = new TestData().issue.Build();
             
             var fromDb = BallotIssue.Accessor.GetBallotIssues();
             if (!fromDb.Exists(x => x.SerialNumber == issue.SerialNumber))
@@ -135,9 +134,9 @@ namespace IntegrationTests
         public static bool TestAddIssueDuplicateSerial()
         {
             Console.WriteLine("    Testing add issue w/ duplicate serial");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            var issue = TestData.issue
+            var issue = new TestData().issue
                 .WithTitle("Different Title")
                 .Build();
 
@@ -156,10 +155,10 @@ namespace IntegrationTests
         public static bool TestAddIssueDuplicateTitle()
         {
             Console.WriteLine("    Testing Add issue duplicate title");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
-            var issue = TestData.issue
-                .WithSerialNumber("45781269")
+            var issue = new TestData().issue
+                .WithSerialNumber("I45781269")
                 .Build();
 
             bool coll = BallotIssue.Accessor.AddIssue(issue);
@@ -182,7 +181,7 @@ namespace IntegrationTests
         public static bool TestGenerateIssueSerial()
         {
             Console.WriteLine("    Testing issue serial generator");
-            if (!DbInitializers.LoadTestData())
+            if (!DbInitializers.LoadIntTestData())
                 return false;
             string serial = BallotIssue.Accessor.GetSerial();
             if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'I')

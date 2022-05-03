@@ -10,7 +10,7 @@ namespace UnitTests.ModelTests
         [TestMethod]
         public void BallotIssueOptionTestSuccess1()
         {
-            var option = new BallotIssueOption.BallotIssueOptionBuilder()
+            var option = new BallotIssueOption.Builder()
                 .WithTitle("Person A")
                 .WithOptionNumber(0)
                 .Build();
@@ -22,7 +22,7 @@ namespace UnitTests.ModelTests
         [TestMethod]
         public void BallotIssueOptionTestSuccess2()
         {
-            var option = new BallotIssueOption.BallotIssueOptionBuilder()
+            var option = new BallotIssueOption.Builder()
                 .WithTitle("Person X")
                 .WithOptionNumber(1)
                 .Build();
@@ -35,7 +35,7 @@ namespace UnitTests.ModelTests
         [TestMethod]
         public void BallotIssueOptionFailBadNumber()
         {
-            var option = new BallotIssueOption.BallotIssueOptionBuilder()
+            var option = new BallotIssueOption.Builder()
                 .WithTitle("Person A")
                 .WithOptionNumber(-1)
                 .Build();
@@ -45,7 +45,7 @@ namespace UnitTests.ModelTests
         [TestMethod]
         public void BallotIssueOptionFailNoNumber()
         {
-            var option = new BallotIssueOption.BallotIssueOptionBuilder()
+            var option = new BallotIssueOption.Builder()
                 .WithTitle("Sandra")
                 .Build();
         }
@@ -54,7 +54,7 @@ namespace UnitTests.ModelTests
         [TestMethod]
         public void BallotIssueOptionFailNullTitle()
         {
-            var option = new BallotIssueOption.BallotIssueOptionBuilder()
+            var option = new BallotIssueOption.Builder()
                 .WithOptionNumber(0)
                 .Build();
         }
@@ -63,7 +63,7 @@ namespace UnitTests.ModelTests
         [TestMethod]
         public void BallotIssueOptionFailBlanckTitle()
         {
-            var option = new BallotIssueOption.BallotIssueOptionBuilder()
+            var option = new BallotIssueOption.Builder()
                 .WithTitle("   ")
                 .WithOptionNumber(0)
                 .Build();

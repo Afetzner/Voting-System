@@ -43,7 +43,7 @@ namespace VotingSystem.Accessor
                         List<Voter> participants = new();
                         while (reader.Read())
                         {
-                            Voter participant = new Voter.VoterBuilder()
+                            Voter participant = new Voter.Builder()
                                 .WithSerialNumber(Convert.ToString(reader.GetString(0)))
                                 .WithFirstName(Convert.ToString(reader.GetString(1)))
                                 .WithLastName(Convert.ToString(reader.GetString(2)))
