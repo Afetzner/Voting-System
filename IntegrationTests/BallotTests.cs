@@ -32,8 +32,8 @@ namespace IntegrationTests
 
                 return key.KeyChar switch
                 {
-                    '0' => DbInitializers.ResetDb,
-                    '1' => DbInitializers.LoadIntTestData,
+                    '0' => TestDataLoader.UnloadTestData,
+                    '1' => TestDataLoader.LoadIntTestData,
                     '2' => RunAllBallotTests,
                     '3' => TestAddBallot,
                     '4' => TestDeleteBallot,
@@ -56,7 +56,7 @@ namespace IntegrationTests
 
         public static bool RunAllBallotTests()
         {
-            DbInitializers.ResetDb();
+            TestDataLoader.UnloadTestData();
             int fail = 0;
             int tot = 0;
             foreach (var test in AllBallotTests)
@@ -73,7 +73,7 @@ namespace IntegrationTests
         public static bool TestAddBallot()
         {
             Console.WriteLine("    Testing add ballot");
-            DbInitializers.ResetDb();
+            TestDataLoader.UnloadTestData();
             var voter = new TestData().voter.Build();
             var issue = new TestData().issue.Build();
             var ballot = new TestData().ballot.Build();
@@ -100,7 +100,7 @@ namespace IntegrationTests
         public static bool TestDeleteBallot()
         {
             Console.WriteLine("    Testing delete ballot");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var ballot = new TestData().ballot.Build();
 
@@ -118,7 +118,7 @@ namespace IntegrationTests
         public static bool TestGetBallot()
         {
             Console.WriteLine("    Testing get ballot");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var ballot = new TestData().ballot.Build();
 
@@ -147,7 +147,7 @@ namespace IntegrationTests
         public static bool TestAddDoubleBallot()
         {
             Console.WriteLine("    Testing add ballot w/ duplicate voter & issue");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var ballot = new TestData().ballot
                 .WithSerialNumber("B12695478")
@@ -174,7 +174,7 @@ namespace IntegrationTests
         public static bool TestGenerateBallotSerial()
         {
             Console.WriteLine("    Testing issue serial generator");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             string serial = Ballot.Accessor.GetSerial();
             if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'B')

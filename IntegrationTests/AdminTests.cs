@@ -36,8 +36,8 @@ namespace IntegrationTests
 
                 return key.KeyChar switch
                 {
-                    '0' => DbInitializers.ResetDb,
-                    '1' => DbInitializers.LoadIntTestData,
+                    '0' => TestDataLoader.UnloadTestData,
+                    '1' => TestDataLoader.LoadIntTestData,
                     '2' => RunAllAdminTests,
                     '3' => TestAddAdmin,
                     '4' => TestDeleteAdmin,
@@ -68,7 +68,7 @@ namespace IntegrationTests
 
         public static bool RunAllAdminTests()
         {
-            DbInitializers.ResetDb();
+            TestDataLoader.UnloadTestData();
             int fail = 0;
             int tot = 0;
             foreach (var test in AllAdminTests)
@@ -86,7 +86,7 @@ namespace IntegrationTests
         public static bool TestAddAdmin()
         {
             Console.WriteLine("    Testing add admin");
-            DbInitializers.ResetDb();
+            TestDataLoader.UnloadTestData();
             Admin v = new TestData().admin.Build();
 
             bool collision = Admin.Accessor.AddUser(v);
@@ -110,7 +110,7 @@ namespace IntegrationTests
         public static bool TestDeleteAdmin()
         {
             Console.WriteLine("    Testing delete admin");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var admin = new TestData().admin.Build();
 
@@ -129,7 +129,7 @@ namespace IntegrationTests
         public static bool TestGetAdmin()
         {
             Console.WriteLine("    Testing get admin");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var admin = new TestData().admin;
 
@@ -160,7 +160,7 @@ namespace IntegrationTests
         public static bool TestGetNonExistentAdmin()
         {
             Console.WriteLine("    Testing get non-existent admin");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var v = Admin.Accessor.GetUser("neverAUserName", "NeverAPassW0rd!");
             if (v != null)
@@ -176,7 +176,7 @@ namespace IntegrationTests
         public static bool TestGetNonAdmin()
         {
             Console.WriteLine("    Testing get non-admin (admin)");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var voter = new TestData().voter.Build();
 
@@ -193,7 +193,7 @@ namespace IntegrationTests
         public static bool TestAddDuplicateAdminUsername()
         {
             Console.WriteLine("    Testing add admin w/ duplicate username");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var admin = new TestData().admin
                 .WithSerialNumber("V85461234")
@@ -222,7 +222,7 @@ namespace IntegrationTests
         public static bool TestAddDuplicateAdminSerial()
         {
             Console.WriteLine("    Testing add admin w/ duplicate serial");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var admin = new TestData().admin
                 .WithUsername("anotherUsername")
@@ -250,7 +250,7 @@ namespace IntegrationTests
         public static bool TestAddDuplicateAdminEmail()
         {
             Console.WriteLine("    Testing add admin w/ duplicate email");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var admin = new TestData().admin
                 .WithUsername("YetAnotherUsername")
@@ -280,7 +280,7 @@ namespace IntegrationTests
         public static bool TestGenerateAdminSerial()
         {
             Console.WriteLine("    Testing admin serial generator");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             string serial = Admin.Accessor.GetSerial();
             if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'A')

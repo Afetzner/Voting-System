@@ -74,24 +74,19 @@ namespace VotingSystem.Controller
         /// Retrieves the poll results of every issue from the DB
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, Dictionary<int, int>> GetIssueResults()
+        public Dictionary<string, Dictionary<int, int>> GetResults()
         {
             // Return cache
             if (_results != null)
                 return _results;
 
-            //Get and cahche poll results
+            //Get and cache poll results
             if (_issues == null)
                 GetBallotIssues();
             if (_issues == null)
                 throw new ArgumentNullException("null issues");
-            _results = new Dictionary<string, Dictionary<int, int>>();
 
-            foreach (var issue in _issues)
-            {
-                var issueResults = Accessor.GetIssueResults(issue.SerialNumber);
-                _results.Add(issue.SerialNumber, issueResults);
-            }
+            _results = Accessor.GetResults(_issues);
             return _results;
         }
         

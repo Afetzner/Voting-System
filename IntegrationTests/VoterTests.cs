@@ -36,8 +36,8 @@ namespace IntegrationTests
 
                 return key.KeyChar switch
                 {
-                    '0' => DbInitializers.ResetDb,
-                    '1' => DbInitializers.LoadIntTestData,
+                    '0' => TestDataLoader.UnloadTestData,
+                    '1' => TestDataLoader.LoadIntTestData,
                     '2' => RunAllVoterTests,
                     '3' => TestAddVoter,
                     '4' => TestDeleteVoter,
@@ -68,7 +68,7 @@ namespace IntegrationTests
 
         public static bool RunAllVoterTests()
         {
-            DbInitializers.ResetDb();
+            TestDataLoader.UnloadTestData();
             int fail = 0;
             int tot = 0;
             foreach (var test in AllVoterTests)
@@ -85,7 +85,7 @@ namespace IntegrationTests
         public static bool TestAddVoter()
         {
             Console.WriteLine("    Testing add voter");
-            DbInitializers.ResetDb();
+            TestDataLoader.UnloadTestData();
             Voter v = new TestData().voter.Build();
 
             bool collision = Voter.Accessor.AddUser(v);
@@ -109,7 +109,7 @@ namespace IntegrationTests
         public static bool TestDeleteVoter()
         {
             Console.WriteLine("    Testing delete voter");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var voter = new TestData().voter.Build();
 
@@ -128,7 +128,7 @@ namespace IntegrationTests
         public static bool TestGetVoter()
         {
             Console.WriteLine("    Testing get voter");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var voter = new TestData().voter.Build();
 
@@ -159,7 +159,7 @@ namespace IntegrationTests
         public static bool TestGetNonExistentVoter() 
         {
             Console.WriteLine("    Testing get non-existent voter");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var v = Voter.Accessor.GetUser("neverAUserName", "NeverAPassW0rd!");
             if (v != null)
@@ -175,7 +175,7 @@ namespace IntegrationTests
         public static bool TestGetNonVoter()
         {
             Console.WriteLine("    Testing get non-voter (admin)");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var admin = new TestData().admin.Build();
 
@@ -192,7 +192,7 @@ namespace IntegrationTests
         public static bool TestAddDuplicateVoterUsername()
         {
             Console.WriteLine("    Testing add voter w/ duplicate username");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var voter = new TestData().voter
                 .WithSerialNumber("V85461234")
@@ -221,7 +221,7 @@ namespace IntegrationTests
         public static bool TestAddDuplicateVoterSerial()
         {
             Console.WriteLine("    Testing add voter w/ duplicate serial");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var voter = new TestData().voter
                 .WithUsername("anotherUsername")
@@ -249,7 +249,7 @@ namespace IntegrationTests
         public static bool TestAddDuplicateVoterEmail()
         {
             Console.WriteLine("    Testing add voter w/ duplicate email");
-            if (!DbInitializers.LoadIntTestData())
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
             var voter = new TestData().voter
                 .WithUsername("UsernameOther")
@@ -280,7 +280,7 @@ namespace IntegrationTests
         public static bool TestGenerateVoterSerial()
         {
             Console.WriteLine("    Testing voter serial generator");
-            DbInitializers.LoadIntTestData();
+            TestDataLoader.LoadIntTestData();
             string serial = Voter.Accessor.GetSerial();
             if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'V')
             {

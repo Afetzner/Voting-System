@@ -26,39 +26,19 @@ from issue
 	left join ballot on ballot.choice_id = issue_option.option_id
 group by issue_option.option_id;
 
-SELECT (IF(EXISTS (SELECT 1 FROM afetzner.user WHERE username = 'jdoe16'), true, false)) INTO @collision;
-SELECT @collision;
-
 select * from afetzner.ballot;
 
-	SELECT EXISTS (SELECT 1 FROM afetzner.ballot WHERE voter_serial_number = 'V12399874' AND issue_serial_number = 'I78955500' LIMIT 1) INTO @collision;
-    SELECT @collision;
-    
-    INSERT INTO afetzner.ballot 
-		(ballot_serial_number, 
-		voter_serial_number,
-		issue_serial_number,
-		choice_number,
-		voter_id,
-		issue_id,
-		choice_id)
-	SELECT
-		'B11240001',
-        'V12399874',
-        'I78955500',
-        1,
-		(SELECT voter_id FROM afetzner.voter WHERE voter.serial_number = 'V12399874' LIMIT 1),
-        (SELECT issue_id FROM afetzner.issue WHERE issue.serial_number = 'I78955500' LIMIT 1),
-        (SELECT option_id FROM afetzner.issue_option WHERE issue_option.option_number = 1 LIMIT 1)
-	-- Protects against multiple ballots from one voter being entered on any issue? Needs testing
-    WHERE NOT @collision;
-    
 select * from afetzner.user;
 
-select * from afetzner.ballot;
 
-select * from afetzner.ballot;
-	right join ballot on user.user_id = ballot.voter_id;
-    where user.serial_number = 'V55544463';
+use afetzner;
 
-	
+SELECT * from issue JOIN issue_option ON issue.issue_id = issue_option.issue_id;
+
+SELECT ops.issue, ops.option, IF(ISNULL(votes.count), 0, votes.count) as 'count'
+	FROM (SELECT issue.serial_number as 'issue', issue.issue_id, issue_option.option_number as 'option', issue_option.option_id
+		FROM issue RIGHT JOIN issue_option ON issue.issue_id = issue_option.issue_id) ops
+	LEFT JOIN (SELECT ballot.choice_id, count(*) AS 'count'
+		FROM ballot GROUP BY (ballot.choice_id)) votes
+	ON votes.choice_id = ops.option_id;
+

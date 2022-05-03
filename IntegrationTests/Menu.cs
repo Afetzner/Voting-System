@@ -78,12 +78,13 @@ namespace IntegrationTests.Interactive
 
                 return key.KeyChar switch
                 {
-                    '0' => DbInitializers.DbInitMenu,
+                    '0' => TestDataLoader.DbInitMenu,
                     '1' => MetaAllTests,
                     '2' => AdminTests.AdminTestMenu,
                     '3' => VoterTests.VoterTestMenu,
                     '4' => IssueTests.IssueTestMenu,
                     '5' => BallotTests.BallotTestMenu,
+                    '6' => ResultTests.ResultTestMenu,
                     _ => MetaExit
                 };
             }
@@ -94,7 +95,8 @@ namespace IntegrationTests.Interactive
             VoterTests.AllVoterTests,
             AdminTests.AllAdminTests,
             IssueTests.AllIssueTests,
-            BallotTests.AllBallotTests
+            BallotTests.AllBallotTests,
+            ResultTests.AllResultTests
         };
 
         private static Func<bool> MetaAllTests()
@@ -103,18 +105,17 @@ namespace IntegrationTests.Interactive
             int fail = 0;
 
             Console.WriteLine("Running all integration tests...");
-            Console.WriteLine("Reseting DB");
-            DbInitializer.ResetDbTables();
-            DbInitializer.LoadDummyDataFromSql();
 
             foreach (var testSuite in tests)
             {
+                Console.WriteLine("\n\nReseting DB");
+                TestDataLoader.ResetDb();
                 foreach (var test in testSuite)
                 {
+
                     total++;
                     if (!test())
                         fail++;
-                    Console.WriteLine();
                 }
             }
 
