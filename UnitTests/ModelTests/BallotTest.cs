@@ -11,7 +11,7 @@ namespace UnitTests.ModelTests
         [TestMethod]
         public void BallotSuccess()
         {
-            var ballot = new Ballot.BallotBuilder()
+            var ballot = new Ballot.Builder()
                 .WithVoter("A12345679")
                 .WithIssue("A12345678")
                 .WithChoice(0)
@@ -29,7 +29,7 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Ballot without voter was allowed")]
         public void BallotFailNullVoter()
         {
-            var ballot = new Ballot.BallotBuilder()
+            var ballot = new Ballot.Builder()
                 .WithIssue("B45479965")
                 .WithChoice(3)
                 .WithSerialNumber("B78885425")
@@ -41,7 +41,7 @@ namespace UnitTests.ModelTests
         public void BallotFailNullIssue()
         {
 
-            var ballot = new Ballot.BallotBuilder()
+            var ballot = new Ballot.Builder()
                 .WithVoter("B45479965")
                 .WithChoice(-1)
                 .WithSerialNumber("B15564412")
@@ -53,7 +53,7 @@ namespace UnitTests.ModelTests
         [ExpectedException(typeof(InvalidBuilderParameterException), "Ballot without ballot choice was allowed")]
         public void BallotFailNullChoice()
         {
-            var ballot = new Ballot.BallotBuilder()
+            var ballot = new Ballot.Builder()
                 .WithVoter("A23458678")
                 .WithIssue("A23458678")
                 .WithSerialNumber("B98652330")
@@ -66,7 +66,7 @@ namespace UnitTests.ModelTests
         public void BallotFailNullSerial()
         {
             
-            var ballot = new Ballot.BallotBuilder()
+            var ballot = new Ballot.Builder()
                 .WithVoter("A23458678")
                 .WithIssue("A23458678")
                 .WithChoice(0)

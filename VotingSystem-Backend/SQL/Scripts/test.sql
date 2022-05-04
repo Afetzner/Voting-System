@@ -1,10 +1,12 @@
+use afetzner;
+
 -- get all admins with username & password
 select admin_id, username, password 
 from user join admin on user.user_id = admin.user_id;
 
 -- get all voters with username & password
 select serial_number, username, password, first_name, last_name 
-from user join voter on user.user_id = voter.user_id;
+from user;
 
 -- See all issues with options
 select serial_number, issue.title, start_date, end_date, description, issue.title, option_number, issue_option.title 
@@ -24,69 +26,19 @@ from issue
 	left join ballot on ballot.choice_id = issue_option.option_id
 group by issue_option.option_id;
 
-SELECT (IF(EXISTS (SELECT 1 FROM afetzner.user WHERE username = 'jdoe16'), true, false)) INTO @collision;
-SELECT @collision;
-
 select * from afetzner.ballot;
 
-	SELECT EXISTS (SELECT 1 FROM afetzner.ballot WHERE voter_serial_number = 'V12399874' AND issue_serial_number = 'I78955500' LIMIT 1) INTO @collision;
-    SELECT @collision;
-    
-    INSERT INTO afetzner.ballot 
-		(ballot_serial_number, 
-		voter_serial_number,
-		issue_serial_number,
-		choice_number,
-		voter_id,
-		issue_id,
-		choice_id)
-	SELECT
-		'B11240001',
-        'V12399874',
-        'I78955500',
-        1,
-		(SELECT voter_id FROM afetzner.voter WHERE voter.serial_number = 'V12399874' LIMIT 1),
-        (SELECT issue_id FROM afetzner.issue WHERE issue.serial_number = 'I78955500' LIMIT 1),
-        (SELECT option_id FROM afetzner.issue_option WHERE issue_option.option_number = 1 LIMIT 1)
-	-- Protects against multiple ballots from one voter being entered on any issue? Needs testing
-    WHERE NOT @collision;
-    
 select * from afetzner.user;
 
-select * from afetzner.voter;
-
-	DELETE voter, user, ballot
-    FROM voter 
-    LEFT JOIN user ON voter.user_id = user.user_id
-    LEFT JOIN ballot ON voter.voter_id = ballot.voter_id
-    WHERE voter.serial_number = 'V77124460';
-    
-    SELECT * FROM afetzner.voter where voter.serial_number = 'V77124460';
-    
-    	SELECT *
-    FROM voter 
-    LEFT JOIN user ON voter.user_id = user.user_id
-    LEFT JOIN ballot ON voter.voter_id = ballot.voter_id
-    WHERE voter.serial_number = 'V77124460';
-    
-select * from afetzner.issue;
 
 use afetzner;
 
-select * FROM issue left JOIN issue_option ON issue.issue_id = issue_option.issue_id
-		left JOIN ballot ON issue.issue_id = ballot.issue_id;
-        
-SELECT issue_id INTO @v_issueId FROM issue WHERE issue.serial_number = 'I66666666';
+SELECT * from issue JOIN issue_option ON issue.issue_id = issue_option.issue_id;
 
-(SELECT issue_id FROM issue WHERE issue.serial_number = 'I66666666' LIMIT 1);
+SELECT ops.issue, ops.option, IF(ISNULL(votes.count), 0, votes.count) as 'count'
+	FROM (SELECT issue.serial_number as 'issue', issue.issue_id, issue_option.option_number as 'option', issue_option.option_id
+		FROM issue RIGHT JOIN issue_option ON issue.issue_id = issue_option.issue_id) ops
+	LEFT JOIN (SELECT ballot.choice_id, count(*) AS 'count'
+		FROM ballot GROUP BY (ballot.choice_id)) votes
+	ON votes.choice_id = ops.option_id;
 
-DELETE FROM ballot WHERE issue_id = @v_issueId;
-DELETE FROM issue_option WHERE issue_id = @v_issueId;
-DELETE FROM issue WHERE issue_id = @V_issueId;
-        
-	SELECT ballot_serial_number, choice_number, issue_option.title
-    FROM ballot 
-		LEFT JOIN issue_option ON ballot.issue_id = issue_option.issue_id
-		LEFT JOIN issue ON ballot.issue_id = issue.issue_id
-	WHERE ballot.voter_serial_number = "V12399874" AND ballot.issue_serial_number = "I78955502"
-    LIMIT 1;

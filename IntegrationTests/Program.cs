@@ -13,13 +13,14 @@ namespace IntegrationTests
             if (!Menu.ConnectionTestMenu())
                 return;
 
-            bool success = true;
-            while (success)
+            bool success;
+            do
             {
                 var groupSelection = Menu.SelectTestGroupMenu();
                 var actionSelection = groupSelection();
                 success = actionSelection();
-            }
+            } while (success);
+
             Console.WriteLine("\nExiting...");
         }
     }

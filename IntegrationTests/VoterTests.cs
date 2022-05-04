@@ -2,12 +2,11 @@
 using IntegrationTests.Interactive;
 using System;
 using System.Collections.Generic;
-using VotingSystem.Controller;
 using VotingSystem.Utils;
 
 namespace IntegrationTests
 {
-    internal class VoterTests
+    internal static class VoterTests
     {
         public static Func<bool> VoterTestMenu()
         {
@@ -37,8 +36,8 @@ namespace IntegrationTests
 
                 return key.KeyChar switch
                 {
-                    '0' => DbInitializers.ResetDb,
-                    '1' => DbInitializers.LoadTestData,
+                    '0' => TestDataLoader.UnloadTestData,
+                    '1' => TestDataLoader.LoadIntTestData,
                     '2' => RunAllVoterTests,
                     '3' => TestAddVoter,
                     '4' => TestDeleteVoter,
@@ -69,7 +68,7 @@ namespace IntegrationTests
 
         public static bool RunAllVoterTests()
         {
-            DbInitializers.ResetDb();
+            TestDataLoader.UnloadTestData();
             int fail = 0;
             int tot = 0;
             foreach (var test in AllVoterTests)
@@ -85,36 +84,19 @@ namespace IntegrationTests
 
         public static bool TestAddVoter()
         {
-            Voter voter = new Voter.VoterBuilder()
-                .WithSerialNumber("V77777777")
-                .WithUsername("testVoterUsername1110")
-                .WithPassword("testVoterPass1!")
-                .WithEmail("124dasr@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
             Console.WriteLine("    Testing add voter");
-            //Console.WriteLine($@"Adding voter with s: '{voter.SerialNumber}', u: '{voter.Username}', p:'{voter.Password}'");
+            TestDataLoader.UnloadTestData();
+            Voter v = new TestData().voter.Build();
 
-            if (Voter.Accessor.IsSerialInUse(voter.SerialNumber))
-            {
-                Console.WriteLine("(F) Add voter failed: serial in use before addition (reset db?)");
-                return false;
-            }
-            if (Voter.Accessor.IsUsernameInUse(voter.Username))
-            {
-                Console.WriteLine("(F) Add voter failed: username in use before addition (reset db?)");
-                return false;
-            }
-            bool collision = Voter.Accessor.AddUser(voter);
+            bool collision = Voter.Accessor.AddUser(v);
             if (collision)
             {
-                Console.WriteLine("(F) Add voter failed: collison (reset db?)");
+                Console.WriteLine("(F) Add voter failed: collison");
                 return false;
             }
-            if (!Voter.Accessor.IsSerialInUse(voter.SerialNumber)
-                || !Voter.Accessor.IsUsernameInUse(voter.Username))
+
+            if (!Voter.Accessor.IsSerialInUse(v.SerialNumber)
+                || !Voter.Accessor.IsUsernameInUse(v.Username))
             {
                 Console.WriteLine("(F) Add voter failed: serial/username not in use after addition");
                 return false;
@@ -126,45 +108,10 @@ namespace IntegrationTests
 
         public static bool TestDeleteVoter()
         {
-            Voter voter = new Voter.VoterBuilder()
-                .WithSerialNumber("V88888888")
-                .WithUsername("warningTestVoterUsername332")
-                .WithPassword("testVoterPass1!")
-                .WithEmail("123dfs1@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
             Console.WriteLine("    Testing delete voter");
-            //Console.WriteLine($@"    Adding voter with s: '{voter.SerialNumber}', u: '{voter.Username}', p:'{voter.Password}'");
-
-            if (Voter.Accessor.IsSerialInUse(voter.SerialNumber))
-            {
-                Console.WriteLine("(F) Delete voter failed: serial in use before addition (reset db?)");
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
-            }
-            if (Voter.Accessor.IsUsernameInUse(voter.Username))
-            {
-                Console.WriteLine("(F) Delete voter failed: username in use before addition (reset db?)");
-                return false;
-            }
-
-            bool collision = Voter.Accessor.AddUser(voter);
-
-            if (!Voter.Accessor.IsSerialInUse(voter.SerialNumber)
-                || !Voter.Accessor.IsUsernameInUse(voter.Username))
-            {
-                Console.WriteLine("(F) Delete voter failed: serial/username not in use after addition");
-                return false;
-            }
-
-            if (collision)
-            {
-                Console.WriteLine("(F) Delete voter failed: collision (reset db?)");
-                return false;
-            }
-
-            //Console.WriteLine($@"    Deleting voter with s: '{voter.SerialNumber}', u: '{voter.Username}', p:'{voter.Password}'");
+            var voter = new TestData().voter.Build();
 
             Voter.Accessor.DeleteUser(voter.SerialNumber);
             if (Voter.Accessor.IsSerialInUse(voter.SerialNumber) 
@@ -180,42 +127,11 @@ namespace IntegrationTests
 
         public static bool TestGetVoter()
         {
-            Voter voter = new Voter.VoterBuilder()
-                .WithSerialNumber("V99999999")
-                .WithUsername("testVoterUsername0123")
-                .WithPassword("testVoterPass1!")
-                .WithEmail("874@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
             Console.WriteLine("    Testing get voter");
-            //Console.WriteLine($@"    Adding voter with s: '{voter.SerialNumber}', u: '{voter.Username}', p:'{voter.Password}'");
+            if (!TestDataLoader.LoadIntTestData())
+                return false;
+            var voter = new TestData().voter.Build();
 
-            if (Voter.Accessor.IsSerialInUse(voter.SerialNumber))
-            {
-                Console.WriteLine("(F) Get voter failed: serial in use before addition (reset db?)");
-                return false;
-            }
-            if (Voter.Accessor.IsUsernameInUse(voter.Username))
-            {
-                Console.WriteLine("(F) Get voter failed: username in use before addition (reset db?)");
-                return false;
-            }
-            bool collision = Voter.Accessor.AddUser(voter);
-            if (collision)
-            {
-                Console.WriteLine("(F) Get voter failed: collison (reset db?)");
-                return false;
-            }
-            if (!Voter.Accessor.IsSerialInUse(voter.SerialNumber)
-                || !Voter.Accessor.IsUsernameInUse(voter.Username))
-            {
-                Console.WriteLine("(F) Get voter failed: serial not in use after addition");
-                return false;
-            }
-
-            //Console.WriteLine($@"    Getting voter with u: '{voter.Username}', p:'{voter.Password}'");
             Voter fromDb = Voter.Accessor.GetUser(voter.Username, voter.Password);
 
             if (fromDb == null)
@@ -243,7 +159,9 @@ namespace IntegrationTests
         public static bool TestGetNonExistentVoter() 
         {
             Console.WriteLine("    Testing get non-existent voter");
-            Voter? v = Voter.Accessor.GetUser("neverAUserName", "NeverAPassW0rd!");
+            if (!TestDataLoader.LoadIntTestData())
+                return false;
+            var v = Voter.Accessor.GetUser("neverAUserName", "NeverAPassW0rd!");
             if (v != null)
             {
                 Console.WriteLine("(F) Get non-existent voter failed: non null");
@@ -257,228 +175,112 @@ namespace IntegrationTests
         public static bool TestGetNonVoter()
         {
             Console.WriteLine("    Testing get non-voter (admin)");
-            Admin a = new Admin.AdminBuilder()
-                .WithSerialNumber("A90000000")
-                .WithUsername("anAdminsUsername")
-                .WithPassword("T3stAdm!nsPassw0rd665")
-                .WithEmail("tcfvghjbnmkl@email.com")
-                .WithFirstName("Sandra")
-                .WithLastName("Knight")
-                .Build();
-            Admin.Accessor.AddUser(a);
+            if (!TestDataLoader.LoadIntTestData())
+                return false;
+            var admin = new TestData().admin.Build();
 
-            if (!Admin.Accessor.IsSerialInUse(a.SerialNumber))
-            {
-                Console.WriteLine("(F) Get non-voter failed: serial not in use after addition");
-            }
-
-            Voter? v = Voter.Accessor.GetUser("anAdminsUsername", "T3stAdm!nsPassw0rd665");
+            var v = Voter.Accessor.GetUser(admin.Username, admin.Password);
             if (v != null)
             {
                 Console.WriteLine("(F) Get non-existent voter failed: non null");
-                Console.WriteLine($@"    s: '{v.SerialNumber}', f: '{v.FirstName}', l: '{v.LastName}', u: '{v.Username}', p: '{v.Password}'");
                 return false;
             }
             Console.WriteLine("(S) Get non-existent voter success");
             return true;
         }
 
-
         public static bool TestAddDuplicateVoterUsername()
         {
-            Voter voter = new Voter.VoterBuilder()
-                .WithSerialNumber("V66666666")
-                .WithUsername("testVoterUsername22")
-                .WithPassword("testVoterPass1!")
-                .WithEmail("0111@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
-            Voter voter2 = new Voter.VoterBuilder()
-                .WithSerialNumber("V55555555")
-                .WithUsername("testVoterUsername22")
-                .WithPassword("testVoterPass1!")
-                .WithEmail("123d@gmail.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
             Console.WriteLine("    Testing add voter w/ duplicate username");
-            //Console.WriteLine($@"    Adding voter with s: '{voter.SerialNumber}', u: '{voter.Username}', p:'{voter.Password}'");
+            if (!TestDataLoader.LoadIntTestData())
+                return false;
+            var voter = new TestData().voter
+                .WithSerialNumber("V85461234")
+                .WithEmail("otheremail@hotmail.com")
+                .Build();
 
-            if (Voter.Accessor.IsSerialInUse(voter.SerialNumber)
-                || Voter.Accessor.IsSerialInUse(voter2.SerialNumber))
-            {
-                Console.WriteLine("(F) Add duplicate voter username failed: serial in use before addition (reset db?)");
-                return false;
-            }
-            if (Voter.Accessor.IsUsernameInUse(voter.Username)
-                || Voter.Accessor.IsUsernameInUse(voter2.Username))
-            {
-                Console.WriteLine("(F) Add duplicate voter username failed: username in use before addition (reset db?)");
-                return false;
-            }
-            bool collision = Voter.Accessor.AddUser(voter);
-            if (collision)
-            {
-                Console.WriteLine("(F) Add duplicate voter username failed: pre-collision (reset db?)");
-                return false;
-            }
-            if (!Voter.Accessor.IsSerialInUse(voter.SerialNumber)
-                ||!Voter.Accessor.IsUsernameInUse(voter.Username))
-            {
-                Console.WriteLine("(F) Add duplicate voter username failed: serial/username not in use after addition");
-                return false;
-            }
+            bool coll = Voter.Accessor.AddUser(voter);
 
-            bool collision2 = Voter.Accessor.AddUser(voter2);
-            if (!collision2)
+            if (!coll)
             {
                 Console.WriteLine("(F) Add duplicate voter username failed: collision not detected");
                 return false;
             }
 
-            if (Voter.Accessor.IsSerialInUse(voter2.SerialNumber))
+            if (Voter.Accessor.IsSerialInUse(voter.SerialNumber))
             {
                 Console.WriteLine("(F) Add duplicate voter username failed: serial/username of duplicate added ");
                 return false;
             }
 
             Console.WriteLine("(S) Add duplicate voter username success");
+            Voter.Accessor.DeleteUser(voter.SerialNumber);
             return true;
         }
 
         public static bool TestAddDuplicateVoterSerial()
         {
-            Voter voter = new Voter.VoterBuilder()
-                .WithSerialNumber("V44444444")
-                .WithUsername("testVoterUsername267")
-                .WithPassword("testVoterPass1!")
-                .WithEmail("ax1@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
-            Voter voter2 = new Voter.VoterBuilder()
-                .WithSerialNumber("V44444444")
-                .WithUsername("testVoterUsername159")
-                .WithPassword("testVoterPass1!")
-                .WithEmail("z74@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
             Console.WriteLine("    Testing add voter w/ duplicate serial");
-            //Console.WriteLine($@"    Adding voter with s: '{voter.SerialNumber}', u: '{voter.Username}', p:'{voter.Password}'");
-
-            if (Voter.Accessor.IsSerialInUse(voter.SerialNumber)
-                ||Voter.Accessor.IsUsernameInUse(voter.Username))
-            {
-                Console.WriteLine("(F) Add duplicate voter username failed: serial/username in use before addition (reset db?)");
+            if (!TestDataLoader.LoadIntTestData())
                 return false;
-            }
+            var voter = new TestData().voter
+                .WithUsername("anotherUsername")
+                .WithEmail("AcompleatlySeperateEmail")
+                .Build();
 
-            bool collision = Voter.Accessor.AddUser(voter);
-            if (collision)
-            {
-                Console.WriteLine("(F) Add duplicate voter username failed: pre-collision (reset db?)");
-                return false;
-            }
-            if (!Voter.Accessor.IsSerialInUse(voter.SerialNumber)
-                || !Voter.Accessor.IsUsernameInUse(voter.Username))
-            {
-                Console.WriteLine("(F) Add duplicate voter username failed: serial not in use after addition");
-                return false;
-            }
-
-            bool collision2 = Voter.Accessor.AddUser(voter2);
+            bool collision2 = Voter.Accessor.AddUser(voter);
             if (!collision2)
             {
                 Console.WriteLine("(F) Add duplicate voter serial failed: collision not detected");
                 return false;
             }
 
-            if (Voter.Accessor.IsUsernameInUse(voter2.Username))
+            if (Voter.Accessor.IsUsernameInUse(voter.Username))
             {
                 Console.WriteLine("(F) Add duplicate voter serial failed: duplicate entry added");
                 return false;
             }
 
             Console.WriteLine("(S) Add duplicate voter serial success");
+            Voter.Accessor.DeleteUser(voter.SerialNumber);
             return true;
         }
 
         public static bool TestAddDuplicateVoterEmail()
         {
-            Voter voter = new Voter.VoterBuilder()
-                .WithSerialNumber("V22222222")
-                .WithUsername("testVoterUsername660")
-                .WithPassword("testVoterPass1!")
-                .WithEmail("alex@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
-            Voter voter2 = new Voter.VoterBuilder()
-                .WithSerialNumber("V33333333")
-                .WithUsername("testVoterUsername412")
-                .WithPassword("testVoterPass1!")
-                .WithEmail("alex@email.com")
-                .WithFirstName("Jane")
-                .WithLastName("Doe")
-                .Build();
-
             Console.WriteLine("    Testing add voter w/ duplicate email");
-            //Console.WriteLine($@"    Adding voter with s: '{voter.SerialNumber}', u: '{voter.Username}', p:'{voter.Password}'");
+            if (!TestDataLoader.LoadIntTestData())
+                return false;
+            var voter = new TestData().voter
+                .WithUsername("UsernameOther")
+                .WithSerialNumber("V96514567")
+                .Build();
 
-            if (Voter.Accessor.IsSerialInUse(voter.SerialNumber)
-                || Voter.Accessor.IsSerialInUse(voter2.SerialNumber))
-            {
-                Console.WriteLine("(F) Add duplicate voter email failed: serial in use before addition (reset db?)");
-                return false;
-            }
-            if (Voter.Accessor.IsUsernameInUse(voter.Username)
-                || Voter.Accessor.IsUsernameInUse(voter2.Username))
-            {
-                Console.WriteLine("(F) Add duplicate voter email failed: username in use before addition (reset db?)");
-                return false;
-            }
-
-            bool collision = Voter.Accessor.AddUser(voter);
-            if (collision)
-            {
-                Console.WriteLine("(F) Add duplicate voter email failed: pre-collision (reset db?)");
-                return false;
-            }
-            if (!Voter.Accessor.IsSerialInUse(voter.SerialNumber)
-                || !Voter.Accessor.IsUsernameInUse(voter.Username))
-            {
-                Console.WriteLine("(F) Add duplicate voter email failed: serial not in use after addition");
-                return false;
-            }
-
-            bool collision2 = Voter.Accessor.AddUser(voter2);
-            if (!collision2)
+            
+            bool coll = Voter.Accessor.AddUser(voter);
+            if (!coll)
             {
                 Console.WriteLine("(F) Add duplicate voter email failed: collision not detected");
                 return false;
             }
 
-            if (Voter.Accessor.IsSerialInUse(voter2.SerialNumber) 
-                || Voter.Accessor.IsUsernameInUse(voter2.Username))
+            if (Voter.Accessor.IsSerialInUse(voter.SerialNumber) 
+                || Voter.Accessor.IsUsernameInUse(voter.Username))
             {
                 Console.WriteLine("(F) Add duplicate voter serial failed: duplicate entry added");
                 return false;
             }
 
             Console.WriteLine("(S) Add duplicate voter email success");
+            Voter.Accessor.DeleteUser(voter.SerialNumber);
+
             return true;
         }
 
         public static bool TestGenerateVoterSerial()
         {
             Console.WriteLine("    Testing voter serial generator");
+            TestDataLoader.LoadIntTestData();
             string serial = Voter.Accessor.GetSerial();
             if (!Validation.IsValidSerialNumber(serial) || serial[0] != 'V')
             {
@@ -488,6 +290,5 @@ namespace IntegrationTests
             Console.WriteLine("(S) Generate issue serial success");
             return true;
         }
-
     }
 }

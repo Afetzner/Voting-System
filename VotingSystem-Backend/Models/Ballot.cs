@@ -21,7 +21,7 @@ namespace VotingSystem.Model
             SerialNumber = serialNumber;
         }
 
-        public class BallotBuilder
+        public class Builder
         {
             public string? Voter;
             public string? Issue;
@@ -29,13 +29,13 @@ namespace VotingSystem.Model
             public string? SerialNumber;
             private bool _inputtedChoice;
 
-            public BallotBuilder WithVoter(string voter)
+            public Builder WithVoter(string voter)
             {
                 Voter = voter;
                 return this;
             }
 
-            public BallotBuilder WithIssue(string issue)
+            public Builder WithIssue(string issue)
             {
                 Issue = issue;
                 return this;
@@ -44,14 +44,14 @@ namespace VotingSystem.Model
             /// <summary>
             /// -1 for abstain, else 0..n
             /// </summary>
-            public BallotBuilder WithChoice(int choiceNumber)
+            public Builder WithChoice(int choiceNumber)
             {
                 _inputtedChoice = true;
                 Choice = choiceNumber;
                 return this;
             }
 
-            public BallotBuilder WithSerialNumber(string? serialNumber)
+            public Builder WithSerialNumber(string? serialNumber)
             {
                 SerialNumber = serialNumber;
                 return this;

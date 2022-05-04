@@ -14,18 +14,18 @@ namespace VotingSystem.Model
             Title = title;
         }
 
-        public class BallotIssueOptionBuilder
+        public class Builder
         {
             public int Number = -1;
             public string? Title;
             
-            public BallotIssueOptionBuilder WithOptionNumber(int number)
+            public Builder WithOptionNumber(int number)
             {
                 Number = number;
                 return this;
             }
 
-            public BallotIssueOptionBuilder WithTitle(string? title)
+            public Builder WithTitle(string? title)
             {
                 Title = title;
                 return this;

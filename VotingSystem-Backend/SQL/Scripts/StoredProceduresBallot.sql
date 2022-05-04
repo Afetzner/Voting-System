@@ -34,9 +34,9 @@ BEGIN
         `v_voterSerial`,
         `v_issueSerial`,
         `v_choiceNumber`,
-		(SELECT user_id FROM user WHERE user.serial_number = `v_voterSerial` LIMIT 1),
-        (SELECT issue_id FROM issue WHERE issue.serial_number = `v_issueSerial` LIMIT 1),
-        (SELECT option_id FROM issue_option WHERE issue_option.option_number = `v_choiceNumber` LIMIT 1)
+		(SELECT user_id FROM user WHERE serial_number = `v_voterSerial` LIMIT 1),
+        (SELECT issue_id FROM issue WHERE serial_number = `v_issueSerial` LIMIT 1),
+        (SELECT option_id FROM issue_option WHERE issue_serial = `v_issueSerial` AND option_number = `v_choiceNumber` LIMIT 1)
 	-- Protects against multiple ballots from one voter being entered on any issue
     WHERE NOT `v_collision`;
     COMMIT;
@@ -85,14 +85,14 @@ END
 $$
 
 -- Return total voter per option on an issue
-CREATE PROCEDURE afetzner.get_election_results (
-	IN `v_issueSerial` varchar(9))
+CREATE PROCEDURE afetzner.get_election_results ()
 BEGIN
-	SELECT issue_option.option_number, count(ballot_id)
-	FROM issue
-		RIGHT JOIN issue_option ON issue.issue_id = issue_option.issue_id
-		LEFT JOIN ballot ON ballot.choice_id = issue_option.option_id
-	GROUP BY issue_option.option_id;
+	SELECT ops.issue, ops.option, IF(ISNULL(votes.count), 0, votes.count) as 'count'
+		FROM (SELECT issue.serial_number as 'issue', issue.issue_id, issue_option.option_number as 'option', issue_option.option_id
+			FROM issue RIGHT JOIN issue_option ON issue.issue_id = issue_option.issue_id) ops
+		LEFT JOIN (SELECT ballot.choice_id, count(*) AS 'count'
+			FROM ballot GROUP BY (ballot.choice_id)) votes
+		ON votes.choice_id = ops.option_id;
 END
 $$
 
