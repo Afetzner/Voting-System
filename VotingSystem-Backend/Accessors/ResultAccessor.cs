@@ -59,56 +59,6 @@ namespace VotingSystem.Accessor
             }
         }
 
-        public Dictionary<int, int> GetIssueResults(string issueSerial)
-        {
-            //Got merged into Get-all-results
-            throw new NotImplementedException();
-
-            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
-            {
-                try
-                {
-                    conn.Open();
-                }
-                catch (MySqlException e)
-                {
-                    Console.WriteLine(e + "\nCould not connect to database");
-                    throw;
-                }
-
-                using (var cmd = new MySqlCommand("get_election_results", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("v_issueSerial", issueSerial);
-                    cmd.Parameters["@v_issueSerial"].Direction = ParameterDirection.Input;
-
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (MySqlException e)
-                    {
-                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'get_voter_participation' with parameters:
-    issueSerial: '{issueSerial}'");
-
-                        throw;
-                    }
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        var results = new Dictionary<int, int>();
-                        while (reader.Read())
-                        {
-                            int optionNumber = Convert.ToInt32(reader.GetValue(0));
-                            int count = Convert.ToInt32(reader.GetValue(1));
-                            results.Add(optionNumber, count);
-                        }   
-                        return results;
-                    }
-                }
-            }
-        }
-
         public Dictionary<string,Dictionary<int, int>> GetResults(List<BallotIssue> issues)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))

@@ -7,7 +7,7 @@ namespace VotingSystem.Controller
     public class BallotIssueController : ControllerBase
     {
         //Shared context for all api calls
-        private ResultViewer resultViewer = SharedResultViewer.ResultViewer;
+        private SharedResultViewer resultViewer = ResultsManager.ResultViewer;
 
         [HttpGet]
         [Route("api/polls")]

@@ -80,7 +80,7 @@ namespace IntegrationTests
         {
             Console.WriteLine("    Testing results get issues");
             TestDataLoader.LoadIntTestDataForResultsViewer();
-            ResultViewer resultViewer = new ResultViewer();
+            SharedResultViewer resultViewer = new SharedResultViewer();
             var issues = resultViewer.GetBallotIssues();
             var issue1 = new TestData().issue.Build();
             var issue2 = new TestData().issue2.Build();
@@ -120,7 +120,7 @@ namespace IntegrationTests
             Console.WriteLine("    Testing get ballots (voter 1)");
             //Arrange
             TestDataLoader.LoadIntTestDataForResultsViewer();
-            ResultViewer resultViewer = new();
+            SharedResultViewer resultViewer = new();
             var voter = new TestData().voter.Build();
             var issue1 = new TestData().issue.Build();
             var issue2 = new TestData().issue2.Build();
@@ -175,7 +175,7 @@ namespace IntegrationTests
             Console.WriteLine("    Testing get ballots (voter 2)");
             //Arrange
             TestDataLoader.LoadIntTestDataForResultsViewer();
-            ResultViewer resultViewer = new();
+            SharedResultViewer resultViewer = new();
             var voter = new TestData().voter2.Build();
             var issue1 = new TestData().issue.Build();
             var issue2 = new TestData().issue2.Build();
@@ -229,7 +229,7 @@ namespace IntegrationTests
             var issue2 = new TestData().issue2.Build();
 
             //Act 
-            ResultViewer resultViewer = new ResultViewer();
+            SharedResultViewer resultViewer = new SharedResultViewer();
             var results = resultViewer.GetResults();
 
             //Assert issue 1 results (2 for opt 1, 0 for opt 0)
@@ -272,7 +272,7 @@ namespace IntegrationTests
             Console.WriteLine("    Testing get voter participation");
             //Arrange
             TestDataLoader.LoadIntTestDataForResultsViewer();
-            ResultViewer resultViewer = new();
+            SharedResultViewer resultViewer = new();
             var voter1 = new TestData().voter.Build();
             var voter2 = new TestData().voter2.Build();
             var issue1 = new TestData().issue.Build();
@@ -338,7 +338,7 @@ namespace IntegrationTests
             var ballot3 = new TestData().ballot3.Build();
 
             //Act 
-            ResultViewer resultViewer = new ResultViewer();
+            SharedResultViewer resultViewer = new SharedResultViewer();
             var issues = resultViewer.GetBallotIssues();
             var results = resultViewer.GetResults();
             var ballots = resultViewer.GetBallots(voter1.SerialNumber);

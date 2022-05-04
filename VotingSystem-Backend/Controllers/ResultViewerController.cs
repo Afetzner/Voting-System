@@ -7,7 +7,7 @@ namespace VotingSystem.Controller
     [ApiController]
     public class ResultViewerController : ControllerBase
     {
-        ResultViewer resultViewer = SharedResultViewer.ResultViewer;
+        SharedResultViewer resultViewer = ResultsManager.ResultViewer;
  
 
         [HttpPost]
