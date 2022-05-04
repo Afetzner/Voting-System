@@ -122,7 +122,6 @@ export default function Vote(props) {
                   user={props.user}
                   index={index}
                   radioValue={radioValue[index]}
-                  selection={selection[index]}
                   voted={voted[index]}
                   handleClick={handleClick}
                   handleChange={handleChange}

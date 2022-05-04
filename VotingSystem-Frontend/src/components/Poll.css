@@ -11,3 +11,15 @@
 .confirm-button {
   width: 200px
 }
+
+.sub-accordion .accordion-button:focus {
+  box-shadow: none;
+}
+
+.sub-accordion .accordion-button {
+  background-color: white !important;
+}
+
+.sub-accordion .accordion-button:not(.collapsed) {
+  color: #212529;
+}
