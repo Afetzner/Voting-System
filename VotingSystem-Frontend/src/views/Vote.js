@@ -12,13 +12,14 @@ export default function Vote(props) {
   const [selection, setSelection] = useState([]);
   const [voted, setVoted] = useState([]);
   const [index, setIndex] = useState();
-  const [display, setDisplay] = useState(false);
+  const [display, setDisplay] = useState([]);
 
-  async function timeout() {
-    await new Promise(res => setTimeout(res, 1000));
-    setDisplay(true);
-  }
-  timeout();
+  // async function timeout() {
+  //   await new Promise(res => setTimeout(res, 1000));
+  //   setDisplay(true);
+  // }
+
+  // timeout();
 
   useEffect(() => {
     console.log(radioValue, selection, voted);
@@ -26,10 +27,12 @@ export default function Vote(props) {
 
   useEffect(() => {
     axios.get("https://localhost:7237/api/polls").then((response) => {
+      setPolls(response.data);
       setRadioValue(Array(response.data.length).fill(""));
       setSelection(Array(response.data.length).fill(""));
       setVoted(Array(response.data.length).fill(false));
-      setPolls(response.data);
+      setDisplay(Array(response.data.length).fill(false));
+      console.log(response.data);
     }).catch(error => {
       console.log(error);
     });
@@ -45,7 +48,7 @@ export default function Vote(props) {
           props.user.serialNumber,
           polls[i].serialNumber
         ).then((response) => {
-          console.log("VOTED:", response);
+          // console.log("VOTED:", response);
           if (response === null) {
             radioValue.push("");
             selection.push("");
@@ -110,6 +113,22 @@ export default function Vote(props) {
     });
   };
 
+  const handleDisplay = (index) => {
+    console.log("INDEX:", index);
+    console.log("DISPLAY:", display);
+    // if (display[index] === false) {
+      // setDisplay([
+      //   ...display.slice(0, index),
+      //   true,
+      //   ...display.slice(index + 1)
+      // ]);
+    // }
+  };
+
+  // useEffect(() => {
+  //   console.log("DISPLAY: ", display);
+  // });
+
   return (
     <>
       <Confirmation
@@ -132,7 +151,8 @@ export default function Vote(props) {
                   voted={voted[index]}
                   handleClick={handleClick}
                   handleChange={handleChange}
-                  display={display}
+                  display={display[index]}
+                  handleDisplay={handleDisplay}
                 />) : <><Spinner animation="border" size="sm" />{" "}Loading...</>}
             </Accordion>
           </Card.Body>

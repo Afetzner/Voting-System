@@ -1,6 +1,8 @@
 import "./Poll.css";
 import { Accordion, Badge, Button, ButtonGroup, Container, Form, ToggleButton } from "react-bootstrap";
 import ResultsChart from "../components/ResultsChart";
+import { useEffect } from "react";
+import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 
 // import { useState } from "react";
 
@@ -42,9 +44,9 @@ function Result(props) {
   // ]);
 
   return (
-    <Accordion flush defaultActiveKey={`0${props.index}`} className="sub-accordion">
+    <Accordion flush  className="sub-accordion">
       <Accordion.Item key={`0${props.index}`} eventKey={`0${props.index}`}>
-        <Accordion.Header>Results</Accordion.Header>
+        <Accordion.Button onClick={props.handleDisplay(props.index)}>Results</Accordion.Button>
         <Accordion.Body>
           <ResultsChart data={data} display={props.display}/>
         </Accordion.Body>
@@ -105,7 +107,7 @@ export default function Poll(props) {
         </div>
       </Accordion.Header>
       <Accordion.Body>
-        {(props.poll.isEnded) ? <Result poll={props.poll} user={props.user} index={props.index} radioValue={props.radioValue} voted={props.voted} handleClick={props.handleClick} handleChange={props.handleChange} display={props.display}/> : <Response poll={props.poll} user={props.user} index={props.index} radioValue={props.radioValue} voted={props.voted} handleClick={props.handleClick} handleChange={props.handleChange}/>}
+        {(props.poll.isEnded) ? <Result poll={props.poll} user={props.user} index={props.index} radioValue={props.radioValue} voted={props.voted} handleClick={props.handleClick} handleChange={props.handleChange} display={props.display} handleDisplay={props.handleDisplay} /> : <Response poll={props.poll} user={props.user} index={props.index} radioValue={props.radioValue} voted={props.voted} handleClick={props.handleClick} handleChange={props.handleChange}/>}
       </Accordion.Body>
     </Accordion.Item>
   );
