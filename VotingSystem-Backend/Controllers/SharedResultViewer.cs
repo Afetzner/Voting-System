@@ -1,4 +1,3 @@
-using System;
 using VotingSystem.Model;
 using VotingSystem.Accessor;
 

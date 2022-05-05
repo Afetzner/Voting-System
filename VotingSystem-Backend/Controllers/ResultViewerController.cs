@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VotingSystem.Accessor;
 using VotingSystem.Model;
 
 namespace VotingSystem.Controller

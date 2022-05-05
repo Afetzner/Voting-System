@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using VotingSystem.Accessor;
+﻿using VotingSystem.Accessor;
 using VotingSystem.Utils;
 using static System.String;
 
