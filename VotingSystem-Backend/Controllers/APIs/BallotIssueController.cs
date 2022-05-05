@@ -12,7 +12,7 @@ namespace VotingSystem.Controller
         [Route("api/polls")]
         public List<BallotIssue> GetBallotIssues()
         {   
-            return new ResultCacheManager().GetBallotIssues();
+            return cache.GetBallotIssues();
         }
     }
 }
