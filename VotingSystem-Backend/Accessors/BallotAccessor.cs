@@ -134,34 +134,6 @@ namespace VotingSystem.Model
             }
         }
 
-        public List<BallotIssue> GetIssuesVotedOn(string voterSerial)
-            {
-                List<BallotIssue> issues = new List<BallotIssue>();
-
-            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
-            {
-                try
-                {
-                    conn.Open();
-                }
-                catch (MySqlException e)
-                {
-                    Console.WriteLine(e + "\nCould not connect to database");
-                    throw;
-                }
-
-               
-            }
-                throw new NotImplementedException();
-            /*
-            CREATE PROCEDURE afetzner.get_did_voter_participate(
-            IN `v_voterSerial` varchar(9),
-            IN `v_issueSerial` varchar(9),
-            OUT `v_didVote` bool)
-            BEGIN
-            */
-        }
-
         public void RemoveBallot(string serial)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))

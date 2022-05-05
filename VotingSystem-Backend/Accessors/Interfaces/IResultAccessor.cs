@@ -4,9 +4,15 @@ using VotingSystem.Utils;
 
 namespace VotingSystem.Accessor
 {
-
     public interface IResultAccessor
     {
+        /// <summary>
+        /// Gets all the ballot issue (and their options) from the DB
+        /// </summary>
+        /// <exception cref="MySqlException">Bad connection to DB</exception>
+        /// <exception cref="InvalidBuilderParameterException">Corrupt data from DB</exception>
+        public List<BallotIssue> GetBallotIssues();
+
         /// <summary>
         /// Given a issue's serial number, retrives a list of all voters who particpate on that issue
         /// </summary>

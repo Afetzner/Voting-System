@@ -33,7 +33,7 @@ namespace VotingSystem.Controller
 
             //Get and cache issues
             _issues = new List<BallotIssue>();
-            _issues = BallotIssue.Accessor.GetBallotIssues();
+            _issues = Accessor.GetBallotIssues();
 
             return _issues;
         }

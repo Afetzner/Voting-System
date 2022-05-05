@@ -5,7 +5,82 @@ using MySql.Data.MySqlClient;
 namespace VotingSystem.Accessor
 {
     public class ResultAccessor : IResultAccessor
-    { 
+    {
+        public static readonly IResultAccessor Instance = new ResultAccessor();   
+
+        public List<BallotIssue> GetBallotIssues()
+        {
+            //List of ballot-issues *builders* (all get built at end)
+            var ballotIssueBuilderList = new List<BallotIssue.Builder>();
+            var ballotIssueList = new List<BallotIssue>();
+
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine(e + "\nCould not connect to database");
+                    throw;
+                }
+
+                using (var cmd = new MySqlCommand("get_issues", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        //Ballot-issue W/OUT OPTIONS
+                        // (can't execute the get-options query in the middle of getting issues
+                        // Only one return table can exists at a time
+                        // Options gotten for each issue *outside* of this loop)
+                        var ballotIssueBuilder = new BallotIssue.Builder()
+                            .WithSerialNumber(reader.GetString(0))
+                            .WithStartDate(reader.GetDateTime(1))
+                            .WithEndDate(reader.GetDateTime(2))
+                            .WithTitle(reader.GetString(3))
+                            .WithDescription(reader.GetString(4));
+
+                        ballotIssueBuilderList.Add(ballotIssueBuilder);
+                    }
+                    reader.Close();
+                }
+
+                //Get options for each issue
+                foreach (BallotIssue.Builder builder in ballotIssueBuilderList)
+                {
+                    List<BallotIssueOption> optionsList = new List<BallotIssueOption>();
+                    string? ballotIssueSerialNumber = builder.SerialNumber;
+
+                    using (var cmd = new MySqlCommand("get_options", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("v_serialNumber", ballotIssueSerialNumber);
+                        cmd.Parameters["v_serialNumber"].Direction = ParameterDirection.Input;
+
+                        MySqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            var newOption = new BallotIssueOption.Builder()
+                                .WithOptionNumber(reader.GetInt32(0))
+                                .WithTitle(reader.GetString(1))
+                                .Build();
+
+                            optionsList.Add(newOption);
+                        }
+                        reader.Close();
+                    }
+
+                    var issue = builder.WithOptions(optionsList).Build();
+                    ballotIssueList.Add(issue);
+                }
+                return ballotIssueList;
+            }
+        }
+
         public List<Voter> GetVoterParticipation(string issueSerial)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
@@ -59,9 +134,6 @@ namespace VotingSystem.Accessor
             }
         }
 
-        /// <summary>
-        /// Get results from a sinlge issue from the db
-        /// </summary>
         public Dictionary<int, int> GetIssueResults(string issueSerial)
         {
 
@@ -155,7 +227,7 @@ namespace VotingSystem.Accessor
             }
         }
 
-        private static Dictionary<string, Dictionary<int, int>> MakeMapFromList(List<BallotIssue> issues)
+        private Dictionary<string, Dictionary<int, int>> MakeMapFromList(List<BallotIssue> issues)
         {
             Dictionary<string, Dictionary<int, int>> map = new ();
             foreach (BallotIssue issue in issues)
@@ -170,10 +242,7 @@ namespace VotingSystem.Accessor
             return map;
         }
 
-        /// <summary>
-        /// Verfifies that each option for each issue has non-negative value
-        /// </summary>
-        private static bool VerifyResults(Dictionary<string, Dictionary<int, int>> results)
+        private bool VerifyResults(Dictionary<string, Dictionary<int, int>> results)
         {
             foreach (var i in results.Keys)
                 foreach (var j in results[i].Keys)

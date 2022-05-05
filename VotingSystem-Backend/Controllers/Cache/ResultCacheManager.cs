@@ -7,9 +7,9 @@ namespace VotingSystem.Controller
     /// through either the SharedCache (results not specific to users)
     /// or through the respective UserCache (a user's ballots)
     /// </summary>
-    public class CacheManager
+    public class ResultCacheManager
     {
-        public static readonly CacheManager SharedCacheManager = new();
+        public static readonly ResultCacheManager SharedCacheManager = new();
         private static readonly SharedResultCache SharedCache = new();
         private static readonly Dictionary<string, UserResultsCache> UserChaches = new();
 
@@ -45,7 +45,7 @@ namespace VotingSystem.Controller
         /// <summary>
         /// Create a new instance of a User cache
         /// </summary>
-        private void SpawnUserCache(string voterSerial)
+        private static void SpawnUserCache(string voterSerial)
         {
             UserResultsCache userViewer = new(voterSerial);
             UserChaches.Add(voterSerial, userViewer);

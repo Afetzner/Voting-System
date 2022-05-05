@@ -6,7 +6,7 @@ namespace VotingSystem.Controller
     [ApiController]
     public class BallotIssueController : ControllerBase
     {
-        private static readonly CacheManager cache = CacheManager.SharedCacheManager;
+        private static readonly ResultCacheManager cache = ResultCacheManager.SharedCacheManager;
 
         [HttpGet]
         [Route("api/polls")]

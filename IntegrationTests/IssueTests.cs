@@ -3,6 +3,7 @@ using IntegrationTests.Interactive;
 using System;
 using System.Collections.Generic;
 using VotingSystem.Utils;
+using VotingSystem.Accessor;
 
 namespace IntegrationTests
 {
@@ -121,7 +122,7 @@ namespace IntegrationTests
                 return false;
             var issue = new TestData().issue.Build();
             
-            var fromDb = BallotIssue.Accessor.GetBallotIssues();
+            var fromDb = ResultAccessor.Instance.GetBallotIssues();
             if (!fromDb.Exists(x => x.SerialNumber == issue.SerialNumber))
             {
                 Console.WriteLine("(F) Get ballot-issue failed: issue not returned");

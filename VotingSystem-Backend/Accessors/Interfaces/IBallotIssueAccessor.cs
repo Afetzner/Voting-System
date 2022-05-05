@@ -28,12 +28,5 @@ namespace VotingSystem.Accessor
         /// <exception cref="MySqlException">Bad connection to DB</exception>
         public void RemoveIssue(string serial);
 
-        /// <summary>
-        /// Gets all the ballot issue (and their options) from the DB
-        /// </summary>
-        /// <exception cref="MySqlException">Bad connection to DB</exception>
-        /// <exception cref="InvalidBuilderParameterException">Corrupt data from DB</exception>
-        List<BallotIssue> GetBallotIssues();
-
     }
 }
