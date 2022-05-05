@@ -7,13 +7,13 @@ namespace VotingSystem.Controller
     public class BallotIssueController : ControllerBase
     {
         //Shared context for all api calls
-        private SharedResultViewer resultViewer = ResultsManager.ResultViewer;
+        private Manager manager = Manager.manager;
 
         [HttpGet]
         [Route("api/polls")]
         public List<BallotIssue> GetBallotIssues()
         {   
-            return resultViewer.GetBallotIssues();
+            return manager.GetBallotIssues();
         }
     }
 }

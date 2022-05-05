@@ -7,28 +7,28 @@ namespace VotingSystem.Controller
     [ApiController]
     public class ResultViewerController : ControllerBase
     {
-        SharedResultViewer resultViewer = ResultsManager.ResultViewer;
+        Manager manager = Manager.manager;
  
 
         [HttpPost]
         [Route("api/polls")]
         public List<BallotIssue> GetBallotIssues()
         {
-            return resultViewer.GetBallotIssues();
+            return manager.GetBallotIssues();
         }
 
         [HttpPost]
         [Route("api/ballots")]
         public Dictionary<string, Ballot?> GetBallots(string voterSerial) {
             
-            return resultViewer.GetBallots(voterSerial);
+            return manager.GetBallots(voterSerial);
         }
 
         [HttpPost]
         [Route("api/results")]
         public Dictionary<string, List<Voter>> GetVoterParticipation()
         {
-                return resultViewer.GetVoterParticipation();
+                return manager.GetVoterParticipation();
         }
     }
 }
