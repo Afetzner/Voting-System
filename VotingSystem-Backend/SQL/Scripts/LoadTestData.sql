@@ -68,9 +68,9 @@ VALUES (0, "Andders Mort (encumbant)", @issueCorronerId, 'I78955502');
 SET @corronerOptionZeroId = last_insert_id();
 
 INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
-VALUES (0, "Yes", @issueCorronerId, 'I78955503');
+VALUES (0, "Yes", @issueElementaryId, 'I78955503');
 INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
-VALUES (1, "No", @issueCorronerId, 'I78955503');
+VALUES (1, "No", @issueElementaryId, 'I78955503');
 
 
 -- Create ballots
