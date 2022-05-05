@@ -40,6 +40,10 @@ INSERT INTO issue (serial_number, start_date, end_date, title, description)
 	VALUES ('I78955502', "2020-04-19", "2023-06-19", "Corroner of the city of Lincoln", 
 		"The corroner of the city of Lincoln. Offical corroner for assisting investigations by the city");
 SET @issueCorronerId = last_insert_id();
+INSERT INTO issue (serial_number, start_date, end_date, title, description)
+	VALUES ('I78955503', "2020-04-19", "2021-06-19", "Refereandum", "Should we build an elementary school?");
+SET @issueElementaryId = last_insert_id();
+
 
 -- Create ballot issue options
 INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
@@ -62,6 +66,12 @@ SET @policeOptionOneId = last_insert_id();
 INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
 VALUES (0, "Andders Mort (encumbant)", @issueCorronerId, 'I78955502');
 SET @corronerOptionZeroId = last_insert_id();
+
+INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
+VALUES (0, "Yes", @issueCorronerId, 'I78955503');
+INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
+VALUES (1, "No", @issueCorronerId, 'I78955503');
+
 
 -- Create ballots
 INSERT INTO ballot (ballot_serial_number, voter_serial_number, issue_serial_number, 
