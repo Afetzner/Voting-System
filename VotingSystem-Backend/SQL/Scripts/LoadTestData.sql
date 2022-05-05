@@ -2,7 +2,7 @@ use afetzner;
 
 -- Create admins
 INSERT INTO user (username, password, email, first_name, last_name, serial_number, is_admin)
-    VALUES ('afetz00', 'Drowsap1', 'alexEmail@gmail.com', 'Alex', 'Fetzner', 'A99900012', true);
+    VALUES ('afetz00', 'Drowsap1!', 'alexEmail@gmail.com', 'Alex', 'Fetzner', 'A99900012', true);
 SET @adminAlexId = last_insert_id();
 INSERT INTO user (username, password, email, first_name, last_name, serial_number, is_admin)
     VALUES ('3akycka', 'pa55W0RD@', 'ana@gmail.com', 'Anastasiya', 'Krestovsky', 'A99900013', true);
