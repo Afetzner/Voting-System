@@ -6,28 +6,27 @@ namespace VotingSystem.Controller
     [ApiController]
     public class ResultViewerController : ControllerBase
     {
-        Manager manager = Manager.manager;
- 
+        private static readonly CacheManager cache = CacheManager.SharedCacheManager;
 
         [HttpPost]
         [Route("api/polls")]
         public List<BallotIssue> GetBallotIssues()
         {
-            return manager.GetBallotIssues();
+            return cache.GetBallotIssues();
         }
 
         [HttpPost]
         [Route("api/ballots")]
         public Dictionary<string, Ballot?> GetBallots(string voterSerial) {
             
-            return manager.GetBallots(voterSerial);
+            return cache.GetBallots(voterSerial);
         }
 
         [HttpPost]
         [Route("api/results")]
         public Dictionary<string, List<Voter>> GetVoterParticipation()
         {
-                return manager.GetVoterParticipation();
+            return cache.GetVoterParticipation();
         }
     }
 }

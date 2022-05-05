@@ -59,7 +59,58 @@ namespace VotingSystem.Accessor
             }
         }
 
-        public Dictionary<string,Dictionary<int, int>> GetResults(List<BallotIssue> issues)
+        /// <summary>
+        /// Get results from a sinlge issue from the db
+        /// </summary>
+        public Dictionary<int, int> GetIssueResults(string issueSerial)
+        {
+
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine(e + "\nCould not connect to database");
+                    throw;
+                }
+
+                using (var cmd = new MySqlCommand("get_issue_results", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("v_issueSerial", issueSerial);
+                    cmd.Parameters["@v_issueSerial"].Direction = ParameterDirection.Input;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (MySqlException e)
+                    {
+                        Console.WriteLine(e + "\n" + $@"Could not execute SQL procedure 'get_voter_participation' with parameters:
+    issueSerial: '{issueSerial}'");
+
+                        throw;
+                    }
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        var results = new Dictionary<int, int>();
+                        while (reader.Read())
+                        {
+                            int optionNumber = Convert.ToInt32(reader.GetValue(0));
+                            int count = Convert.ToInt32(reader.GetValue(1));
+                            results.Add(optionNumber, count);
+                        }
+                        return results;
+                    }
+                }
+            }
+        }
+
+        public Dictionary<string,Dictionary<int, int>> GetAllResults(List<BallotIssue> issues)
         {
             using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
             {
@@ -73,7 +124,7 @@ namespace VotingSystem.Accessor
                     throw;
                 }
 
-                using (var cmd = new MySqlCommand("get_election_results", conn))
+                using (var cmd = new MySqlCommand("get_all_results", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     try
@@ -93,6 +144,7 @@ namespace VotingSystem.Accessor
                             string issueSerial = reader.GetString(0);
                             int optionNumber = reader.GetInt32(1);
                             int count = reader.GetInt32(2);
+
                             results[issueSerial][optionNumber] = count;
                         }
                         if (!VerifyResults(results))
@@ -103,12 +155,9 @@ namespace VotingSystem.Accessor
             }
         }
 
-        /// <summary>
-        /// Initalizes a list of ballot options into a dict of dicts: issue-serial -> (option # -> vote count)
-        /// </summary>
-        private Dictionary<string, Dictionary<int, int>> MakeMapFromList(List<BallotIssue> issues)
+        private static Dictionary<string, Dictionary<int, int>> MakeMapFromList(List<BallotIssue> issues)
         {
-            Dictionary<string, Dictionary<int, int>> map = new Dictionary<string,Dictionary<int, int>>();
+            Dictionary<string, Dictionary<int, int>> map = new ();
             foreach (BallotIssue issue in issues)
             {
                 Dictionary<int, int> optionVotes = new();
@@ -124,7 +173,7 @@ namespace VotingSystem.Accessor
         /// <summary>
         /// Verfifies that each option for each issue has non-negative value
         /// </summary>
-        private bool VerifyResults(Dictionary<string, Dictionary<int, int>> results)
+        private static bool VerifyResults(Dictionary<string, Dictionary<int, int>> results)
         {
             foreach (var i in results.Keys)
                 foreach (var j in results[i].Keys)

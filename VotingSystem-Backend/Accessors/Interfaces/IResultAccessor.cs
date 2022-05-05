@@ -15,10 +15,16 @@ namespace VotingSystem.Accessor
         public List<Voter> GetVoterParticipation(string issueSerial);
 
         /// <summary>
+        /// Gets the vote counts for each option for a particular issue
+        /// </summary>
+        /// <exception cref="MySqlException">Bad connection to DB</exception>
+        public Dictionary<int, int> GetIssueResults(string issueSerial);
+
+        /// <summary>
         /// Gets the vote counts for each option for each issue
         /// </summary>
         /// <exception cref="MySqlException">Bad connection to DB</exception>
-        public Dictionary<string,Dictionary<int, int>> GetResults(List<BallotIssue> issues);
+        public Dictionary<string,Dictionary<int, int>> GetAllResults(List<BallotIssue> issues);
     }
 }
 

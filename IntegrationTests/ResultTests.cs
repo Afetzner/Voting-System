@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using VotingSystem.Accessor;
 using VotingSystem.Controller;
+using VotingSystem.Accessor;
 using VotingSystem.Model;
 using IntegrationTests.Interactive;
 
@@ -22,7 +22,7 @@ namespace IntegrationTests
                 " (5) Get ballots (voter 2)\n" +
                 " (6) Get issue results\n" +
                 " (7) Get voter participation\n" + 
-                " (8) Use shared results-viewer\n" +
+                " (8) Use shared cache\n" +
                 " (*) Exit\n");
 
             while (true)
@@ -43,7 +43,7 @@ namespace IntegrationTests
                     '5' => TestGetBallotsVoter2,
                     '6' => TestGetIssueResults,
                     '7' => TestGetVoterParticipation,
-                    '8' => TestSharedViewer,
+                    '8' => TestSharedCache,
                     _ => Menu.Exit,
                 };
             }
@@ -56,7 +56,7 @@ namespace IntegrationTests
             TestGetBallotsVoter2,
             TestGetIssueResults,
             TestGetVoterParticipation,
-            TestSharedViewer
+            TestSharedCache
         };
 
         public static bool RunAllResultTests()
@@ -80,8 +80,8 @@ namespace IntegrationTests
         {
             Console.WriteLine("    Testing results get issues");
             TestDataLoader.LoadIntTestDataForResultsViewer();
-            SharedResultViewer resultViewer = new SharedResultViewer();
-            var issues = resultViewer.GetBallotIssues();
+            SharedResultCache resultsCache = new();
+            var issues = resultsCache.GetBallotIssues();
             var issue1 = new TestData().issue.Build();
             var issue2 = new TestData().issue2.Build();
 
@@ -120,7 +120,6 @@ namespace IntegrationTests
             Console.WriteLine("    Testing get ballots (voter 1)");
             //Arrange
             TestDataLoader.LoadIntTestDataForResultsViewer();
-            SharedResultViewer resultViewer = new();
             var voter = new TestData().voter.Build();
             var issue1 = new TestData().issue.Build();
             var issue2 = new TestData().issue2.Build();
@@ -128,7 +127,8 @@ namespace IntegrationTests
             var ballot2 = new TestData().ballot2.Build(); //Voter 1's ballot on issue 2
 
             //Act
-            var ballots = resultViewer.GetBallots(voter.SerialNumber);
+            var issues = BallotIssue.Accessor.GetBallotIssues();
+            var ballots = new UserResultsCache(voter.SerialNumber).GetBallots(ref issues);
             var ballotFromDb1 = ballots[issue1.SerialNumber];
             var ballotFromDb2 = ballots[issue2.SerialNumber];
 
@@ -175,14 +175,14 @@ namespace IntegrationTests
             Console.WriteLine("    Testing get ballots (voter 2)");
             //Arrange
             TestDataLoader.LoadIntTestDataForResultsViewer();
-            SharedResultViewer resultViewer = new();
             var voter = new TestData().voter2.Build();
             var issue1 = new TestData().issue.Build();
             var issue2 = new TestData().issue2.Build();
             var ballot = new TestData().ballot3.Build(); //Voter 2's ballot on issue 1
 
             //Act
-            var ballots = resultViewer.GetBallots(voter.SerialNumber);
+            var issues = BallotIssue.Accessor.GetBallotIssues();
+            var ballots = new UserResultsCache(voter.SerialNumber).GetBallots(ref issues);
             var ballotFromDb1 = ballots[issue1.SerialNumber];
             var ballotFromDb2 = ballots[issue2.SerialNumber];
 
@@ -229,8 +229,8 @@ namespace IntegrationTests
             var issue2 = new TestData().issue2.Build();
 
             //Act 
-            SharedResultViewer resultViewer = new SharedResultViewer();
-            var results = resultViewer.GetResults();
+            var issues = BallotIssue.Accessor.GetBallotIssues();
+            var results = new ResultAccessor().GetAllResults(issues);
 
             //Assert issue 1 results (2 for opt 1, 0 for opt 0)
             if (results[issue1.SerialNumber][0] != 2)
@@ -272,7 +272,6 @@ namespace IntegrationTests
             Console.WriteLine("    Testing get voter participation");
             //Arrange
             TestDataLoader.LoadIntTestDataForResultsViewer();
-            SharedResultViewer resultViewer = new();
             var voter1 = new TestData().voter.Build();
             var voter2 = new TestData().voter2.Build();
             var issue1 = new TestData().issue.Build();
@@ -282,10 +281,10 @@ namespace IntegrationTests
             Ballot.Accessor.RemoveBallot(ballot.SerialNumber);
 
             //Act
-            var participation = resultViewer.GetVoterParticipation();
+            var issues = BallotIssue.Accessor.GetBallotIssues();
+            var participation = new SharedResultCache().GetVoterParticipation();
             var partIssue1 = participation[issue1.SerialNumber];
             var partIssue2 = participation[issue2.SerialNumber];
-
 
             //Assert
             //Assert issue 1 participation
@@ -324,7 +323,7 @@ namespace IntegrationTests
         /// <summary>
         /// One big test to make sure the values are cached correctly
         /// </summary>
-        public static bool TestSharedViewer()
+        public static bool TestSharedCache()
         {
             Console.WriteLine("    Testing use shared viewer");
             //Arrange
@@ -338,11 +337,11 @@ namespace IntegrationTests
             var ballot3 = new TestData().ballot3.Build();
 
             //Act 
-            SharedResultViewer resultViewer = new SharedResultViewer();
-            var issues = resultViewer.GetBallotIssues();
-            var results = resultViewer.GetResults();
-            var ballots = resultViewer.GetBallots(voter1.SerialNumber);
-            var participation = resultViewer.GetVoterParticipation();
+            CacheManager cache = new ();
+            var issues = cache.GetBallotIssues();
+            var results = cache.GetResults();
+            var ballots = cache.GetBallots(voter1.SerialNumber);
+            var participation = cache.GetVoterParticipation();
 
             //Assert
             //Assert get issues is correct

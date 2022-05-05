@@ -3,7 +3,8 @@ DROP PROCEDURE IF EXISTS afetzner.add_ballot $$
 DROP PROCEDURE IF EXISTS afetzner.delete_ballot $$
 DROP PROCEDURE IF EXISTS afetzner.get_voters_ballot $$
 DROP PROCEDURE IF EXISTS afetzner.get_did_voter_participate $$
-DROP PROCEDURE IF EXISTS afetzner.get_election_results $$
+DROP PROCEDURE IF EXISTS afetzner.get_all_results $$
+DROP PROCEDURE IF EXISTS afetzner.get_issue_results $$
 DROP PROCEDURE IF EXISTS afetzner.check_ballot_serial $$
 
 CREATE PROCEDURE afetzner.add_ballot (
@@ -84,8 +85,8 @@ BEGIN
 END
 $$
 
--- Return total voter per option on an issue
-CREATE PROCEDURE afetzner.get_election_results ()
+-- Return total voter per option on all issues
+CREATE PROCEDURE afetzner.get_all_results ()
 BEGIN
 	SELECT ops.issue, ops.option, IF(ISNULL(votes.count), 0, votes.count) as 'count'
 		FROM (SELECT issue.serial_number as 'issue', issue.issue_id, issue_option.option_number as 'option', issue_option.option_id
@@ -93,6 +94,20 @@ BEGIN
 		LEFT JOIN (SELECT ballot.choice_id, count(*) AS 'count'
 			FROM ballot GROUP BY (ballot.choice_id)) votes
 		ON votes.choice_id = ops.option_id;
+END
+$$
+
+-- Retrun votes per option on a single issue
+CREATE PROCEDURE afetzner.get_issue_results (
+	IN `v_issueSerial` varchar(9))
+BEGIN
+	SELECT ops.option, IF(ISNULL(votes.count), 0, votes.count) as 'count'
+		FROM (SELECT issue.serial_number as 'issue', issue.issue_id, issue_option.option_number as 'option', issue_option.option_id
+			FROM issue RIGHT JOIN issue_option ON issue.issue_id = issue_option.issue_id) ops
+		LEFT JOIN (SELECT ballot.choice_id, count(*) AS 'count'
+			FROM ballot GROUP BY (ballot.choice_id)) votes
+		ON votes.choice_id = ops.option_id
+        WHERE ops.serial_number = `v_issueSerial`;
 END
 $$
 

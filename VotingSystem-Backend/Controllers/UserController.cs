@@ -6,6 +6,7 @@ namespace VotingSystem.Controller
     [ApiController]
     public class UserController : ControllerBase
     {
+        private static readonly CacheManager cache = CacheManager.SharedCacheManager;
 
         [HttpGet]
         [Route("api/user")]
