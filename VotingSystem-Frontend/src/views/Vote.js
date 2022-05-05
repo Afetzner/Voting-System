@@ -7,11 +7,18 @@ import axios from "axios";
 
 export default function Vote(props) {
   const [show, setShow] = useState(false);
-  const [polls, setPolls] = useState(undefined);
+  const [polls, setPolls] = useState();
   const [radioValue, setRadioValue] = useState([]);
   const [selection, setSelection] = useState([]);
   const [voted, setVoted] = useState([]);
   const [index, setIndex] = useState();
+  const [display, setDisplay] = useState(false);
+
+  async function timeout() {
+    await new Promise(res => setTimeout(res, 1000));
+    setDisplay(true);
+  }
+  timeout();
 
   useEffect(() => {
     console.log(radioValue, selection, voted);
@@ -125,6 +132,7 @@ export default function Vote(props) {
                   voted={voted[index]}
                   handleClick={handleClick}
                   handleChange={handleChange}
+                  display={display}
                 />) : <><Spinner animation="border" size="sm" />{" "}Loading...</>}
             </Accordion>
           </Card.Body>

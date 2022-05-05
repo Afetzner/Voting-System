@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Outlet, Routes, Route } from "react-router-dom";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "@devexpress/dx-react-chart-bootstrap4/dist/dx-react-chart-bootstrap4.css";
+// import "@devexpress/dx-react-chart-bootstrap4/dist/dx-react-chart-bootstrap4.css";
 import axios from "axios";
 import Header from "./components/Header";
 import SignIn from "./views/SignIn";
