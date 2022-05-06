@@ -12,6 +12,11 @@ function App() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("User")));
   const [remember, setRemember] = useState((user !== null));
 
+  // const root = useState({
+  //   user: JSON.parse(localStorage.getItem("User")),
+  //   remember: (root.user !== null)
+  // });
+
   useEffect(() => {
     localStorage.setItem("User", (user === null || !remember) ? null : JSON.stringify(user));
   }, [user, remember]);

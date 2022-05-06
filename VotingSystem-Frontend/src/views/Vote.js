@@ -9,20 +9,20 @@ export default function Vote(props) {
   const [show, setShow] = useState(false);
   const [polls, setPolls] = useState();
   const [radioValue, setRadioValue] = useState([]);
-  const [selection, setSelection] = useState([]);
+  const [choice, setChoice] = useState([]);
   const [voted, setVoted] = useState([]);
   const [index, setIndex] = useState();
   const [display, setDisplay] = useState([]);
 
   useEffect(() => {
-    console.log(radioValue, selection, voted);
-  }, [radioValue, selection, voted]);
+    console.log(radioValue, choice, voted);
+  }, [radioValue, choice, voted]);
 
   useEffect(() => {
     axios.get("https://localhost:7237/api/polls").then((response) => {
       setPolls(response.data);
       setRadioValue(Array(response.data.length).fill(""));
-      setSelection(Array(response.data.length).fill(""));
+      setChoice(Array(response.data.length).fill(0));
       setVoted(Array(response.data.length).fill(false));
       setDisplay(Array(response.data.length).fill(false));
       console.log(response.data);
@@ -31,54 +31,56 @@ export default function Vote(props) {
     });
   }, []);
 
-  // useEffect(() => {
-  //   if (props.user !== undefined && polls !== undefined) {
-  //     const radioValue = [];
-  //     const selection = [];
-  //     const voted = [];
-  //     for (let i = 0; i < polls.length; i++) {
-  //       axios.post("https://localhost:7237/api/voted",
-  //         props.user.serialNumber,
-  //         polls[i].serialNumber
-  //       ).then((response) => {
-  //         // console.log("VOTED:", response);
-  //         if (response === null) {
-  //           radioValue.push("");
-  //           selection.push("");
-  //           voted.push(false);
-  //         } else {
-  //           radioValue.push(`radio-${i}${response.number}`);
-  //           selection.push(response.title);
-  //           voted.push(true);
-  //         }
-  //         setRadioValue(radioValue);
-  //         setSelection(selection);
-  //         setVoted(voted);
-  //       }).catch(error => {
-  //         console.log(error);
-  //       });
-  //     }
-  //   }
-  // }, [props.user, polls]);
+  useEffect(() => {
+    if (props.user !== null && polls !== undefined) {
+      const radioValue = [];
+      const choice = [];
+      const voted = [];
+      for (let i = 0; i < polls.length; i++) {
+        axios.get("https://localhost:7237/api/voted", {
+            params: {
+              voterSerial: props.user.serialNumber,
+              issueSerial: polls[i].serialNumber
+            }
+          }
+        ).then((response) => {
+          if (response === -1) {
+            radioValue.push("");
+            choice.push(0);
+            voted.push(false);
+          } else {
+            radioValue.push(`radio-${i}${response.data}`);
+            choice.push(response.data);
+            voted.push(true);
+          }
+          setRadioValue(radioValue);
+          setChoice(choice);
+          setVoted(voted);
+        }).catch(error => {
+          console.log(error);
+        });
+      }
+    }
+  }, [props.user, polls]);
 
   useEffect(() => {
     if (props.user === null) {
       setRadioValue([]);
-      setSelection([]);
+      setChoice([]);
       setVoted([]);
     }
   }, [props.user]);
 
-  const handleChange = (event, item, index) => {
+  const handleChange = (event, number, index) => {
     setRadioValue([
       ...radioValue.slice(0, index),
       event.currentTarget.value,
       ...radioValue.slice(index + 1)
     ]);
-    setSelection([
-      ...selection.slice(0, index),
-      item,
-      ...selection.slice(index + 1)
+    setChoice([
+      ...choice.slice(0, index),
+      number,
+      ...choice.slice(index + 1)
     ]);
   };
 
@@ -97,8 +99,7 @@ export default function Vote(props) {
     axios.post("https://localhost:7237/api/vote",
       props.user.serialNumber,
       polls[index].serialNumber,
-      selection[index].number,
-      selection[index].title
+      choice[index]
     ).then((response) => {
       console.log(response);
     }).catch(error => {

@@ -9,21 +9,6 @@ namespace VotingSystem.Controller
         private static readonly ResultCacheManager cache = ResultCacheManager.SharedCacheManager;
 
         [HttpGet]
-        [Route("api/user")]
-        public IUser GetUser()
-        {
-            IUser user = new Voter.Builder()
-                .WithSerialNumber("U12345678")
-                .WithUsername("abusch8")
-                .WithPassword("a34V&3d")
-                .WithEmail("abusch8@huskers.unl.edu")
-                .WithLastName("Busch")
-                .WithFirstName("Alex")
-                .Build();
-            return user; 
-        }
-
-        [HttpGet]
         [Route("api/sign-in")]
         public IUser? GetSignIn(string username, string password)
         {

@@ -46,7 +46,7 @@ function Response(props) {
                 variant="outline-primary"
                 value={value}
                 checked={(props.radioValue === value)}
-                onChange={(event) => props.handleChange(event, option, props.index)}
+                onChange={(event) => props.handleChange(event, option.number, props.index)}
                 disabled={props.user === null || props.isAdmin === true || props.poll.isEnded || props.voted}
               >{option.title}</ToggleButton>);
             })}

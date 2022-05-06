@@ -73,6 +73,7 @@ export default function SignIn(props) {
                 type="checkbox"
                 label="Remember me"
                 value={props.remember}
+                checked={props.remember}
                 onChange={() => props.setRemember(!props.remember)} />
             </Form.Group>
             <Form.Group className="submit">
