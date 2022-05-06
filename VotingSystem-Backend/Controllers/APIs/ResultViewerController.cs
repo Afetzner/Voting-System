@@ -13,13 +13,6 @@ namespace VotingSystem.Controller
         private static readonly ResultCacheManager cache = ResultCacheManager.SharedCacheManager;
 
         [HttpGet]
-        [Route("api/polls")]
-        public List<BallotIssue> GetBallotIssues()
-        {
-            return cache.GetIssues();
-        }
-
-        [HttpGet]
         [Route("api/issueResults")]
         public List<int> GetIssueResults(string issueSerial)
         {
