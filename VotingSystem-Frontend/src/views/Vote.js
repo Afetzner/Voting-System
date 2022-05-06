@@ -12,12 +12,13 @@ export default function Vote(props) {
   const [choice, setChoice] = useState([]);
   const [voted, setVoted] = useState([]);
   const [index, setIndex] = useState(null);
-  const [display, setDisplay] = useState([]);
+  const [render, setRender] = useState([]);
   const [result, setResult] = useState([]);
 
   useEffect(() => {
     console.log(radioValue, choice, voted);
   }, [radioValue, choice, voted]);
+
 
   /* Retrieve all ballot issues */
   useEffect(() => {
@@ -26,13 +27,14 @@ export default function Vote(props) {
       setRadioValue(Array(response.data.length).fill("")); // Initialize state arrays
       setChoice(Array(response.data.length).fill(0));
       setVoted(Array(response.data.length).fill(false));
-      setDisplay(Array(response.data.length).fill(false));
+      setRender(Array(response.data.length).fill(false));
       setResult(Array(response.data.length).fill([]));
       console.log(response.data);
     }).catch((error) => {
       console.log(error);
     });
   }, []);
+
 
   /* Retrieve all ballot issue responses of currently signed in user */
   useEffect(() => {
@@ -68,6 +70,7 @@ export default function Vote(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [polls]);
 
+
   /* Clear state arrays on user sign out */
   useEffect(() => {
     if (props.user === null) {
@@ -77,6 +80,7 @@ export default function Vote(props) {
     }
   }, [props.user]);
 
+  /* User selection updater */
   const handleChange = (event, number, index) => {
     setRadioValue([
       ...radioValue.slice(0, index),
@@ -90,6 +94,8 @@ export default function Vote(props) {
     ]);
   };
 
+
+  /* Handle user vote submmision */
   const handleClick = (index) => {
     setShow(true);
     setIndex(index);
@@ -115,23 +121,26 @@ export default function Vote(props) {
     });
   };
 
+
+  /* Results graph render controller */
   const sleep = (ms) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   };
 
-  const handleDisplay = (index) => {
+  const handleRender = (index) => {
     sleep(150).then(() => {
       if (polls[index].isEnded) {
-        const buffer = Array(polls.length).fill(false);
-        buffer[index] = !display[index];
-        setDisplay(buffer);
+        const buffer = Array(polls.length).fill(false); // prevent two graphs from rendering simultaneously
+        buffer[index] = !render[index];
+        setRender(buffer);
       }
     });
   };
 
   useEffect(() => {
-    console.log(display);
-  }, [display]);
+    console.log(render);
+  }, [render]);
+
 
   return (
     <>
@@ -155,8 +164,8 @@ export default function Vote(props) {
                   voted={voted[index]}
                   handleClick={handleClick}
                   handleChange={handleChange}
-                  display={display[index]}
-                  handleDisplay={handleDisplay}
+                  render={render[index]}
+                  handleRender={handleRender}
                 />) : <><Spinner animation="border" size="sm" />{" "}Loading...</>}
             </Accordion>
           </Card.Body>

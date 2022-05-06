@@ -3,7 +3,7 @@ import { Animation } from "@devexpress/dx-react-chart";
 import "@devexpress/dx-react-chart-bootstrap4/dist/dx-react-chart-bootstrap4.css";
 
 export default function ResultsChart(props) {
-  if (props.display) {
+  if (props.render) {
     return (
       <div>
         <Chart data={props.data}>

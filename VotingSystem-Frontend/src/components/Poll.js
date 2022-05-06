@@ -18,7 +18,7 @@ function Result(props) {
       <Accordion.Item eventKey={0}>
         <Accordion.Header>Results</Accordion.Header>
         <Accordion.Body>
-          <ResultsChart data={data} display={props.display} />
+          <ResultsChart data={data} render={props.render} />
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey={1}>
@@ -74,7 +74,7 @@ function Response(props) {
 export default function Poll(props) {
   return (
     <Accordion.Item key={props.index} eventKey={props.index}>
-      <Accordion.Header onClick={() => props.handleDisplay(props.index)}>
+      <Accordion.Header onClick={() => props.handleRender(props.index)}>
         <Container>
           <strong>{props.poll.title}</strong>
         </Container>
@@ -93,7 +93,7 @@ export default function Poll(props) {
               voted={props.voted}
               handleClick={props.handleClick}
               handleChange={props.handleChange}
-              display={props.display} />
+              render={props.render} />
           : <Response
               poll={props.poll}
               user={props.user}
