@@ -10,9 +10,9 @@ namespace VotingSystem.Controller
 
         [HttpGet]
         [Route("api/polls")]
-        public Dictionary<string, BallotIssue> GetBallotIssues()
+        public List<BallotIssue> GetBallotIssues()
         {   
-            return cache.GetIssues();
+            return cache.GetIssues().Values.ToList();
         }
     }
 }

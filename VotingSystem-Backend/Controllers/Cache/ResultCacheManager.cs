@@ -47,6 +47,7 @@ namespace VotingSystem.Controller
         /// </summary>
         private static void SpawnUserCache(string voterSerial)
         {
+            Console.WriteLine($@"Adding user {voterSerial} to cached users");
             UserResultsCache userViewer = new(voterSerial);
             UserChaches.Add(voterSerial, userViewer);
         }
@@ -58,6 +59,7 @@ namespace VotingSystem.Controller
         //Call when a user logs in (user data needs to be refreshed)
         public void ForgetUserCache(string voterSerial)
         {
+            Console.WriteLine($@"Forgetting cached user {voterSerial}");
             UserChaches.Remove(voterSerial);
         }
 

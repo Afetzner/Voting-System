@@ -2,6 +2,7 @@
 DROP PROCEDURE IF EXISTS afetzner.add_user $$
 DROP PROCEDURE IF EXISTS afetzner.delete_user $$
 DROP PROCEDURE IF EXISTS afetzner.get_user $$
+DROP PROCEDURE IF EXISTS afetzner.get_user_by_email $$
 DROP PROCEDURE IF EXISTS afetzner.check_user_serial $$
 DROP PROCEDURE IF EXISTS afetzner.check_username $$
 
@@ -77,6 +78,25 @@ BEGIN
     FROM user 
     WHERE email = `v_email` AND password = `v_password`
 	LIMIT 1;
+END
+$$
+
+CREATE PROCEDURE afetzner.get_user_by_email (
+    IN v_email varchar(63),
+    IN v_password varchar(31),
+
+    OUT v_username varchar(31),
+    OUT v_firstName varchar(31),
+    OUT v_lastName varchar(31),
+    OUT v_serialNumber varchar(9),
+    OUT v_isAdmin bool,
+    OUT v_isNull bool)
+BEGIN
+    SET v_isNull = NOT EXISTS (SELECT 1 FROM user WHERE email = v_email AND password = v_password);
+    SELECT username, first_name, last_name, serial_number, is_admin INTO v_username, v_firstName, v_lastName, v_serialNumber, v_isAdmin
+    FROM user 
+    WHERE email = v_email AND password = v_password
+    LIMIT 1;
 END
 $$
 
