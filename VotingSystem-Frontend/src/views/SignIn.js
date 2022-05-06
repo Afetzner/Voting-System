@@ -1,6 +1,6 @@
 import "./SignIn.css";
 import { useState } from "react";
-import { Alert, Button, Form, Card } from "react-bootstrap";
+import { Alert, Button, Card, Form, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -18,27 +18,32 @@ export default function SignIn(props) {
   const [show, setShow] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    console.log(username, password);
-    await axios.get("https://localhost:7237/api/sign-in", {
-      params: {
-        username: username,
-        password: password
-      }
-    }).then((response) => {
-      if (response.data.serialNumber === "") {
-        setShow(true);
-      } else {
-        setShow(false);
-        props.setUser(response.data);
-        navigate("/");
-      }
-      console.log(response.data);
-    }).catch((error) => {
-      console.log(error);
-    });
+    if (username !== "" && password !== "") {
+      console.log(username, password);
+      setLoading(true);
+      await axios.get("https://localhost:7237/api/sign-in", {
+        params: {
+          username: username,
+          password: password
+        }
+      }).then((response) => {
+        if (response.data.serialNumber === "") {
+          setShow(true);
+        } else {
+          setShow(false);
+          props.setUser(response.data);
+          navigate("/");
+        }
+        console.log(response.data);
+      }).catch((error) => {
+        console.log(error);
+      });
+      setLoading(false);
+    }
   };
 
   return (
@@ -66,7 +71,11 @@ export default function SignIn(props) {
               <Form.Check type="checkbox" label="Remember me"/>
             </Form.Group>
             <Form.Group className="submit">
-              <Button varient="primary" onClick={handleSubmit}>Submit</Button>
+              <Button varient="primary" onClick={handleSubmit}>
+                Submit{" "}{(loading)
+                  ? <Spinner animation="border" size="sm" role="status" aria-hidden="true" />
+                  : undefined}
+              </Button>
             </Form.Group>
             <Form.Text>
               Must be a registered voter to sign in.<br/>
