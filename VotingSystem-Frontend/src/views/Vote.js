@@ -33,19 +33,19 @@ export default function Vote(props) {
 
   useEffect(() => {
     if (props.user !== null && polls !== null) {
-      for (let i = 0; i < polls.length; i++) {
-        console.log(props.user.serialNumber, polls[i].serialNumber);
+      for (let index = 0; index < polls.length; index++) {
+        console.log(props.user.serialNumber, polls[index].serialNumber);
         axios.get("https://localhost:7237/api/voterIssueBallot", {
           params: {
             voterSerial: props.user.serialNumber,
-            issueSerial: polls[i].serialNumber
+            issueSerial: polls[index].serialNumber
           }
         }).then((response) => {
           console.log("RESPONSES: ", response.data);
           if (response.data !== -1) {
             setRadioValue([
               ...radioValue.slice(0, index),
-              `radio-${i}${response.data}`,
+              `radio-${index}${response.data}`,
               ...radioValue.slice(index + 1)
             ]);
             setChoice([
