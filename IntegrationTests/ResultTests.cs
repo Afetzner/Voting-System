@@ -81,28 +81,19 @@ namespace IntegrationTests
             Console.WriteLine("    Testing results get issues");
             TestDataLoader.LoadIntTestDataForResultsViewer();
             SharedResultCache resultsCache = new();
-            var issues = resultsCache.GetBallotIssues();
+            var issues = resultsCache.CacheBallotIssues();
             var issue1 = new TestData().issue.Build();
             var issue2 = new TestData().issue2.Build();
 
-            if (!issues.Exists(x => x.Title == issue1.Title
-                                && x.SerialNumber == issue1.SerialNumber
-                                && x.StartDate == issue1.StartDate
-                                && x.EndDate == issue1.EndDate
-                                && x.IsEnded == issue1.IsEnded) ||
-                
-                !issues.Exists(x => x.Title == issue2.Title
-                                && x.SerialNumber == issue2.SerialNumber
-                                && x.StartDate == issue2.StartDate
-                                && x.EndDate == issue2.EndDate
-                                && x.IsEnded == issue2.IsEnded))
+            if (!issues.ContainsKey(issue1.SerialNumber) ||
+                !issues.ContainsKey(issue2.SerialNumber))
             {
                 Console.WriteLine("(F) Results get issues failed: no match in gotten issues");
                 Console.WriteLine(@$"    issues to match: s:'{issue1.SerialNumber}', t:'{issue1.Title}'");
                 Console.WriteLine(@$"                     s:'{issue2.SerialNumber}', t:'{issue2.Title}'");
                 Console.WriteLine("    issues from db:");
 
-                foreach (var gotten in issues)
+                foreach (var gotten in issues.Values)
                 {
                     Console.WriteLine(@$"                     s:'{gotten.SerialNumber}', t:'{gotten.Title}'");
                 }
@@ -282,7 +273,7 @@ namespace IntegrationTests
 
             //Act
             var issues = ResultAccessor.Instance.GetBallotIssues();
-            var participation = new SharedResultCache().GetVoterParticipation();
+            var participation = new SharedResultCache().CacheVoterParticipation();
             var partIssue1 = participation[issue1.SerialNumber];
             var partIssue2 = participation[issue2.SerialNumber];
 
@@ -345,8 +336,8 @@ namespace IntegrationTests
 
             //Assert
             //Assert get issues is correct
-            if (!issues.Exists(x => x.SerialNumber == issue1.SerialNumber) ||
-                !issues.Exists(x => x.SerialNumber == issue2.SerialNumber))
+            if (!issues.ContainsKey(issue1.SerialNumber) ||
+                !issues.ContainsKey(issue2.SerialNumber))
             {
                 Console.WriteLine("(F) use shared viewer failed: issues not contained");
                 return false;

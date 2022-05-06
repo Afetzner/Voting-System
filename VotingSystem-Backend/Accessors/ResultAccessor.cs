@@ -210,7 +210,7 @@ namespace VotingSystem.Accessor
                     }
                     using (var reader = cmd.ExecuteReader())
                     {
-                        var results = MakeMapFromList(issues);
+                        var results = MakeMapFromList(ref issues);
                         while (reader.Read())
                         {
                             string issueSerial = reader.GetString(0);
@@ -227,7 +227,7 @@ namespace VotingSystem.Accessor
             }
         }
 
-        private Dictionary<string, Dictionary<int, int>> MakeMapFromList(List<BallotIssue> issues)
+        private static Dictionary<string, Dictionary<int, int>> MakeMapFromList(ref List<BallotIssue> issues)
         {
             Dictionary<string, Dictionary<int, int>> map = new ();
             foreach (BallotIssue issue in issues)
@@ -242,7 +242,7 @@ namespace VotingSystem.Accessor
             return map;
         }
 
-        private bool VerifyResults(Dictionary<string, Dictionary<int, int>> results)
+        private static bool VerifyResults(Dictionary<string, Dictionary<int, int>> results)
         {
             foreach (var i in results.Keys)
                 foreach (var j in results[i].Keys)

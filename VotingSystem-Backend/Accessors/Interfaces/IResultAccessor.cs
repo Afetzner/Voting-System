@@ -31,6 +31,7 @@ namespace VotingSystem.Accessor
         /// </summary>
         /// <exception cref="MySqlException">Bad connection to DB</exception>
         public Dictionary<string,Dictionary<int, int>> GetAllResults(List<BallotIssue> issues);
+
     }
 }
 
