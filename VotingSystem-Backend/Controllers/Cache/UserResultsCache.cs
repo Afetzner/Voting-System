@@ -21,7 +21,7 @@ namespace VotingSystem.Controller
         /// </summary>
         /// <returns>Map: issue-serial --> voter's ballot on issue </returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public Dictionary<string, Ballot?> GetBallots(ref List<BallotIssue> issues)
+        public Dictionary<string, Ballot?> GetCacheBallots(ref List<BallotIssue> issues)
         {
             //Return cached
             if (_ballots != null)

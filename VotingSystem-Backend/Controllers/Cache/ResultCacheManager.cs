@@ -12,35 +12,44 @@ namespace VotingSystem.Controller
         public static readonly ResultCacheManager SharedCacheManager = new();
         private static readonly SharedResultCache SharedCache = new();
         private static readonly Dictionary<string, UserResultsCache> UserChaches = new();
+        
+        private static bool haltGetBallots = false;
 
         //Routed to shared cache
         public Dictionary<string, BallotIssue> GetIssues()
         {
-            return SharedCache.CacheBallotIssues();
+            return SharedCache.GetCacheBallotIssues();
         }
 
         public Dictionary<string, Dictionary<int, int>> GetResults()
         {
-            return SharedCache.CacheResults();
+            return SharedCache.GetCacheResults();
         }
 
         public Dictionary<string, List<Voter>> GetVoterParticipation()
         {
-            return SharedCache.CacheVoterParticipation();
+            return SharedCache.GetCacheVoterParticipation();
         }
 
         //Routed to user caches
         public Dictionary<string, Ballot?> GetBallots(string voterSerial)
         {
-            var issues = SharedCache.CacheBallotIssues().Values.ToList();
-
+            while (haltGetBallots)
+                Thread.Sleep(1000);
+            
             if (!UserChaches.ContainsKey(voterSerial))
             {
+                haltGetBallots = true; //Halt other threads
                 SpawnUserCache(voterSerial);
             }
-            return UserChaches[voterSerial].GetBallots(ref issues);
-        }
 
+            var issues = SharedCache.GetCacheBallotIssues().Values.ToList();
+            var result = UserChaches[voterSerial].GetCacheBallots(ref issues);
+            
+            haltGetBallots = false; //Resume other threads
+
+            return result;
+        }
 
         /// <summary>
         /// Create a new instance of a User cache
@@ -49,6 +58,8 @@ namespace VotingSystem.Controller
         {
             Console.WriteLine($@"Adding user {voterSerial} to cached users");
             UserResultsCache userViewer = new(voterSerial);
+            if (UserChaches.ContainsKey(voterSerial))
+                return;
             UserChaches.Add(voterSerial, userViewer);
         }
 

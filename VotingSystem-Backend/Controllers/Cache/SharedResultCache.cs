@@ -15,7 +15,7 @@ namespace VotingSystem.Controller
         //Each of these are assigned ON-DEMAND
         //I.e. we don't want to grab everything in the constructer, 
         //Fill it out as needed and cache it
-        private Dictionary<string, BallotIssue>? _issues;                              // All ballot-issues
+        private Dictionary<string, BallotIssue>? _issues;                // All ballot-issues
         private Dictionary<string, Dictionary<int, int>?>? _results;     // Vote counts for each issue option
         private Dictionary<string, List<Voter>?>? _voterParticipation;   // List of voters who participated in each issue
         
@@ -25,7 +25,7 @@ namespace VotingSystem.Controller
         /// Retrives all the issues from the DB
         /// </summary>
         /// <returns>List of issues (fixed order)</returns>
-        public Dictionary<string, BallotIssue> CacheBallotIssues()
+        public Dictionary<string, BallotIssue> GetCacheBallotIssues()
         {
             //Return cache
             if (_issues != null)
@@ -43,10 +43,10 @@ namespace VotingSystem.Controller
         /// Retrieves the poll results of every issue from the DB
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, Dictionary<int, int>> CacheResults()
+        public Dictionary<string, Dictionary<int, int>> GetCacheResults()
         {
             //Get cached issues if exists else from db
-            _issues = CacheBallotIssues();
+            _issues = GetCacheBallotIssues();
 
             // Batch get all issue results
             if (_results == null)
@@ -70,10 +70,10 @@ namespace VotingSystem.Controller
         /// </summary>
         /// <returns>Map 'issue-serial' --> list of participating voters</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public Dictionary<string,List<Voter>> CacheVoterParticipation()
+        public Dictionary<string,List<Voter>> GetCacheVoterParticipation()
         {
             //Get cached issues if exists else from db
-            _issues = CacheBallotIssues();
+            _issues = GetCacheBallotIssues();
             
             if (_voterParticipation == null)
                 _voterParticipation = new Dictionary<string, List<Voter>?>();

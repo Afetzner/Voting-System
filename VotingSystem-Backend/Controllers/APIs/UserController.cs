@@ -12,13 +12,13 @@ namespace VotingSystem.Controller
         [Route("api/sign-in")]
         public IUser? GetSignIn(string username, string password)
         {
-            Console.WriteLine("USERNAME: " + username);
-            Console.WriteLine("PASSWORD: " + password);
             IUser? user = UserManager.GetUser(username, password);
             if (user == null)
             {
+                Console.WriteLine(@$"User w/ u:'{username}' p:'{password}' does not exist");
                 return new Voter();
             }
+            Console.WriteLine(@$"Signing in user s:'{user.SerialNumber}' w/ u:'{username}' p:'{password}'");
             return user;
         }
 
@@ -26,13 +26,13 @@ namespace VotingSystem.Controller
         [Route("api/sign-in-email")]
         public IUser? GetSignInEmail(string email, string password)
         {
-            Console.WriteLine("USERNAME: " + email);
-            Console.WriteLine("PASSWORD: " + password);
             IUser? user = UserManager.GetUser(email, password);
             if (user == null)
             {
+                Console.WriteLine(@$"User w/ e:'{email}' p:'{password}' does not exist");
                 return new Voter();
             }
+            Console.WriteLine(@$"Signing in user s:'{user.SerialNumber}' w/ u:'{email}' p:'{password}'");
             return user;
         }
 

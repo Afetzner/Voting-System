@@ -8,7 +8,7 @@ namespace VotingSystem.Controller
     // ======================
 
     [ApiController]
-    public class ResultViewerController : ControllerBase
+    public class ResultController : ControllerBase
     {
         private static readonly ResultCacheManager cache = ResultCacheManager.SharedCacheManager;
 
@@ -22,7 +22,7 @@ namespace VotingSystem.Controller
                 Console.WriteLine(@$"Warning: get issues results for issue not in cache {issueSerial}");
                 return new List<int>();
             }
-            //issueSerial not gotten in cache == Something terrible happend
+            //issueSerial not gotten in cache => Something terrible happend
             if (!cache.GetResults().ContainsKey(issueSerial))
             {
                 Console.WriteLine($@"Critical Warning! get issues results results not found in cache");

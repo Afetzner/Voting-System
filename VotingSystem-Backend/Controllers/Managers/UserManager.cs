@@ -24,8 +24,7 @@ namespace VotingSystem.Controller
             IUser? user = Voter.Accessor.GetUser(username, password);
             if (user == null)
                 user = Admin.Accessor.GetUser(username, password);
-
-            if (user != null)
+            else
                 _cacheManager.ForgetUserCache(user.SerialNumber);
 
             return user;
