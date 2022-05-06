@@ -12,9 +12,8 @@ namespace VotingSystem.Controller
         public static readonly ResultCacheManager SharedCacheManager = new();
         private static readonly SharedResultCache SharedCache = new();
         private static readonly Dictionary<string, UserResultsCache> UserChaches = new();
+        private static bool _halt = false;
         
-        private static bool haltGetBallots = false;
-
         //Routed to shared cache
         public Dictionary<string, BallotIssue> GetIssues()
         {
@@ -34,19 +33,19 @@ namespace VotingSystem.Controller
         //Routed to user caches
         public Dictionary<string, Ballot?> GetBallots(string voterSerial)
         {
-            while (haltGetBallots)
+            while (_halt)
                 Thread.Sleep(1000);
             
             if (!UserChaches.ContainsKey(voterSerial))
             {
-                haltGetBallots = true; //Halt other threads
+                _halt = true; //Halt other threads
                 SpawnUserCache(voterSerial);
             }
 
             var issues = SharedCache.GetCacheBallotIssues().Values.ToList();
             var result = UserChaches[voterSerial].GetCacheBallots(ref issues);
             
-            haltGetBallots = false; //Resume other threads
+            _halt = false; //Resume other threads
 
             return result;
         }
