@@ -29,7 +29,7 @@ export default function Vote(props) {
       setVoted(Array(response.data.length).fill(false));
       setRender(Array(response.data.length).fill(false));
       setResult(Array(response.data.length).fill([]));
-      console.log(response.data);
+      console.log(response);
     }).catch((error) => {
       console.log(error);
     });
@@ -40,9 +40,11 @@ export default function Vote(props) {
   useEffect(() => {
     if (props.user !== null && polls !== null) {
       const responses = async () => {
-        const radioValue = Array(polls.length).fill("");
-        const choice = Array(polls.length).fill(0);
-        const voted = Array(polls.length).fill(false);
+        const buffer = [
+          Array(polls.length).fill(""),
+          Array(polls.length).fill(0),
+          Array(polls.length).fill(false)
+        ];
         for (let index = 0; index < polls.length; index++) {
           console.log(props.user.serialNumber, polls[index].serialNumber);
           await axios.get("https://localhost:7237/api/voterIssueBallot", { // Wait for response before making next call
@@ -52,18 +54,18 @@ export default function Vote(props) {
             }
           }).then((response) => {
             if (response.data !== -1) {
-              radioValue[index] = `radio-${index}${response.data}`;
-              choice[index] = response.data;
-              voted[index] = true;
+              buffer[0][index] = `radio-${index}${response.data}`;
+              buffer[1][index] = response.data;
+              buffer[2][index] = true;
             }
             console.log(response);
           }).catch((error) => {
             console.log(error);
           });
         }
-        setRadioValue(radioValue);
-        setChoice(choice);
-        setVoted(voted);
+        setRadioValue(buffer[0]);
+        setChoice(buffer[1]);
+        setVoted(buffer[2]);
       };
       responses();
     }
@@ -79,6 +81,7 @@ export default function Vote(props) {
       setVoted([]);
     }
   }, [props.user]);
+
 
   /* User selection updater */
   const handleChange = (event, number, index) => {
@@ -138,7 +141,7 @@ export default function Vote(props) {
   };
 
   useEffect(() => {
-    console.log(render);
+    console.log("render:", render);
   }, [render]);
 
 
