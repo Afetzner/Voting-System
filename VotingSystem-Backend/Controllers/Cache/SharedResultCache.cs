@@ -15,7 +15,7 @@ namespace VotingSystem.Controller
         //Each of these are assigned ON-DEMAND
         //I.e. we don't want to grab everything in the constructer, 
         //Fill it out as needed and cache it
-        private List<BallotIssue>? _issues;                              // All ballot-issues
+        private Dictionary<string, BallotIssue>? _issues;                              // All ballot-issues
         private Dictionary<string, Dictionary<int, int>?>? _results;     // Vote counts for each issue option
         private Dictionary<string, List<Voter>?>? _voterParticipation;   // List of voters who participated in each issue
         
@@ -25,16 +25,17 @@ namespace VotingSystem.Controller
         /// Retrives all the issues from the DB
         /// </summary>
         /// <returns>List of issues (fixed order)</returns>
-        public List<BallotIssue> CacheBallotIssues()
+        public Dictionary<string, BallotIssue> CacheBallotIssues()
         {
             //Return cache
             if (_issues != null)
                 return _issues;
 
             //Get and cache issues
-            _issues = new List<BallotIssue>();
-            _issues = Accessor.GetBallotIssues();
-
+            _issues = new Dictionary<string, BallotIssue>();
+            var issuesLst = Accessor.GetBallotIssues();
+            foreach (var issue in issuesLst)
+                _issues.Add(issue.SerialNumber, issue);
             return _issues;
         }
 
@@ -50,13 +51,13 @@ namespace VotingSystem.Controller
             // Batch get all issue results
             if (_results == null)
 #pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
-                _results = Accessor.GetAllResults(_issues);
+                _results = Accessor.GetAllResults(_issues.Values.ToList());
 #pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
                               //Get issue results only for forgoten results
             else
-                foreach (var issue in _issues)
-                    if (!_results.ContainsKey(issue.SerialNumber))
-                        _results.Add(issue.SerialNumber, Accessor.GetIssueResults(issue.SerialNumber));
+                foreach (var issue in _issues.Keys)
+                    if (!_results.ContainsKey(issue))
+                        _results.Add(issue, Accessor.GetIssueResults(issue));
 
             //All values *should* be non-null after above loop
 #pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
@@ -78,13 +79,13 @@ namespace VotingSystem.Controller
                 _voterParticipation = new Dictionary<string, List<Voter>?>();
 
             //Get cached particpation if exist, otherwise from db
-            foreach (var issue in _issues)
+            foreach (var issue in _issues.Keys)
             {
                 //Get issue particpation if not cached
-                if (!_voterParticipation.ContainsKey(issue.SerialNumber))
+                if (!_voterParticipation.ContainsKey(issue))
                 {
-                    List<Voter> issueParticipants = Accessor.GetVoterParticipation(issue.SerialNumber);
-                    _voterParticipation.Add(issue.SerialNumber, issueParticipants);
+                    List<Voter> issueParticipants = Accessor.GetVoterParticipation(issue);
+                    _voterParticipation.Add(issue, issueParticipants);
                 }
             }
             //All values *should* be non-null after above loop

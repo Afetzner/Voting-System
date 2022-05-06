@@ -14,7 +14,7 @@ namespace VotingSystem.Controller
         private static readonly Dictionary<string, UserResultsCache> UserChaches = new();
 
         //Routed to shared cache
-        public List<BallotIssue> GetIssues()
+        public Dictionary<string, BallotIssue> GetIssues()
         {
             return SharedCache.CacheBallotIssues();
         }
@@ -32,7 +32,7 @@ namespace VotingSystem.Controller
         //Routed to user caches
         public Dictionary<string, Ballot?> GetBallots(string voterSerial)
         {
-            var issues = SharedCache.CacheBallotIssues();
+            var issues = SharedCache.CacheBallotIssues().Values.ToList();
 
             if (!UserChaches.ContainsKey(voterSerial))
             {
