@@ -59,14 +59,14 @@ export default function SignIn(props) {
               <Form.Control
                 type="username"
                 placeholder="Enter your username or email address"
-                onChange={(e) => (setUsername(e.target.value))} />
+                onChange={(event) => (setUsername(event.target.value))} />
             </Form.Group>
             <Form.Group className="password">
               <Form.Label>Password:</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Enter your password"
-                onChange={(e) => (setPassword(e.target.value))} />
+                onChange={(event) => (setPassword(event.target.value))} />
             </Form.Group>
             <Form.Group className="checkbox">
               <Form.Check
@@ -78,9 +78,7 @@ export default function SignIn(props) {
             </Form.Group>
             <Form.Group className="submit">
               <Button varient="primary" onClick={handleSubmit}>
-                Submit{" "}{(loading)
-                  ? <Spinner animation="border" size="sm" role="status" aria-hidden="true" />
-                  : undefined}
+                Submit{" "}{(loading) ? <Spinner animation="border" size="sm" /> : undefined}
               </Button>
             </Form.Group>
             <Form.Text>

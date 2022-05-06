@@ -40,10 +40,10 @@ function AccountInfo(props) {
         </Modal.Header>
         <Modal.Body>
             {(props.user.isAdmin) ? <strong>### ADMIN ACCOUNT ###<br /></strong> : undefined}
-            Name: {props.user.firstName + " " + props.user.lastName}<br />
-            Username: {props.user.username} <br />
-            Email: {props.user.email}<br />
-            Serial: {props.user.serialNumber}<br />
+            <strong>Name: </strong>{props.user.firstName + " " + props.user.lastName}<br />
+            <strong>Username: </strong>{props.user.username}<br />
+            <strong>Email: </strong>{props.user.email}<br />
+            <strong>Serial: </strong>{props.user.serialNumber}<br />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={() => props.setShow(false)}>Close</Button>
@@ -93,6 +93,7 @@ function UserDropdown(props) {
 
 export default function Header(props) {
   const [show, setShow] = useState(false);
+
   return (
     <>
       {(props.user !== null) ? <AccountInfo show={show} setShow={setShow} user={props.user} /> : undefined}

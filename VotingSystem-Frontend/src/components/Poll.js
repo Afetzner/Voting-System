@@ -47,7 +47,7 @@ function Response(props) {
                 value={value}
                 checked={(props.radioValue === value)}
                 onChange={(event) => props.handleChange(event, option.number, props.index)}
-                disabled={props.user === null || props.isAdmin === true || props.poll.isEnded || props.voted}
+                disabled={props.user === null || props.poll.isEnded || props.voted}
               >{option.title}</ToggleButton>);
             })}
           </ButtonGroup>
@@ -55,7 +55,7 @@ function Response(props) {
             className="confirm-button"
             variant="success"
             onClick={() => props.handleClick(props.index)}
-            disabled={props.user === null || props.isAdmin === true || props.radioValue === "" || props.poll.isEnded || props.voted}
+            disabled={props.user === null || props.radioValue === "" || props.poll.isEnded || props.voted}
           >Confirm Selection</Button>
         </div>
       </Form.Group>

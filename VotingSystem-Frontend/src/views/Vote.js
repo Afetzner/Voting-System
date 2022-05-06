@@ -7,11 +7,11 @@ import axios from "axios";
 
 export default function Vote(props) {
   const [show, setShow] = useState(false);
-  const [polls, setPolls] = useState();
+  const [polls, setPolls] = useState(null);
   const [radioValue, setRadioValue] = useState([]);
   const [choice, setChoice] = useState([]);
   const [voted, setVoted] = useState([]);
-  const [index, setIndex] = useState();
+  const [index, setIndex] = useState(null);
   const [display, setDisplay] = useState([]);
 
   useEffect(() => {
@@ -32,8 +32,9 @@ export default function Vote(props) {
   }, []);
 
   useEffect(() => {
-    if (props.user !== null && polls !== undefined) {
+    if (props.user !== null && polls !== null) {
       for (let i = 0; i < polls.length; i++) {
+        console.log(props.user.serialNumber, polls[i].serialNumber);
         axios.get("https://localhost:7237/api/voterIssueBallot", {
             params: {
               voterSerial: props.user.serialNumber,
@@ -138,7 +139,7 @@ export default function Vote(props) {
         <Card>
           <Card.Body className="vote-selection">
             <Accordion>
-              {(polls !== undefined) ? polls.map((item, index) =>
+              {(polls !== null) ? polls.map((item, index) =>
                 <Poll
                   key={index}
                   poll={item}
