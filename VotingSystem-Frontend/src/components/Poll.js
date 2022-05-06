@@ -1,8 +1,6 @@
 import "./Poll.css";
 import { Accordion, Badge, Button, ButtonGroup, Container, Form, ToggleButton } from "react-bootstrap";
 import ResultsChart from "../components/ResultsChart";
-import { useEffect } from "react";
-import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 
 function Result(props) {
   const data = [

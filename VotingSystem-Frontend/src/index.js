@@ -19,7 +19,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout user={user} setUser={setUser} />}>
+        <Route path="/" element={<Layout user={user} setUser={setUser} setRemember={setRemember} />}>
           <Route index element={<Vote user={user} setUser={setUser} />} />
           <Route path="sign-in" element={<SignIn user={user} setUser={setUser} remember={remember} setRemember={setRemember} />} />
         </Route>
@@ -31,7 +31,7 @@ function App() {
 function Layout(props) {
   return (
     <>
-      <Header user={props.user} setUser={props.setUser} />
+      <Header user={props.user} setUser={props.setUser} setRemember={props.setRemember} />
       <Outlet />
     </>
   );

@@ -54,6 +54,11 @@ function AccountInfo(props) {
 }
 
 function UserDropdown(props) {
+  const handleClick = () => {
+    props.setUser(null);
+    props.setRemember(false);
+  };
+
   return (
     <div className="user">
       <Nav>
@@ -68,7 +73,7 @@ function UserDropdown(props) {
             <NavDropdown align="end" title={(props.user === null) ? "" : props.user.username}>
               {(props.user !== null)
                 ? <>
-                    <NavDropdown.Item onClick={()=> props.setShow(true)}>Account Info</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => props.setShow(true)}>Account Info</NavDropdown.Item>
                     <NavDropdown.Divider />
                   </>
                 : undefined}
@@ -76,7 +81,7 @@ function UserDropdown(props) {
               <NavDropdown.Item>Enable Dark Mode</NavDropdown.Item>
               <NavDropdown.Divider />
               {(props.user !== null)
-                ? <NavDropdown.Item onClick={() => props.setUser(null)}>Sign Out</NavDropdown.Item>
+                ? <NavDropdown.Item onClick={() => handleClick()}>Sign Out</NavDropdown.Item>
                 : <NavDropdown.Item as={Link} to="/sign-in">Sign In</NavDropdown.Item>}
             </NavDropdown>
           </Nav>
@@ -99,7 +104,7 @@ export default function Header(props) {
               <div className="brand-text">Voting System</div>
             </Navbar.Brand>
           </Link>
-          <UserDropdown setShow={setShow} user={props.user} setUser={props.setUser} />
+          <UserDropdown setShow={setShow} user={props.user} setUser={props.setUser} setRemember={props.setRemember} />
         </Container>
       </Navbar>
     </>
