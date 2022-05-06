@@ -37,7 +37,7 @@ namespace VotingSystem.Controller
         {
             var dict = cache.GetBallots(voterSerial);
             if (dict == null)
-                return -1;
+                return -2;
             if (dict[issueSerial] == null)
                 return -1;
             //Couldn't possibly be null

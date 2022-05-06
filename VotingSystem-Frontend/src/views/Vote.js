@@ -33,35 +33,38 @@ export default function Vote(props) {
 
   useEffect(() => {
     if (props.user !== null && polls !== undefined) {
-      const radioValue = [];
-      const choice = [];
-      const voted = [];
       for (let i = 0; i < polls.length; i++) {
-        axios.get("https://localhost:7237/api/voted", {
+        axios.get("https://localhost:7237/api/voterIssueBallot", {
             params: {
               voterSerial: props.user.serialNumber,
               issueSerial: polls[i].serialNumber
             }
           }
         ).then((response) => {
-          if (response === -1) {
-            radioValue.push("");
-            choice.push(0);
-            voted.push(false);
-          } else {
-            radioValue.push(`radio-${i}${response.data}`);
-            choice.push(response.data);
-            voted.push(true);
+          console.log("VOTERISSUEBALLOT: ", response.data);
+          if (response.data !== -1) {
+            setRadioValue([
+              ...radioValue.slice(0, index),
+              `radio-${i}${response.data}`,
+              ...radioValue.slice(index + 1)
+            ]);
+            setChoice([
+              ...choice.slice(0, index),
+              response.data,
+              ...choice.slice(index + 1)
+            ]);
+            setVoted([
+              ...voted.slice(0, index),
+              true,
+              ...voted.slice(index + 1)
+            ]);
           }
-          setRadioValue(radioValue);
-          setChoice(choice);
-          setVoted(voted);
         }).catch(error => {
           console.log(error);
         });
       }
     }
-  }, [props.user, polls]);
+  }, [props.user, polls, radioValue, index, choice, voted]);
 
   useEffect(() => {
     if (props.user === null) {
