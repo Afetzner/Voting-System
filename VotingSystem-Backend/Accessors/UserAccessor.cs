@@ -178,7 +178,7 @@ namespace VotingSystem.Accessor
                     {
                         Admin admin = new Admin.Builder()
                             .WithUsername(username)
-                            .WithPassword(password)
+                            .WithPassword("placeholderPassword!1")
                             .WithEmail(Convert.ToString(cmd.Parameters["v_email"].Value))
                             .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
                             .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
@@ -190,7 +190,7 @@ namespace VotingSystem.Accessor
                     {
                         Voter voter = new Voter.Builder()
                             .WithUsername(username)
-                            .WithPassword(password)
+                            .WithPassword("PlaceholderPassword1!")
                             .WithEmail(Convert.ToString(cmd.Parameters["v_email"].Value))
                             .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
                             .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
