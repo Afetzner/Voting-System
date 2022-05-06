@@ -14,17 +14,24 @@ function Result(props) {
   ];
 
   return (
-    <Accordion flush  className="sub-accordion">
-      <Accordion.Item key={`0${props.index}`} eventKey={`0${props.index}`}>
-        <Accordion.Button onClick={() => props.handleDisplay(props.index)}>Results</Accordion.Button>
+    <Accordion flush defaultActiveKey={0} className="sub-accordion">
+      <Accordion.Item eventKey={0}>
+        <Accordion.Header>Results</Accordion.Header>
         <Accordion.Body>
           <ResultsChart data={data} display={props.display} />
         </Accordion.Body>
       </Accordion.Item>
-      <Accordion.Item key={`1${props.index}`} eventKey={`1${props.index}`}>
+      <Accordion.Item eventKey={1}>
         <Accordion.Header>User Response</Accordion.Header>
         <Accordion.Body>
-          <Response poll={props.poll} user={props.user} index={props.index} radioValue={props.radioValue} voted={props.voted} handleClick={props.handleClick} handleChange={props.handleChange} />
+          <Response
+            poll={props.poll}
+            user={props.user}
+            index={props.index}
+            radioValue={props.radioValue}
+            voted={props.voted}
+            handleClick={props.handleClick}
+            handleChange={props.handleChange} />
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
@@ -67,7 +74,7 @@ function Response(props) {
 export default function Poll(props) {
   return (
     <Accordion.Item key={props.index} eventKey={props.index}>
-      <Accordion.Header>
+      <Accordion.Header onClick={() => props.handleDisplay(props.index)}>
         <Container>
           <strong>{props.poll.title}</strong>
         </Container>
@@ -77,7 +84,24 @@ export default function Poll(props) {
         </div>
       </Accordion.Header>
       <Accordion.Body>
-        {(props.poll.isEnded) ? <Result poll={props.poll} user={props.user} index={props.index} radioValue={props.radioValue} voted={props.voted} handleClick={props.handleClick} handleChange={props.handleChange} display={props.display} handleDisplay={props.handleDisplay} /> : <Response poll={props.poll} user={props.user} index={props.index} radioValue={props.radioValue} voted={props.voted} handleClick={props.handleClick} handleChange={props.handleChange} />}
+        {(props.poll.isEnded)
+          ? <Result
+              poll={props.poll}
+              user={props.user}
+              index={props.index}
+              radioValue={props.radioValue}
+              voted={props.voted}
+              handleClick={props.handleClick}
+              handleChange={props.handleChange}
+              display={props.display} />
+          : <Response
+              poll={props.poll}
+              user={props.user}
+              index={props.index}
+              radioValue={props.radioValue}
+              voted={props.voted}
+              handleClick={props.handleClick}
+              handleChange={props.handleChange} />}
       </Accordion.Body>
     </Accordion.Item>
   );

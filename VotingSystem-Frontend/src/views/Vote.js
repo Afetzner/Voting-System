@@ -13,6 +13,7 @@ export default function Vote(props) {
   const [voted, setVoted] = useState([]);
   const [index, setIndex] = useState(null);
   const [display, setDisplay] = useState([]);
+  const [result, setResult] = useState([]);
 
   useEffect(() => {
     console.log(radioValue, choice, voted);
@@ -26,6 +27,7 @@ export default function Vote(props) {
       setChoice(Array(response.data.length).fill(0));
       setVoted(Array(response.data.length).fill(false));
       setDisplay(Array(response.data.length).fill(false));
+      setResult(Array(response.data.length).fill([]));
       console.log(response.data);
     }).catch((error) => {
       console.log(error);
@@ -119,11 +121,11 @@ export default function Vote(props) {
 
   const handleDisplay = (index) => {
     sleep(150).then(() => {
-      setDisplay([
-        ...display.slice(0, index),
-        !display[index],
-        ...display.slice(index + 1)
-      ]);
+      if (polls[index].isEnded) {
+        const buffer = Array(polls.length).fill(false);
+        buffer[index] = !display[index];
+        setDisplay(buffer);
+      }
     });
   };
 
