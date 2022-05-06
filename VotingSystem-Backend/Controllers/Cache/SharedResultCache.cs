@@ -25,7 +25,7 @@ namespace VotingSystem.Controller
         /// Retrives all the issues from the DB
         /// </summary>
         /// <returns>List of issues (fixed order)</returns>
-        public List<BallotIssue> GetBallotIssues()
+        public List<BallotIssue> CacheBallotIssues()
         {
             //Return cache
             if (_issues != null)
@@ -42,10 +42,10 @@ namespace VotingSystem.Controller
         /// Retrieves the poll results of every issue from the DB
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, Dictionary<int, int>> GetResults()
+        public Dictionary<string, Dictionary<int, int>> CacheResults()
         {
             //Get cached issues if exists else from db
-            _issues = GetBallotIssues();
+            _issues = CacheBallotIssues();
 
             // Batch get all issue results
             if (_results == null)
@@ -69,10 +69,10 @@ namespace VotingSystem.Controller
         /// </summary>
         /// <returns>Map 'issue-serial' --> list of participating voters</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public Dictionary<string,List<Voter>> GetVoterParticipation()
+        public Dictionary<string,List<Voter>> CacheVoterParticipation()
         {
             //Get cached issues if exists else from db
-            _issues = GetBallotIssues();
+            _issues = CacheBallotIssues();
             
             if (_voterParticipation == null)
                 _voterParticipation = new Dictionary<string, List<Voter>?>();

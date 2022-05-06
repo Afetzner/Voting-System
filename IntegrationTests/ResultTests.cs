@@ -81,7 +81,7 @@ namespace IntegrationTests
             Console.WriteLine("    Testing results get issues");
             TestDataLoader.LoadIntTestDataForResultsViewer();
             SharedResultCache resultsCache = new();
-            var issues = resultsCache.GetBallotIssues();
+            var issues = resultsCache.CacheBallotIssues();
             var issue1 = new TestData().issue.Build();
             var issue2 = new TestData().issue2.Build();
 
@@ -282,7 +282,7 @@ namespace IntegrationTests
 
             //Act
             var issues = ResultAccessor.Instance.GetBallotIssues();
-            var participation = new SharedResultCache().GetVoterParticipation();
+            var participation = new SharedResultCache().CacheVoterParticipation();
             var partIssue1 = participation[issue1.SerialNumber];
             var partIssue2 = participation[issue2.SerialNumber];
 

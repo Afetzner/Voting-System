@@ -35,13 +35,20 @@ namespace VotingSystem.Controller
         [Route("api/voterIssueBallot")]
         public int GetBallot(string voterSerial, string issueSerial)
         {
+
             var dict = cache.GetBallots(voterSerial);
             //Somthing terrible happend
-            if (dict == null) 
+            if (dict == null)
+            {
+                Console.WriteLine("Get ballot fail: somthing terrbile happend");
                 return -103;
+            }
             //Issue doesn't exist
-            if (!dict.ContainsKey(issueSerial)) 
+            if (!dict.ContainsKey(issueSerial))
+            {
+                Console.WriteLine($@"Get ballot failed: issue not contained in cache {issueSerial}");
                 return -102;
+            }   
             // Voter didn't vote on that issue
             if (dict[issueSerial] == null) 
                 return -1;
