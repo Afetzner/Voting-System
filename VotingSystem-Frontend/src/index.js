@@ -4,22 +4,16 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Outlet, Routes, Route } from "react-router-dom";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
 import Header from "./components/Header";
 import SignIn from "./views/SignIn";
 import Vote from "./views/Vote";
 
 function App() {
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("User")));
 
   useEffect(() => {
-    axios.get("https://localhost:7237/api/user").then((response) => {
-      console.log(response.data);
-      setUser(response.data);
-    }).catch(error => {
-      console.log(error);
-    });
-  }, []);
+    localStorage.setItem("User", (user === null) ? null : JSON.stringify(user));
+  }, [user]);
 
   return (
     <BrowserRouter>

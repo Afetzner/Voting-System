@@ -1,9 +1,10 @@
 import "./SignIn.css";
 import { useState } from "react";
 import { Alert, Button, Form, Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function FailedSignIn(props) {
+function Failed(props) {
   if (props.show) {
     return (
       <Alert variant="danger" onClose={() => props.setShow(false)} dismissible>
@@ -13,15 +14,28 @@ function FailedSignIn(props) {
   }
 }
 
-export default function SignIn() {
+export default function SignIn(props) {
   const [show, setShow] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(username, password);
-    axios.post("https://localhost:7237/api/sign-in", username, password).then((response) => {
-      console.log(response);
+    await axios.get("https://localhost:7237/api/sign-in", {
+      params: {
+        username: username,
+        password: password
+      }
+    }).then((response) => {
+      if (response.data.serialNumber === "") {
+        setShow(true);
+      } else {
+        setShow(false);
+        props.setUser(response.data);
+        navigate("/");
+      }
+      console.log(response.data);
     }).catch((error) => {
       console.log(error);
     });
@@ -33,14 +47,20 @@ export default function SignIn() {
         <Card.Header>Registered Voter Sign In</Card.Header>
         <Card.Body>
           <Form>
-            <FailedSignIn show={show} setShow={setShow} />
+            <Failed show={show} setShow={setShow} />
             <Form.Group className="username">
               <Form.Label>Username/email:</Form.Label>
-              <Form.Control type="username" placeholder="Enter your username or email address" onChange={(e) => (setUsername(e.target.value))} />
+              <Form.Control
+                type="username"
+                placeholder="Enter your username or email address"
+                onChange={(e) => (setUsername(e.target.value))} />
             </Form.Group>
             <Form.Group className="password">
               <Form.Label>Password:</Form.Label>
-              <Form.Control type="password" placeholder="Enter your password" onChange={(e) => (setPassword(e.target.value))} />
+              <Form.Control
+                type="password"
+                placeholder="Enter your password"
+                onChange={(e) => (setPassword(e.target.value))} />
             </Form.Group>
             <Form.Group className="checkbox">
               <Form.Check type="checkbox" label="Remember me"/>

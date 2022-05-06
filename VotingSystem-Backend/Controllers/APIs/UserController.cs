@@ -23,12 +23,18 @@ namespace VotingSystem.Controller
             return user; 
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("api/sign-in")]
-        public bool PostUser(string username, string password)
+        public IUser? GetSignIn(string username, string password)
         {
-            Console.WriteLine(username, password);
-            return true;
+            Console.WriteLine("USERNAME: " + username);
+            Console.WriteLine("PASSWORD: " + password);
+            IUser? user = UserManager.GetUser(username, password);
+            if (user == null)
+            {
+                return new Voter();
+            }
+            return user;
         }
 
         [HttpPost]

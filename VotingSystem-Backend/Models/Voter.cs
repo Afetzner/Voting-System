@@ -24,6 +24,15 @@ namespace VotingSystem.Model
             LastName = lastName;
             FirstName = firstName;
         }
+        public Voter()
+        {
+            SerialNumber = "";
+            Username = "";
+            Password = "";
+            Email = "";
+            LastName = "";
+            FirstName = "";
+        }
         public class Builder
         {
             public string? SerialNumber;

@@ -14,13 +14,6 @@ export default function Vote(props) {
   const [index, setIndex] = useState();
   const [display, setDisplay] = useState([]);
 
-  // async function timeout() {
-  //   await new Promise(res => setTimeout(res, 1000));
-  //   setDisplay(true);
-  // }
-
-  // timeout();
-
   useEffect(() => {
     console.log(radioValue, selection, voted);
   }, [radioValue, selection, voted]);
@@ -38,38 +31,38 @@ export default function Vote(props) {
     });
   }, []);
 
-  useEffect(() => {
-    if (props.user !== undefined && polls !== undefined) {
-      const radioValue = [];
-      const selection = [];
-      const voted = [];
-      for (let i = 0; i < polls.length; i++) {
-        axios.post("https://localhost:7237/api/voted",
-          props.user.serialNumber,
-          polls[i].serialNumber
-        ).then((response) => {
-          // console.log("VOTED:", response);
-          if (response === null) {
-            radioValue.push("");
-            selection.push("");
-            voted.push(false);
-          } else {
-            radioValue.push(`radio-${i}${response.number}`);
-            selection.push(response.title);
-            voted.push(true);
-          }
-          setRadioValue(radioValue);
-          setSelection(selection);
-          setVoted(voted);
-        }).catch(error => {
-          console.log(error);
-        });
-      }
-    }
-  }, [props.user, polls]);
+  // useEffect(() => {
+  //   if (props.user !== undefined && polls !== undefined) {
+  //     const radioValue = [];
+  //     const selection = [];
+  //     const voted = [];
+  //     for (let i = 0; i < polls.length; i++) {
+  //       axios.post("https://localhost:7237/api/voted",
+  //         props.user.serialNumber,
+  //         polls[i].serialNumber
+  //       ).then((response) => {
+  //         // console.log("VOTED:", response);
+  //         if (response === null) {
+  //           radioValue.push("");
+  //           selection.push("");
+  //           voted.push(false);
+  //         } else {
+  //           radioValue.push(`radio-${i}${response.number}`);
+  //           selection.push(response.title);
+  //           voted.push(true);
+  //         }
+  //         setRadioValue(radioValue);
+  //         setSelection(selection);
+  //         setVoted(voted);
+  //       }).catch(error => {
+  //         console.log(error);
+  //       });
+  //     }
+  //   }
+  // }, [props.user, polls]);
 
   useEffect(() => {
-    if (props.user === undefined) {
+    if (props.user === null) {
       setRadioValue([]);
       setSelection([]);
       setVoted([]);
