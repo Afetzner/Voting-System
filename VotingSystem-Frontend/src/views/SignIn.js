@@ -19,10 +19,11 @@ export default function SignIn(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    if (username !== "" && password !== "") {
+    if (username !== "" && password !== "" && !loading) {
       console.log(username, password);
       setLoading(true);
       await axios.get("https://localhost:7237/api/sign-in", {
@@ -68,7 +69,11 @@ export default function SignIn(props) {
                 onChange={(e) => (setPassword(e.target.value))} />
             </Form.Group>
             <Form.Group className="checkbox">
-              <Form.Check type="checkbox" label="Remember me"/>
+              <Form.Check
+                type="checkbox"
+                label="Remember me"
+                value={props.remember}
+                onChange={() => props.setRemember(!props.remember)} />
             </Form.Group>
             <Form.Group className="submit">
               <Button varient="primary" onClick={handleSubmit}>

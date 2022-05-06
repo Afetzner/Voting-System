@@ -10,17 +10,18 @@ import Vote from "./views/Vote";
 
 function App() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("User")));
+  const [remember, setRemember] = useState((user !== null));
 
   useEffect(() => {
-    localStorage.setItem("User", (user === null) ? null : JSON.stringify(user));
-  }, [user]);
+    localStorage.setItem("User", (user === null || !remember) ? null : JSON.stringify(user));
+  }, [user, remember]);
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout user={user} setUser={setUser} />}>
           <Route index element={<Vote user={user} setUser={setUser} />} />
-          <Route path="sign-in" element={<SignIn user={user} setUser={setUser} />} />
+          <Route path="sign-in" element={<SignIn user={user} setUser={setUser} remember={remember} setRemember={setRemember} />} />
         </Route>
       </Routes>
     </BrowserRouter>

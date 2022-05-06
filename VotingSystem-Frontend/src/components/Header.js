@@ -43,7 +43,6 @@ function AccountInfo(props) {
             Name: {props.user.firstName + " " + props.user.lastName}<br />
             Username: {props.user.username} <br />
             Email: {props.user.email}<br />
-            Password: ********<br />
             Serial: {props.user.serialNumber}<br />
         </Modal.Body>
         <Modal.Footer>
