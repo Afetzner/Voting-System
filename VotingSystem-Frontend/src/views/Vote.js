@@ -18,10 +18,11 @@ export default function Vote(props) {
     console.log(radioValue, choice, voted);
   }, [radioValue, choice, voted]);
 
+  /* Retrieve all ballot issues */
   useEffect(() => {
     axios.get("https://localhost:7237/api/polls").then((response) => {
       setPolls(response.data);
-      setRadioValue(Array(response.data.length).fill(""));
+      setRadioValue(Array(response.data.length).fill("")); // Initialize state arrays
       setChoice(Array(response.data.length).fill(0));
       setVoted(Array(response.data.length).fill(false));
       setDisplay(Array(response.data.length).fill(false));
@@ -31,6 +32,7 @@ export default function Vote(props) {
     });
   }, []);
 
+  /* Retrieve all ballot issue responses of currently signed in user */
   useEffect(() => {
     if (props.user !== null && polls !== null) {
       const responses = async () => {
@@ -39,7 +41,7 @@ export default function Vote(props) {
         const voted = Array(polls.length).fill(false);
         for (let index = 0; index < polls.length; index++) {
           console.log(props.user.serialNumber, polls[index].serialNumber);
-          await axios.get("https://localhost:7237/api/voterIssueBallot", {
+          await axios.get("https://localhost:7237/api/voterIssueBallot", { // Wait for response before making next call
             params: {
               voterSerial: props.user.serialNumber,
               issueSerial: polls[index].serialNumber
@@ -64,6 +66,7 @@ export default function Vote(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [polls]);
 
+  /* Clear state arrays on user sign out */
   useEffect(() => {
     if (props.user === null) {
       setRadioValue([]);
@@ -97,11 +100,11 @@ export default function Vote(props) {
       true,
       ...voted.slice(index + 1)
     ]);
-    axios.post("https://localhost:7237/api/vote", {
+    axios.get("https://localhost:7237/api/vote", {
       params: {
-        // props.user.serialNumber,
-        // polls[index].serialNumber,
-        // choice[index]
+        userSerialNumber: props.user.serialNumber,
+        issueSerialNumber: polls[index].serialNumber,
+        choice: choice[index]
       }
     }).then((response) => {
       console.log(response);
@@ -110,21 +113,23 @@ export default function Vote(props) {
     });
   };
 
-  const handleDisplay = (index) => {
-    console.log("INDEX:", index);
-    console.log("DISPLAY:", display);
-    // if (display[index] === false) {
-      // setDisplay([
-      //   ...display.slice(0, index),
-      //   true,
-      //   ...display.slice(index + 1)
-      // ]);
-    // }
+  const sleep = (ms) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   };
 
-  // useEffect(() => {
-  //   console.log("DISPLAY: ", display);
-  // });
+  const handleDisplay = (index) => {
+    sleep(150).then(() => {
+      setDisplay([
+        ...display.slice(0, index),
+        !display[index],
+        ...display.slice(index + 1)
+      ]);
+    });
+  };
+
+  useEffect(() => {
+    console.log(display);
+  }, [display]);
 
   return (
     <>

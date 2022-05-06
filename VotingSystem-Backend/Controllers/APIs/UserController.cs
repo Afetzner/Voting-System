@@ -36,11 +36,11 @@ namespace VotingSystem.Controller
             return user;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("api/vote")]
-        public bool PostVote(string userSerialNumber, string issueSerialNumber, int count, string selection)
+        public bool PostVote(string userSerialNumber, string issueSerialNumber, int choice)
         {
-            Console.WriteLine(userSerialNumber, issueSerialNumber, new BallotIssueOption(count, selection));
+            
             return true;
         }
 

@@ -16,7 +16,7 @@ function Result(props) {
   return (
     <Accordion flush  className="sub-accordion">
       <Accordion.Item key={`0${props.index}`} eventKey={`0${props.index}`}>
-        <Accordion.Button onClick={props.handleDisplay(props.index)}>Results</Accordion.Button>
+        <Accordion.Button onClick={() => props.handleDisplay(props.index)}>Results</Accordion.Button>
         <Accordion.Body>
           <ResultsChart data={data} display={props.display} />
         </Accordion.Body>
