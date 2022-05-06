@@ -1,4 +1,4 @@
-using VotingSystem.Model;
+﻿using VotingSystem.Model;
 using VotingSystem.Utils;
 using System.Data;
 using MySql.Data.MySqlClient;
@@ -178,7 +178,7 @@ namespace VotingSystem.Accessor
                     {
                         Admin admin = new Admin.Builder()
                             .WithUsername(username)
-                            .WithPassword("placeholderPassword!1")
+                            .WithPassword("placeholderPassword1!")
                             .WithEmail(Convert.ToString(cmd.Parameters["v_email"].Value))
                             .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
                             .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
@@ -190,8 +190,100 @@ namespace VotingSystem.Accessor
                     {
                         Voter voter = new Voter.Builder()
                             .WithUsername(username)
-                            .WithPassword("PlaceholderPassword1!")
+                            .WithPassword("placeholderPassword1!")
                             .WithEmail(Convert.ToString(cmd.Parameters["v_email"].Value))
+                            .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
+                            .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
+                            .WithLastName(Convert.ToString(cmd.Parameters["v_lastName"].Value))
+                            .Build();
+                        user = (T)(IUser)voter;
+                    }
+                    else
+                    {
+                        return default;
+                    }
+                    return user;
+                }
+            }
+        }
+
+        public T? GetUserByEmail(string email, string password)
+        {
+            using (var conn = new MySqlConnection(DbConnecter.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine(e + "\nCould not connect to database");
+                    throw;
+                }
+
+                using (var cmd = new MySqlCommand("get_user_by_email", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("v_email", email);
+                    cmd.Parameters["@v_email"].Direction = ParameterDirection.Input;
+
+                    cmd.Parameters.AddWithValue("v_password", password);
+                    cmd.Parameters["@v_password"].Direction = ParameterDirection.Input;
+
+                    cmd.Parameters.Add("v_username", MySqlDbType.VarChar);
+                    cmd.Parameters["@v_username"].Direction = ParameterDirection.Output;
+
+                    cmd.Parameters.Add("v_serialNumber", MySqlDbType.VarChar);
+                    cmd.Parameters["@v_serialNumber"].Direction = ParameterDirection.Output;
+
+                    cmd.Parameters.Add("v_firstName", MySqlDbType.VarChar);
+                    cmd.Parameters["@v_firstName"].Direction = ParameterDirection.Output;
+
+                    cmd.Parameters.Add("v_lastName", MySqlDbType.VarChar);
+                    cmd.Parameters["@v_lastName"].Direction = ParameterDirection.Output;
+
+                    cmd.Parameters.Add("v_isAdmin", MySqlDbType.Byte);
+                    cmd.Parameters["@v_isAdmin"].Direction = ParameterDirection.Output;
+
+                    cmd.Parameters.Add("v_isNull", MySqlDbType.Byte);
+                    cmd.Parameters["@v_isNull"].Direction = ParameterDirection.Output;
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (MySqlException e)
+                    {
+                        Console.WriteLine(e + "\n" + $@"\nCould not execute SQL procedure 'get_user' with parameters:
+    email: '{email}', 
+    password: '{password}'");
+                        //username
+                        throw;
+                    }
+
+                    if (Convert.ToBoolean(cmd.Parameters["v_isNull"].Value))
+                        return default;
+
+                    T user;
+                    bool isAdmin = Convert.ToBoolean(cmd.Parameters["@v_isAdmin"].Value);
+                    if (isAdmin && typeof(T) == typeof(Admin))
+                    {
+                        Admin admin = new Admin.Builder()
+                            .WithEmail(email)
+                            .WithPassword("placeholderPassword1!")
+                            .WithUsername(Convert.ToString(cmd.Parameters["v_username"].Value))
+                            .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
+                            .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
+                            .WithLastName(Convert.ToString(cmd.Parameters["v_lastName"].Value))
+                            .Build();
+                        user = (T)(IUser)admin;
+                    }
+                    else if (!isAdmin && typeof(T) == typeof(Voter))
+                    {
+                        Voter voter = new Voter.Builder()
+                            .WithEmail(email)
+                            .WithPassword("placeholderPassword1!")
+                            .WithUsername(Convert.ToString(cmd.Parameters["v_username"].Value))
                             .WithSerialNumber(Convert.ToString(cmd.Parameters["v_serialNumber"].Value))
                             .WithFirstName(Convert.ToString(cmd.Parameters["v_firstName"].Value))
                             .WithLastName(Convert.ToString(cmd.Parameters["v_lastName"].Value))

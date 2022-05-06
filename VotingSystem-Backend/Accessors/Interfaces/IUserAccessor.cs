@@ -38,5 +38,15 @@ namespace VotingSystem.Accessor
         /// <param name="serial">Serial number to check</param>
         /// <exception cref="MySqlException">Bad connection to DB</exception>
         public bool IsUsernameInUse(string username);
+
+        /// <summary>
+        /// Returns the serial number of a user, if they exists
+        /// </summary>
+        /// <param name="email">user's email</param>
+        /// <param name="password">user's password</param>
+        /// <returns>The serial number of the user</returns>
+        /// <exception cref="MySqlException">Bad connection to DB</exception>
+        /// <exception cref="InvalidBuilderParameterException">Corrupt data from DB</exception>
+        public T? GetUserByEmail(string email, string password);
     }
 }

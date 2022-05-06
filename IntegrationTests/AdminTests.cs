@@ -141,15 +141,15 @@ namespace IntegrationTests
                 return false;
             }
             if (fromDb.Username != admin.Username ||
-                fromDb.Password != admin.Password ||
+                fromDb.Password != "placeholderPassword1!" ||
                 fromDb.Email != admin.Email ||
                 fromDb.FirstName != admin.FirstName ||
                 fromDb.LastName != admin.LastName ||
                 fromDb.SerialNumber != admin.SerialNumber)
             {
                 Console.WriteLine("(F) Get admin failed: mismatch:");
-                Console.WriteLine($@"Original: u:'{admin.Username}', p:'{admin.Password}', e:'{admin.Email}', f:'{admin.FirstName}', l:'{admin.LastName}', s:'{admin.SerialNumber}'");
-                Console.WriteLine($@"Original: u:'{fromDb.Username}', p:'{fromDb.Password}', e:'{fromDb.Email}' ,f:'{fromDb.FirstName}', l:'{fromDb.LastName}', s:'{fromDb.SerialNumber}'");
+                Console.WriteLine($@"Expected: u:'{admin.Username}', p:'{admin.Password}', e:'{admin.Email}', f:'{admin.FirstName}', l:'{admin.LastName}', s:'{admin.SerialNumber}'");
+                Console.WriteLine($@"Actual: u:'{fromDb.Username}', p:'{fromDb.Password}', e:'{fromDb.Email}' ,f:'{fromDb.FirstName}', l:'{fromDb.LastName}', s:'{fromDb.SerialNumber}'");
                 return false;
             }
 

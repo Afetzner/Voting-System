@@ -24,6 +24,7 @@ namespace IntegrationTests
                 " (9) Add dupicate serial\n" +
                 " (a) Add duplicate email\n" +
                 " (b) Generate voter serial\n" +
+                " (c) Get voter by email\n" +
                 " (*) Exit\n");
 
             while (true)
@@ -48,6 +49,7 @@ namespace IntegrationTests
                     '9' => TestAddDuplicateVoterSerial,
                     'a' => TestAddDuplicateVoterEmail,
                     'b' => TestGenerateVoterSerial,
+                    'c' => TestGetVoterByEmail,
                     _ => Menu.Exit,
                 };
             }
@@ -63,7 +65,8 @@ namespace IntegrationTests
             TestAddDuplicateVoterSerial,
             TestAddDuplicateVoterUsername,
             TestAddDuplicateVoterEmail,
-            TestGenerateVoterSerial
+            TestGenerateVoterSerial,
+            TestGetVoterByEmail
         };
 
         public static bool RunAllVoterTests()
@@ -140,15 +143,46 @@ namespace IntegrationTests
                 return false;
             }
             if (fromDb.Username != voter.Username ||
-                fromDb.Password != voter.Password ||
+                fromDb.Password != "placeholderPassword1!" ||
                 fromDb.Email != voter.Email ||
                 fromDb.FirstName != voter.FirstName ||
                 fromDb.LastName != voter.LastName ||
                 fromDb.SerialNumber != voter.SerialNumber)
             {
                 Console.WriteLine("(F) Get voter failed: mismatch:");
-                Console.WriteLine($@"Original: u:'{voter.Username}', p:'{voter.Password}', e:'{voter.Email}', f:'{voter.FirstName}', l:'{voter.LastName}', s:'{voter.SerialNumber}'");
-                Console.WriteLine($@"Original: u:'{fromDb.Username}', p:'{fromDb.Password}', e:'{fromDb.Email}' ,f:'{fromDb.FirstName}', l:'{fromDb.LastName}', s:'{fromDb.SerialNumber}'");
+                Console.WriteLine($@"Expected: u:'{voter.Username}', p:'{voter.Password}', e:'{voter.Email}', f:'{voter.FirstName}', l:'{voter.LastName}', s:'{voter.SerialNumber}'");
+                Console.WriteLine($@"Actual: u:'{fromDb.Username}', p:'{fromDb.Password}', e:'{fromDb.Email}' ,f:'{fromDb.FirstName}', l:'{fromDb.LastName}', s:'{fromDb.SerialNumber}'");
+                return false;
+            }
+
+            Console.WriteLine("(S) Get voter success");
+            return true;
+        }
+
+        public static bool TestGetVoterByEmail()
+        {
+            Console.WriteLine("    Testing get voter by email");
+            if (!TestDataLoader.LoadIntTestData())
+                return false;
+            var voter = new TestData().voter.Build();
+
+            Voter fromDb = Voter.Accessor.GetUserByEmail(voter.Email, voter.Password);
+
+            if (fromDb == null)
+            {
+                Console.WriteLine("(F) Get voter failed: null output");
+                return false;
+            }
+            if (fromDb.Username != voter.Username ||
+                fromDb.Password != "placeholderPassword1!" ||
+                fromDb.Email != voter.Email ||
+                fromDb.FirstName != voter.FirstName ||
+                fromDb.LastName != voter.LastName ||
+                fromDb.SerialNumber != voter.SerialNumber)
+            {
+                Console.WriteLine("(F) Get voter failed: mismatch:");
+                Console.WriteLine($@"Expected: u:'{voter.Username}', p:'{voter.Password}', e:'{voter.Email}', f:'{voter.FirstName}', l:'{voter.LastName}', s:'{voter.SerialNumber}'");
+                Console.WriteLine($@"Actual: u:'{fromDb.Username}', p:'{fromDb.Password}', e:'{fromDb.Email}' ,f:'{fromDb.FirstName}', l:'{fromDb.LastName}', s:'{fromDb.SerialNumber}'");
                 return false;
             }
 

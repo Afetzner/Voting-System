@@ -22,6 +22,20 @@ namespace VotingSystem.Controller
             return user;
         }
 
+        [HttpGet]
+        [Route("api/sign-in-email")]
+        public IUser? GetSignInEmail(string email, string password)
+        {
+            Console.WriteLine("USERNAME: " + email);
+            Console.WriteLine("PASSWORD: " + password);
+            IUser? user = UserManager.GetUser(email, password);
+            if (user == null)
+            {
+                return new Voter();
+            }
+            return user;
+        }
+
         [HttpPost]
         [Route("api/vote")]
         public bool PostVote(string userSerialNumber, string issueSerialNumber, int count, string selection)

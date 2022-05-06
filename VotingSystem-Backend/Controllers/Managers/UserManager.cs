@@ -1,4 +1,4 @@
-using VotingSystem.Model;
+﻿using VotingSystem.Model;
 
 namespace VotingSystem.Controller
 {
@@ -24,6 +24,18 @@ namespace VotingSystem.Controller
             IUser? user = Voter.Accessor.GetUser(username, password);
             if (user == null)
                 user = Admin.Accessor.GetUser(username, password);
+
+            if (user != null)
+                _cacheManager.ForgetUserCache(user.SerialNumber);
+
+            return user;
+        }
+
+        public static IUser? GetUserByEmail(string email, string password)
+        {
+            IUser? user = Voter.Accessor.GetUserByEmail(email, password);
+            if (user == null)
+                user = Admin.Accessor.GetUserByEmail(email, password);
 
             if (user != null)
                 _cacheManager.ForgetUserCache(user.SerialNumber);
