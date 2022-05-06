@@ -26,7 +26,7 @@ export default function Vote(props) {
       setVoted(Array(response.data.length).fill(false));
       setDisplay(Array(response.data.length).fill(false));
       console.log(response.data);
-    }).catch(error => {
+    }).catch((error) => {
       console.log(error);
     });
   }, []);
@@ -36,13 +36,12 @@ export default function Vote(props) {
       for (let i = 0; i < polls.length; i++) {
         console.log(props.user.serialNumber, polls[i].serialNumber);
         axios.get("https://localhost:7237/api/voterIssueBallot", {
-            params: {
-              voterSerial: props.user.serialNumber,
-              issueSerial: polls[i].serialNumber
-            }
+          params: {
+            voterSerial: props.user.serialNumber,
+            issueSerial: polls[i].serialNumber
           }
-        ).then((response) => {
-          console.log("VOTERISSUEBALLOT: ", response.data);
+        }).then((response) => {
+          console.log("RESPONSES: ", response.data);
           if (response.data !== -1) {
             setRadioValue([
               ...radioValue.slice(0, index),
@@ -60,12 +59,13 @@ export default function Vote(props) {
               ...voted.slice(index + 1)
             ]);
           }
-        }).catch(error => {
+        }).catch((error) => {
           console.log(error);
         });
       }
     }
-  }, [props.user, polls, radioValue, index, choice, voted]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.user, polls]);
 
   useEffect(() => {
     if (props.user === null) {
