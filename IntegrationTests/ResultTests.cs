@@ -338,7 +338,7 @@ namespace IntegrationTests
 
             //Act 
             ResultCacheManager cache = new ();
-            var issues = cache.GetBallotIssues();
+            var issues = cache.GetIssues();
             var results = cache.GetResults();
             var ballots = cache.GetBallots(voter1.SerialNumber);
             var participation = cache.GetVoterParticipation();

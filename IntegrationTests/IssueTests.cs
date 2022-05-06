@@ -123,7 +123,7 @@ namespace IntegrationTests
             var issue = new TestData().issue.Build();
             
             var fromDb = ResultAccessor.Instance.GetBallotIssues();
-            if (!fromDb.Exists(x => x.SerialNumber == issue.SerialNumber))
+            if (!fromDb.ContainsKey(issue.SerialNumber))
             {
                 Console.WriteLine("(F) Get ballot-issue failed: issue not returned");
             }

@@ -14,7 +14,7 @@ namespace VotingSystem.Controller
         private static readonly Dictionary<string, UserResultsCache> UserChaches = new();
 
         //Routed to shared cache
-        public List<BallotIssue> GetBallotIssues()
+        public List<BallotIssue> GetIssues()
         {
             return SharedCache.GetBallotIssues();
         }
