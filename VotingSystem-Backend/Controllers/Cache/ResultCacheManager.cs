@@ -74,7 +74,7 @@ namespace VotingSystem.Controller
         }
     
         //Call when a ballot is added or removed from an issue
-        public void ForgetCachedParitcipation(string issueSerial)
+        public void ForgetCachedParticipation(string issueSerial)
         {
             SharedCache.ForgetCachedVoterParticipation(issueSerial);
         }

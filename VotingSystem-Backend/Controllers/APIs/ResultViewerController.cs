@@ -36,11 +36,17 @@ namespace VotingSystem.Controller
         public int GetBallot(string voterSerial, string issueSerial)
         {
             var dict = cache.GetBallots(voterSerial);
-            if (dict == null)
-                return -2;
-            if (dict[issueSerial] == null)
+            //Somthing terrible happend
+            if (dict == null) 
+                return -103;
+            //Issue doesn't exist
+            if (!dict.ContainsKey(issueSerial)) 
+                return -102;
+            // Voter didn't vote on that issue
+            if (dict[issueSerial] == null) 
                 return -1;
-            //Couldn't possibly be null
+
+            //Can't possibly be null
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
             return dict[issueSerial].Choice;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
