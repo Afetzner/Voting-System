@@ -25,12 +25,12 @@ namespace VotingSystem.Accessor
         /// <summary>
         /// Returns the serial number of a user, if they exists
         /// </summary>
-        /// <param name="username">user's username</param>
+        /// <param name="usernameSlashEmail">user's username</param>
         /// <param name="password">user's password</param>
         /// <returns>The serial number of the user</returns>
         /// <exception cref="MySqlException">Bad connection to DB</exception>
         /// <exception cref="InvalidBuilderParameterException">Corrupt data from DB</exception>
-        public T? GetUser(string username, string password);
+        public T? GetUser(string usernameSlashEmail, string password);
 
         /// <summary>
         /// Returns if the given username is already in use in the DB. Wrap in try-catch for failed connection
@@ -38,15 +38,5 @@ namespace VotingSystem.Accessor
         /// <param name="serial">Serial number to check</param>
         /// <exception cref="MySqlException">Bad connection to DB</exception>
         public bool IsUsernameInUse(string username);
-
-        /// <summary>
-        /// Returns the serial number of a user, if they exists
-        /// </summary>
-        /// <param name="email">user's email</param>
-        /// <param name="password">user's password</param>
-        /// <returns>The serial number of the user</returns>
-        /// <exception cref="MySqlException">Bad connection to DB</exception>
-        /// <exception cref="InvalidBuilderParameterException">Corrupt data from DB</exception>
-        public T? GetUserByEmail(string email, string password);
     }
 }

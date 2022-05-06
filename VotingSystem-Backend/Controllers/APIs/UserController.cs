@@ -10,32 +10,18 @@ namespace VotingSystem.Controller
 
         [HttpGet]
         [Route("api/sign-in")]
-        public IUser? GetSignIn(string username, string password)
+        public IUser? GetSignIn(string usernameSlashEmail, string password)
         {
-            IUser? user = UserManager.GetUser(username, password);
+            IUser? user = UserManager.GetUser(usernameSlashEmail, password);
             if (user == null)
             {
-                Console.WriteLine(@$"User w/ u:'{username}' p:'{password}' does not exist");
+                Console.WriteLine(@$"User w/ u:'{usernameSlashEmail}' p:'{password}' does not exist");
                 return new Voter();
             }
-            Console.WriteLine(@$"Signing in user s:'{user.SerialNumber}' w/ u:'{username}' p:'{password}'");
+            Console.WriteLine(@$"Signing in user s:'{user.SerialNumber}' w/ u:'{usernameSlashEmail}' p:'{password}'");
             return user;
         }
-
-        [HttpGet]
-        [Route("api/sign-in-email")]
-        public IUser? GetSignInEmail(string email, string password)
-        {
-            IUser? user = UserManager.GetUser(email, password);
-            if (user == null)
-            {
-                Console.WriteLine(@$"User w/ e:'{email}' p:'{password}' does not exist");
-                return new Voter();
-            }
-            Console.WriteLine(@$"Signing in user s:'{user.SerialNumber}' w/ u:'{email}' p:'{password}'");
-            return user;
-        }
-
+                
         [HttpPost]
         [Route("api/vote")]
         public bool PostVote(string userSerialNumber, string issueSerialNumber, int count, string selection)

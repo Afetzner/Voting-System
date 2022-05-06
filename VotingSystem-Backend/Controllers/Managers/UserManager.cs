@@ -19,24 +19,12 @@ namespace VotingSystem.Controller
             return coll;
         }
 
-        public static IUser? GetUser(string username, string password)
+        public static IUser? GetUser(string usernameSlashEmail, string password)
         {
-            IUser? user = Voter.Accessor.GetUser(username, password);
+            IUser? user = Voter.Accessor.GetUser(usernameSlashEmail, password);
             if (user == null)
-                user = Admin.Accessor.GetUser(username, password);
+                user = Admin.Accessor.GetUser(usernameSlashEmail, password);
             else
-                _cacheManager.ForgetUserCache(user.SerialNumber);
-
-            return user;
-        }
-
-        public static IUser? GetUserByEmail(string email, string password)
-        {
-            IUser? user = Voter.Accessor.GetUserByEmail(email, password);
-            if (user == null)
-                user = Admin.Accessor.GetUserByEmail(email, password);
-
-            if (user != null)
                 _cacheManager.ForgetUserCache(user.SerialNumber);
 
             return user;

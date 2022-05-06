@@ -161,12 +161,12 @@ namespace IntegrationTests
 
         public static bool TestGetVoterByEmail()
         {
-            Console.WriteLine("    Testing get voter by email");
+            Console.WriteLine("    Testing get voter");
             if (!TestDataLoader.LoadIntTestData())
                 return false;
             var voter = new TestData().voter.Build();
 
-            Voter fromDb = Voter.Accessor.GetUserByEmail(voter.Email, voter.Password);
+            Voter fromDb = Voter.Accessor.GetUser(voter.Email, voter.Password);
 
             if (fromDb == null)
             {
