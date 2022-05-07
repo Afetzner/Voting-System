@@ -28,7 +28,7 @@ export default function SignIn(props) {
       setLoading(true);
       await axios.get("https://localhost:7237/api/sign-in", {
         params: {
-          username: username,
+          usernameSlashEmail: username,
           password: password
         }
       }).then((response) => {
