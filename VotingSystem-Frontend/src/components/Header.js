@@ -47,7 +47,7 @@ function UserDropdown(props) {
                 <NavDropdown.Item onClick={() => props.setShow(true)}>Account Info</NavDropdown.Item>
                 <NavDropdown.Divider /></>}
               <NavDropdown.Item>About</NavDropdown.Item>
-              <NavDropdown.Item>Enable Dark Mode</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => props.setDark(!props.dark)}>Toggle Dark Mode</NavDropdown.Item>
               <NavDropdown.Divider />
               {(props.user !== null)
                 ? <NavDropdown.Item onClick={() => handleClick()}>Sign Out</NavDropdown.Item>
@@ -66,7 +66,7 @@ export default function Header(props) {
   return (
     <>
       {(props.user !== null) ? <AccountInfo show={show} setShow={setShow} user={props.user} /> : undefined}
-      <Navbar className="nav-bar" bg="primary" variant="dark" >
+      <Navbar className="nav-bar" bg="primary" variant="dark" style={(props.dark) ? {color: "red"} : {}} >
         <Container>
           <Link to="/">
             <Navbar.Brand placement="start">
@@ -74,7 +74,7 @@ export default function Header(props) {
               <div className="brand-text">Voting System</div>
             </Navbar.Brand>
           </Link>
-          <UserDropdown setShow={setShow} user={props.user} setUser={props.setUser} setRemember={props.setRemember} />
+          <UserDropdown setShow={setShow} user={props.user} setUser={props.setUser} setRemember={props.setRemember} dark={props.dark} setDark={props.setDark} />
         </Container>
       </Navbar>
     </>

@@ -8,7 +8,7 @@ export default function ResultsChart(props) {
       <Chart data={props.result}>
         <ArgumentAxis />
           <ValueAxis max={props.result.length} />
-        <BarSeries valueField="votes" argumentField="choice" />
+        <BarSeries valueField="votes" argumentField="choice" color={props.dark && "#375a7f"}/>
         <Animation />
       </Chart>
     );

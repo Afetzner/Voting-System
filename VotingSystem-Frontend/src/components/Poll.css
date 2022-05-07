@@ -8,16 +8,24 @@
   margin-right: 2px;
 }
 
+.badge.bg-primary {
+  background-color: #0d6efd;
+}
+
+.badge.bg-danger {
+  background-color: #dc3545;
+}
+
+.badge.bg-success {
+  background-color: #198754;
+}
+
 .confirm-button {
-  width: 200px
+  width: 200px;
 }
 
 .sub-accordion .accordion-button:focus {
   box-shadow: none;
-}
-
-.sub-accordion .accordion-button {
-  background-color: white !important;
 }
 
 .sub-accordion .accordion-button:not(.collapsed) {

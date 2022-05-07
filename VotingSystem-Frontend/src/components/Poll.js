@@ -3,16 +3,17 @@ import { Accordion, Badge, Button, ButtonGroup, Container, Form, ToggleButton } 
 import ResultsChart from "../components/ResultsChart";
 
 function Result(props) {
+  const style = { backgroundColor: (props.dark) ? "#222222" : "white", color: (props.dark) && "#e1e1e1" };
   return (
     <Accordion flush defaultActiveKey={0} className="sub-accordion">
       <Accordion.Item eventKey={0}>
-        <Accordion.Header onClick={() => props.handleRender(props.index, !props.render)}>Results</Accordion.Header>
+        <Accordion.Button onClick={() => props.handleRender(props.index, !props.render)} style={style}>Results</Accordion.Button>
         <Accordion.Body>
-          <ResultsChart poll={props.poll} result={props.result} render={props.render} />
+          <ResultsChart poll={props.poll} result={props.result} render={props.render} dark={props.dark} />
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey={1}>
-        <Accordion.Header onClick={() => props.handleRender(props.index, false)}>User Response</Accordion.Header>
+        <Accordion.Button onClick={() => props.handleRender(props.index, false)} style={style}>User Response</Accordion.Button>
         <Accordion.Body>
           <Response
             poll={props.poll}
@@ -85,7 +86,8 @@ export default function Poll(props) {
               render={props.render}
               handleRender={props.handleRender}
               handleClick={props.handleClick}
-              handleChange={props.handleChange} />
+              handleChange={props.handleChange}
+              dark={props.dark} />
           : <Response
               poll={props.poll}
               user={props.user}

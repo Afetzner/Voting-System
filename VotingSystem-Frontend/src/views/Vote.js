@@ -203,6 +203,7 @@ export default function Vote(props) {
                   handleRender={handleRender}
                   handleClick={handleClick}
                   handleChange={handleChange}
+                  dark={props.dark}
                 />) : <><Spinner animation="border" size="sm" />{" "}Loading...</>}
             </Accordion>
           </Card.Body>

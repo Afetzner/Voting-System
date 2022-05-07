@@ -2,6 +2,10 @@
   max-height: 68px;
 }
 
+.nav-bar {
+  background-color: #375a7f;
+}
+
 .brand-text {
   display: inline-flex;
   position: absolute;
