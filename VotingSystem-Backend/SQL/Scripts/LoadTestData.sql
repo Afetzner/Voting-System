@@ -7,6 +7,9 @@ SET @adminAlexId = last_insert_id();
 INSERT INTO user (username, password, email, first_name, last_name, serial_number, is_admin)
     VALUES ('3akycka', 'pa55W0RD@', 'ana@gmail.com', 'Anastasiya', 'Krestovsky', 'A99900013', true);
 SET @adminAnastasyiaId = last_insert_id();
+INSERT INTO user (username, password, email, first_name, last_name, serial_number, is_admin)
+    VALUES ('abusch8', 'TheBigS0up&', 'abusch8@huskers.unl.edu', 'Alex', 'Busch', 'A99900014', true);
+SET @adminAnastasyiaId = last_insert_id();
 
 -- Create voters
 INSERT INTO user (username, password, email, first_name, last_name, serial_number, is_admin)
@@ -44,6 +47,12 @@ INSERT INTO issue (serial_number, start_date, end_date, title, description)
 	VALUES ('I78955503', "2020-04-19", "2021-06-19", "Refereandum", "Should we build an elementary school?");
 SET @issueElementaryId = last_insert_id();
 
+INSERT INTO issue (serial_number, start_date, end_date, title, description)
+	VALUES ('I78955504', "2022-04-19", "2022-06-19", "Nebraksa State Governor", "Who shoudl the gov be?");
+SET @issueGovId = last_insert_id();
+INSERT INTO issue (serial_number, start_date, end_date, title, description)
+	VALUES ('I78955505', "2022-04-19", "2022-06-19", "Nebrska State Senator", "Whie should the senator be?");
+SET @issueSenId = last_insert_id();
 
 -- Create ballot issue options
 INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
@@ -72,6 +81,19 @@ VALUES (0, "Yes", @issueElementaryId, 'I78955503');
 INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
 VALUES (1, "No", @issueElementaryId, 'I78955503');
 
+INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
+VALUES (0, "Rich Michel", @issueGovId, 'I78955504');
+INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
+VALUES (1, "Lexi Shallen", @issueGovId, 'I78955504');
+INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
+VALUES (2, "Numan Riker", @issueGovId, 'I78955504');
+
+INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
+VALUES (0, "Hannah Michel", @issueSenId, 'I78955505');
+INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
+VALUES (1, "Su Hui", @issueSenId, 'I78955505');
+INSERT INTO issue_option (option_number, title, issue_id, issue_serial)
+VALUES (2, "Jose Hueres", @issueSenId, 'I78955505');
 
 -- Create ballots
 INSERT INTO ballot (ballot_serial_number, voter_serial_number, issue_serial_number, 

@@ -13,8 +13,9 @@ namespace IntegrationTests
             Console.WriteLine(
                 " (0) Reset Db tables\n" +
                 " (1) Load test data from sql\n" +
-                " (2) Load int-test data\n" +
-                " (3) Clear int-test data\n" + 
+                " (2) Generate example data\n" +
+                " (3) Load int-test data\n" +
+                " (4) Clear int-test data\n" + 
                 " (*) Exit\n");
 
             while (true)
@@ -29,8 +30,9 @@ namespace IntegrationTests
                 {
                     '0' => UnloadTestData,
                     '1' => LoadTestDataFromSql,
-                    '2' => LoadIntTestData,
-                    '3' => UnloadTestData,
+                    '2' => GenerateExampleData,
+                    '3' => LoadIntTestData,
+                    '4' => UnloadTestData,
                     _ => Menu.Exit
                 };
             }
@@ -59,6 +61,29 @@ namespace IntegrationTests
         public static bool ResetDb()
         {
             DbInitializer.ResetDbTables();
+            return true;
+        }
+
+        public static bool GenerateExampleData()
+        {
+            int num;
+            while (true) 
+            {
+                Console.WriteLine("How many voters?");
+                string input = Console.ReadLine();
+                try
+                {
+                    num = Convert.ToInt32(input);
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+                break;
+            }
+            Console.WriteLine($@"Generating {num} voters");
+            DbInitializer.LoadDummyDataGenerated(num);
+            Console.WriteLine("Done");
             return true;
         }
 

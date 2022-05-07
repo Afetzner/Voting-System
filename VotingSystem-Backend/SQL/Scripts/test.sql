@@ -1,19 +1,19 @@
 use afetzner;
 
 -- get all admins with username & password
-select admin_id, username, password 
-from user join admin on user.user_id = admin.user_id;
+select serial_number, username, email, password, first_name, last_name 
+from user where is_admin = true;
 
 -- get all voters with username & password
-select serial_number, username, password, first_name, last_name 
-from user;
+select serial_number, username, email, password, first_name, last_name 
+from user where is_admin = false;
 
 -- See all issues with options
 select serial_number, issue.title, start_date, end_date, description, issue.title, option_number, issue_option.title 
 from issue join issue_option on issue.issue_id = issue_option.issue_id;
 
 -- See all ballots
-select ballot_serial_number, voter_serial_number, user.first_name, user.last_name, issue_serial_number, issue.title as "issue", issue_option.title as "choice", ballot.choice_number
+select ballot_serial_number, voter_serial_number, user.username, user.first_name, user.last_name, issue_serial_number, issue.title as "issue", issue_option.title as "choice", ballot.choice_number
 from ballot 
 	join user on ballot.voter_id = user.user_id
     join issue on ballot.issue_id = issue.issue_id
@@ -29,7 +29,6 @@ group by issue_option.option_id;
 select * from afetzner.ballot;
 
 select * from afetzner.user;
-
 
 use afetzner;
 
