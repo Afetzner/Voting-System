@@ -7,28 +7,29 @@ import axios from "axios";
 
 export default function Vote(props) {
   const [show, setShow] = useState(false);
-  const [polls, setPolls] = useState(null);
-  const [radioValue, setRadioValue] = useState([]);
-  const [choice, setChoice] = useState([]);
-  const [voted, setVoted] = useState([]);
   const [index, setIndex] = useState(null);
+
+  const [polls, setPolls] = useState(null);
+  const [radioValues, setRadioValues] = useState([]);
+  const [choices, setChoices] = useState([]);
+  const [voted, setVoted] = useState([]);
+  const [results, setResults] = useState([]);
   const [render, setRender] = useState([]);
-  const [result, setResult] = useState([]);
 
   useEffect(() => {
-    console.log(radioValue, choice, voted);
-  }, [radioValue, choice, voted]);
+    console.log(radioValues, choices, voted);
+  }, [radioValues, choices, voted]);
 
 
   /* Retrieve all ballot issues */
   useEffect(() => {
     axios.get("https://localhost:7237/api/polls").then((response) => {
       setPolls(response.data);
-      setRadioValue(Array(response.data.length).fill("")); // Initialize state arrays
-      setChoice(Array(response.data.length).fill(0));
+      setRadioValues(Array(response.data.length).fill("")); // Initialize state arrays
+      setChoices(Array(response.data.length).fill(0));
       setVoted(Array(response.data.length).fill(false));
+      setResults(Array(response.data.length).fill().map(() => Array(0)));
       setRender(Array(response.data.length).fill(false));
-      // setResult(Array(response.data.length).fill().map(() => Array(0)));
       console.log(response);
     }).catch((error) => {
       console.log(error);
@@ -63,8 +64,8 @@ export default function Vote(props) {
             console.log(error);
           });
         }
-        setRadioValue(buffer[0]);
-        setChoice(buffer[1]);
+        setRadioValues(buffer[0]);
+        setChoices(buffer[1]);
         setVoted(buffer[2]);
       };
       responses();
@@ -94,22 +95,22 @@ export default function Vote(props) {
             });
           }
         }
-        setResult(buffer);
+        setResults(buffer);
       };
       responses();
     }
   }, [polls]);
 
   useEffect(() => {
-    console.log("results:", result);
-  }, [result]);
+    console.log("results:", results);
+  }, [results]);
 
 
   /* Clear state arrays on user sign out */
   useEffect(() => {
     if (props.user === null) {
-      setRadioValue([]);
-      setChoice([]);
+      setRadioValues([]);
+      setChoices([]);
       setVoted([]);
     }
   }, [props.user]);
@@ -117,15 +118,15 @@ export default function Vote(props) {
 
   /* User selection updater */
   const handleChange = (event, number, index) => {
-    setRadioValue([
-      ...radioValue.slice(0, index),
+    setRadioValues([
+      ...radioValues.slice(0, index),
       event.currentTarget.value,
-      ...radioValue.slice(index + 1)
+      ...radioValues.slice(index + 1)
     ]);
-    setChoice([
-      ...choice.slice(0, index),
+    setChoices([
+      ...choices.slice(0, index),
       number,
-      ...choice.slice(index + 1)
+      ...choices.slice(index + 1)
     ]);
   };
 
@@ -147,7 +148,7 @@ export default function Vote(props) {
       params: {
         userSerialNumber: props.user.serialNumber,
         issueSerialNumber: polls[index].serialNumber,
-        choice: choice[index]
+        choice: choices[index]
       }
     }).then((response) => {
       console.log(response);
@@ -195,13 +196,13 @@ export default function Vote(props) {
                   poll={item}
                   user={props.user}
                   index={index}
-                  radioValue={radioValue[index]}
+                  radioValue={radioValues[index]}
                   voted={voted[index]}
-                  handleClick={handleClick}
-                  handleChange={handleChange}
+                  result={results[index]}
                   render={render[index]}
                   handleRender={handleRender}
-                  result={result[index]}
+                  handleClick={handleClick}
+                  handleChange={handleChange}
                 />) : <><Spinner animation="border" size="sm" />{" "}Loading...</>}
             </Accordion>
           </Card.Body>

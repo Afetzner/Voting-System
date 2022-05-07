@@ -69,7 +69,7 @@ export default function Poll(props) {
           <strong>{props.poll.title}</strong>
         </Container>
         <div className="badges">
-          {(props.voted) ? <Badge bg="primary">Vote Counted</Badge> : undefined}
+          {(props.voted) && <Badge bg="primary">Vote Counted</Badge>}
           {(props.poll.isEnded) ? <Badge bg="danger">Ended</Badge> : <Badge bg="success">In Progress</Badge>}
         </div>
       </Accordion.Header>
@@ -81,11 +81,11 @@ export default function Poll(props) {
               index={props.index}
               radioValue={props.radioValue}
               voted={props.voted}
-              handleClick={props.handleClick}
-              handleChange={props.handleChange}
+              result={props.result}
               render={props.render}
               handleRender={props.handleRender}
-              result={props.result} />
+              handleClick={props.handleClick}
+              handleChange={props.handleChange} />
           : <Response
               poll={props.poll}
               user={props.user}

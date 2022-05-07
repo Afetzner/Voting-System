@@ -3,33 +3,7 @@ import Logo from "../assets/logo.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Container, Modal, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { Avatar } from "@mui/material";
-
-const color = (name) => {
-  let hash = 0, color = "#";
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  for (let i = 0; i < 3; i++) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += `00${value.toString(16)}`.slice(-2);
-  }
-  return color;
-};
-
-function UserAvatar(props) {
-  if (props.user === null) {
-    return (
-      <Avatar />
-    );
-  } else {
-    return (
-      <Avatar sx={{bgcolor: color(props.user.firstName + " " + props.user.lastName)}}>
-        {`${props.user.firstName[0]}${props.user.lastName[0]}`}
-      </Avatar>
-    );
-  }
-}
+import UserAvatar from "./UserAvatar";
 
 function AccountInfo(props) {
   return (
@@ -39,7 +13,7 @@ function AccountInfo(props) {
           <Modal.Title>Account Info</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            {(props.user.isAdmin) ? <strong>### ADMIN ACCOUNT ###<br /></strong> : undefined}
+            {(props.user.isAdmin) && <strong>### ADMIN ACCOUNT ###<br /></strong>}
             <strong>Name: </strong>{props.user.firstName + " " + props.user.lastName}<br />
             <strong>Username: </strong>{props.user.username}<br />
             <strong>Email: </strong>{props.user.email}<br />
@@ -63,20 +37,15 @@ function UserDropdown(props) {
     <div className="user">
       <Nav>
         <Container>
-          {(props.user === null)
-            ? <Button variant="outline-light" as={Link} to={"/sign-in"}>Sign In</Button>
-            : undefined}
+          {(props.user === null) && <Button variant="outline-light" as={Link} to={"/sign-in"}>Sign In</Button>}
         </Container>
         <UserAvatar user={props.user} />
         <Navbar.Collapse>
           <Nav>
             <NavDropdown align="end" title={(props.user === null) ? "" : props.user.username}>
-              {(props.user !== null)
-                ? <>
-                    <NavDropdown.Item onClick={() => props.setShow(true)}>Account Info</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                  </>
-                : undefined}
+              {(props.user !== null) && <>
+                <NavDropdown.Item onClick={() => props.setShow(true)}>Account Info</NavDropdown.Item>
+                <NavDropdown.Divider /></>}
               <NavDropdown.Item>About</NavDropdown.Item>
               <NavDropdown.Item>Enable Dark Mode</NavDropdown.Item>
               <NavDropdown.Divider />

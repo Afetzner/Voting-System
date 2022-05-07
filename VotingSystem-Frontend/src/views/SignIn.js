@@ -78,7 +78,7 @@ export default function SignIn(props) {
             </Form.Group>
             <Form.Group className="submit">
               <Button varient="primary" onClick={handleSubmit}>
-                Submit{" "}{(loading) ? <Spinner animation="border" size="sm" /> : undefined}
+                Submit{" "}{(loading) && <Spinner animation="border" size="sm" />}
               </Button>
             </Form.Group>
             <Form.Text>
