@@ -162,13 +162,13 @@ export default function Vote(props) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   };
 
-  const handleRender = (index) => {
+  const handleRender = (index, bool) => {
     sleep(150).then(() => {
+      const buffer = Array(polls.length).fill(false); // prevent two graphs from rendering simultaneously
       if (polls[index].isEnded) {
-        const buffer = Array(polls.length).fill(false); // prevent two graphs from rendering simultaneously
-        buffer[index] = !render[index];
-        setRender(buffer);
+        buffer[index] = bool;
       }
+      setRender(buffer);
     });
   };
 

@@ -6,13 +6,13 @@ function Result(props) {
   return (
     <Accordion flush defaultActiveKey={0} className="sub-accordion">
       <Accordion.Item eventKey={0}>
-        <Accordion.Header>Results</Accordion.Header>
+        <Accordion.Header onClick={() => props.handleRender(props.index, !props.render)}>Results</Accordion.Header>
         <Accordion.Body>
           <ResultsChart poll={props.poll} result={props.result} render={props.render} />
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey={1}>
-        <Accordion.Header>User Response</Accordion.Header>
+        <Accordion.Header onClick={() => props.handleRender(props.index, false)}>User Response</Accordion.Header>
         <Accordion.Body>
           <Response
             poll={props.poll}
@@ -64,7 +64,7 @@ function Response(props) {
 export default function Poll(props) {
   return (
     <Accordion.Item key={props.index} eventKey={props.index}>
-      <Accordion.Header onClick={() => props.handleRender(props.index)}>
+      <Accordion.Header onClick={() => props.handleRender(props.index, !props.render)}>
         <Container>
           <strong>{props.poll.title}</strong>
         </Container>
@@ -84,6 +84,7 @@ export default function Poll(props) {
               handleClick={props.handleClick}
               handleChange={props.handleChange}
               render={props.render}
+              handleRender={props.handleRender}
               result={props.result} />
           : <Response
               poll={props.poll}
