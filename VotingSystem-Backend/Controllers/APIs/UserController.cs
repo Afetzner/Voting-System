@@ -26,8 +26,7 @@ namespace VotingSystem.Controller
         [Route("api/vote")]
         public bool PostVote(string userSerialNumber, string issueSerialNumber, int choice)
         {
-            
-            return true;
+            return false;
         }
 
         [HttpPost]

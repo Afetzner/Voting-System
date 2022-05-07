@@ -4,16 +4,17 @@ import "@devexpress/dx-react-chart-bootstrap4/dist/dx-react-chart-bootstrap4.css
 
 export default function ResultsChart(props) {
   if (props.render) {
-    console.log(props.result);
     return (
-      <div>
-        <Chart data={props.result}>
-          <ArgumentAxis />
+      <Chart data={props.result}>
+        <ArgumentAxis />
           <ValueAxis max={props.result.length} />
-          <BarSeries valueField="votes" argumentField="choice" />
-          <Animation />
-        </Chart>
-      </div>
+        <BarSeries valueField="votes" argumentField="choice" />
+        <Animation />
+      </Chart>
+    );
+  } else {
+    return (
+      <div style={{height: "532px"}} />
     );
   }
 }
