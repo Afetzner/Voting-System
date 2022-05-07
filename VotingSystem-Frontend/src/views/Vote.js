@@ -28,7 +28,7 @@ export default function Vote(props) {
       setChoice(Array(response.data.length).fill(0));
       setVoted(Array(response.data.length).fill(false));
       setRender(Array(response.data.length).fill(false));
-      setResult(Array(response.data.length).fill([]));
+      // setResult(Array(response.data.length).fill().map(() => Array(0)));
       console.log(response);
     }).catch((error) => {
       console.log(error);
@@ -45,18 +45,18 @@ export default function Vote(props) {
           Array(polls.length).fill(0),
           Array(polls.length).fill(false)
         ];
-        for (let index = 0; index < polls.length; index++) {
-          console.log(props.user.serialNumber, polls[index].serialNumber);
+        for (let i = 0; i < polls.length; i++) {
+          console.log(props.user.serialNumber, polls[i].serialNumber);
           await axios.get("https://localhost:7237/api/voterIssueBallot", { // Wait for response before making next call
             params: {
               voterSerial: props.user.serialNumber,
-              issueSerial: polls[index].serialNumber
+              issueSerial: polls[i].serialNumber
             }
           }).then((response) => {
             if (response.data !== -1) {
-              buffer[0][index] = `radio-${index}${response.data}`;
-              buffer[1][index] = response.data;
-              buffer[2][index] = true;
+              buffer[0][i] = `radio-${i}${response.data}`;
+              buffer[1][i] = response.data;
+              buffer[2][i] = true;
             }
             console.log(response);
           }).catch((error) => {
@@ -71,6 +71,38 @@ export default function Vote(props) {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [polls]);
+
+
+  /* Retrieve results for ended balloet issues */
+  useEffect(() => {
+    if (polls !== null) {
+      const responses = async () => {
+        const buffer = Array(polls.length).fill().map(() => Array(0));
+        for (let i = 0; i < polls.length; i++) {
+          if (polls[i].isEnded) {
+            await axios.get("https://localhost:7237/api/issueResults", {
+              params: {
+                issueSerial: polls[i].serialNumber
+              }
+            }).then((response) => {
+              for (let j = 0; j < response.data.length; j++) {
+                buffer[i].push({ choice: polls[i].options[j].title, votes: response.data[j] });
+              }
+              console.log(response);
+            }).catch((error) => {
+              console.log(error);
+            });
+          }
+        }
+        setResult(buffer);
+      };
+      responses();
+    }
+  }, [polls]);
+
+  useEffect(() => {
+    console.log("results:", result);
+  }, [result]);
 
 
   /* Clear state arrays on user sign out */
@@ -169,6 +201,7 @@ export default function Vote(props) {
                   handleChange={handleChange}
                   render={render[index]}
                   handleRender={handleRender}
+                  result={result[index]}
                 />) : <><Spinner animation="border" size="sm" />{" "}Loading...</>}
             </Accordion>
           </Card.Body>

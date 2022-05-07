@@ -3,22 +3,22 @@ import { Accordion, Badge, Button, ButtonGroup, Container, Form, ToggleButton } 
 import ResultsChart from "../components/ResultsChart";
 
 function Result(props) {
-  const data = [
-    { year: "1950", population: 2.525 },
-    { year: "1960", population: 3.018 },
-    { year: "1970", population: 3.682 },
-    { year: "1980", population: 4.440 },
-    { year: "1990", population: 5.310 },
-    { year: "2000", population: 6.127 },
-    { year: "2010", population: 6.930 },
-  ];
+  // const data = [
+  //   { year: "1950", population: 2.525 },
+  //   { year: "1960", population: 3.018 },
+  //   { year: "1970", population: 3.682 },
+  //   { year: "1980", population: 4.440 },
+  //   { year: "1990", population: 5.310 },
+  //   { year: "2000", population: 6.127 },
+  //   { year: "2010", population: 6.930 },
+  // ];
 
   return (
     <Accordion flush defaultActiveKey={0} className="sub-accordion">
       <Accordion.Item eventKey={0}>
         <Accordion.Header>Results</Accordion.Header>
         <Accordion.Body>
-          <ResultsChart data={data} render={props.render} />
+          <ResultsChart poll={props.poll} result={props.result} render={props.render} />
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey={1}>
@@ -93,7 +93,8 @@ export default function Poll(props) {
               voted={props.voted}
               handleClick={props.handleClick}
               handleChange={props.handleChange}
-              render={props.render} />
+              render={props.render}
+              result={props.result} />
           : <Response
               poll={props.poll}
               user={props.user}
