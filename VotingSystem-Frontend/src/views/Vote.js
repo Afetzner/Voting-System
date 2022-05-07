@@ -163,7 +163,7 @@ export default function Vote(props) {
   };
 
   const handleRender = (index, bool) => {
-    sleep(150).then(() => {
+    sleep(1).then(() => {
       const buffer = Array(polls.length).fill(false); // prevent two graphs from rendering simultaneously
       if (polls[index].isEnded) {
         buffer[index] = bool;
