@@ -7,7 +7,7 @@ namespace VotingSystem.Controller
     /// </summary>
     public static class BallotEngine 
     {
-        private static readonly ResultCacheEngine _cache = ResultCacheEngine.SharedCacheManager;
+        private static readonly ResultCacheEngine _cache = ResultCacheEngine.SharedInstance;
 
         public static bool AddBallot(Ballot ballot)
         {

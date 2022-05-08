@@ -7,7 +7,7 @@ namespace VotingSystem.Controller
     /// </summary>
     public static class UserEngine
     {
-        private static readonly ResultCacheEngine _cacheManager = ResultCacheEngine.SharedCacheManager;
+        private static readonly ResultCacheEngine _cacheManager = ResultCacheEngine.SharedInstance;
 
         public static bool AddUser(IUser user)
         {

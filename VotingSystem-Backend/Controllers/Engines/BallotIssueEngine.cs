@@ -7,7 +7,7 @@ namespace VotingSystem.Controller
     /// </summary>
     public static class BallotIssueEngine
     {
-        private static ResultCacheEngine _cacheManager = ResultCacheEngine.SharedCacheManager;
+        private static ResultCacheEngine _cacheManager = ResultCacheEngine.SharedInstance;
 
         public static bool AddIssue(BallotIssue issue)
         {

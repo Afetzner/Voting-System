@@ -9,7 +9,7 @@ namespace VotingSystem.Controller
     /// </summary>
     public class ResultCacheEngine
     {
-        public static readonly ResultCacheEngine SharedCacheManager = new();
+        public static readonly ResultCacheEngine SharedInstance = new();
         private static readonly SharedResultCache SharedCache = new();
         private static readonly Dictionary<string, UserResultCache> UserChaches = new();
         private static bool _halt = false;

@@ -9,6 +9,7 @@ namespace IntegrationTests
     {
         static void Main(string[] args)
         {
+            Console.WriteLine(System.Configuration.ConfigurationManager.ConnectionStrings[0]);
             Console.WriteLine("Integration Testing Console");
             if (!Menu.ConnectionTestMenu())
                 return;
