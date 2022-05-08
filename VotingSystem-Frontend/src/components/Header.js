@@ -62,7 +62,7 @@ export default function Header(props) {
           <li><a href="https://github.com/janice616">janice616</a></li>
           <li><a href="https://github.com/Khondamir1">Khondamir1</a></li>
         </ul>
-        <a href="https://github.com/Afetzner/CSCE361_voting_system_group_3/tree/develop">GitHub</a><br />
+        <a href="https://github.com/Afetzner/Voting-System /tree/develop">GitHub</a><br />
       </PopUp>
       <Navbar className="nav-bar" bg="primary" variant="dark" style={(props.dark) ? {color: "red"} : {}} >
         <Container>
