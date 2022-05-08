@@ -1,2 +1,2 @@
-# CSCE361_voting_system_group_3
+# Voting System
 CSCE 361 capstone project
