@@ -4,7 +4,7 @@ import "@devexpress/dx-react-chart-bootstrap4/dist/dx-react-chart-bootstrap4.css
 
 export default function ResultsChart(props) {
   return (
-    <div style={{height: "532px"}}>
+    <div style={{height: "500px"}}>
       {(props.render) && <Chart data={props.result}>
         <ArgumentAxis />
           <ValueAxis max={props.result.length} />
