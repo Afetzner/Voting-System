@@ -8,9 +8,9 @@ namespace VotingSystem.Controller
     // ======================
 
     [ApiController]
-    public class ResultController : ControllerBase
+    public class ResultManager : ControllerBase
     {
-        private static readonly ResultCacheManager cache = ResultCacheManager.SharedCacheManager;
+        private static readonly ResultCacheEngine cache = ResultCacheEngine.SharedCacheManager;
 
         [HttpGet]
         [Route("api/issueResults")]

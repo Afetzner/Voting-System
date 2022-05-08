@@ -10,7 +10,7 @@ namespace VotingSystem.Controller
     ///     Instead of re-asking for the issues, store the issues the 
     ///     first time you get them, use them later.
     /// </summary>
-    public class SharedResultCache
+    public class SharedResultEngine
     {
         //Each of these are assigned ON-DEMAND
         //I.e. we don't want to grab everything in the constructer, 

@@ -4,9 +4,9 @@ using VotingSystem.Model;
 namespace VotingSystem.Controller
 {
     [ApiController]
-    public class BallotController : ControllerBase
+    public class BallotEngine : ControllerBase
     {
-        private static readonly ResultCacheManager cache = ResultCacheManager.SharedCacheManager;
+        private static readonly ResultCacheEngine cache = ResultCacheEngine.SharedCacheManager;
 
         [HttpPost]
         [Route("api/ballot")]

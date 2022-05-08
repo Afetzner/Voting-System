@@ -5,9 +5,9 @@ namespace VotingSystem.Controller
     /// <summary>
     /// Routes API methods to accessors, updates cache
     /// </summary>
-    public static class UserManager
+    public static class UserEngine
     {
-        private static readonly ResultCacheManager _cacheManager = ResultCacheManager.SharedCacheManager;
+        private static readonly ResultCacheEngine _cacheManager = ResultCacheEngine.SharedCacheManager;
 
         public static bool AddUser(IUser user)
         {

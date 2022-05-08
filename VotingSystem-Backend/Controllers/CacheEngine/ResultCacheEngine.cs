@@ -7,11 +7,11 @@ namespace VotingSystem.Controller
     /// through either the SharedCache (results not specific to users)
     /// or through the respective UserCache (a user's ballots)
     /// </summary>
-    public class ResultCacheManager
+    public class ResultCacheEngine
     {
-        public static readonly ResultCacheManager SharedCacheManager = new();
-        private static readonly SharedResultCache SharedCache = new();
-        private static readonly Dictionary<string, UserResultsCache> UserChaches = new();
+        public static readonly ResultCacheEngine SharedCacheManager = new();
+        private static readonly SharedResultEngine SharedCache = new();
+        private static readonly Dictionary<string, UserResultsEngine> UserChaches = new();
         private static bool _halt = false;
         
         //Routed to shared cache
@@ -56,7 +56,7 @@ namespace VotingSystem.Controller
         private static void SpawnUserCache(string voterSerial)
         {
             Console.WriteLine($@"Adding user {voterSerial} to cached users");
-            UserResultsCache userViewer = new(voterSerial);
+            UserResultsEngine userViewer = new(voterSerial);
             if (UserChaches.ContainsKey(voterSerial))
                 return;
             UserChaches.Add(voterSerial, userViewer);

@@ -5,9 +5,9 @@ namespace VotingSystem.Controller
     /// <summary>
     /// Routes API requests to respective accessor and updates cache
     /// </summary>
-    public static class BallotManager 
+    public static class BallotEngine 
     {
-        private static readonly ResultCacheManager _cache = ResultCacheManager.SharedCacheManager;
+        private static readonly ResultCacheEngine _cache = ResultCacheEngine.SharedCacheManager;
 
         public static bool AddBallot(Ballot ballot)
         {

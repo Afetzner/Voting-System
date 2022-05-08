@@ -4,15 +4,15 @@ using VotingSystem.Model;
 namespace VotingSystem.Controller
 {
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserEngine : ControllerBase
     {
-        private static readonly ResultCacheManager cache = ResultCacheManager.SharedCacheManager;
+        private static readonly ResultCacheEngine cache = ResultCacheEngine.SharedCacheManager;
 
         [HttpGet]
         [Route("api/sign-in")]
         public IUser? GetSignIn(string usernameSlashEmail, string password)
         {
-            IUser? user = UserManager.GetUser(usernameSlashEmail, password);
+            IUser? user = UserEngine.GetUser(usernameSlashEmail, password);
             if (user == null)
             {
                 Console.WriteLine(@$"User w/ u:'{usernameSlashEmail}' p:'{password}' does not exist");
@@ -33,7 +33,7 @@ namespace VotingSystem.Controller
                         .WithSerialNumber(Ballot.Accessor.GetSerial())
                         .Build();
 
-            return BallotManager.AddBallot(ballot);
+            return BallotEngine.AddBallot(ballot);
         }
 
         [HttpPost]
