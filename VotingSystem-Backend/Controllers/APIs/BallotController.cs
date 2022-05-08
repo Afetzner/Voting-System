@@ -10,7 +10,7 @@ namespace VotingSystem.Controller
 
         [HttpPost]
         [Route("api/ballot")]
-        public Ballot PostBallot(string issueSerial, string voterSerial, int choice, )
+        public Ballot PostBallot(string issueSerial, string voterSerial, int choice)
         {
              Ballot ballot = new Ballot.Builder()
                         .WithIssue(issueSerial)
