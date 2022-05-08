@@ -9,15 +9,15 @@
 }
 
 .badge.bg-primary {
-  background-color: #0d6efd;
+  background-color: #375a7f;
 }
 
 .badge.bg-danger {
-  background-color: #dc3545;
+  background-color: #e74c3c;
 }
 
 .badge.bg-success {
-  background-color: #198754;
+  background-color: #00bc8c;
 }
 
 .confirm-button {
