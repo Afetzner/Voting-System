@@ -27,15 +27,13 @@ namespace VotingSystem.Controller
         public bool PostVote(string userSerialNumber, string issueSerialNumber, int choice)
         {
              Ballot ballot = new Ballot.Builder()
-                        .WithIssue(issueSerial)
-                        .WithVoter(voterSerial)
+                        .WithIssue(issueSerialNumber)
+                        .WithVoter(userSerialNumber)
                         .WithChoice(choice)
                         .WithSerialNumber(Ballot.Accessor.GetSerial())
                         .Build();
 
-            BallotManager.AddBallot(ballot);
-
-            return ballot;
+            return BallotManager.AddBallot(ballot);
         }
 
         [HttpPost]

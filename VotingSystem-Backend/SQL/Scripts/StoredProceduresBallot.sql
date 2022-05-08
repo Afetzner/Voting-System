@@ -107,7 +107,7 @@ BEGIN
 		LEFT JOIN (SELECT ballot.choice_id, count(*) AS 'count'
 			FROM ballot GROUP BY (ballot.choice_id)) votes
 		ON votes.choice_id = ops.option_id
-        WHERE ops.serial_number = `v_issueSerial`;
+        WHERE ops.issue = `v_issueSerial`;
 END
 $$
 

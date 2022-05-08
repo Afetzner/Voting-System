@@ -12,6 +12,7 @@ namespace VotingSystem.Controller
         public static bool AddBallot(Ballot ballot)
         {
             bool coll = Ballot.Accessor.AddBallot(ballot);
+            _cache.ForgetUserCache(ballot.VoterSerial);
             _cache.ForgetCachedResults(ballot.IssueSerial);
             return coll;
         }
