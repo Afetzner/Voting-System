@@ -26,7 +26,16 @@ namespace VotingSystem.Controller
         [Route("api/vote")]
         public bool PostVote(string userSerialNumber, string issueSerialNumber, int choice)
         {
-            return false;
+             Ballot ballot = new Ballot.Builder()
+                        .WithIssue(issueSerial)
+                        .WithVoter(voterSerial)
+                        .WithChoice(choice)
+                        .WithSerialNumber(Ballot.Accessor.GetSerial())
+                        .Build();
+
+            BallotManager.AddBallot(ballot);
+
+            return ballot;
         }
 
         [HttpPost]
