@@ -137,14 +137,14 @@ export default function Vote(props) {
     setIndex(index);
   };
 
-  const handleConfirmation = () => {
+  const handleConfirmation = async () => {
     setShow(false);
     setVoted([
       ...voted.slice(0, index),
       true,
       ...voted.slice(index + 1)
     ]);
-    axios.get("https://localhost:7237/api/vote", {
+    await axios.get("https://localhost:7237/api/vote", {
       params: {
         userSerialNumber: props.user.serialNumber,
         issueSerialNumber: polls[index].serialNumber,
