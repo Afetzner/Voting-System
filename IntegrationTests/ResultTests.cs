@@ -80,7 +80,7 @@ namespace IntegrationTests
         {
             Console.WriteLine("    Testing results get issues");
             TestDataLoader.LoadIntTestDataForResultsViewer();
-            SharedResultEngine resultsCache = new();
+            SharedResultCache resultsCache = new();
             var issues = resultsCache.GetCacheBallotIssues();
             var issue1 = new TestData().issue.Build();
             var issue2 = new TestData().issue2.Build();
@@ -119,7 +119,7 @@ namespace IntegrationTests
 
             //Act
             var issues = ResultAccessor.Instance.GetBallotIssues();
-            var ballots = new UserResultsEngine(voter.SerialNumber).GetCacheBallots(ref issues);
+            var ballots = new UserResultCache(voter.SerialNumber).GetCacheBallots(ref issues);
             var ballotFromDb1 = ballots[issue1.SerialNumber];
             var ballotFromDb2 = ballots[issue2.SerialNumber];
 
@@ -173,7 +173,7 @@ namespace IntegrationTests
 
             //Act
             var issues = ResultAccessor.Instance.GetBallotIssues();
-            var ballots = new UserResultsEngine(voter.SerialNumber).GetCacheBallots(ref issues);
+            var ballots = new UserResultCache(voter.SerialNumber).GetCacheBallots(ref issues);
             var ballotFromDb1 = ballots[issue1.SerialNumber];
             var ballotFromDb2 = ballots[issue2.SerialNumber];
 
@@ -273,7 +273,7 @@ namespace IntegrationTests
 
             //Act
             var issues = ResultAccessor.Instance.GetBallotIssues();
-            var participation = new SharedResultEngine().GetCacheVoterParticipation();
+            var participation = new SharedResultCache().GetCacheVoterParticipation();
             var partIssue1 = participation[issue1.SerialNumber];
             var partIssue2 = participation[issue2.SerialNumber];
 

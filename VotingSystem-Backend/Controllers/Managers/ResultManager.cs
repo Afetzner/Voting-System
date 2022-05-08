@@ -8,7 +8,7 @@ namespace VotingSystem.Controller
     // ======================
 
     [ApiController]
-    public class ResultManager : ControllerBase
+    public class ResultController : ControllerBase
     {
         private static readonly ResultCacheEngine cache = ResultCacheEngine.SharedCacheManager;
 
@@ -49,9 +49,9 @@ namespace VotingSystem.Controller
             {
                 Console.WriteLine($@"Warning: Get ballot, issue not contained in cache {issueSerial}");
                 return -102;
-            }   
+            }
             // Voter didn't vote on that issue
-            if (ballots[issueSerial] == null) 
+            if (ballots[issueSerial] == null)
                 return -1;
 
             //Can't possibly be null
@@ -99,7 +99,7 @@ namespace VotingSystem.Controller
                 Console.WriteLine($@"Critical Warning! Get did voter participate, issue not retirved cache {issueSerial}");
                 return false;
             }
-                
+
             return dict[issueSerial].Exists(x => x.SerialNumber == voterSerial);
         }
     }

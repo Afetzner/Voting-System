@@ -6,12 +6,12 @@ namespace VotingSystem.Controller
     /// Responsible for retriving and caching results specific to a user
     /// Currently only the user's ballots
     /// </summary>
-    public class UserResultsEngine
+    public class UserResultCache
     {
         private readonly string _currVoterSerial;              // Logged-in voter's serial, null for general view
         private Dictionary<string, Ballot?>? _ballots;         // Choice submitted by the current voter on each issue
 
-        public UserResultsEngine(string userSerial)
+        public UserResultCache(string userSerial)
         {
             _currVoterSerial = userSerial;
         }
