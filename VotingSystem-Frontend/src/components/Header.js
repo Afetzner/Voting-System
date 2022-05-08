@@ -54,6 +54,14 @@ export default function Header(props) {
           <strong>Serial: </strong>{props.user.serialNumber}<br />
         </PopUp>}
       <PopUp show={showAbout} setShow={setShowAbout} title={"About"}>
+        <strong>Credits:<br /></strong>
+        <ul>
+          <li><a href="https://github.com/abusch8">abusch8</a></li>
+          <li><a href="https://github.com/Afetzner">Afetzner</a></li>
+          <li><a href="https://github.com/akrestovsky">akrestovsky</a></li>
+          <li><a href="https://github.com/janice616">janice616</a></li>
+          <li><a href="https://github.com/Khondamir1">Khondamir1</a></li>
+        </ul>
         <a href="https://github.com/Afetzner/CSCE361_voting_system_group_3/tree/develop">GitHub</a><br />
       </PopUp>
       <Navbar className="nav-bar" bg="primary" variant="dark" style={(props.dark) ? {color: "red"} : {}} >
