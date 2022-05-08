@@ -2,30 +2,9 @@ import "./Header.css";
 import Logo from "../assets/logo.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, Modal, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import UserAvatar from "./UserAvatar";
-
-function AccountInfo(props) {
-  return (
-    <>
-      <Modal show={props.show} onHide={() => props.setShow(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Account Info</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            {(props.user.isAdmin) && <strong>### ADMIN ACCOUNT ###<br /></strong>}
-            <strong>Name: </strong>{props.user.firstName + " " + props.user.lastName}<br />
-            <strong>Username: </strong>{props.user.username}<br />
-            <strong>Email: </strong>{props.user.email}<br />
-            <strong>Serial: </strong>{props.user.serialNumber}<br />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={() => props.setShow(false)}>Close</Button>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
-}
+import PopUp from "./PopUp";
 
 function UserDropdown(props) {
   const handleClick = () => {
@@ -44,9 +23,9 @@ function UserDropdown(props) {
           <Nav>
             <NavDropdown align="end" title={(props.user === null) ? "" : props.user.username}>
               {(props.user !== null) && <>
-                <NavDropdown.Item onClick={() => props.setShow(true)}>Account Info</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => props.setShowInfo(true)}>Account Info</NavDropdown.Item>
                 <NavDropdown.Divider /></>}
-              <NavDropdown.Item>About</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => props.setShowAbout(true)}>About</NavDropdown.Item>
               <NavDropdown.Item onClick={() => props.setDark(!props.dark)}>Toggle Dark Mode</NavDropdown.Item>
               <NavDropdown.Divider />
               {(props.user !== null)
@@ -61,11 +40,22 @@ function UserDropdown(props) {
 }
 
 export default function Header(props) {
-  const [show, setShow] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
 
   return (
     <>
-      {(props.user !== null) ? <AccountInfo show={show} setShow={setShow} user={props.user} /> : undefined}
+      {(props.user !== null) &&
+        <PopUp show={showInfo} setShow={setShowInfo} title={"AccountInfo"}>
+          {(props.user.isAdmin) && <strong>### ADMIN ACCOUNT ###<br /></strong>}
+          <strong>Name: </strong>{props.user.firstName + " " + props.user.lastName}<br />
+          <strong>Username: </strong>{props.user.username}<br />
+          <strong>Email: </strong>{props.user.email}<br />
+          <strong>Serial: </strong>{props.user.serialNumber}<br />
+        </PopUp>}
+      <PopUp show={showAbout} setShow={setShowAbout} title={"About"}>
+        <a href="https://github.com/Afetzner/CSCE361_voting_system_group_3/tree/develop">GitHub</a><br />
+      </PopUp>
       <Navbar className="nav-bar" bg="primary" variant="dark" style={(props.dark) ? {color: "red"} : {}} >
         <Container>
           <Link to="/">
@@ -74,7 +64,7 @@ export default function Header(props) {
               <div className="brand-text">Voting System</div>
             </Navbar.Brand>
           </Link>
-          <UserDropdown setShow={setShow} user={props.user} setUser={props.setUser} setRemember={props.setRemember} dark={props.dark} setDark={props.setDark} />
+          <UserDropdown setShowInfo={setShowInfo} setShowAbout={setShowAbout} user={props.user} setUser={props.setUser} setRemember={props.setRemember} dark={props.dark} setDark={props.setDark} />
         </Container>
       </Navbar>
     </>

@@ -1,6 +1,6 @@
 import { Button, Modal } from "react-bootstrap";
 
-export default function Confirmation(props) {
+export default function PopUp(props) {
   return (
     <>
       <Modal show={props.show} onHide={() => props.setShow(false)}>
@@ -9,8 +9,7 @@ export default function Confirmation(props) {
         </Modal.Header>
         <Modal.Body>{props.children}</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => props.setShow(false)}>Cancel</Button>
-          <Button variant="primary" onClick={() => props.handleConfirmation()}>Confirm</Button>
+          <Button variant="primary" onClick={() => props.setShow(false)}>Close</Button>
         </Modal.Footer>
       </Modal>
     </>
