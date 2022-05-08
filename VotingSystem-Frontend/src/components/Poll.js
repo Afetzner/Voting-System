@@ -57,7 +57,7 @@ function Response(props) {
           >Confirm Selection</Button>
         </div>
       </Form.Group>
-      <Form.Text>{"End Date: " + props.poll.endDate}</Form.Text>
+      <Form.Text>{"End Date: " + new Date(props.poll.endDate)}</Form.Text>
     </Form>
   );
 }
