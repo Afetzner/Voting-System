@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "VotingSystem-Frontend", "VotingSystem-Frontend\VotingSystem-Frontend.esproj", "{C4112973-A488-4DC0-BC62-42A0C93EAD30}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CFE8C55A-7487-4203-ACCD-0345BBEFE6A8} = {CFE8C55A-7487-4203-ACCD-0345BBEFE6A8}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingSystem-Backend", "VotingSystem-Backend\VotingSystem-Backend.csproj", "{CFE8C55A-7487-4203-ACCD-0345BBEFE6A8}"
 EndProject
