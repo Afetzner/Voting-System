@@ -13,15 +13,11 @@ const color = (name) => {
 };
 
 export default function UserAvatar(props) {
-  if (props.user === null) {
-    return (
-      <Avatar />
-    );
-  } else {
-    return (
-      <Avatar sx={{bgcolor: color(props.user.firstName + " " + props.user.lastName)}}>
-        {`${props.user.firstName[0]}${props.user.lastName[0]}`}
-      </Avatar>
-    );
-  }
+  return (
+    (props.user === null)
+      ? <Avatar />
+      : <Avatar sx={{bgcolor: color(props.user.firstName + " " + props.user.lastName)}}>
+          {`${props.user.firstName[0]}${props.user.lastName[0]}`}
+        </Avatar>
+  );
 }
