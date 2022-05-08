@@ -34,7 +34,7 @@ namespace VotingSystem.Controller
         public Dictionary<string, Ballot?> GetBallots(string voterSerial)
         {
             while (_halt)
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
             
             if (!UserChaches.ContainsKey(voterSerial))
             {

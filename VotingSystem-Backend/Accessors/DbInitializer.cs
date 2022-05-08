@@ -171,21 +171,21 @@ namespace VotingSystem.Accessor {
                 .WithSerialNumber(BallotIssue.Accessor.GetSerial())
                 .WithTitle("Nebraska State Representative")
                 .WithStartDate(DateTime.Now)
-                .WithEndDate(DateTime.Now.AddDays(1))
+                .WithEndDate(DateTime.Now.AddDays(25))
                 .WithOptions("Sue Han", "Racheal Steep", "Jose Huervo", "Keith Travis")
                 .Build();
             BallotIssue issue5 = new BallotIssue.Builder()
                 .WithSerialNumber(BallotIssue.Accessor.GetSerial())
                 .WithTitle("Nebraska State Governor")
                 .WithStartDate(DateTime.Now)
-                .WithEndDate(DateTime.Now.AddDays(1))
+                .WithEndDate(DateTime.Now.AddDays(25))
                 .WithOptions("Douglas Delfino", "Judith Mia")
                 .Build();
             BallotIssue issue6 = new BallotIssue.Builder()
                 .WithSerialNumber(BallotIssue.Accessor.GetSerial())
                 .WithTitle("Referandum: Should a new elementary school be built?")
                 .WithStartDate(DateTime.Now)
-                .WithEndDate(DateTime.Now.AddDays(1))
+                .WithEndDate(DateTime.Now.AddDays(25))
                 .WithOptions("Yes", "No")
                 .Build();
 
