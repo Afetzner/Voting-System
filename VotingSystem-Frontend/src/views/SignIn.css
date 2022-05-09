@@ -1,0 +1,19 @@
+.sign-in {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 600px;
+ }
+
+.username, .password, .checkbox {
+  padding-bottom: 16px;
+}
+
+.checkbox {
+  padding-top: 2px;
+}
+
+.submit {
+  padding-bottom: 8px;
+}

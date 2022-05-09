@@ -1,0 +1,11 @@
+.vote-selection-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 32px;
+}
+
+.vote-selection {
+  width: 1200px;
+  min-width: 10px;
+}

@@ -1,0 +1,55 @@
+{
+  "BallotIssues": [
+    {
+      "SerialNumber": "I12224588",
+      "StartDate": "2022-04-21",
+      "EndSate": "2022-06-21",
+      "Title": "Mayor of Lincoln",
+      "Description": "Who will be the mayor of Lincoln?",
+      "Options": [
+        {
+          "Number": 0,
+          "Title": "John Durtz"
+        },
+        {
+          "Number": 1,
+          "Title": "Susan Marie"
+        },
+        {
+          "Number": 2,
+          "Title": "Edgar Brown"
+        }
+      ]
+    },
+    {
+      "SerialNumber": "I25348965",
+      "StartDate": "2022-05-21",
+      "EndSate": "2022-07-11",
+      "Title": "Police Chief of Lincoln",
+      "Description": "Who will be the police chief of Lincoln?",
+      "Options": [
+        {
+          "Number": 0,
+          "Title": "Jona Cop"
+        },
+        {
+          "Number": 1,
+          "Title": "Roman Stix"
+        }
+      ]
+    },
+    {
+      "SerialNumber": "I66335487",
+      "StartDate": "2022-04-21",
+      "EndSate": "2022-06-21",
+      "Title": "City Corronner",
+      "Description": "Who will be the corroner of Lincoln?",
+      "Options": [
+        {
+          "Number": 0,
+          "Title": "Mason Bricks"
+        }
+      ]
+    }
+  ]
+}
