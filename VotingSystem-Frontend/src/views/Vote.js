@@ -70,11 +70,10 @@ export default function Vote(props) {
       };
       responses();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [polls]);
 
 
-  /* Retrieve results for ended balloet issues */
+  /* Retrieve results for ended ballot issues */
   useEffect(() => {
     if (polls !== null) {
       const responses = async () => {

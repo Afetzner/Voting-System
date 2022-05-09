@@ -4,6 +4,7 @@ import ResultsChart from "../components/ResultsChart";
 
 function Result(props) {
   const style = { backgroundColor: (props.dark) ? "#222222" : "white", color: (props.dark) && "#e1e1e1" };
+
   return (
     <Accordion flush defaultActiveKey={0} className="sub-accordion">
       <Accordion.Item eventKey={0}>

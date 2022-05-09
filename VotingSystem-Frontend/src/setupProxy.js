@@ -1,14 +1,13 @@
-﻿const { createProxyMiddleware } = require('http-proxy-middleware');
+﻿import { createProxyMiddleware } from "http-proxy-middleware";
 
 const context = [
-    "/voting-system",
+  "/voting-system",
 ];
 
-module.exports = function (app) {
-    const appProxy = createProxyMiddleware(context, {
-        target: 'https://localhost:7237',
-        secure: false
-    });
-
-    app.use(appProxy);
-};
+export default function (app) {
+  const appProxy = createProxyMiddleware(context, {
+    target: "https://localhost:7237",
+    secure: false
+  });
+  app.use(appProxy);
+}

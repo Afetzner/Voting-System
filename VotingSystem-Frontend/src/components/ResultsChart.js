@@ -7,7 +7,7 @@ export default function ResultsChart(props) {
     <div style={{height: "500px"}}>
       {(props.render) && <Chart data={props.result}>
         <ArgumentAxis />
-          <ValueAxis max={props.result.length} />
+        <ValueAxis max={props.result.length} />
         <BarSeries valueField="votes" argumentField="choice" color={props.dark && "#375a7f"}/>
         <Animation />
       </Chart>}

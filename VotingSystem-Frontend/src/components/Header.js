@@ -62,9 +62,9 @@ export default function Header(props) {
           <li><a href="https://github.com/janice616">janice616</a></li>
           <li><a href="https://github.com/Khondamir1">Khondamir1</a></li>
         </ul>
-        <a href="https://github.com/Afetzner/Voting-System /tree/develop">GitHub</a><br />
+        <a href="https://github.com/Afetzner/Voting-System">GitHub</a><br />
       </PopUp>
-      <Navbar className="nav-bar" bg="primary" variant="dark" style={(props.dark) ? {color: "red"} : {}} >
+      <Navbar className="nav-bar" bg="primary" variant="dark">
         <Container>
           <Link to="/">
             <Navbar.Brand placement="start">
@@ -72,7 +72,7 @@ export default function Header(props) {
               <div className="brand-text">Voting System</div>
             </Navbar.Brand>
           </Link>
-          <UserDropdown setShowInfo={setShowInfo} setShowAbout={setShowAbout} user={props.user} setUser={props.setUser} setRemember={props.setRemember} dark={props.dark} setDark={props.setDark} />
+          <UserDropdown setShowInfo={setShowInfo} setShowAbout={setShowAbout} {...props} />
         </Container>
       </Navbar>
     </>
