@@ -1,0 +1,24 @@
+.nav-bar {
+  max-height: 68px;
+}
+
+.nav-bar {
+  background-color: #375a7f;
+}
+
+.brand-text {
+  display: inline-flex;
+  position: absolute;
+  align-items: center;
+  padding-left: 8px;
+  font-weight: bold;
+  font-size: larger;
+  padding-top: 12px;
+}
+
+.user {
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: large;
+}

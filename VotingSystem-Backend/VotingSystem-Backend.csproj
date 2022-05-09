@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>VotingSystem_Backend</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Accessors\BallotIssueOptionAccessor.cs" />
+    <Compile Remove="Controllers\AdminController.cs" />
+    <Compile Remove="Controllers\BallotIssueOptionController.cs" />
+    <Compile Remove="Controllers\VoterController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="SQL\Scripts\StoredProceduresAdmin.sql" />
+    <None Remove="SQL\Scripts\StoredProceduresVoter.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.0.29" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+</Project>

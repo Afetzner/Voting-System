@@ -1,0 +1,31 @@
+{
+  "Admins": [
+    {
+      "SerialNumber": "A12455865",
+      "Username": "Afetzner",
+      "Password": "advC4e!sad",
+      "Email": "afetz@email.com",
+      "FirstName": "Alex",
+      "LastName": "Fetzner",
+      "IsAdmin": true
+    },
+    {
+      "SerialNumber": "A98932345",
+      "Username": "Chambers",
+      "Password": "ttyy$123Avb",
+      "Email": "abch@email.com",
+      "FirstName": "Alex",
+      "LastName": "Busch",
+      "IsAdmin": true
+    },
+    {
+      "SerialNumber": "A22144658",
+      "Username": "Janice",
+      "Password": "34Asf#asf",
+      "Email": "jslc@email.com",
+      "FirstName": "Janice",
+      "LastName": "Shu Lin Chng",
+      "IsAdmin": true
+    }
+  ]
+}

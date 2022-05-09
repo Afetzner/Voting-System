@@ -1,0 +1,33 @@
+.badges {
+  display: flex;
+  margin-right: 20px;
+}
+
+.badge {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.badge.bg-primary {
+  background-color: #375a7f;
+}
+
+.badge.bg-danger {
+  background-color: #e74c3c;
+}
+
+.badge.bg-success {
+  background-color: #00bc8c;
+}
+
+.confirm-button {
+  width: 200px;
+}
+
+.sub-accordion .accordion-button:focus {
+  box-shadow: none;
+}
+
+.sub-accordion .accordion-button:not(.collapsed) {
+  color: #212529;
+}
