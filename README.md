@@ -1,18 +1,19 @@
 # Voting System
-CSCE 361 capstone project
+[![.NET](https://github.com/Afetzner/Voting-System/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Afetzner/Voting-System/actions/workflows/dotnet.yml)
 
-5 people committed to this project:
-- Alex Fetzner <afetzner2@huskers.unl.edu>
-- Alex Busch <abusch8@huskers.unl.edu>
-- Anastasiya Krestovsky <anastasiya@huskers.unl.edu>
-- Khondamir Umarov <kumarov2@huskers.unl.edu>
-- Janice Shu Lin Chng <jchng3@huskers.unl.edu>
+**CSCE-361 Capstone Project**
 
-To work with this project: 
+### To run a developmental build of the project: 
 
-1. Clone the repository with `git clone git@github.com:Afetzner/Voting-System.git`
-2. Go to "VotingSystem-Frontend" directory using `cd VotingSystem-Frontend`
-3. run `npm install` to install all necessary packages for this project
+1. Clone the repository `git clone git@github.com:Afetzner/Voting-System.git`
+2. Switch to the frontend's directory using `cd VotingSystem-Frontend`
+3. Run `npm install` to install all necessary package dependencies
 
-Next, open Visual Studio and select both "VotingSystem-Frontend" and "VotingSystem-Backend" to run them together.
-If you did everything correctly, your browser will open http://localhost:3000 with this Project
+Next, open the .sln file in Visual Studio 2022. Open the Solution's properties to the Startup Project tab and select "Multiple startup projects".  Select "Start" from the VotingSystem-Backend and VotingSystem-Frontend Project Action dropdown menu.  If done correctly, starting the project should open a web browser to http://localhost:3000.
+
+### Contributers:
+- Alex Fetzner - <afetzner2@huskers.unl.edu>
+- Alex Busch - <abusch8@huskers.unl.edu>
+- Anastasiya Krestovsky - <anastasiya@huskers.unl.edu>
+- Khondamir Umarov - <kumarov2@huskers.unl.edu>
+- Janice Shu Lin Chng - <jchng3@huskers.unl.edu>
