@@ -1,7 +1,7 @@
 # Voting System
-[![.NET](https://github.com/Afetzner/Voting-System/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Afetzner/Voting-System/actions/workflows/dotnet.yml)
+[![Unit Tests](https://github.com/Afetzner/Voting-System/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/Afetzner/Voting-System/actions/workflows/unit-tests.yml)
 
-**CSCE-361 Capstone Project**
+CSCE-361 Capstone Project
 
 ### To run a developmental build of the project: 
 
