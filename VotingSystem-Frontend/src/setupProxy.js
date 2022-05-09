@@ -1,4 +1,5 @@
-﻿const { createProxyMiddleware } = require('http-proxy-middleware');
+﻿/* eslint-disable no-undef */
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const context = [
     "/voting-system",
@@ -6,7 +7,7 @@ const context = [
 
 module.exports = function (app) {
     const appProxy = createProxyMiddleware(context, {
-        target: 'https://localhost:7237',
+        target: "https://localhost:7237",
         secure: false
     });
 
