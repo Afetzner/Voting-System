@@ -10,10 +10,9 @@ CSCE 361 capstone project
 
 To work with this project: 
 
-1. Switch to the develop branch using `git checkout develop`
-2. Clone the repository with `git clone git@github.com:Afetzner/Voting-System.git`
-3. Go to "VotingSystem-Frontend" directory using `cd VotingSystem-Frontend`
-4. run `npm install` to install all necessary packages for this project
+1. Clone the repository with `git clone git@github.com:Afetzner/Voting-System.git`
+2. Go to "VotingSystem-Frontend" directory using `cd VotingSystem-Frontend`
+3. run `npm install` to install all necessary packages for this project
 
-Next, open Visual Studio and select there both "VotingSystem-Frontend" and "VotingSystem-Backend" to run them together.
+Next, open Visual Studio and select both "VotingSystem-Frontend" and "VotingSystem-Backend" to run them together.
 If you did everything correctly, your browser will open http://localhost:3000 with this Project
